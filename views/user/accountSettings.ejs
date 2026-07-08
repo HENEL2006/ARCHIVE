@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html class="light scroll-smooth" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>ACCOUNT SETTINGS | JERSEY ARCHIVE</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&amp;family=Syne:wght@400;700;800&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed-dim": "#c6c6c6",
+                        "surface-container-high": "#ebe7e7",
+                        "inverse-on-surface": "#f3f0ef",
+                        "surface-container": "#f0edec",
+                        "inverse-primary": "#c6c6c6",
+                        "on-primary-fixed": "#1b1b1b",
+                        "on-tertiary-container": "#848484",
+                        "on-primary-container": "#848484",
+                        "tertiary-container": "#1b1b1b",
+                        "surface-tint": "#5e5e5e",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "primary-container": "#1b1b1b",
+                        "on-error-container": "#93000a",
+                        "background": "#fcf9f8",
+                        "surface-container-highest": "#e5e2e1",
+                        "outline": "#7e7576",
+                        "surface-dim": "#dcd9d9",
+                        "on-tertiary-fixed": "#1b1b1b",
+                        "on-surface-variant": "#4c4546",
+                        "tertiary": "#000000",
+                        "surface-bright": "#fcf9f8",
+                        "primary-fixed": "#e2e2e2",
+                        "surface": "#fcf9f8",
+                        "inverse-surface": "#313030",
+                        "tertiary-fixed": "#e2e2e2",
+                        "surface-variant": "#e5e2e1",
+                        "on-secondary-fixed-variant": "#454747",
+                        "error": "#ba1a1a",
+                        "accent-success": "#22CD5B",
+                        "error-container": "#ffdad6",
+                        "secondary": "#5d5f5f",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#dfe0e0",
+                        "on-error": "#ffffff",
+                        "on-secondary-container": "#616363",
+                        "on-primary-fixed-variant": "#474747",
+                        "on-primary": "#ffffff",
+                        "on-background": "#1c1b1b",
+                        "secondary-fixed": "#e2e2e2",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "surface-container-low": "#f6f3f2",
+                        "on-surface": "#1c1b1b",
+                        "on-tertiary-fixed-variant": "#474747",
+                        "outline-variant": "#cfc4c5",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed-dim": "#c6c6c6",
+                        "primary": "#000000"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "section-gap": "128px",
+                        "unit": "8px",
+                        "grid-gutter": "0px",
+                        "container-padding": "64px",
+                        "mobile-margin": "20px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Space Mono"],
+                        "mono-data": ["Space Mono"],
+                        "headline-lg-mobile": ["Syne"],
+                        "headline-md": ["Syne"],
+                        "headline-lg": ["Syne"],
+                        "display-xl": ["Syne"],
+                        "body-md": ["Space Mono"],
+                        "label-caps": ["Space Mono"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["16px", { "lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400" }],
+                        "mono-data": ["12px", { "lineHeight": "1.0", "letterSpacing": "-0.02em", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.1", "letterSpacing": "0.04em", "fontWeight": "700" }],
+                        "headline-md": ["24px", { "lineHeight": "1.2", "letterSpacing": "0.03em", "fontWeight": "700" }],
+                        "headline-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "0.04em", "fontWeight": "700" }],
+                        "display-xl": ["80px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "800" }],
+                        "body-md": ["14px", { "lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        .border-grid {
+            border: 1px solid #000000;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .bg-text-watermark {
+            position: fixed;
+            bottom: 64px;
+            right: 64px;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.03;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+        }
+
+        input,
+        textarea,
+        select {
+            outline: none !important;
+            box-shadow: none !important;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none !important;
+            box-shadow: none !important;
+            border-color: black !important;
+        }
+
+        .side-link {
+            color: #000;
+        }
+
+        .side-link span {
+            color: inherit;
+        }
+
+        .side-link:hover {
+            background: #e5e2e1;
+        }
+
+        .side-link.active {
+            background: #000;
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .side-link.active span {
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background text-on-background font-body-md overflow-x-hidden selection:bg-primary selection:text-on-primary">
+    <!-- TopAppBar -->
+    <%- include("partials/userHeader") %>
+        <!-- SideNavBar (Mobile hidden, Desktop fixed) -->
+        <aside
+            class="hidden md:flex fixed left-0 top-[88px] bottom-0 w-64 bg-background border-r border-primary flex-col z-40 transition-all duration-300">
+            <div class="p-8 border-b border-primary">
+                <h2 class="font-label-caps text-label-caps font-bold">ACCOUNT</h2>
+                <p class="font-mono-data text-mono-data text-secondary mt-1">VINTAGE ARCHIVE MEMBER</p>
+            </div>
+            <nav class="flex-grow">
+                <div class="flex flex-col">
+                    <a id="nav-profile" class="side-link active flex items-center gap-4 px-8 py-5
+                        border-b border-primary active" href="#profile">
+                        <span class="material-symbols-outlined">person</span>
+                        <span class="font-label-caps text-label-caps">PROFILE</span>
+                    </a>
+                    <a id="nav-security" class="side-link flex items-center gap-4 px-8 py-5
+                        border-b border-primary active" href="#security">
+                        <span class="material-symbols-outlined">lock</span>
+                        <span class="font-label-caps text-label-caps">SECURITY</span>
+                    </a>
+                    <a id="nav-actions" class="side-link flex items-center gap-4 px-8 py-5
+                            border-b border-primary active" href="#actions"><span
+                            class="material-symbols-outlined">settings_suggest</span><span
+                            class="font-label-caps text-label-caps">ACTIONS</span></a>
+                </div>
+            </nav>
+            <!-- <div class="p-8 mt-auto border-t border-primary">
+            </div> -->
+        </aside>
+        <!-- Main Canvas -->
+        <main id="main-content" class="md:ml-64 pt-20 min-h-screen">
+            <!-- Hero Section -->
+            <section
+                class="border-b border-primary px-container-padding py-24 flex flex-col md:flex-row justify-between items-end gap-12 bg-surface">
+                <div class="max-w-4xl">
+                    <h1
+                        class="font-headline-lg text-headline-lg md:text-display-xl uppercase leading-none tracking-tighter">
+                        ACCOUNT SETTINGS</h1>
+                    <p class="font-body-lg text-body-lg text-secondary mt-8 max-w-xl">Manage your ARCHIVE profile,
+                        security, and preferences. Data integrity is the core of our cultural preservation mission.
+                    </p>
+                </div>
+            </section>
+            <!-- Museum Grid Layout -->
+            <!-- <div class="grid grid-cols-1 md:grid-cols-12 border-b border-primary py-24 scroll-mt-24"> -->
+            <!-- Section 01: PROFILE INFORMATION -->
+            <section id="profile" class="grid scroll-mt-24 grid-cols-1 md:grid-cols-12 border-b border-primary">
+                <div class="md:col-span-4 border-r border-primary p-container-padding bg-surface-container-low">
+                    <span class="font-mono-data text-mono-data text-secondary">01. DATA</span>
+                    <h2 class="font-headline-md text-headline-md mt-4">PROFILE INFORMATION</h2>
+                </div>
+                <div class="md:col-span-8 p-container-padding">
+                    <form class="flex flex-col gap-12 max-w-2xl">
+                        <div class="space-y-4">
+                            <label class="font-label-caps text-label-caps block">FULL NAME</label>
+                            <input
+                                class="w-full bg-transparent border-b border-primary py-2 font-mono-data text-body-lg focus:outline-none focus:ring-0 focus:border-black "
+                                type="text" value="<%= user.username %>">
+                        </div>
+                        <div class="space-y-4"><label class="font-label-caps text-label-caps block">EMAIL
+                                ADDRESS</label>
+                            <div class="flex items-center justify-between py-2 border-b border-primary">
+                                <div class="flex items-center gap-4"><span class="font-mono-data text-body-lg">
+                                        <%= user.email %>
+                                    </span><span
+                                        class="flex items-center gap-1 text-accent-success font-label-caps text-[10px]"><span
+                                            class="material-symbols-outlined !text-[14px]">check_circle</span>VERIFIED</span>
+                                </div><button class="font-label-caps text-label-caps hover:underline"
+                                    onclick="this.parentElement.nextElementSibling.classList.toggle('hidden')"
+                                    type="button">CHANGE EMAIL</button>
+                            </div>
+                            <div class="hidden mt-6 p-6 border border-primary space-y-6">
+                                <div class="space-y-4"><label class="font-label-caps text-label-caps block">NEW
+                                        EMAIL
+                                        ADDRESS</label><input
+                                        class="w-full bg-transparent border-b border-primary py-2 font-mono-data text-body-lg focus:outline-none focus:ring-0 focus:border-black"
+                                        placeholder="ENTER NEW EMAIL" type="email"></div><button
+                                    class="w-full border border-primary py-4 font-label-caps text-label-caps hover:bg-primary hover:text-on-primary transition-none"
+                                    onclick="this.nextElementSibling.classList.remove('hidden'); this.classList.add('hidden')"
+                                    type="button">SEND OTP</button>
+                                <div class="hidden space-y-6">
+                                    <div class="space-y-4"><label class="font-label-caps text-label-caps block">OTP
+                                            6
+                                            DIGITS</label><input
+                                            class="w-full bg-transparent border-b border-primary py-2 font-mono-data text-body-lg tracking-[1em]"
+                                            maxlength="6" placeholder="000000" type="text"></div><button
+                                        class="w-full bg-primary text-on-primary py-4 font-label-caps text-label-caps transition-none"
+                                        type="button">VERIFY OTP</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button
+                            class="self-start border border-primary px-12 py-5 font-label-caps text-label-caps hover:bg-primary hover:text-on-primary transition-none"
+                            type="submit">SAVE CHANGES</button>
+                    </form>
+                </div>
+            </section>
+            <!-- Section 02: PASSWORD & SECURITY -->
+            <section id="security" class="grid scroll-mt-24 grid-cols-1 md:grid-cols-12 border-b border-primary">
+                <div
+                    class="md:col-span-4 border-r border-primary border-t border-primary p-container-padding bg-surface-container-low">
+                    <span class="font-mono-data text-mono-data text-secondary">02. PROTOCOL</span>
+                    <h2 class="font-headline-md text-headline-md mt-4">PASSWORD &amp; SECURITY</h2>
+                    <div class="mt-8 pt-8 border-t border-primary/20">
+                        <p class="font-mono-data text-mono-data text-secondary">Last password updated: 12 March 2026
+                        </p>
+                    </div>
+                </div>
+                <div class="md:col-span-8 p-container-padding border-t border-primary">
+                    <form id="password-form" class="flex flex-col gap-12 max-w-2xl">
+                        <div class="space-y-4"><label class="font-label-caps text-label-caps block">CURRENT
+                                PASSWORD</label>
+                            <div class="relative"><input
+                                    class="w-full bg-transparent border-b border-primary py-2 font-mono-data text-body-lg pr-10"
+                                    placeholder="••••••••••••" type="password"><button
+                                    class="absolute right-2 bottom-2 material-symbols-outlined text-secondary"
+                                    type="button">visibility</button></div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="space-y-4"><label class="font-label-caps text-label-caps block">NEW
+                                    PASSWORD</label>
+                                <div class="relative"><input id="new_password" name="password"
+                                        class="w-full bg-transparent border-b border-primary py-2 font-mono-data text-body-lg pr-10"
+                                        placeholder="••••••••••••" type="password"><button
+                                        class="absolute right-2 bottom-2 material-symbols-outlined text-secondary"
+                                        type="button">visibility</button></div>
+                            </div>
+                            <div class="space-y-4"><label class="font-label-caps text-label-caps block">CONFIRM
+                                    PASSWORD</label>
+                                <div class="relative"><input id="confirm_password" name="confirmPassword"
+                                        class="w-full bg-transparent border-b border-primary py-2 font-mono-data text-body-lg pr-10"
+                                        placeholder="••••••••••••" type="password"><button
+                                        class="absolute right-2 bottom-2 material-symbols-outlined text-secondary"
+                                        type="button">visibility</button></div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4 border border-primary p-6">
+                            <div id="length-rule" class="flex items-center gap-2 text-surface-dim">
+                                <span class="material-symbols-outlined text-[14px]">
+                                    circle
+                                </span>
+                                <span class="font-mono-data text-mono-data">
+                                    MIN. 6 CHARACTERS
+                                </span>
+                            </div>
+
+                            <div id="uppercase-rule" class="flex items-center gap-2 text-surface-dim">
+                                <span class="material-symbols-outlined text-[14px]">
+                                    circle
+                                </span>
+                                <span class="font-mono-data text-mono-data">
+                                    ONE UPPERCASE
+                                </span>
+                            </div>
+
+                            <div id="number-rule" class="flex items-center gap-2 text-surface-dim">
+                                <span class="material-symbols-outlined text-[14px]">
+                                    circle
+                                </span>
+                                <span class="font-mono-data text-mono-data"> ONE NUMBER </span>
+                            </div>
+
+                            <div id="special-rule" class="flex items-center gap-2 text-surface-dim">
+                                <span class="material-symbols-outlined text-[14px]">
+                                    circle
+                                </span>
+                                <span class="font-mono-data text-mono-data">
+                                    SPECIAL CHARACTER
+                                </span>
+                            </div>
+                        </div>
+                        <button
+                            class="self-start border border-primary px-12 py-5 font-label-caps text-label-caps hover:bg-primary hover:text-on-primary transition-none"
+                            type="submit">UPDATE PASSWORD</button>
+                    </form>
+                </div>
+            </section>
+            <!-- Section 03: EMAIL PREFERENCES -->
+            <!-- Section 04: ACCOUNT PREFERENCES -->
+            <!-- Section 05: ACCOUNT ACTIONS -->
+            <section id="actions" class="grid scroll-mt-24 grid-cols-1 md:grid-cols-12 border-b border-primary">
+                <div
+                    class="md:col-span-4 border-r border-primary border-t border-primary p-container-padding bg-surface-container-low">
+                    <span class="font-mono-data text-mono-data text-secondary">03. TERMINAL</span>
+                    <h2 class="font-headline-md text-headline-md mt-4">ACCOUNT ACTIONS</h2>
+                </div>
+                <div class="md:col-span-8 p-container-padding border-t border-primary">
+                    <div class="flex flex-col md:flex-row gap-8 items-start">
+                        <div class="space-y-4">
+                            <p class="font-mono-data text-mono-data text-error uppercase">This action is permanent
+                                and
+                                cannot be undone.</p><button
+                                class="border border-error text-error px-12 py-5 font-label-caps text-label-caps hover:bg-error hover:text-on-error transition-none">DELETE
+                                ACCOUNT</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- </div> -->
+        </main>
+        <!-- Watermark Background -->
+        <div class="bg-text-watermark">
+            <span class="font-headline-lg text-headline-lg uppercase opacity-20">FOOTBALL. CULTURE. MEMORY.</span>
+        </div>
+        <!-- Footer -->
+        <%- include("partials/userFooter") %>
+            <script>
+                // Simple micro-interaction for form inputs
+                const inputs = document.querySelectorAll('input, select');
+                inputs.forEach(input => {
+                    input.addEventListener('focus', () => {
+                        input.parentElement.classList.add('opacity-100');
+                    });
+                    input.addEventListener('blur', () => {
+                        input.parentElement.classList.remove('opacity-100');
+                    });
+                });
+
+                // Toggle handling logic for visuals
+                const toggles = document.querySelectorAll('input[type="checkbox"]');
+                toggles.forEach(toggle => {
+                    toggle.addEventListener('change', function () {
+                        const parent = this.closest('.group');
+                        if (this.checked) {
+                            parent.classList.add('bg-surface-container-low');
+                        } else {
+                            parent.classList.remove('bg-surface-container-low');
+                        }
+                    });
+                });
+
+                const navLinks = {
+                    profile: document.getElementById("nav-profile"),
+                    security: document.getElementById("nav-security"),
+                    actions: document.getElementById("nav-actions"),
+                };
+
+                console.log(navLinks)
+
+                Object.entries(navLinks).forEach(([id, link]) => {
+                    link.addEventListener("click", () => {
+                        // Let the scroll event update the active state.
+                    });
+                });
+
+                const links = document.querySelectorAll(".side-link");
+
+                function activate(id) {
+                    console.log(id)
+                    links.forEach(link => {
+                        link.classList.remove("active");
+                    });
+
+                    document.getElementById(`nav-${id}`).classList.add("active");
+                }
+
+                const sections = [
+                    document.getElementById("profile"),
+                    document.getElementById("security"),
+                    document.getElementById("actions")
+                ];
+
+                window.addEventListener("scroll", () => {
+
+                    let current = "profile";
+
+                    sections.forEach(section => {
+
+                        const rect = section.getBoundingClientRect();
+
+                        if (rect.top <= 150 && rect.bottom >= 150) {
+                            current = section.id;
+                        }
+
+                    });
+
+                    activate(current);
+
+                });
+
+                activate("profile");
+
+                // password live validator
+
+                console.log("Password validator started");
+
+                const passwordInput = document.getElementById("new_password");
+                const form = document.getElementById("password-form");
+
+
+                console.log(passwordInput);
+                console.log(form);
+
+
+                const rules = {
+                    "length-rule": () => passwordInput.value.length >= 6,
+                    "uppercase-rule": () => /[A-Z]/.test(passwordInput.value),
+                    "number-rule": () => /[0-9]/.test(passwordInput.value),
+                    "special-rule": () =>
+                        /[!@#$%^&*(),.?":{}|<>]/.test(passwordInput.value),
+                };
+
+                passwordInput.addEventListener("input", () => {
+
+                    Object.keys(rules).forEach((ruleId) => {
+                        updateRule(
+                            ruleId,
+                            rules[ruleId](),
+                            false
+                        );
+                    });
+
+                });
+
+                form.addEventListener("submit", (e) => {
+
+                    let allValid = true;
+
+                    Object.keys(rules).forEach((ruleId) => {
+
+                        const valid = rules[ruleId]();
+
+                        updateRule(
+                            ruleId,
+                            valid,
+                            true
+                        );
+
+                        if (!valid) {
+                            allValid = false;
+                        }
+
+                    });
+
+                    if (!allValid) {
+                        e.preventDefault();
+                    }
+
+                });
+
+                function updateRule(
+                    ruleId,
+                    valid,
+                    submitted
+                ) {
+
+                    const rule =
+                        document.getElementById(ruleId);
+
+                    const icon =
+                        rule.querySelector(
+                            ".material-symbols-outlined"
+                        );
+
+                    rule.classList.remove(
+                        "text-surface-dim",
+                        "text-primary",
+                        "text-red-500"
+                    );
+
+                    if (valid) {
+
+                        icon.textContent =
+                            "check_circle";
+
+                        rule.classList.add(
+                            "text-primary"
+                        );
+
+                    }
+                    else {
+
+                        icon.textContent =
+                            "circle";
+
+                        if (submitted) {
+
+                            rule.classList.add(
+                                "text-red-500"
+                            );
+
+                        }
+                        else {
+
+                            rule.classList.add(
+                                "text-surface-dim"
+                            );
+
+                        }
+
+                    }
+                }
+            </script>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Join the Archive</title>
+  <meta name="description" content="Access curated collections, exclusive drops, order tracking, saved favorites, and football stories from every era." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" />  <script src="https://cdn.tailwindcss.com"></script>
+<style>
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-track {
+    background: #fcfbf8;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #000;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #333;
+}
+</style> 
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['"Space Mono"', 'ui-monospace', 'monospace'],
+            display: ['"Syne"', 'system-ui', 'sans-serif'],
+           },
+          colors: {
+            cream: '#fcfbf8',
+          },
+        },
+      },
+    };
+  </script>
+</head>
+<body class="min-h-screen bg-cream font-mono text-black scroll-smooth">
+
+  <!-- site-header -->
+  <%- include('./partials/header') %>
+
+  <!-- hero-intro -->
+  <section class="border-b border-black/80 px-16 py-28">
+    <h1 class="font-display text-5xl tracking-wide">JOIN THE ARCHIVE</h1>
+    <p class="mt-8 max-w-2xl text-[13px] leading-8 tracking-[0.12em] text-black/70">
+      Access curated collections, exclusive drops, order tracking, saved
+      favorites, and football stories from every era.
+    </p>
+  </section>
+
+  <section class="grid grid-cols-2 ">
+    <!-- editorial-image -->
+    <div class="relative min-h-[900px] overflow-hidden border-r border-black/80">
+      <img
+        src="/images/signup-img.jpg"
+        alt="Archive editorial"
+        class="h-full w-full object-cover grayscale contrast-125 brightness-95 transition-transform duration-700 hover:scale-[1.02]"
+        width="800"
+        height="1024"
+      />
+      
+      <div class="pointer-events-none absolute bottom-10 right-10 text-right font-display text-2xl tracking-wider text-white/30 mix-blend-overlay">
+        HYPER-LUXURY<br />BRUTALIST
+      </div>
+    </div>
+
+    <!-- signup-form -->
+    <div id="signup-form-section" class="flex items-center justify-center px-20 py-20">
+      <form id="signup-form" class="w-full max-w-md space-y-10" action="/signup" method="POST">
+        <div>
+          <label class="block text-[10px] uppercase tracking-[0.25em] text-black/60 mb-3">FULL NAME</label>
+          <div class="relative mt-4 border-b border-black/30 transition-all duration-300 focus-within:border-black">
+            <input type="text" name="username" placeholder="ALEXANDER MCQUEEN"
+              class="w-full bg-transparent pb-3 text-[13px] tracking-[0.12em] placeholder:text-black/35 focus:outline-none" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-[10px] uppercase tracking-[0.25em] text-black/60 mb-3">EMAIL ADDRESS</label>
+          <div class="relative mt-4 border-b border-black/30 transition-all duration-300 focus-within:border-black">
+            <input type="email" name="email" placeholder="STUDIO@ARCHIVE.COM"
+              class="w-full bg-transparent pb-3 text-[13px] tracking-[0.12em] placeholder:text-black/35 focus:outline-none" />
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-[10px] uppercase tracking-[0.25em] text-black/60 mb-3">PASSWORD</label>
+          <div class="relative mt-4 border-b border-black/30 transition-all duration-300 focus-within:border-black">
+            <input type="password" name="password" placeholder="•••••••"
+              class="w-full bg-transparent pb-3 text-[13px] tracking-[0.12em] placeholder:text-black/35 focus:outline-none" />
+            <button type="button" aria-label="toggle visibility" data-toggle-password
+              class="absolute right-0 bottom-2 text-black/60">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M3 3l18 18M10.6 10.6a2 2 0 002.8 2.8M9.9 5.1A10 10 0 0112 5c5 0 9 4 10 7-0.5 1.5-1.8 3.3-3.6 4.7M6.6 6.6C4.3 8 2.7 10.2 2 12c1 3 5 7 10 7 1.8 0 3.4-.4 4.8-1.1" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-[10px] uppercase tracking-[0.25em] text-black/60 mb-3">CONFIRM PASSWORD</label>
+          <div class="relative mt-4 border-b border-black/30 transition-all duration-300 focus-within:border-black">
+            <input type="password" name="confirmPassword" placeholder="•••••••"
+              class="w-full bg-transparent pb-3 text-[13px] tracking-[0.12em] placeholder:text-black/35 focus:outline-none" />
+            <button type="button" aria-label="toggle visibility" data-toggle-password
+              class="absolute right-0 bottom-2 text-black/60">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M3 3l18 18M10.6 10.6a2 2 0 002.8 2.8M9.9 5.1A10 10 0 0112 5c5 0 9 4 10 7-0.5 1.5-1.8 3.3-3.6 4.7M6.6 6.6C4.3 8 2.7 10.2 2 12c1 3 5 7 10 7 1.8 0 3.4-.4 4.8-1.1" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-[10px] uppercase tracking-[0.25em] text-black/60 mb-3">REFERRAL CODE <span class="text-black/40">(OPTIONAL)</span></label>
+          <div class="relative mt-4 border-b border-black/30 transition-all duration-300 focus-within:border-black">
+            <input type="text" name="referralCode" placeholder="e.g. ARCHIVEHENEL"
+              class="w-full bg-transparent pb-3 text-[13px] tracking-[0.12em] placeholder:text-black/35 focus:outline-none" />
+          </div>
+        </div>
+
+        <div class="h-5 flex items-center justify-center">
+            <% if(typeof error !== "undefined" && error){ %>
+                <p id="error-message" class="text-center text-[10px] tracking-[0.2em] uppercase text-red-500">
+                    <%= error %>
+                </p>
+            <% } %>
+        </div>
+
+        <button type="submit"
+          class="w-full border border-black bg-black py-5 text-[11px] tracking-[0.35em] text-white uppercase transition-all duration-300 hover:bg-transparent hover:text-black">
+          CREATE ACCOUNT
+        </button>
+
+       <p class="text-center text-[10px] tracking-[0.2em] text-black/60 uppercase">
+          ALREADY HAVE AN ACCOUNT?
+          <a href="/login" class="text-black transition-opacity duration-300 hover:opacity-60">SIGN IN</a>
+        </p>
+      </form>
+    </div>
+  </section>
+
+  <!-- quote-section -->
+  <section class="relative overflow-hidden bg-black px-12 py-24 text-white">
+    <div class="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2 whitespace-nowrap text-center font-display text-[18rem] leading-none tracking-[-0.08em] text-white/5">
+      LL. CULTURE. M
+    </div>
+    <div class="relative text-center">
+      <div class="font-display text-5xl opacity-60">"</div>
+      <blockquote class="mx-auto mt-6 max-w-4xl font-display text-5xl leading-[1.1] tracking-[-0.03em] uppercase">
+        "MORE THAN A JERSEY. A PIECE OF HISTORY."
+      </blockquote>
+      <div class="mx-auto mt-8 h-px w-16 bg-white/60"></div>
+    </div>
+  </section>
+
+  <script>
+    document.querySelectorAll('[data-toggle-password]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var input = btn.parentElement.querySelector('input');
+        if (!input) return;
+        input.type = input.type === 'password' ? 'text' : 'password';
+      });
+    });
+
+  const errorElement = document.getElementById("error-message");
+const signupForm = document.getElementById("signup-form");
+
+if(errorElement){
+    window.scrollTo({
+        top: signupForm.offsetTop - 10,
+        behavior: "smooth"
+    });
+}
+  </script>
+</body>
+</html>

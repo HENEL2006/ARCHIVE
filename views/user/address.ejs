@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&amp;family=Syne:wght@400;500;600;700;800&amp;display=swap"
+    rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet">
+  <style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+
+    .watermark-text {
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      pointer-events: none;
+      user-select: none;
+      z-index: -1;
+    }
+
+    #deleteModal {
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    #deleteModal.show {
+      opacity: 1;
+    }
+
+    #deleteModal .modal-box {
+      transform: translateY(12px);
+      opacity: 0;
+      transition: all 0.2s ease;
+    }
+
+    #deleteModal.show .modal-box {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  </style>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "on-primary-fixed-variant": "#474747",
+            "on-error-container": "#93000a",
+            "primary": "#000000",
+            "on-tertiary-fixed-variant": "#474747",
+            "on-secondary-fixed-variant": "#454747",
+            "tertiary-fixed-dim": "#c6c6c6",
+            "error-container": "#ffdad6",
+            "secondary-fixed-dim": "#c6c6c7",
+            "primary-fixed-dim": "#c6c6c6",
+            "tertiary-fixed": "#e2e2e2",
+            "surface-container": "#f0edec",
+            "outline": "#7e7576",
+            "surface-variant": "#e5e2e1",
+            "surface-container-highest": "#e5e2e1",
+            "on-secondary": "#ffffff",
+            "inverse-on-surface": "#f3f0ef",
+            "background": "#fcf9f8",
+            "primary-fixed": "#e2e2e2",
+            "primary-container": "#1b1b1b",
+            "surface-container-low": "#f6f3f2",
+            "surface": "#fcf9f8",
+            "surface-tint": "#5e5e5e",
+            "secondary": "#5d5f5f",
+            "outline-variant": "#cfc4c5",
+            "error": "#ba1a1a",
+            "surface-dim": "#dcd9d9",
+            "surface-bright": "#fcf9f8",
+            "on-surface-variant": "#4c4546",
+            "tertiary": "#000000",
+            "secondary-fixed": "#e2e2e2",
+            "on-tertiary-fixed": "#1b1b1b",
+            "on-tertiary-container": "#848484",
+            "on-secondary-container": "#616363",
+            "on-primary-fixed": "#1b1b1b",
+            "on-primary": "#ffffff",
+            "inverse-surface": "#313030",
+            "on-tertiary": "#ffffff",
+            "on-surface": "#1c1b1b",
+            "on-background": "#1c1b1b",
+            "accent-success": "#22CD5B",
+            "secondary-container": "#dfe0e0",
+            "on-secondary-fixed": "#1a1c1c",
+            "on-error": "#ffffff",
+            "surface-container-lowest": "#ffffff",
+            "on-primary-container": "#848484",
+            "inverse-primary": "#c6c6c6",
+            "tertiary-container": "#1b1b1b",
+            "surface-container-high": "#ebe7e7"
+          },
+          "borderRadius": {
+            "DEFAULT": "0",
+            "lg": "0",
+            "xl": "0",
+            "full": "0"
+          },
+          "spacing": {
+            "unit": "8px",
+            "section-gap": "128px",
+            "mobile-margin": "20px",
+            "grid-gutter": "0px",
+            "container-padding": "64px"
+          },
+          "fontFamily": {
+            "body-md": ["Space Mono"],
+            "label-caps": ["Space Mono"],
+            "mono-data": ["Space Mono"],
+            "display-xl": ["Syne"],
+            "body-lg": ["Space Mono"],
+            "headline-lg-mobile": ["Syne"],
+            "headline-lg": ["Syne"],
+            "headline-md": ["Syne"]
+          },
+          "fontSize": {
+            "body-md": ["14px", { "lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400" }],
+            "label-caps": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "700" }],
+            "mono-data": ["12px", { "lineHeight": "1.0", "letterSpacing": "-0.02em", "fontWeight": "400" }],
+            "display-xl": ["80px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "800" }],
+            "body-lg": ["16px", { "lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400" }],
+            "headline-lg-mobile": ["32px", { "lineHeight": "1.1", "letterSpacing": "0.04em", "fontWeight": "700" }],
+            "headline-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "0.04em", "fontWeight": "700" }],
+            "headline-md": ["24px", { "lineHeight": "1.2", "letterSpacing": "0.03em", "fontWeight": "700" }]
+          }
+        },
+      },
+    }
+  </script>
+</head>
+
+<body class="bg-background text-on-background font-body-md selection:bg-primary selection:text-on-primary">
+  <!-- Watermark Background -->
+  <div
+    class="fixed inset-0 overflow-hidden pointer-events-none opacity-[0.03] select-none flex items-center justify-center">
+    <div class="watermark-text font-display-xl text-[12vw] leading-none whitespace-nowrap">
+      FOOTBALL. CULTURE. MEMORY.
+    </div>
+  </div>
+  <!-- TopNavBar Shell -->
+  <%- include("partials/userHeader") %>
+    <main class="min-h-screen relative">
+      <!-- Hero Section -->
+      <header class="px-container-padding pt-24 pb-16 border-b border-primary">
+        <div class="grid grid-cols-12 gap-0">
+          <div class="col-span-12 md:col-span-8">
+            <h1 class="font-headline-lg text-headline-lg tracking-tighter mb-4">MY ADDRESSES</h1>
+            <p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg">
+              Manage where your archive acquisitions are delivered. Set a default to accelerate your next checkout.
+            </p>
+          </div>
+        </div>
+      </header>
+      <!-- Action Bar -->
+      <section
+        class="px-container-padding py-8 border-b border-primary flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div class="flex items-center gap-4">
+          <span
+            class="font-mono-data text-mono-data uppercase bg-surface-container-high px-3 py-1 border border-primary">
+            <%= addresses.length %> SAVED ADDRESSES
+          </span>
+        </div>
+        <% if(addresses.length> 0){ %>
+          <a href="/address/add"
+            class="font-label-caps text-label-caps bg-primary text-on-primary px-8 py-4 border border-primary hover:bg-surface hover:text-primary transition-none flex items-center gap-2 group w-fit">
+            ADD NEW ADDRESS
+            <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">
+              add
+            </span>
+          </a>
+          <% } %>
+      </section>
+      <!-- Address Grid -->
+      <!-- Address Grid -->
+      <section class="grid grid-cols-1 md:grid-cols-3 border-b border-primary min-h-[600px]">
+
+        <% if(addresses.length> 0){ %>
+
+          <% addresses.forEach((address,index)=>{ %>
+
+            <!-- Card -->
+            <article
+              class="<%= index !== addresses.length - 1 ? 'border-b md:border-b-0 md:border-r' : '' %> border-primary p-container-padding flex flex-col justify-between hover:bg-surface-container-low transition-colors group">
+
+              <div>
+
+                <div class="flex justify-between items-start mb-12">
+
+                  <% if(address.isDefault){ %>
+                    <span
+                      class="font-mono-data text-mono-data uppercase border border-primary px-2 py-1 bg-primary text-on-primary">
+                      DEFAULT
+                    </span>
+                    <% } %>
+
+                      <span class="font-label-caps text-label-caps border border-primary px-2 py-1">
+                        SHIPPING ADDRESS
+                      </span>
+
+                </div>
+
+                <div class="space-y-6">
+
+                  <div>
+                    <p class="font-label-caps text-label-caps text-on-surface-variant mb-1 uppercase">
+                      Full Name
+                    </p>
+
+                    <p class="font-headline-md text-headline-md">
+                      <%= address.fullName %>
+                    </p>
+                  </div>
+
+                  <div>
+                    <p class="font-label-caps text-label-caps text-on-surface-variant mb-1 uppercase">
+                      Contact
+                    </p>
+
+                    <p class="font-body-md text-body-md">
+                      <%= address.phone %>
+                    </p>
+                  </div>
+
+                  <div>
+                    <p class="font-label-caps text-label-caps text-on-surface-variant mb-1 uppercase">
+                      Shipping Details
+                    </p>
+
+                    <address class="not-italic font-body-md text-body-md leading-relaxed">
+
+                      <%= address.addressLine1 %><br>
+
+                        <% if(address.addressLine2){ %>
+                          <%= address.addressLine2 %><br>
+                            <% } %>
+
+                              <%= address.city %><br>
+                                <%= address.state %><br>
+                                  <%= address.postalCode %><br>
+                                    <%= address.country %>
+
+                    </address>
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="mt-16 flex gap-6 pt-6 border-t border-primary/20">
+
+                <a class="font-label-caps text-label-caps hover:underline" href="/address/edit/<%= address._id %>">
+                  EDIT
+                </a>
+
+                <a href="#" class="font-label-caps text-label-caps hover:underline text-error deleteBtn"
+                  data-id="<%= address._id %>">
+                  DELETE
+                </a>
+
+                <% if(!address.isDefault){ %>
+
+                  <a class="font-label-caps text-label-caps hover:underline" href="/address/default/<%= address._id %>">
+                    SET AS DEFAULT
+                  </a>
+
+                  <% } %>
+
+              </div>
+
+            </article>
+
+            <% }) %>
+
+              <% } else { %>
+
+                <!-- Empty State -->
+
+                <div class="col-span-full flex flex-col items-center justify-center py-40">
+
+                  <h2 class="font-headline-md text-headline-md mb-4">
+                    NO SAVED ADDRESSES
+                  </h2>
+
+                  <p class="font-body-md text-body-md text-on-surface-variant mb-10 text-center max-w-md">
+                    Start building your archive by adding your first delivery address.
+                  </p>
+
+                  <a href="/address/add"
+                    class="font-label-caps text-label-caps bg-primary text-on-primary px-8 py-4 border border-primary hover:bg-surface hover:text-primary transition-none flex items-center gap-2 group">
+                    ADD NEW ADDRESS
+
+                    <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">
+                      add
+                    </span>
+
+                  </a>
+
+                </div>
+
+                <% } %>
+
+      </section>
+    </main>
+
+    <div id="deleteModal" class="fixed inset-0 bg-black/40 hidden items-center justify-center z-[9999]">
+
+      <div class="modal-box bg-background border border-primary w-[480px] p-10">
+
+        <p class="font-label-caps text-[11px] uppercase mb-3 opacity-60">
+          Archive
+        </p>
+
+        <h2 class="font-headline-md text-headline-md uppercase mb-6">
+          Delete Address
+        </h2>
+
+        <p class="font-body-md text-on-surface-variant leading-7 mb-10">
+          This action cannot be undone.<br>
+          The selected address will be permanently removed.
+        </p>
+
+        <div class="border-t border-primary pt-6 flex justify-between">
+
+          <button id="cancelDelete" class="font-label-caps uppercase hover:underline">
+            Cancel
+          </button>
+
+          <a id="confirmDelete" href="#" class="font-label-caps uppercase text-error hover:underline">
+            Delete
+          </a>
+
+        </div>
+
+      </div>
+    </div>
+    <!-- Footer Shell -->
+    <%- include("partials/userFooter") %>
+</body>
+<script>
+  const modal = document.getElementById("deleteModal");
+  const confirmDelete = document.getElementById("confirmDelete");
+  const cancelDelete = document.getElementById("cancelDelete");
+
+  document.querySelectorAll(".deleteBtn").forEach(btn => {
+
+    btn.addEventListener("click", e => {
+
+      e.preventDefault();
+
+      const id = btn.dataset.id;
+
+      confirmDelete.href = `/address/delete/${id}`;
+
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+
+      requestAnimationFrame(() => {
+        modal.classList.add("show");
+      });
+
+    });
+
+  });
+
+  cancelDelete.addEventListener("click", () => {
+
+    modal.classList.remove("show");
+
+    setTimeout(() => {
+      modal.classList.remove("flex");
+      modal.classList.add("hidden");
+    }, 200);
+
+  });
+
+  modal.addEventListener("click", e => {
+
+    if (e.target === modal) {
+
+      modal.classList.remove("flex");
+      modal.classList.add("hidden");
+
+    }
+
+  });
+</script>
+
+</html>

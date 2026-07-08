@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>ARCHIVE | ARCHIVAL FOOTBALL GRAILS</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&amp;family=Syne:wght@400;500;600;700;800&amp;family=Inter:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <style>
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .animate-marquee {
+            display: flex;
+            white-space: nowrap;
+            animation: marquee 15s linear infinite;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #fcf9f8;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #000000;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Typography Polish */
+        .font-elegant {
+            font-family: 'Inter', sans-serif;
+            letter-spacing: -0.02em;
+        }
+
+        .font-technical {
+            font-family: 'Space Mono', monospace;
+            letter-spacing: -0.03em;
+        }
+
+        .brutalist-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: -1px;
+            background: #ffffff;
+            border: 1px solid #000000;
+            z-index: 100;
+            border-radius: 0;
+            box-shadow: none;
+            transition: opacity 0.1s ease-in-out;
+        }
+
+        .group:hover>.brutalist-dropdown {
+            display: flex;
+        }
+
+        .dropdown-item {
+            font-family: 'Space Mono', monospace;
+            font-size: 10px;
+            padding: 8px 16px;
+            color: #000000;
+            transition: background 0.1s, color 0.1s;
+            white-space: nowrap;
+            text-transform: lowercase;
+        }
+
+        .dropdown-item:hover {
+            background: #000000;
+            color: #ffffff;
+        }
+
+        .mega-menu {
+            width: 500px;
+            padding: 0;
+            flex-direction: row;
+        }
+
+        .mega-column {
+            flex: 1;
+            padding: 20px;
+            border-right: 1px solid #000000;
+        }
+
+        .mega-column:last-child {
+            border-right: none;
+        }
+
+        .mega-header {
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #000000;
+            padding-bottom: 4px;
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#1b1b1b",
+                        "surface-tint": "#5e5e5e",
+                        "tertiary": "#000000",
+                        "primary-fixed-dim": "#c6c6c6",
+                        "on-surface": "#1c1b1b",
+                        "error-container": "#ffdad6",
+                        "inverse-on-surface": "#f3f0ef",
+                        "surface-container-highest": "#e5e2e1",
+                        "on-secondary": "#ffffff",
+                        "primary": "#000000",
+                        "surface-dim": "#dcd9d9",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary": "#ffffff",
+                        "surface-container-high": "#ebe7e7",
+                        "surface-variant": "#e5e2e1",
+                        "on-primary-fixed": "#1b1b1b",
+                        "primary-container": "#1b1b1b",
+                        "on-error": "#ffffff",
+                        "surface-bright": "#fcf9f8",
+                        "tertiary-container": "#1b1b1b",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "inverse-surface": "#313030",
+                        "on-secondary-fixed-variant": "#454747",
+                        "primary-fixed": "#e2e2e2",
+                        "surface": "#fcf9f8",
+                        "on-secondary-container": "#616363",
+                        "on-error-container": "#93000a",
+                        "on-primary-container": "#848484",
+                        "outline-variant": "#cfc4c5",
+                        "tertiary-fixed": "#e2e2e2",
+                        "tertiary-fixed-dim": "#c6c6c6",
+                        "inverse-primary": "#c6c6c6",
+                        "on-surface-variant": "#4c4546",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "background": "#fcf9f8",
+                        "on-primary-fixed-variant": "#474747",
+                        "accent-success": "#22CD5B",
+                        "surface-container": "#f0edec",
+                        "on-tertiary-fixed-variant": "#474747",
+                        "on-background": "#1c1b1b",
+                        "secondary-container": "#dfe0e0",
+                        "on-tertiary": "#ffffff",
+                        "secondary": "#5d5f5f",
+                        "on-tertiary-container": "#848484",
+                        "surface-container-low": "#f6f3f2",
+                        "secondary-fixed": "#e2e2e2",
+                        "outline": "#7e7576"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "grid-gutter": "0px",
+                        "unit": "8px",
+                        "mobile-margin": "20px",
+                        "container-padding": "64px",
+                        "section-gap": "128px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Space Mono"],
+                        "mono-data": ["Space Mono"],
+                        "display-xl": ["Syne"],
+                        "headline-lg-mobile": ["Syne"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Space Mono"],
+                        "label-caps": ["Space Mono"],
+                        "display": ['"Syne"', 'system-ui', 'sans-serif'],
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-background text-primary selection:bg-primary selection:text-on-primary font-body-md overflow-x-hidden">
+    <!-- TopNavBar -->
+    <%- include("./partials/userHeader") %>
+        <main class="pt-16">
+            <!-- Hero Section -->
+            <section class="grid grid-cols-1 md:grid-cols-2 h-[80vh] border-b border-primary pt-6">
+                <div class="border-r border-primary overflow-hidden relative"><img
+                        alt="High-fashion archival sports editorial"
+                        class="w-full h-full object-cover object-[center_20%] grayscale hover:grayscale-0 transition-all duration-1000"
+                        src="images/Home.jpg"></div>
+                <div
+                    class="flex flex-col justify-center items-center p-mobile-margin md:p-container-padding space-y-12 bg-background text-center">
+                    <h2
+                        class="font-display-xl text-[64px] md:text-[96px] uppercase leading-[0.9] tracking-tighter font-extrabold">
+                        MADE<br>TO BE<br>FELT.
+                    </h2>
+                    <div class="pt-4">
+                        <button
+                            class="font-technical text-[11px] font-bold border border-primary px-12 py-5 hover:bg-primary hover:text-on-primary transition-all duration-300 flex items-center justify-between group w-full md:w-auto">
+                            SHOP THE ARCHIVE
+                            <span
+                                class="material-symbols-outlined ml-6 group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+            <!-- Marquee Section -->
+            <section class="border-b border-primary bg-primary text-on-primary py-4 overflow-hidden">
+                <div class="animate-marquee">
+                    <div class="flex space-x-16 px-8">
+                        <span class="font-technical text-[11px] font-bold uppercase">RETRO GRAILS // BLOKECORE SELECTION
+                            // ARCHIVAL DROPS // SHIPPED GLOBAL</span>
+                        <span class="font-technical text-[11px] font-bold uppercase">RETRO GRAILS // BLOKECORE SELECTION
+                            // ARCHIVAL DROPS // SHIPPED GLOBAL</span>
+                        <span class="font-technical text-[11px] font-bold uppercase">RETRO GRAILS // BLOKECORE SELECTION
+                            // ARCHIVAL DROPS // SHIPPED GLOBAL</span>
+                        <span class="font-technical text-[11px] font-bold uppercase">RETRO GRAILS // BLOKECORE SELECTION
+                            // ARCHIVAL DROPS // SHIPPED GLOBAL</span>
+                    </div>
+                </div>
+            </section>
+            <!-- New Arrivals Section -->
+            <section class="border-b border-primary">
+                <div
+                    class="px-mobile-margin md:px-container-padding py-20 border-b border-primary flex justify-between items-baseline">
+                    <h2 class="font-elegant text-4xl md:text-5xl font-light uppercase tracking-tight">New Arrivals</h2>
+                    <a href="/collections/new-arrivals"
+                        class="font-technical text-[11px] font-bold flex items-center gap-4 uppercase group">
+                        VIEW ALL
+                        <span
+                            class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform duration-300">
+                            arrow_forward
+                        </span>
+                    </a>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+                    <!-- Product 1 -->
+                    <div class="border-r border-b border-primary group cursor-pointer transition-all">
+                        <div class="aspect-[4/5] overflow-hidden bg-surface-container border-b border-primary">
+                            <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKJvFLrl1a7pYi7iU4F6vL7jNuuBaE7RaIJm_ul3-gSMYplusUhbkd7V515mlauYF5OiIjIhOo086NRX580qziHtqUkLXBpoO3ZsXTRlDLJTlftSndczFs4v9IzgN-23tcpy2DKrOHhFzniYrskD6M73CKnzp_1lfSUFH7QE9G-xLrCqgagYDrzu1wGznpLam6ZYGq9vf_ZwOJC9jfbGL47QQI6zPWfV1Dpb45Y-DDBkV-g3UWF_pSpkkxBqOEMJgDkRP78OQ-Ke8">
+                        </div>
+                        <div class="p-8 space-y-3 group-hover:bg-primary group-hover:text-on-primary transition-colors">
+                            <p class="font-elegant text-sm font-semibold uppercase">AC Milan 1996 Home</p>
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-2 font-elegant">
+                                    <span class="text-sm font-bold">
+                                        ₹2,499
+                                    </span>
+
+                                    <span class="text-[12px] line-through opacity-40">
+                                        ₹3,999
+                                    </span>
+
+                                    <span class="text-[9px] border border-primary px-2 py-1 uppercase font-technical">
+                                        38% OFF
+                                    </span>
+                                </div>
+
+                                <div class="flex items-center gap-2 font-technical text-[10px] opacity-70">
+                                    <span>★ 4.9</span>
+                                    <span>//</span>
+                                    <span>124 REVIEWS</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Product 2 -->
+                    <div class="border-r border-b border-primary group cursor-pointer transition-all">
+                        <div class="aspect-[4/5] overflow-hidden bg-surface-container border-b border-primary">
+                            <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOl_kCTltZFUAQ7ZGbn-LQGYhIPj-MOT0DDlxUWT1STxYPnxrkTubQUlZofW24bF2gwnbSDBsePf2p7sC6LKTFtezkjuAW0MaxBWiGi1o2_HSM_yxcG8C25DDYG-ELfylDs2r8RFD3ydBlcOonT2x92HfSeykDv58KXrtuLGlp4ml-s1KKpUu0MSW2CyKgrzOd_kC2xHrJPf8YrrapSDLz05c5Z30JejSlMkWMYoFc4bFp-FmJKSB_Hof_ga8yXy3aUo5tGOGSk_w">
+                        </div>
+                        <div class="p-8 space-y-3 group-hover:bg-primary group-hover:text-on-primary transition-colors">
+                            <p class="font-elegant text-sm font-semibold uppercase">Brazil 1998 Training</p>
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-2 font-elegant">
+                                    <span class="text-sm font-bold">
+                                        ₹2,499
+                                    </span>
+
+                                    <span class="text-[12px] line-through opacity-40">
+                                        ₹3,999
+                                    </span>
+
+                                    <span class="text-[9px] border border-primary px-2 py-1 uppercase font-technical">
+                                        38% OFF
+                                    </span>
+                                </div>
+
+                                <div class="flex items-center gap-2 font-technical text-[10px] opacity-70">
+                                    <span>★ 4.9</span>
+                                    <span>//</span>
+                                    <span>124 REVIEWS</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Product 3 -->
+                    <div class="border-r border-b border-primary group cursor-pointer transition-all">
+                        <div class="aspect-[4/5] overflow-hidden bg-surface-container border-b border-primary">
+                            <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvRGX5vpFeucKvfZWHIauye5qukX-rAAwPY29foIhKDr1qWbft8kTZz9D2D7n01KKl6KeglOIr4L7H3CFdybAleLrMa0NWbgfWub6HZtDX3dEcfrj1Y7-NTYQ5EEjQc8n_tvk_5_eegEJ6BohhQQVGuIUZ8eNeJlGSOp3QxrofAWbq0KE4hutMtLBO0e0WzokfxnMYjv1kINBtPinE2WURKQMczlUUSnVsC2TGXDDkgCtdP56KX9mN8v9nkwc5j0zNth4guCTnHY4">
+                        </div>
+                        <div class="p-8 space-y-3 group-hover:bg-primary group-hover:text-on-primary transition-colors">
+                            <p class="font-elegant text-sm font-semibold uppercase">Arsenal 2004 Away</p>
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-2 font-elegant">
+                                    <span class="text-sm font-bold">
+                                        ₹2,499
+                                    </span>
+
+                                    <span class="text-[12px] line-through opacity-40">
+                                        ₹3,999
+                                    </span>
+
+                                    <span class="text-[9px] border border-primary px-2 py-1 uppercase font-technical">
+                                        38% OFF
+                                    </span>
+                                </div>
+
+                                <div class="flex items-center gap-2 font-technical text-[10px] opacity-70">
+                                    <span>★ 4.9</span>
+                                    <span>//</span>
+                                    <span>124 REVIEWS</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Product 4 -->
+                    <div class="border-b border-primary group cursor-pointer transition-all">
+                        <div class="aspect-[4/5] overflow-hidden bg-surface-container border-b border-primary">
+                            <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYYgAtalznlkwPxboW-8YljJnta0e4TmOYk6_vrVkGBO-JHjSu4atFGdvlE47l5120tUh-1jssU-mTeKtNZhwYaf963Kq3f0UBuiUZngABe8hSAyhqeqymiz-U7dD4Bq5vZtZaVT1r0Ie4c8U9SaF25VagLBHImNH2QiuYoc2Kyjbu-ZIcrgXqirUSysGMDoIftH4L2sH3HCenMrFgc-qx8EsKamnDSAJpuTnS_kIvd8tPemYq3hRViMLhyhaQMm7ZyEgvPER-QhY">
+                        </div>
+                        <div class="p-8 space-y-3 group-hover:bg-primary group-hover:text-on-primary transition-colors">
+                            <p class="font-elegant text-sm font-semibold uppercase">Inter Milan 2002 Home</p>
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-2 font-elegant">
+                                    <span class="text-sm font-bold">
+                                        ₹2,499
+                                    </span>
+
+                                    <span class="text-[12px] line-through opacity-40">
+                                        ₹3,999
+                                    </span>
+
+                                    <span class="text-[9px] border border-primary px-2 py-1 uppercase font-technical">
+                                        38% OFF
+                                    </span>
+                                </div>
+
+                                <div class="flex items-center gap-2 font-technical text-[10px] opacity-70">
+                                    <span>★ 4.9</span>
+                                    <span>//</span>
+                                    <span>124 REVIEWS</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Top Selling Section -->
+            <section class="border-b border-primary bg-surface-container-low">
+                <div
+                    class="px-mobile-margin md:px-container-padding py-20 border-b border-primary flex justify-between items-baseline">
+                    <h2 class="font-elegant text-4xl md:text-5xl font-light uppercase tracking-tight">Top Selling</h2>
+                    <a href="/collections/top-selling"
+                        class="font-technical text-[11px] font-bold flex items-center gap-4 uppercase group">
+                        VIEW ALL
+                        <span
+                            class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform duration-300">
+                            arrow_forward
+                        </span>
+                    </a>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+                    <!-- Item 1 -->
+                    <div class="border-r border-b border-primary group cursor-pointer bg-background transition-all">
+                        <div class="aspect-square overflow-hidden border-b border-primary">
+                            <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLPd_zWJfCg8z5KsCg1xDGaLr_BptA-4FHVpPynxBqbPQWou10pWKASyCMhToD3z5dLEl-c0qQS0QRMCHta--31bxyHAhLFj7NLVhzTo8umU4L2ty6GOZVzGSNSSfLC21qcxLgU3ZnrJm6m-4FtjCSWNKE0Yj3DmbtdxdCy7skLrdhmJwTK47Ev51izrXLn5NVSKietWRPWDtlWVsqNvBm2hSzmX3M2W1UP5XIj3jGtO3FkgDakts1Dc65r3KCeWco-i19K0ApOyY">
+                        </div>
+                        <div class="p-8 space-y-2 group-hover:bg-primary group-hover:text-on-primary transition-colors">
+                            <p class="font-elegant text-sm font-semibold uppercase">France 98 World Cup</p>
+                            <div class="space-y-1 font-technical text-[10px] opacity-70">
+                                <div class="flex items-center gap-2">
+                                    <span class="font-bold text-primary">
+                                        ₹5,999
+                                    </span>
+
+                                    <span class="line-through opacity-50">
+                                        ₹7,999
+                                    </span>
+
+                                    <span class="text-[8px] uppercase border border-primary px-1">
+                                        25% OFF
+                                    </span>
+                                </div>
+
+                                <div class="flex items-center gap-2 font-technical text-[10px] opacity-70">
+                                    <span>★ 4.9</span>
+                                    <span>//</span>
+                                    <span>124 REVIEWS</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Item 2 -->
+                    <div class="border-r border-b border-primary group cursor-pointer bg-background transition-all">
+                        <div class="aspect-square overflow-hidden border-b border-primary">
+                            <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6qLYeh_6NNP0XNXQoZ2Px-B2hQ_M0XC8jDwjoYiMxr7F-Cj_ixzTFurhbprmp5s7eOf_6CViLtRGpy0z_9e4zSY3l5vbwhJLSB-EBbEAdsXs_HciNoeb-sZt0sT7dmjIw_7Hxc-2u8P9rOuwlD_tErnLrnZXMQiBk9v4fhLLBv0k-uJYIcAYg2u9nPTLFBHMdq7LqFz442XjKqqbDO2-zUkMx9p0JwyhmyjU5ORLUssrKjIaysa9HCRXcNx22dD_t0T3w4y2VEIU">
+                        </div>
+                        <div class="p-8 space-y-2 group-hover:bg-primary group-hover:text-on-primary transition-colors">
+                            <p class="font-elegant text-sm font-semibold uppercase">Madrid 2002 Centenary</p>
+                            <div class="space-y-1 font-technical text-[10px] opacity-70">
+                                <div class="flex items-center gap-2">
+                                    <span class="font-bold text-primary">
+                                        ₹5,999
+                                    </span>
+
+                                    <span class="line-through opacity-50">
+                                        ₹7,999
+                                    </span>
+
+                                    <span class="text-[8px] uppercase border border-primary px-1">
+                                        25% OFF
+                                    </span>
+                                </div>
+
+                                <div class="flex items-center gap-2 font-technical text-[10px] opacity-70">
+                                    <span>★ 4.9</span>
+                                    <span>//</span>
+                                    <span>124 REVIEWS</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Item 3 -->
+                    <div class="border-r border-b border-primary group cursor-pointer bg-background transition-all">
+                        <div class="aspect-square overflow-hidden border-b border-primary">
+                            <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbRBW8kX98fbTuNVUiJZnFLAFa9MMxGvxmYzYqma2KVxEOSD_nX1XOgug8j7SaoWczx33N8QzfoguHUG61MYJXJI-kkHv6dWtZFmw44qfp7cbC90Sy3VbRaxXAcacgbf80Z8vwNCMHCHsF8beLXQq3rOAXhm9CkmSZw8m1Iq1UAO-pF8wZ8G9pk16Jv8dskjyigIR68ZaSbMurY_rWNkOyttKy0uCKobm9IzccuxiBGSyDXn4DkgBLYDI69k2LbeFE_ZWPAozOV4U">
+                        </div>
+                        <div class="p-8 space-y-2 group-hover:bg-primary group-hover:text-on-primary transition-colors">
+                            <p class="font-elegant text-sm font-semibold uppercase">MUFC 1994 Sharp Home</p>
+                            <div class="space-y-1 font-technical text-[10px] opacity-70">
+                                <div class="flex items-center gap-2">
+                                    <span class="font-bold text-primary">
+                                        ₹5,999
+                                    </span>
+
+                                    <span class="line-through opacity-50">
+                                        ₹7,999
+                                    </span>
+
+                                    <span class="text-[8px] uppercase border border-primary px-1">
+                                        25% OFF
+                                    </span>
+                                </div>
+
+                                <div class="flex items-center gap-2 font-technical text-[10px] opacity-70">
+                                    <span>★ 4.9</span>
+                                    <span>//</span>
+                                    <span>124 REVIEWS</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Item 4 -->
+                    <div class="border-b border-primary group cursor-pointer bg-background transition-all">
+                        <div class="aspect-square overflow-hidden border-b border-primary">
+                            <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuNWF_i-AV2UbIYiss4W_mYHzNKOUYjn0YEQk58bI01esC_aOcjuNLZafj8UnbikqV2IMgpSxHnQw1y8LcYtBiDjlGy5k9TN2xn6QyvN4yZTpu_nszGcoqBjbdV3Nn1ajovA2LAnlwNYkYQydfcV3Op2IIAdnjhBWH3zwwrlatfP5LaDYGUdlPG43FhrPSJHQc6nlFWuM2gn-j8-s9AXQF6rdnAfO30QhaPfjZuSh98FaHyxOqGhHtjoWyVTrtfZQJtNkezBBPv1U">
+                        </div>
+                        <div class="p-8 space-y-2 group-hover:bg-primary group-hover:text-on-primary transition-colors">
+                            <p class="font-elegant text-sm font-semibold uppercase">Juve 1997 Pink Century</p>
+                            <div class="space-y-1 font-technical text-[10px] opacity-70">
+                                <div class="flex items-center gap-2">
+                                    <span class="font-bold text-primary">
+                                        ₹5,999
+                                    </span>
+
+                                    <span class="line-through opacity-50">
+                                        ₹7,999
+                                    </span>
+
+                                    <span class="text-[8px] uppercase border border-primary px-1">
+                                        25% OFF
+                                    </span>
+                                </div>
+
+                                <div class="flex items-center gap-2 font-technical text-[10px] opacity-70">
+                                    <span>★ 4.9</span>
+                                    <span>//</span>
+                                    <span>124 REVIEWS</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Footer CTA -->
+            <section class="grid grid-cols-1 md:grid-cols-2 border-b border-primary">
+                <div
+                    class="border-r border-primary p-mobile-margin md:p-container-padding space-y-10 flex flex-col justify-center min-h-[500px]">
+                    <h3 class="font-elegant text-5xl md:text-6xl font-light uppercase leading-[1.1] tracking-tight">Stay
+                        In<br>The Archive</h3>
+                    <p class="font-technical text-xs leading-relaxed max-w-sm text-secondary">JOIN OUR PRIVATE LIST FOR
+                        EXCLUSIVE ACCESS TO DROP CODES, ARCHIVAL RESTOCK ALERTS, AND GLOBAL CURATIONS.</p>
+                </div>
+                <div class="p-mobile-margin md:p-container-padding flex flex-col justify-center space-y-16">
+                    <div class="space-y-6">
+                        <label class="font-technical text-[10px] font-bold block tracking-widest uppercase">Email
+                            Registration</label>
+                        <div class="border-b border-primary pb-4">
+                            <input
+                                class="w-full bg-transparent border-none p-0 font-technical text-sm focus:ring-0 focus:outline-none placeholder:opacity-30 placeholder:text-primary"
+                                placeholder="name@gmail.com" type="email">
+                        </div>
+                    </div>
+                    <button
+                        class="font-technical text-[11px] font-bold border border-primary px-10 py-6 hover:bg-primary hover:text-on-primary transition-all duration-300 text-left flex justify-between items-center group">
+                        SUBSCRIBE TO DROP ALERTS
+                        <span
+                            class="material-symbols-outlined group-hover:translate-x-2 transition-transform">east</span>
+                    </button>
+                </div>
+            </section>
+        </main>
+        <!-- Footer -->
+        <%- include("./partials/userFooter") %>
+            <script>
+                // Micro-interactions for refined feel
+                document.querySelectorAll('button, a').forEach(el => {
+                    el.addEventListener('mousedown', () => {
+                        el.style.transform = 'translateY(1px)';
+                    });
+                    el.addEventListener('mouseup', () => {
+                        el.style.transform = 'translateY(0)';
+                    });
+                });
+            </script>
+</body>
+
+</html>
