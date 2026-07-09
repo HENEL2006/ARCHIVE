@@ -23,6 +23,9 @@ import {
   setAsDefault,
   deleteAddress,
   loadAccountSettings,
+  sendChangeEmailOtp,
+  updateProfile,
+  changePassword,
 } from "../controllers/userController.js";
 import {
   canAccessOtp,
@@ -53,6 +56,9 @@ router.post("/address/edit/:id", isLoggedIn, editAddress);
 router.get("/address/default/:id", isLoggedIn, setAsDefault);
 router.get("/address/delete/:id", isLoggedIn, deleteAddress);
 router.get("/account-settings", isLoggedIn, loadAccountSettings);
+router.post("/change-email/send-otp", isLoggedIn,sendChangeEmailOtp);
+router.post("/profile/update",isLoggedIn,updateProfile);
+router.post("/account-settings/change-password",isLoggedIn,changePassword);
 
 router.get("/logout", isLoggedIn, logout);
 

@@ -2,6 +2,7 @@ import User from "../models/User.js";
 import Address from "../models/address.js";
 import {
   addAddressService,
+  changePasswordService,
   deleteAddressService,
   editAddressService,
   forgotPasswordUser,
@@ -9,8 +10,11 @@ import {
   loginUser,
   resendUserOtp,
   resetUserPassword,
+  sendEmailChangeOtp,
   setDefaultAddressService,
   signupUser,
+  updateProfileService,
+  verifyEmailChangeOtp,
   verifyUserOtp,
 } from "../services/userService.js";
 
@@ -40,7 +44,8 @@ export const signup = async (req, res) => {
 
 export const loadOtp = (req, res) => {
   res.render("user/otp", {
-    email: req.session.email,
+    email:
+      req.session.email || req.session.resetEmail || req.session.pendingEmail,
     error: null,
   });
 };
@@ -49,14 +54,9 @@ export const verifyOtp = async (req, res) => {
   try {
     const enteredOtp = req.body.otp.join("");
 
-    const userId =
-      req.session.otpPurpose === "signup"
-        ? req.session.userId
-        : req.session.resetUserId;
-
-    await verifyUserOtp(userId, enteredOtp);
-
     if (req.session.otpPurpose === "signup") {
+      await verifyUserOtp(req.session.userId, enteredOtp);
+
       req.session.toast = "AUTHENTICATION COMPLETE";
 
       delete req.session.email;
@@ -67,13 +67,32 @@ export const verifyOtp = async (req, res) => {
     }
 
     if (req.session.otpPurpose === "forgot-password") {
+      await verifyUserOtp(req.session.resetUserId, enteredOtp);
+
       req.session.toast = "OTP VERIFIED";
 
       return res.redirect("/reset-password");
     }
+
+    if (req.session.otpPurpose === "change-email") {
+      await verifyEmailChangeOtp(
+        req.session.userId,
+        req.session.pendingEmail,
+        enteredOtp,
+      );
+
+      delete req.session.pendingEmail;
+      delete req.session.email;
+      delete req.session.otpPurpose;
+
+      req.session.toast = "EMAIL UPDATED";
+
+      return res.redirect("/account-settings");
+    }
   } catch (error) {
     res.render("user/otp", {
-      email: req.session.email || req.session.resetEmail,
+      email:
+        req.session.email || req.session.resetEmail || req.session.pendingEmail,
       error: error.message,
     });
   }
@@ -81,14 +100,21 @@ export const verifyOtp = async (req, res) => {
 
 export const resendOtp = async (req, res) => {
   try {
-    await resendUserOtp(req.session.userId, req.session.email);
+    if (req.session.otpPurpose === "signup") {
+      await resendUserOtp(req.session.userId, req.session.email);
+    } else if (req.session.otpPurpose === "forgot-password") {
+      await resendUserOtp(req.session.resetUserId, req.session.resetEmail);
+    } else if (req.session.otpPurpose === "change-email") {
+      await resendUserOtp(req.session.userId, req.session.pendingEmail);
+    }
 
     req.session.toast = "NEW OTP SENT";
 
-    res.redirect("/verify-otp");
+    return res.redirect("/verify-otp");
   } catch (error) {
     res.render("user/otp", {
-      email: req.session.email,
+      email:
+        req.session.email || req.session.resetEmail || req.session.pendingEmail,
       error: error.message,
     });
   }
@@ -266,12 +292,67 @@ export const deleteAddress = async (req, res) => {
   }
 };
 
-export const loadAccountSettings = async(req,res)=>{
-  const user = await User.findById(req.session.userId)
-  res.render("user/accountSettings",{
+export const loadAccountSettings = async (req, res) => {
+  const user = await User.findById(req.session.userId);
+  res.render("user/accountSettings", {
     user,
-  })
-}
+    passwordError: null,
+    oldData: {}
+  });
+};
+
+export const sendChangeEmailOtp = async (req, res) => {
+  try {
+    await sendEmailChangeOtp(req.session.userId, req.body.email);
+
+    req.session.pendingEmail = req.body.email;
+    req.session.otpPurpose = "change-email";
+    req.session.toast = "OTP SENT";
+
+    return res.redirect("/verify-otp");
+  } catch (error) {
+    console.log(error);
+    req.session.toast = error.message;
+    return res.redirect("/account-settings");
+  }
+};
+
+export const updateProfile = async (req, res) => {
+  try {
+    await updateProfileService(req.session.userId, req.body.username);
+
+    req.session.toast = "PROFILE UPDATED";
+
+    return res.redirect("/account-settings");
+  } catch (error) {
+    req.session.toast = error.message;
+    return res.redirect("/accont-settings");
+  }
+};
+
+export const changePassword = async (req, res) => {
+  try {
+    await changePasswordService(
+      req.session.userId,
+      req.body.currentPassword,
+      req.body.password,
+      req.body.confirmPassword,
+    );
+
+    req.session.toast = "PASSWORD UPDATED";
+
+    return res.redirect("/account-settings");
+  } catch (error) {
+    console.log(error);
+    const user = await User.findById(req.session.userId);
+
+    return res.render("user/accountSettings", {
+      user,
+      passwordError: error.message,
+      oldData: req.body,
+    });
+  }
+};
 
 export const logout = (req, res) => {
   req.session.destroy((err) => {

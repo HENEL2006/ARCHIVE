@@ -244,3 +244,122 @@ export const deleteAddressService = async (id, userId) => {
     }
   }
 };
+
+export const sendEmailChangeOtp = async (userId, newEmail) => {
+  if (!newEmail) {
+    throw new Error("EMAIL REQUIRED");
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  if (!emailRegex.test(newEmail)) {
+    throw new Error("INVAILD EMAIL ADDRESS");
+  }
+
+  const existingUser = await User.findOne({ email: newEmail });
+
+  if (existingUser) {
+    throw new Error("EMAIL ALREADY EXISTS");
+  }
+
+  await Otp.deleteMany({
+    userId,
+  });
+
+  const generateOtp = Math.floor(100000 + Math.random() * 900000);
+  console.log(generateOtp);
+
+  await Otp.create({
+    userId,
+    otp: generateOtp.toString(),
+  });
+
+  await sendOtpEmail(newEmail, generateOtp);
+
+  return true;
+};
+
+export const verifyEmailChangeOtp = async (userId, newEmail, enteredOtp) => {
+  const otpDoc = await Otp.findOne({ userId });
+
+  if (!otpDoc) {
+    throw new Error("OTP NOT FOUND");
+  }
+
+  const otpAge = Date.now() - otpDoc.createdAt.getTime();
+
+  if (otpAge > 5 * 60 * 1000) {
+    await Otp.deleteOne({ userId });
+    throw new Error("OTP EXPIRED");
+  }
+
+  if (otpDoc.otp.toString() !== enteredOtp.toString()) {
+    throw new Error("INVALID OTP");
+  }
+
+  await User.findByIdAndUpdate(userId, {
+    email: newEmail,
+  });
+
+  await Otp.deleteOne({ userId });
+
+  return true;
+};
+
+export const updateProfileService = async (userId, username) => {
+  if (!username || username.trim().length < 3) {
+    throw new Error("USERNAME MUST BE AT LEAST 3 CHARACTERS");
+  }
+
+  await User.findByIdAndUpdate(
+    userId,
+    { username: username.trim() },
+    { new: true },
+  );
+
+  return true;
+};
+
+export const changePasswordService = async (
+  userId,
+  currentPassword,
+  newPassword,
+  confirmPassword,
+) => {
+  if (!currentPassword || !newPassword || !confirmPassword) {
+    throw new Error("ALL FIELDS REQUIRED");
+  }
+
+  const user = await User.findById(userId);
+
+  if (!user) {
+    throw new Error("USER NOT FOUND");
+  }
+
+  const isCurrentPasswordCorrect = await bcrypt.compare(
+    currentPassword,
+    user.password,
+  );
+
+  if(!isCurrentPasswordCorrect){
+    throw new Error("CURRENT PASSWORD IS INCORRECT");
+  }
+
+  if(!isPasswordValid(newPassword)){
+    throw new Error("INVALID PASSWORD FORMAT");
+  }
+
+  if(newPassword !== confirmPassword){
+    throw new Error("PASSWORDS DO NOT MATCH");
+  }
+
+  const hashedPassword = await bcrypt.hash(newPassword,10);
+
+  await User.findByIdAndUpdate(userId,{
+    password: hashedPassword,
+  });
+
+  return true;
+
+
+};
