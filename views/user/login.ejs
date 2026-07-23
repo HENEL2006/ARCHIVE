@@ -1,94 +1,100 @@
 <!DOCTYPE html>
 <html class="light" lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>SIGN IN | ARCHIVE</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&amp;family=Space+Mono:wght@400;700&amp;display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-      rel="stylesheet"
-    />
-    <script id="tailwind-config">
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              mono: ['"Space Mono"', "ui-monospace", "monospace"],
-              display: ['"Syne"', "system-ui", "sans-serif"],
-            },
-            colors: {
-              cream: "#fcfbf8",
-            },
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>SIGN IN | ARCHIVE</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&amp;family=Space+Mono:wght@400;700&amp;display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet" />
+  <script id="tailwind-config">
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            mono: ['"Space Mono"', "ui-monospace", "monospace"],
+            display: ['"Syne"', "system-ui", "sans-serif"],
+          },
+          colors: {
+            cream: "#fcfbf8",
           },
         },
-      };
-    </script>
-    <style>
-      .custom-checkbox:checked + .checkbox-ui {
-        background: black;
-      }
+      },
+    };
+  </script>
+  <style>
+    .custom-checkbox:checked+.checkbox-ui {
+      background: black;
+    }
 
-      .custom-checkbox:checked + .checkbox-ui svg {
-        display: block;
-      }
-      .material-symbols-outlined {
-        font-variation-settings:
-          "FILL" 0,
-          "wght" 400,
-          "GRAD" 0,
-          "opsz" 24;
-      }
-      .grid-line-v {
-        border-right: 1px solid #000000;
-      }
-      .grid-line-h {
-        border-bottom: 1px solid #000000;
-      }
-      input:focus {
-        outline: none !important;
-        box-shadow: none !important;
-        border-bottom: 2px solid #000000 !important;
-      }
-      .no-scrollbar::-webkit-scrollbar {
-        display: none;
-      }
-    </style>
-  </head>
-  <body class="h-screen overflow-hidden bg-cream font-mono text-black">
-    <div
-      id="toast"
-      class="fixed top-8 left-1/2 -translate-x-1/2 -translate-y-20 opacity-0 z-50 transition-all duration-500 ease-out backdrop-blur-md bg-white/80 border border-black/10 shadow-lg px-5 py-3 rounded-full flex items-center gap-3"
-    >
-      <div
-        class="w-6 h-6 rounded-full border border-black flex items-center justify-center text-[10px]"
-      >
-        ✓
-      </div>
+    .custom-checkbox:checked+.checkbox-ui svg {
+      display: block;
+    }
 
-      <p
-        id="toast-message"
-        class="text-[10px] uppercase tracking-[0.25em] whitespace-nowrap text-black font-bold"
-      ></p>
+    .material-symbols-outlined {
+      font-variation-settings:
+        "FILL" 0,
+        "wght" 400,
+        "GRAD" 0,
+        "opsz" 24;
+    }
+
+    .grid-line-v {
+      border-right: 1px solid #000000;
+    }
+
+    .grid-line-h {
+      border-bottom: 1px solid #000000;
+    }
+
+    input:focus {
+      outline: none !important;
+      box-shadow: none !important;
+      border-bottom: 2px solid #000000 !important;
+    }
+
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #fcfbf8;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #000;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #333;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen bg-cream font-mono text-black">
+  <div id="toast"
+    class="fixed top-8 left-1/2 -translate-x-1/2 -translate-y-20 opacity-0 z-50 transition-all duration-500 ease-out backdrop-blur-md bg-white/80 border border-black/10 shadow-lg px-5 py-3 rounded-full flex items-center gap-3">
+    <div id="toast-icon" class="w-6 h-6 rounded-full border border-black flex items-center justify-center text-[10px]">
+      ✓
     </div>
-    <%- include('./partials/header') %>
 
-    <main class="h-[calc(100vh-57px)] flex">
+    <p id="toast-message" class="text-[10px] uppercase tracking-[0.25em] whitespace-nowrap text-black font-bold"></p>
+  </div>
+  <%- include('./partials/header') %>
+
+    <main class=" flex min-h-[calc(100vh)]">
       <!-- Left Side: Editorial Image -->
-      <section class="group relative w-1/2 h-full border-r border-black/80 overflow-hidden">
-        <img
-          src="/images/login-img.jpg"
-          alt="Archive editorial"
-          class="absolute inset-0 h-full w-full object-cover grayscale contrast-125 brightness-95 transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-        />
+      <section class="relative w-1/2 min-h-[calc(100vh-88px)] overflow-hidden border-r border-black">
+        <img src="/images/login-img.jpg" alt="Archive editorial"
+          class="absolute inset-0 h-full w-full object-cover grayscale contrast-125 brightness-95 transition-transform duration-700 ease-out group-hover:scale-[1.03]" />
         <!-- Atmospheric Faded Typography -->
         <!-- <div
           class="absolute inset-0 h-full w-full object-cover grayscale contrast-125 brightness-95 transition-transform duration-700 ease-out"
@@ -106,19 +112,15 @@
         </div> -->
       </section>
       <!-- Right Side: Sign In Form -->
-      <section
-    id="login-form-section"
-    class="w-1/2 flex flex-col justify-center px-20 py-10 h-full overflow-y-auto"
->
+      <section id="login-form-section" class="w-1/2 flex items-center justify-center px-20 py-12 overflow-y-auto">
         <div class="max-w-md w-full mx-auto space-y-12">
           <!-- Headline -->
           <div class="space-y-4">
-            <h1 class="font-display text-6xl tracking-wide uppercase">
-              WELCOME BACK
+            <h1 class="font-display text-6xl leading-none tracking-[-0.05em] uppercase">
+              WELCOME<br>
+              BACK
             </h1>
-            <p
-              class="font-mono text-[13px] tracking-[0.12em] text-black/70 leading-8"
-            >
+            <p class="font-mono text-[13px] tracking-[0.12em] text-black/70 leading-8">
               Access your archive, track orders, save favorites, and discover
               curated football history.
             </p>
@@ -127,37 +129,22 @@
           <form class="space-y-8" action="/login" method="post">
             <div class="space-y-6">
               <div class="group relative">
-                <label
-                  class="block text-[10px] uppercase tracking-[0.25em] text-black/60 mb-3"
-                  >Email Address</label
-                >
+                <label class="block text-[10px] uppercase tracking-[0.25em] text-black/60 mb-3">Email Address</label>
                 <input
                   class="w-full border-0 border-b border-black/30 bg-transparent py-4 px-0 text-[13px] tracking-[0.12em] placeholder:text-black/35 focus:outline-none focus:border-black transition-all duration-300"
-                  placeholder="USER@ARCHIVE-SPEC.COM"
-                  type="email"
-                  name="email"
-                />
+                  placeholder="USER@ARCHIVE-SPEC.COM" type="email" name="email" />
               </div>
               <div class="group relative">
                 <div class="flex items-center justify-between mb-3">
-                  <label
-                    class="block text-[10px] uppercase tracking-[0.25em] text-black/60 mb-3"
-                    >Password</label
-                  >
-                  <a
-                    href="/forgot-password"
-                    class="text-[10px] uppercase tracking-[0.2em] text-black/50 transition-opacity duration-300 hover:opacity-100"
-                  >
+                  <label class="block text-[10px] uppercase tracking-[0.25em] text-black/60 mb-3">Password</label>
+                  <a href="/forgot-password"
+                    class="text-[10px] uppercase tracking-[0.2em] text-black/50 transition-opacity duration-300 hover:opacity-100">
                     Forgot Password?
                   </a>
                 </div>
                 <input
                   class="w-full border-0 border-b border-black/30 bg-transparent py-4 px-0 text-[13px] tracking-[0.12em] placeholder:text-black/35 focus:outline-none focus:border-black transition-all duration-300"
-                  placeholder="••••••••••••"
-                  type="password"
-                  name="password"
-                /><button
-                  type="button"
+                  placeholder="••••••••••••" type="password" name="password" /><button type="button"
                   class="absolute right-0 bottom-4 text-primary opacity-60 hover:opacity-100 transition-opacity"
                   onclick="
                     const input = this.previousElementSibling;
@@ -168,71 +155,91 @@
                       input.type = 'password';
                       this.children[0].textContent = 'visibility_off';
                     }
-                  "
-                >
+                  ">
                   <span class="material-symbols-outlined">visibility_off</span>
                 </button>
               </div>
             </div>
             <div class="flex items-center gap-3 whitespace-nowrap">
               <label class="flex items-center gap-3 cursor-pointer select-none">
-                <input
-                  id="remember"
-                  name="remember"
-                  type="checkbox"
-                  class="custom-checkbox hidden"
-                />
+                <input id="remember" name="remember" type="checkbox" class="custom-checkbox hidden" />
 
-                <div
-                  class="checkbox-ui w-4 h-4 border border-black flex items-center justify-center"
-                >
-                  <svg
-                    class="hidden w-2.5 h-2.5 text-white"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      clip-rule="evenodd"
-                      d="M16.704 5.29a1 1 0 010 1.42l-8 8a1 1 0 01-1.42 0l-4-4a1 1 0 111.42-1.42L8 12.59l7.29-7.3a1 1 0 011.414 0z"
-                    />
+                <div class="checkbox-ui w-4 h-4 border border-black flex items-center justify-center">
+                  <svg class="hidden w-2.5 h-2.5 text-white" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M16.704 5.29a1 1 0 010 1.42l-8 8a1 1 0 01-1.42 0l-4-4a1 1 0 111.42-1.42L8 12.59l7.29-7.3a1 1 0 011.414 0z" />
                   </svg>
                 </div>
 
-                <span
-                  class="text-[10px] uppercase tracking-[0.2em] text-black/70"
-                >
+                <span class="text-[10px] uppercase tracking-[0.2em] text-black/70">
                   Remember Me
                 </span>
               </label>
             </div>
-            <div class="space-y-4 pt-4">
-              <% if(typeof error !== "undefined" && error){ %>
-                <p
-                    id="login-error"
-                    class="text-center text-[10px] tracking-[0.2em] uppercase text-red-500"
-                    >
-                    <%= error %>
+            <div class="space-y-5 pt-4">
+
+              <% if(typeof error !=="undefined" && error){ %>
+                <p id="login-error" class="text-center text-[10px] tracking-[0.2em] uppercase text-red-500">
+                  <%= error %>
                 </p>
-              <% } %>
-              <button
-                class="w-full border border-black bg-black py-5 text-[11px] tracking-[0.35em] text-white uppercase transition-all duration-300 hover:bg-transparent hover:text-black"
-                type="submit"
-              >
-                SIGN IN
-              </button>
+                <% } %>
+
+                  <!-- Primary Sign In -->
+                  <button
+                    class="w-full border border-black bg-black py-5 text-[11px] tracking-[0.35em] text-white uppercase transition-all duration-300 hover:bg-transparent hover:text-black"
+                    type="submit">
+
+                    SIGN IN
+
+                  </button>
+
+                  <!-- Divider -->
+
+                  <div class="flex items-center gap-4">
+
+                    <div class="flex-1 h-px bg-black/15"></div>
+
+                    <span class="text-[9px] uppercase tracking-[0.35em] text-black/40">
+                      OR
+                    </span>
+
+                    <div class="flex-1 h-px bg-black/15"></div>
+
+                  </div>
+
+                  <!-- Google -->
+
+                  <a href="/auth/google"
+                    class="w-full flex items-center justify-center gap-3 border border-black/20 py-4 text-[11px] uppercase tracking-[0.28em] transition-all duration-300 hover:border-black hover:bg-black hover:text-white">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="w-4 h-4">
+
+                      <path fill="#FFC107"
+                        d="M43.611 20.083H42V20H24v8h11.303C33.654 32.657 29.233 36 24 36c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.27 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917z" />
+
+                      <path fill="#FF3D00"
+                        d="M6.306 14.691l6.571 4.819C14.655 16.108 19.001 13 24 13c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.27 4 24 4c-7.732 0-14.41 4.388-17.694 10.691z" />
+
+                      <path fill="#4CAF50"
+                        d="M24 44c5.169 0 9.86-1.977 13.409-5.192l-6.191-5.238C29.141 35.091 26.715 36 24 36c-5.211 0-9.617-3.329-11.283-7.946l-6.522 5.025C9.438 39.556 16.178 44 24 44z" />
+
+                      <path fill="#1976D2"
+                        d="M43.611 20.083H42V20H24v8h11.303c-.792 2.237-2.282 4.146-4.284 5.57l6.191 5.238C36.771 39.209 44 34 44 24c0-1.341-.138-2.65-.389-3.917z" />
+
+                    </svg>
+
+                    <span>CONTINUE WITH GOOGLE</span>
+
+                  </a>
+
             </div>
           </form>
           <!-- Footer Link -->
           <div class="text-center md:text-left">
-            <p
-              class="text-center text-[10px] tracking-[0.2em] text-black/60 uppercase"
-            >
+            <p class="text-center text-[10px] tracking-[0.2em] text-black/60 uppercase">
               Don't have an account?
-              <a
-                class="text-black font-bold underline decoration-2 underline-offset-4 transition-opacity duration-300 hover:opacity-60"
-                href="/signup"
-              >
+              <a class="text-black font-bold underline decoration-2 underline-offset-4 transition-opacity duration-300 hover:opacity-60"
+                href="/signup">
                 JOIN THE ARCHIVE
               </a>
               >
@@ -292,31 +299,55 @@
           block: "center",
         });
       }
-      function showToast(message) {
-    const toast = document.getElementById("toast");
-    const toastMessage = document.getElementById("toast-message");
+      function showToast(message, type = "success") {
 
-    toastMessage.textContent = message;
+        const toast = document.getElementById("toast");
+        const toastMessage = document.getElementById("toast-message");
+        const toastIcon = document.getElementById("toast-icon");
 
-    toast.classList.remove("-translate-y-20", "opacity-0");
-    toast.classList.add("translate-y-0", "opacity-100");
+        toastMessage.textContent = message;
 
-    setTimeout(() => {
-        toast.classList.remove("translate-y-0", "opacity-100");
-        toast.classList.add("-translate-y-20", "opacity-0");
-    }, 2500);
-}
+        if (type === "error") {
 
-     const toastMessage = "<%= toast || '' %>";
+          toastIcon.textContent = "!";
 
-if (toastMessage) {
-    const type = toastMessage.includes("INVALID") ||
-                 toastMessage.includes("EXPIRED")
-                 ? "error"
-                 : "success";
+          toastIcon.classList.remove("border-black");
 
-    showToast(toastMessage, type);
-}
+          toastIcon.classList.add("border-red-500", "text-red-500");
+
+        } else {
+
+          toastIcon.textContent = "✓";
+
+          toastIcon.classList.remove("border-red-500", "text-red-500");
+
+          toastIcon.classList.add("border-black");
+
+        }
+
+        toast.classList.remove("-translate-y-20", "opacity-0");
+        toast.classList.add("translate-y-0", "opacity-100");
+
+        setTimeout(() => {
+          toast.classList.remove("translate-y-0", "opacity-100");
+          toast.classList.add("-translate-y-20", "opacity-0");
+        }, 2500);
+      }
+
+      const toastMessage = "<%= toast || '' %>";
+
+      if (toastMessage) {
+        const type =
+          toastMessage.includes("INVALID") ||
+            toastMessage.includes("EXPIRED") ||
+            toastMessage.includes("BLOCKED") ||
+            toastMessage.includes("FAILED")
+            ? "error"
+            : "success";
+
+        showToast(toastMessage, type);
+      }
     </script>
-  </body>
+</body>
+
 </html>

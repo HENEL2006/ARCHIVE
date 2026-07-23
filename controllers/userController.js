@@ -4,10 +4,12 @@ import {
   addAddressService,
   changePasswordService,
   deleteAddressService,
+  deleteUserService,
   editAddressService,
   forgotPasswordUser,
   getUserAddresses,
   loginUser,
+  removeProfileImageService,
   resendUserOtp,
   resetUserPassword,
   sendEmailChangeOtp,
@@ -17,6 +19,32 @@ import {
   verifyEmailChangeOtp,
   verifyUserOtp,
 } from "../services/userService.js";
+import cloudinary from "../config/cloudinary.js";
+import streamifier from "streamifier";
+
+export const googleCallback = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+
+    if (!user || user.isBlocked) {
+      req.session.destroy(() => {
+        return res.redirect("/login");
+      });
+      return;
+    }
+
+    req.session.userId = user._id;
+    req.session.isAuthenticated = true;
+    req.session.toast = "welcome";
+
+    req.session.cookie.maxAge = 1000 * 60 * 60;
+
+    res.redirect("/home");
+  } catch (error) {
+    console.log(error);
+    res.redirect("/login");
+  }
+};
 
 export const loadSignup = (req, res) => {
   res.render("user/signup", {
@@ -139,6 +167,8 @@ export const login = async (req, res) => {
       req.session.cookie.maxAge = 1000 * 60 * 60;
     }
 
+    req.session.toast = "AUTHENTICATED";
+
     res.redirect("/home");
   } catch (error) {
     res.render("user/login", {
@@ -210,6 +240,74 @@ export const loadProfilePage = async (req, res) => {
     user,
     error: null,
   });
+};
+
+export const uploadProfileImage = async (req, res) => {
+  try {
+    if (!req.file) {
+      req.session.toast = "PLEASE SELECT AN IMAGE";
+      return res.redirect("/profile");
+    }
+
+    const user = await User.findById(req.session.userId);
+
+    if (user.profileImagePublicId) {
+      await cloudinary.uploader.destroy(user.profileImagePublicId);
+    }
+
+    const result = await new Promise((resolve, reject) => {
+      const stream = cloudinary.uploader.upload_stream(
+        {
+          folder: "archive/profile-images",
+        },
+        (error, result) => {
+          if (error) return reject(error);
+          resolve(result);
+        },
+      );
+
+      streamifier.createReadStream(req.file.buffer).pipe(stream);
+    });
+
+    await User.findByIdAndUpdate(req.session.userId, {
+      profileImage: result.secure_url,
+      profileImagePublicId: result.public_id,
+    });
+
+    req.session.toast = "PROFILE IMAGE UPDATED";
+
+    return res.status(200).json({
+      success: true,
+    });
+  } catch (error) {
+    console.log(error);
+
+    req.session.toast = "FAILED TO UPDATE PROFILE IMAGE";
+
+    return res.status(500).json({
+      success: false,
+    });
+  }
+};
+
+export const removeProfileImage = async (req, res) => {
+  try {
+    await removeProfileImageService(req.session.userId);
+
+    req.session.toast = "PROFILE IMAGE REMOVED";
+
+    return res.status(200).json({
+      success: true,
+    });
+  } catch (error) {
+    console.log(error);
+
+    req.session.toast = error.message;
+
+    return res.status(500).json({
+      success: false,
+    });
+  }
 };
 
 export const loadAddressPage = async (req, res) => {
@@ -297,7 +395,7 @@ export const loadAccountSettings = async (req, res) => {
   res.render("user/accountSettings", {
     user,
     passwordError: null,
-    oldData: {}
+    oldData: {},
   });
 };
 
@@ -326,7 +424,7 @@ export const updateProfile = async (req, res) => {
     return res.redirect("/account-settings");
   } catch (error) {
     req.session.toast = error.message;
-    return res.redirect("/accont-settings");
+    return res.redirect("/account-settings");
   }
 };
 
@@ -354,13 +452,24 @@ export const changePassword = async (req, res) => {
   }
 };
 
-export const logout = (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      return res.redirect("/home");
-    }
+export const deleteUser = async (req, res) => {
+  try {
+    const user = await deleteUserService(req.params.id);
 
-    res.clearCookie("connet.sid");
-    res.redirect("/login");
-  });
+    req.session.toast = user.isDeleted ? "USER DELETED" : "USER RESTORED";
+
+    res.redirect("/admin/customers");
+  } catch (error) {
+    console.log(error);
+    req.session.toast = error.message;
+    res.redirect("/admin/customers");
+  }
+};
+
+export const logout = (req, res) => {
+  delete req.session.userId;
+  delete req.session.isAuthenticated;
+  req.session.toast = "LOGGED OUT";
+
+  res.redirect("/login");
 };

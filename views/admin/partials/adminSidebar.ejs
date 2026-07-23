@@ -1,0 +1,213 @@
+<!-- <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap"
+    rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet">
+<script id="tailwind-config">
+    tailwind.config = {
+        darkMode: "class",
+        theme: {
+            extend: {
+                "colors": {
+                    "on-background": "#191c1e",
+                    "surface-tint": "#565e74",
+                    "inverse-on-surface": "#eff1f3",
+                    "on-tertiary-fixed-variant": "#004c69",
+                    "primary-container": "#131b2e",
+                    "tertiary-fixed-dim": "#7bd0ff",
+                    "primary": "#000000",
+                    "tertiary": "#000000",
+                    "on-tertiary-container": "#008ebf",
+                    "on-primary": "#ffffff",
+                    "surface-bright": "#f7f9fb",
+                    "on-surface-variant": "#45464d",
+                    "secondary-container": "#d0e1fb",
+                    "on-primary-fixed": "#131b2e",
+                    "surface-container-high": "#e6e8ea",
+                    "tertiary-container": "#001e2c",
+                    "surface-container-low": "#f2f4f6",
+                    "outline-variant": "#c6c6cd",
+                    "surface-container": "#eceef0",
+                    "on-error": "#ffffff",
+                    "secondary-fixed-dim": "#b7c8e1",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed": "#c4e7ff",
+                    "surface": "#f7f9fb",
+                    "surface-dim": "#d8dadc",
+                    "surface-variant": "#e0e3e5",
+                    "on-secondary-fixed-variant": "#38485d",
+                    "secondary-fixed": "#d3e4fe",
+                    "error": "#ba1a1a",
+                    "secondary": "#505f76",
+                    "inverse-primary": "#bec6e0",
+                    "primary-fixed": "#dae2fd",
+                    "on-error-container": "#93000a",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-fixed": "#001e2c",
+                    "background": "#f7f9fb",
+                    "on-primary-container": "#7c839b",
+                    "surface-container-highest": "#e0e3e5",
+                    "outline": "#76777d",
+                    "on-secondary-fixed": "#0b1c30",
+                    "on-surface": "#191c1e",
+                    "on-primary-fixed-variant": "#3f465c",
+                    "inverse-surface": "#2d3133",
+                    "on-secondary-container": "#54647a",
+                    "primary-fixed-dim": "#bec6e0"
+                },
+                "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "8px",
+                    "xl": "8px",
+                    "full": "9999px"
+                },
+                "spacing": {
+                    "gutter": "24px",
+                    "xl": "32px",
+                    "2xl": "48px",
+                    "sm": "8px",
+                    "lg": "24px",
+                    "xs": "4px",
+                    "md": "16px",
+                    "base": "4px",
+                    "margin": "32px"
+                },
+                "fontFamily": {
+                    "label-md": ["JetBrains Mono"],
+                    "headline-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "display": ["Inter"]
+                },
+                "fontSize": {
+                    "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                    "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                    "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                    "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                    "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                    "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                    "display": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "600" }]
+                }
+            },
+        },
+    }
+</script> -->
+<style>
+    body {
+        background-color: #F7F9FB;
+        color: #191C1E;
+    }
+
+    .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+
+    .chart-container {
+        position: relative;
+        height: 320px;
+        width: 100%;
+    }
+
+    .sharp-border {
+        border: 1px solid #e0e3e5;
+    }
+</style>
+<!-- SideNavBar (Shared Component) -->
+<aside
+    class="fixed h-screen w-64 left-0 top-0 bg-surface-container-lowest border-r border-outline-variant flex flex-col py-xl px-md z-50 overflow-x-hidden">
+    <div class="mb-2xl px-sm">
+        <h1 class="font-display text-display text-on-surface tracking-tighter">ARCHIVE</h1>
+        <p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest mt-xs">Heritage Kit Co.
+        </p>
+    </div>
+    <nav class="flex-1 space-y-sm overflow-y-auto overflow-x-hidden">
+        <a href="/admin/dashboard" class="flex items-center gap-md px-md py-sm transition-all
+        <%= activePage === 'dashboard' ? 'bg-surface-container text-on-surface font-semibold border-l-2 border-primary'
+        : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-lg' %>">
+
+            <span class="material-symbols-outlined">
+                dashboard
+            </span>
+
+            <span class="text-[14px] font-medium">
+                Dashboard
+            </span>
+
+        </a>
+        <a class="flex items-center gap-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low px-md py-sm rounded-lg transition-all duration-200"
+            href="#">
+            <span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+            <span class="text-[14px] font-medium">Products</span>
+        </a>
+        <a class="flex items-center gap-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low px-md py-sm rounded-lg transition-all duration-200"
+            href="#">
+            <span class="material-symbols-outlined" data-icon="category">category</span>
+            <span class="text-[14px] font-medium">Categories</span>
+        </a>
+        <a class="flex items-center gap-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low px-md py-sm rounded-lg transition-all duration-200"
+            href="#">
+            <span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+            <span class="text-[14px] font-medium">Orders</span>
+        </a>
+        <a class="flex items-center gap-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low px-md py-sm rounded-lg transition-all duration-200"
+            href="#">
+            <span class="material-symbols-outlined" data-icon="assignment_return">assignment_return</span>
+            <span class="text-[14px] font-medium">Returns</span>
+        </a>
+        <a href="/admin/customers" class="flex items-center gap-md px-md py-sm transition-all
+        <%= activePage === 'customers' ? 'bg-surface-container text-on-surface font-semibold border-l-2 border-primary'
+        : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-lg'
+%>">
+
+            <span class="material-symbols-outlined">
+                group
+            </span>
+
+            <span class="text-[14px] font-medium">
+                Customers
+            </span>
+
+        </a>
+        <a class="flex items-center gap-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low px-md py-sm rounded-lg transition-all duration-200"
+            href="#">
+            <span class="material-symbols-outlined" data-icon="local_offer">local_offer</span>
+            <span class="text-[14px] font-medium">Coupons</span>
+        </a>
+
+
+        <a class="flex items-center gap-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low px-md py-sm rounded-lg transition-all duration-200"
+            href="#">
+            <span class="material-symbols-outlined" data-icon="settings">settings</span>
+            <span class="text-[14px] font-medium">Settings</span>
+        </a>
+    </nav>
+    <div class="mt-auto pt-lg border-t border-outline-variant space-y-sm">
+        <button
+            class="w-full text-left flex items-center gap-md text-on-surface-variant hover:text-on-surface px-md py-sm transition-all">
+            <span class="material-symbols-outlined" data-icon="help">help</span>
+            <span class="text-[14px] font-medium">Support</span>
+        </button>
+        <a href="/admin/logout"
+            class="w-full text-left flex items-center gap-md text-error hover:bg-error-container/20 px-md py-sm rounded-lg transition-all">
+            <span class="material-symbols-outlined" data-icon="logout">logout</span>
+            <span class="text-[14px] font-medium">Log Out</span>
+        </a>
+    </div>
+</aside>
+<script>
+    document.querySelectorAll('aside nav a').forEach(link => {
+        link.addEventListener('mouseenter', () => {
+            if (!link.classList.contains('bg-surface-container')) {
+                link.style.transform = 'translateX(4px)';
+            }
+        });
+        link.addEventListener('mouseleave', () => {
+            link.style.transform = 'translateX(0)';
+        });
+    });
+</script>

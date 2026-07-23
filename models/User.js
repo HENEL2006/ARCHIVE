@@ -32,12 +32,18 @@ const userSchema = new mongoose.Schema(
 
     profileImage: {
       type: String,
+      default: "",
+    },
+
+    profileImagePublicId: {
+      type: String,
+      default: "",
     },
 
     referralCode: {
       type: String,
       unique: true,
-      sparse: true
+      sparse: true,
     },
 
     referredBy: {
@@ -51,6 +57,14 @@ const userSchema = new mongoose.Schema(
     },
 
     isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    customerId: {
+      type: String,
+      unique: true,
+    },
+    isDeleted:{
       type: Boolean,
       default: false,
     },

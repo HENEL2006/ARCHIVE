@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>ARCHIVE | Customer Management</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@500&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline": "#76777d",
+                        "on-primary-container": "#7c839b",
+                        "surface-variant": "#e0e3e5",
+                        "tertiary-fixed": "#c4e7ff",
+                        "surface-tint": "#565e74",
+                        "secondary": "#505f76",
+                        "primary-fixed": "#dae2fd",
+                        "surface-container-highest": "#e0e3e5",
+                        "surface-container": "#eceef0",
+                        "surface-container-low": "#f2f4f6",
+                        "on-secondary-container": "#54647a",
+                        "surface-container-high": "#e6e8ea",
+                        "secondary-fixed": "#d3e4fe",
+                        "on-tertiary-fixed": "#001e2c",
+                        "tertiary-fixed-dim": "#7bd0ff",
+                        "primary-container": "#131b2e",
+                        "background": "#f7f9fb",
+                        "on-surface": "#191c1e",
+                        "on-surface-variant": "#45464d",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-error-container": "#93000a",
+                        "primary-fixed-dim": "#bec6e0",
+                        "on-tertiary-container": "#008ebf",
+                        "surface-bright": "#f7f9fb",
+                        "outline-variant": "#c6c6cd",
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#000000",
+                        "inverse-primary": "#bec6e0",
+                        "on-background": "#191c1e",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "inverse-surface": "#2d3133",
+                        "tertiary-container": "#001e2c",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed-variant": "#004c69",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#d8dadc",
+                        "on-primary-fixed": "#131b2e",
+                        "on-primary": "#ffffff",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-secondary": "#ffffff",
+                        "on-secondary-fixed": "#0b1c30",
+                        "inverse-on-surface": "#eff1f3"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "4px",
+                        "md": "16px",
+                        "2xl": "48px",
+                        "xl": "32px",
+                        "lg": "24px",
+                        "gutter": "24px",
+                        "xs": "4px",
+                        "margin": "32px",
+                        "sm": "8px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["JetBrains Mono"],
+                        "display": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "display": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        body {
+            background-color: #F8FAFC;
+        }
+
+        .sidebar-active-indicator {
+            position: absolute;
+            left: 0;
+            width: 2px;
+            height: 100%;
+            background-color: #000000;
+        }
+    </style>
+</head>
+
+<body class="font-body-md text-on-surface ">
+
+    <%- include("partials/toast") %>
+
+        <!-- Fixed SideNavBar -->
+        <%- include("partials/adminSidebar") %>
+            <!-- TopAppBar -->
+            <%- include("partials/adminNavbar") %>
+                <!-- Main Content Area -->
+                <main class="ml-64 mt-16 p-lg flex gap-lg">
+                    <!-- Left Column: Primary Interface -->
+                    <div class="flex-1 flex flex-col">
+                        <!-- Header & Actions -->
+                        <div class="flex justify-between items-end mb-xl">
+                            <div>
+                                <h2 class="font-headline-lg text-headline-lg text-primary mb-1">Customers</h2>
+                                <p class="text-on-surface-variant font-body-md text-body-md">Manage customer accounts,
+                                    orders, activity, and purchase history.</p>
+                            </div>
+                            <div class="flex gap-md">
+
+
+                            </div>
+                        </div>
+                        <!-- Stats Grid -->
+                        <div class="grid gap-gutter mb-xl w-full grid-cols-4">
+                            <div class="bg-white border border-outline-variant p-lg rounded-xl">
+                                <p
+                                    class="text-on-surface-variant font-body-sm text-body-sm uppercase tracking-wider mb-2">
+                                    Total Customers</p>
+                                <div class="flex items-baseline gap-2 bg-surface-container-lowest">
+                                    <span class="font-display text-display leading-none">
+                                        <%= totalCustomers.toLocaleString("en-IN") %>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="bg-white border border-outline-variant p-lg rounded-xl">
+                                <p
+                                    class="text-on-surface-variant font-body-sm text-body-sm uppercase tracking-wider mb-2">
+                                    Active Customers</p>
+                                <div class="flex items-baseline gap-2 bg-surface-container-lowest">
+                                    <span class="font-display text-display leading-none">
+                                        <%= activeCustomers.toLocaleString("en-IN") %>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="bg-white border border-outline-variant p-lg rounded-xl">
+                                <p
+                                    class="text-on-surface-variant font-body-sm text-body-sm uppercase tracking-wider mb-2">
+                                    New Customers</p>
+                                <div class="flex items-baseline gap-2 bg-surface-container-lowest">
+                                    <span class="font-display text-display leading-none">
+                                        <%= newCustomers.toLocaleString("en-IN") %>
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <!-- Table Filters -->
+                        <div class="bg-white border border-outline-variant rounded-xl overflow-visible flex flex-col">
+                            <div
+                                class="p-lg border-b border-outline-variant flex flex-wrap gap-md items-center justify-between bg-surface-container-lowest w-full">
+
+                                <form action="/admin/customers" method="GET" class="flex-1">
+
+                                    <div
+                                        class="flex items-center border border-outline-variant rounded-lg bg-white relative">
+
+                                        <!-- Search Icon -->
+                                        <span class="material-symbols-outlined px-3 text-outline">
+                                            search
+                                        </span>
+
+                                        <!-- Search Input -->
+                                        <div class="relative flex-1">
+
+                                            <input id="searchInput" type="text" name="search" value="<%= search %>"
+                                                placeholder="Search by name or email..."
+                                                class="w-full py-2 pr-10 bg-transparent text-sm border-none outline-none focus:outline-none focus:ring-0 focus:border-transparent">
+
+                                            <button id="clearSearchBtn" type="button"
+                                                class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-outline hover:text-black transition">
+
+                                                <span class="material-symbols-outlined text-[18px]">
+                                                    close
+                                                </span>
+
+                                            </button>
+
+                                        </div>
+                                        <!-- Divider -->
+                                        <div class="w-px h-6 bg-outline-variant"></div>
+
+                                        <div class="relative">
+                                            <input type="date" name="fromDate" value="<%= fromDate %>"
+                                                class="px-3 py-2 text-sm border-l border-outline-variant bg-white focus:outline-none">
+
+                                            <input type="date" name="toDate" value="<%= toDate %>"
+                                                class="px-3 py-2 text-sm border-l border-outline-variant bg-white focus:outline-none">
+
+                                            <!-- <button type="submit">Apply</button> -->
+                                        </div>
+
+                                        <!-- Divider -->
+                                        <div class="w-px h-6 bg-outline-variant"></div>
+
+                                        <!-- Status -->
+                                        <div class="relative">
+
+                                            <button type="button" id="statusButton" onclick="toggleStatusMenu(event)"
+                                                class="flex items-center gap-2 px-4 py-2 bg-white hover:bg-surface-container-low transition">
+
+                                                <span class="text-sm font-medium">
+                                                    <%= status ? status.charAt(0).toUpperCase() + status.slice(1)
+                                                        : "All Status" %>
+                                                </span>
+
+                                                <span class="material-symbols-outlined text-[18px]">
+                                                    keyboard_arrow_down
+                                                </span>
+
+                                            </button>
+
+                                            <div id="statusMenu"
+                                                class="hidden absolute right-0 mt-2 w-56 bg-white border border-outline-variant rounded-lg shadow-lg z-50">
+
+                                                <a href="/admin/customers?search=<%= search %>&sort=<%= sort %>&fromDate=<%= fromDate %>&toDate=<%= toDate %>"
+                                                    class="block px-4 py-3 hover:bg-surface-container-low">
+                                                    All Status
+                                                </a>
+
+                                                <a href="/admin/customers?search=<%= search %>&status=active&sort=<%= sort %>&fromDate=<%= fromDate %>&toDate=<%= toDate %>"
+                                                    class="block px-4 py-3 hover:bg-surface-container-low">
+                                                    Active
+                                                </a>
+
+                                                <a href="/admin/customers?search=<%= search %>&status=blocked&sort=<%= sort %>&fromDate=<%= fromDate %>&toDate=<%= toDate %>"
+                                                    class="block px-4 py-3 hover:bg-surface-container-low">
+                                                    Blocked
+                                                </a>
+
+                                                <a href="/admin/customers?search=<%= search %>&status=not verified&sort=<%= sort %>&fromDate=<%= fromDate %>&toDate=<%= toDate %>"
+                                                    class="block px-4 py-3 hover:bg-surface-container-low">
+                                                    Not Verified
+                                                </a>
+
+                                                <a href="/admin/customers?search=<%= search %>&status=deleted&sort=<%= sort %>&fromDate=<%= fromDate %>&toDate=<%= toDate %>"
+                                                    class="block px-4 py-3 hover:bg-surface-container-low">
+                                                    Deleted
+                                                </a>
+
+                                            </div>
+
+                                        </div>
+
+                                        <!-- Divider -->
+                                        <div class="w-px h-6 bg-outline-variant"></div>
+
+                                        <!-- Search Button -->
+                                        <button type="submit" class="px-5 py-2 hover:bg-surface-container transition">
+
+                                            <span class="material-symbols-outlined text-[20px] mt-1">
+                                                search
+                                            </span>
+
+                                        </button>
+
+                                    </div>
+
+                                </form>
+                                <div class="relative">
+
+                                    <button id="sortButton" type="button" onclick="toggleSortMenu(event)"
+                                        class="flex items-center gap-2 px-4 py-3 border border-outline-variant rounded-lg bg-white hover:bg-surface-container-low transition">
+
+                                        <span class="material-symbols-outlined text-[18px]">
+                                            sort
+                                        </span>
+
+                                        <span class="text-sm font-medium">
+                                            Sort
+                                        </span>
+
+                                        <span class="material-symbols-outlined text-[18px]">
+                                            keyboard_arrow_down
+                                        </span>
+
+                                    </button>
+
+                                    <div id="sortMenu"
+                                        class="hidden absolute right-0 mt-2 w-56 bg-white border border-outline-variant rounded-lg shadow-lg z-50">
+
+                                        <a href="/admin/customers?search=<%= search %>&status=<%= status %>&sort=newest"
+                                            class="block px-4 py-3 hover:bg-surface-container-low">
+
+                                            Newest First
+
+                                        </a>
+
+                                        <a href="/admin/customers?search=<%= search %>&status=<%= status %>&sort=oldest"
+                                            class="block px-4 py-3 hover:bg-surface-container-low">
+
+                                            Oldest First
+
+                                        </a>
+
+                                        <a href="/admin/customers?search=<%= search %>&status=<%= status %>&sort=az"
+                                            class="block px-4 py-3 hover:bg-surface-container-low">
+
+                                            Name (A–Z)
+
+                                        </a>
+
+                                        <a href="/admin/customers?search=<%= search %>&status=<%= status %>&sort=za"
+                                            class="block px-4 py-3 hover:bg-surface-container-low">
+
+                                            Name (Z–A)
+
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- Customers Table -->
+                            <div class="overflow-visible">
+
+                                <!-- Header -->
+                                <div class="grid grid-cols-[2.8fr_2fr_0.6fr_0.8fr_0.9fr_0.8fr_0.5fr] px-6 py-4 border-b border-outline-variant
+                                            bg-surface-container-low text-xs uppercase tracking-wider font-label-md text-on-surface-variant">
+                                    <div>Customer</div>
+
+                                    <div>Contact</div>
+
+                                    <div class="text-center">Orders</div>
+
+                                    <div>Total Spent</div>
+
+                                    <div class="ml-5">Join Date</div>
+
+                                    <div class="text-center">Status</div>
+
+                                    <div class="text-center">Actions</div>
+
+                                </div>
+
+                                <!-- Rows -->
+                                <% if (users.length===0) { %>
+
+                                    <div
+                                        class="flex flex-col items-center justify-center py-20 border-t border-outline-variant">
+
+                                        <span class="material-symbols-outlined text-5xl text-outline mb-4">
+                                            group_off
+                                        </span>
+
+                                        <h3 class="text-lg font-semibold text-on-surface">
+                                            No Customers Found
+                                        </h3>
+
+                                        <p class="text-sm text-on-surface-variant mt-2">
+                                            Try changing your search or filters.
+                                        </p>
+
+                                    </div>
+
+                                    <% } else { %>
+
+                                        <% users.forEach(user=> { %>
+
+                                            <div
+                                                class="grid grid-cols-[2.8fr_2fr_0.6fr_0.8fr_0.9fr_0.8fr_0.5fr] items-center px-6 py-5 border-b border-outline-variant hover:bg-surface-container-lowest transition">
+                                                <!-- CUSTOMER -->
+                                                <div class="flex items-center gap-3  min-w-0 ">
+
+                                                    <div
+                                                        class="w-10 h-10 rounded-full bg-primary-fixed border border-outline-variant flex items-center justify-center flex-shrink-0">
+
+                                                        <% if(user.profileImage){ %>
+
+                                                            <img src="<%= user.profileImage %>"
+                                                                alt="<%= user.username %>"
+                                                                class="w-full h-full rounded-full object-cover">
+
+                                                            <% } else { %>
+
+                                                                <span class="font-semibold">
+
+                                                                    <%= user.username.charAt(0).toUpperCase() %>
+
+                                                                </span>
+
+                                                                <% } %>
+
+                                                    </div>
+
+                                                    <div class="min-w-0">
+
+                                                        <p class="font-semibold truncate">
+
+                                                            <%= user.username %>
+
+                                                        </p>
+
+                                                        <p class="text-sm text-on-surface-variant">
+
+                                                            ID: <%= user.customerId %>
+
+                                                        </p>
+
+                                                    </div>
+
+                                                </div>
+
+                                                <!-- CONTACT -->
+
+                                                <div class="min-w-0">
+
+                                                    <p class="truncate">
+
+                                                        <%= user.email %>
+
+                                                    </p>
+
+                                                </div>
+
+                                                <!-- ORDERS -->
+
+                                                <div class="flex justify-center ">
+
+                                                    <span
+                                                        class="bg-surface-container px-2 py-1 rounded text-xs font-medium">
+
+                                                        0
+
+                                                    </span>
+
+                                                </div>
+
+                                                <!-- SPENT -->
+
+                                                <div class="font-semibold px-8">
+
+                                                    ₹0
+
+                                                </div>
+
+                                                <!-- JOIN -->
+
+                                                <div class="flex items-center h-full text-on-surface-variant ml-4">
+
+                                                    <%= user.createdAt.toLocaleDateString("en-IN",{day:"numeric", month:"short",
+                                                        year:"numeric" }) %>
+
+                                                </div>
+
+                                                <!-- STATUS -->
+
+                                                <div class="flex items-center justify-center h-full">
+
+                                                    <% if (user.isDeleted) { %>
+
+                                                        <span
+                                                            class="px-3 py-1 rounded-full bg-gray-200 text-gray-700 text-xs font-semibold">
+
+                                                            DELETED
+
+                                                        </span>
+
+                                                        <% } else if (user.isBlocked) { %>
+
+                                                            <span
+                                                                class="px-3 py-1 rounded-full bg-red-100 text-red-700 text-xs font-semibold">
+
+                                                                BLOCKED
+
+                                                            </span>
+
+                                                            <% } else { %>
+
+                                                                <span
+                                                                    class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-semibold">
+
+                                                                    ACTIVE
+
+                                                                </span>
+
+                                                                <% } %>
+
+                                                </div>
+                                                <!-- ACTION -->
+
+                                                <div class="relative flex justify-center">
+
+                                                    <button type="button" onclick="toggleMenu(event,'<%= user._id %>')"
+                                                        class="p-2 rounded-lg hover:bg-surface-container">
+
+                                                        <span class="material-symbols-outlined">
+
+                                                            more_vert
+
+                                                        </span>
+
+                                                    </button>
+
+                                                    <div id="menu-<%= user._id %>"
+                                                        class="hidden absolute top-10 right-0 w-44 bg-white border border-outline-variant rounded-lg shadow-lg z-50">
+
+                                                        <form action="/admin/customers/<%= user._id %>/status"
+                                                            method="POST">
+
+                                                            <% if(user.isBlocked){ %>
+
+                                                                <button type="submit"
+                                                                    class="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-surface-container-low transition">
+
+                                                                    <span class="material-symbols-outlined text-[18px]">
+                                                                        check_circle
+                                                                    </span>
+
+                                                                    <span>Unblock User</span>
+
+                                                                </button>
+
+                                                                <% } else { %>
+
+                                                                    <button type="submit"
+                                                                        class="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-surface-container-low transition">
+
+                                                                        <span
+                                                                            class="material-symbols-outlined text-[18px]">
+                                                                            block
+                                                                        </span>
+
+                                                                        <span>Block User</span>
+
+                                                                    </button>
+
+                                                                    <% } %>
+
+                                                        </form>
+
+                                                        <form action="/admin/customers/<%= user._id %>/delete"
+                                                            method="POST">
+
+                                                            <% if(user.isDeleted){ %>
+
+                                                                <button type="submit"
+                                                                    class="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-surface-container-low transition">
+
+                                                                    <span class="material-symbols-outlined text-[18px]">
+                                                                        restore
+                                                                    </span>
+
+                                                                    <span>Restore User</span>
+
+                                                                </button>
+
+                                                                <% } else { %>
+
+                                                                    <button type="submit"
+                                                                        class="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-surface-container-low transition">
+
+                                                                        <span
+                                                                            class="material-symbols-outlined text-[18px]">
+                                                                            delete
+                                                                        </span>
+
+                                                                        <span>Delete User</span>
+
+                                                                    </button>
+
+                                                                    <% } %>
+
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <% }) %>
+
+                                                <% } %>
+
+                            </div>
+                            <!-- Pagination -->
+                            <div
+                                class="p-lg border-t border-outline-variant flex items-center justify-between bg-surface-container-lowest w-full">
+
+                                <p class="font-body-sm text-body-sm text-on-surface-variant">
+                                    Showing
+                                    <%= startIndex %>
+                                        to
+                                        <%= endIndex %>
+                                            of
+                                            <%= totalUsers %>
+                                                customers
+                                </p>
+
+                                <div class="flex gap-2">
+
+                                    <!-- Previous -->
+
+                                    <a href="/admin/customers?page=<%= currentPage - 1 %>&search=<%= search %>&status=<%= status %>&sort=<%= sort %>&fromDate=<%= fromDate %>&toDate=<%= toDate %>"
+                                        class="w-8 h-8 flex items-center justify-center border border-outline-variant rounded-lg hover:bg-surface-container-low <%= currentPage === 1 ? 'pointer-events-none opacity-30' : '' %>">
+
+                                        <span class="material-symbols-outlined text-[18px]">
+                                            chevron_left
+                                        </span>
+
+                                    </a>
+                                    <!-- Page Numbers -->
+
+                                    <% for(let i=1; i <=totalPages; i++){ %>
+
+                                        <a href="/admin/customers?page=<%= i %>&search=<%= search %>&status=<%= status %>&sort=<%= sort %>&fromDate=<%= fromDate %>&toDate=<%= toDate %>"
+                                            class="w-8 h-8 flex items-center justify-center rounded-lg font-label-md text-label-md <%= currentPage === i ? 'bg-primary text-white' : 'border border-outline-variant hover:bg-surface-container-low' %>">
+
+                                            <%= i %>
+
+                                        </a>
+
+                                        <% } %>
+
+                                            <!-- Next -->
+
+                                            <a href="/admin/customers?page=<%= currentPage + 1 %>&search=<%= search %>&status=<%= status %>&sort=<%= sort %>&fromDate=<%= fromDate %>&toDate=<%= toDate %>"
+                                                class="w-8 h-8 flex items-center justify-center border border-outline-variant rounded-lg hover:bg-surface-container-low <%= currentPage === totalPages ? 'pointer-events-none opacity-30' : '' %>">
+
+                                                <span class="material-symbols-outlined text-[18px]">
+                                                    chevron_right
+                                                </span>
+
+                                            </a>
+
+                                </div>
+
+                            </div>
+                            <!-- Right Sidebar Widgets -->
+
+                </main>
+                <script>
+
+                    // =========================
+                    // Close all dropdowns
+                    // =========================
+
+                    function closeAllMenus() {
+
+                        // Customer action menus
+                        document.querySelectorAll("[id^='menu-']").forEach(menu => {
+                            menu.classList.add("hidden");
+                        });
+
+                        // Status dropdown
+                        document.getElementById("statusMenu")
+                            ?.classList.add("hidden");
+
+                        // Sort dropdown
+                        document.getElementById("sortMenu")
+                            ?.classList.add("hidden");
+
+                    }
+
+                    // =========================
+                    // Customer Action Menu
+                    // =========================
+
+                    function toggleMenu(event, id) {
+
+                        event.stopPropagation();
+
+                        const menu = document.getElementById(`menu-${id}`);
+
+                        const isHidden = menu.classList.contains("hidden");
+
+                        closeAllMenus();
+
+                        if (isHidden) {
+                            menu.classList.remove("hidden");
+                        }
+
+                    }
+
+                    // =========================
+                    // Status Dropdown
+                    // =========================
+
+                    function toggleStatusMenu(event) {
+
+                        event.stopPropagation();
+
+                        const menu = document.getElementById("statusMenu");
+
+                        const isHidden = menu.classList.contains("hidden");
+
+                        closeAllMenus();
+
+                        if (isHidden) {
+                            menu.classList.remove("hidden");
+                        }
+
+                    }
+
+                    // =========================
+                    // Sort Dropdown
+                    // =========================
+
+                    function toggleSortMenu(event) {
+
+                        event.stopPropagation();
+
+                        const menu = document.getElementById("sortMenu");
+
+                        const isHidden = menu.classList.contains("hidden");
+
+                        closeAllMenus();
+
+                        if (isHidden) {
+                            menu.classList.remove("hidden");
+                        }
+
+                    }
+
+                    // =========================
+                    // Click anywhere to close
+                    // =========================
+
+                    document.addEventListener("click", () => {
+
+                        closeAllMenus();
+
+                    });
+
+                    // =========================
+                    // Search Clear Button
+                    // =========================
+
+                    const searchInput = document.getElementById("searchInput");
+                    const clearSearchBtn = document.getElementById("clearSearchBtn");
+
+                    function toggleClearButton() {
+
+                        clearSearchBtn.classList.toggle(
+                            "hidden",
+                            searchInput.value.trim() === ""
+                        );
+
+                    }
+
+                    toggleClearButton();
+
+                    searchInput.addEventListener("input", toggleClearButton);
+
+                    clearSearchBtn.addEventListener("click", () => {
+
+                        const params = new URLSearchParams(window.location.search);
+
+                        params.delete("search");
+                        params.set("page", "1");
+
+                        window.location.href =
+                            "/admin/customers?" + params.toString();
+
+                    });
+
+                </script>
+
+
+</body>
+
+</html>

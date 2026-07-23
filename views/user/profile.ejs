@@ -14,6 +14,11 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.6.2/dist/cropper.min.js">
+    </script>
+
     <style>
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
@@ -35,6 +40,15 @@
 
         ::-webkit-scrollbar-thumb {
             background: #000000;
+        }
+
+        .cropper-view-box,
+        .cropper-face {
+            border-radius: 50%;
+        }
+
+        .cropper-view-box {
+            outline: 2px solid #fff;
         }
     </style>
     <script id="tailwind-config">
@@ -135,20 +149,95 @@
     <!-- TopNavBar -->
     %<%- include("partials/userHeader") %>
         <!-- Hero Section -->
-        <header class="border-b border-primary px-container-padding py-16 grid grid-cols-12">
-            <div class="col-span-12 md:col-span-8">
-                <h1 class="font-headline-lg text-headline-lg mb-4">MY ACCOUNT</h1>
-                <div class="flex flex-col md:flex-row md:items-end gap-4 md:gap-12">
-                    <div>
-                        <p class="font-syne text-headline-md leading-none"><%= user.username %></p>
-                        <p class=" mt-1 text-mono-data opacity-60"><%= user.email %></p>
+        <header class="border-b border-primary px-container-padding py-16">
+
+            <div class="flex flex-col md:flex-row justify-between items-center gap-16">
+
+                <div>
+
+                    <h1 class="font-headline-lg text-headline-lg mb-4">
+                        MY ACCOUNT
+                    </h1>
+
+                    <p class="font-headline-md">
+                        <%= user.username %>
+                    </p>
+
+                    <p class="font-mono-data mt-2 opacity-60">
+                        <%= user.email %>
+                    </p>
+
+                    <div class="mt-8 border-l border-primary pl-6">
+
+                        <p class="font-label-caps opacity-40">
+                            MEMBER STATUS
+                        </p>
+
+                        <p class="font-mono-data">
+                            SINCE <%= user.createdAt.toLocaleString("en-US",{ month:"short", year:"numeric"
+                                }).toUpperCase() %>
+                        </p>
+
                     </div>
-                    <div class="border-l border-primary pl-6 md:pl-12">
-                        <p class="font-label-caps text-label-caps opacity-40 mb-1">MEMBER STATUS</p>
-                        <p class="font-mono-data text-mono-data">SINCE OCT 2024</p>
-                    </div>
+
                 </div>
+
+
+                <div class="relative group w-36 h-36 border border-primary overflow-hidden bg-surface-container-low">
+
+                    <% if(user.profileImage){ %>
+
+                        <img src="<%= user.profileImage %>" class="w-full h-full object-cover">
+
+                        <% } else { %>
+
+                            <div class="w-full h-full flex flex-col justify-center items-center">
+
+                                <span class="material-symbols-outlined text-6xl opacity-20">
+                                    person
+                                </span>
+
+                                <p class="font-mono-data text-[10px] opacity-40 mt-2">
+                                    NO PHOTO
+                                </p>
+
+                            </div>
+
+                            <% } %>
+
+                                <div
+                                    class="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition flex flex-col justify-center items-center gap-3">
+
+                                    <button type="button" onclick="document.getElementById('profileImage').click()"
+                                        class="text-white font-label-caps text-[10px]">
+
+                                        CHANGE PHOTO
+
+                                    </button>
+
+                                    <% if(user.profileImage){ %>
+
+                                        <button type="button" onclick="openRemoveModal()"
+                                            class="text-white font-label-caps text-[10px]">
+
+                                            REMOVE
+
+                                        </button>
+
+                                        <% } %>
+
+                                </div>
+
+                </div>
+
             </div>
+
+            <form id="profileImageForm" action="/profile/upload-photo" method="POST" enctype="multipart/form-data">
+
+                <input hidden id="profileImage" type="file" accept=".jpg,.jpeg,.png,.webp" name="profileImage">
+
+            </form>
+
         </header>
         <!-- Quick Access Grid -->
         <section class="grid grid-cols-1 md:grid-cols-2 border-b border-primary">
@@ -166,18 +255,18 @@
                         HISTORY.</p>
                 </div>
             </a>
-            <!-- Wishlist -->
+            <!-- Refer a friend -->
             <a class="group p-container-padding hover:bg-primary hover:text-surface transition-none flex flex-col justify-between aspect-square md:aspect-auto h-[320px]"
                 href="#">
                 <div class="flex justify-between items-start">
-                    <span class="material-symbols-outlined text-4xl" data-icon="favorite">favorite</span>
+                    <span class="material-symbols-outlined text-4xl" data-icon="favorite">group_add</span>
                     <span class="material-symbols-outlined opacity-0 group-hover:opacity-100 transition-none"
                         data-icon="arrow_outward">arrow_outward</span>
                 </div>
                 <div>
-                    <h3 class="font-label-caps text-label-caps mb-2">WISHLIST</h3>
-                    <p class="font-body-md opacity-60 group-hover:opacity-100">ITEMS YOU HAVE SAVED FOR FUTURE
-                        ACQUISITION.</p>
+                    <h3 class="font-label-caps text-label-caps mb-2">REFER A FRIEND</h3>
+                    <p class="font-body-md opacity-60 group-hover:opacity-100">INVITE FRIENDS. SHARE YOUR CODE.
+                        UNLOCK EXCLUSIVE REWARDS.</p>
                 </div>
             </a>
             <!-- Addresses -->
@@ -243,27 +332,304 @@
         </main>
         <!-- Footer -->
         <%- include("partials/userFooter") %>
-            <script>
-                // Simple micro-interaction for icons
-                document.querySelectorAll('.material-symbols-outlined').forEach(icon => {
-                    icon.addEventListener('mouseenter', () => {
-                        icon.style.fontVariationSettings = "'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24";
-                    });
-                    icon.addEventListener('mouseleave', () => {
-                        if (!icon.classList.contains('underline')) {
-                            icon.style.fontVariationSettings = "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24";
-                        }
-                    });
-                });
 
-                // Initialize person icon fill as it's active
-                const personIcon = document.querySelector('[data-icon="person"]');
-                if (personIcon) {
-                    personIcon.style.fontVariationSettings = "'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24";
-                }
-            </script>
+            <div id="cropModal" class="fixed inset-0 bg-black/70 hidden items-center justify-center z-50">
 
+                <div class="bg-white border border-black p-8 w-[760px] max-w-[92vw]">
+
+                    <div
+                        class="border border-neutral-300 bg-neutral-100 h-[500px] flex items-center justify-center overflow-hidden">
+                        <img id="cropImage" class="max-w-full max-h-full">
+                    </div>
+
+                    <div class="flex justify-end items-center gap-3 mt-8">
+                        <button id="cancelCrop" type="button"
+                            class="h-11 px-7 border border-black text-[11px] tracking-[0.18em] uppercase hover:bg-black hover:text-white transition">
+
+                            Cancel
+
+                        </button>
+
+                        <button id="cropBtn" type="button"
+                            class="h-11 px-8 bg-black text-white text-[11px] tracking-[0.18em] uppercase hover:bg-neutral-800 transition flex items-center gap-2">
+
+                            <span id="uploadText">
+                                Upload
+                            </span>
+
+                            <svg id="spinner" class="hidden w-4 h-4 animate-spin" viewBox="0 0 24 24">
+
+                                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3"
+                                    stroke-linecap="round" fill="none" stroke-dasharray="50" stroke-dashoffset="18">
+                                </circle>
+
+                            </svg>
+
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div id="removeModal" class="fixed inset-0 bg-black/70 hidden items-center justify-center z-[60]">
+
+                <div class="bg-white border border-black w-[420px] p-8">
+
+                    <p class="text-[11px] tracking-[0.22em] uppercase mb-6">
+                        Remove Profile Photo
+                    </p>
+
+                    <p class="text-sm text-neutral-600 leading-6 mb-8">
+
+                        This will permanently remove your current profile photo.
+
+                    </p>
+
+                    <div class="flex justify-end gap-3">
+
+                        <button onclick="closeRemoveModal()"
+                            class="h-11 px-7 border border-black text-[11px] uppercase tracking-[0.18em] hover:bg-black hover:text-white transition">
+
+                            Cancel
+
+                        </button>
+
+                        <button id="removeImageBtn" onclick="removeProfileImage()"
+                            class="h-11 px-7 bg-black text-white text-[11px] uppercase tracking-[0.18em] hover:bg-neutral-800 transition">
+
+                            Remove
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
 
 </body>
+<script>
+    // Simple micro-interaction for icons
+    document.querySelectorAll('.material-symbols-outlined').forEach(icon => {
+        icon.addEventListener('mouseenter', () => {
+            icon.style.fontVariationSettings = "'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24";
+        });
+        icon.addEventListener('mouseleave', () => {
+            if (!icon.classList.contains('underline')) {
+                icon.style.fontVariationSettings = "'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24";
+            }
+        });
+    });
+
+    // Initialize person icon fill as it's active
+    const personIcon = document.querySelector('[data-icon="person"]');
+    if (personIcon) {
+        personIcon.style.fontVariationSettings = "'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24";
+    }
+
+    const uploadText = document.getElementById("uploadText");
+    const spinner = document.getElementById("spinner");
+    const imageInput = document.getElementById("profileImage");
+    const input = document.getElementById("profileImage");
+    const modal = document.getElementById("cropModal");
+    const image = document.getElementById("cropImage");
+
+
+
+    let cropper;
+    input.addEventListener("change", (e) => {
+
+        const file = e.target.files[0];
+
+        if (!file) return;
+
+        const allowed = [
+            "image/jpeg",
+            "image/png",
+            "image/webp"
+        ];
+
+        if (!allowed.includes(file.type)) {
+            alert("Only JPG, PNG and WEBP are allowed.");
+            input.value = "";
+            return;
+        }
+
+        const img = new Image();
+
+        img.onload = () => {
+
+            if (img.width < 300 || img.height < 300) {
+                alert("Image should be at least 300 × 300 pixels.");
+                input.value = "";
+                return;
+            }
+
+            image.src = URL.createObjectURL(file);
+
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+
+            image.onload = () => {
+
+                if (cropper) {
+                    cropper.destroy();
+                }
+
+                cropper = new Cropper(image, {
+                    aspectRatio: 1,
+                    viewMode: 1,
+                    autoCropArea: 0.6,
+                    dragMode: "move",
+                    movable: true,
+                    cropBoxMovable: true,
+                    cropBoxResizable: true,
+                    guides: true,
+                    center: true,
+                    highlight: true,
+                    background: false,
+                    zoomable: true
+                });
+
+            };
+
+        };
+
+        img.src = URL.createObjectURL(file);
+
+    });
+
+
+
+    const cropBtn = document.getElementById("cropBtn");
+
+    cropBtn.addEventListener("click", async () => {
+
+        cropBtn.disabled = true;
+
+        uploadText.textContent = "UPLOADING";
+
+        spinner.classList.remove("hidden");
+
+        const canvas = cropper.getCroppedCanvas({
+            width: 500,
+            height: 500,
+        });
+
+        canvas.toBlob(async (blob) => {
+
+            const file = new File([blob], "profile.jpg", {
+                type: "image/jpeg",
+            });
+
+            const data = new FormData();
+            data.append("profileImage", file);
+
+            try {
+
+                const res = await fetch("/profile/upload-photo", {
+                    method: "POST",
+                    body: data,
+                });
+
+                if (!res.ok) {
+                    throw new Error();
+                }
+
+                modal.classList.add("hidden");
+                modal.classList.remove("flex");
+
+                location.reload();
+
+                URL.revokeObjectURL(image.src);
+
+            } catch {
+
+                cropBtn.disabled = false;
+
+                uploadText.textContent = "UPLOAD";
+
+                spinner.classList.add("hidden");
+
+            }
+
+        }, "image/jpeg", 0.9);
+
+    });
+
+
+    document
+        .getElementById("cancelCrop")
+        .addEventListener("click", () => {
+
+            if (cropper) {
+                cropper.destroy();
+                cropper = null;
+            }
+
+            modal.classList.add("hidden");
+
+            modal.classList.remove("flex");
+
+            input.value = "";
+
+        });
+
+    function openRemoveModal() {
+
+        document
+            .getElementById("removeModal")
+            .classList
+            .remove("hidden");
+
+        document
+            .getElementById("removeModal")
+            .classList
+            .add("flex");
+
+    }
+
+    function closeRemoveModal() {
+
+        document
+            .getElementById("removeModal")
+            .classList
+            .add("hidden");
+
+        document
+            .getElementById("removeModal")
+            .classList
+            .remove("flex");
+
+    }
+
+    const removeBtn = document.getElementById("removeImageBtn");
+
+    async function removeProfileImage() {
+
+        removeBtn.disabled = true;
+        removeBtn.textContent = "REMOVING";
+
+        try {
+
+            const res = await fetch("/profile/remove-photo");
+
+            if (!res.ok) {
+                throw new Error();
+            }
+
+            location.reload();
+
+        } catch {
+
+            removeBtn.disabled = false;
+            removeBtn.textContent = "REMOVE";
+
+        }
+
+    }
+
+</script>
 
 </html>

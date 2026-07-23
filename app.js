@@ -1,7 +1,9 @@
 import express from "express";
 import session from "express-session";
 import userRoutes from "./routes/userRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 import { attachToast } from "./middlewares/toastMiddleware.js";
+import passport from "./config/passport.js";
 const app = express();
 app.set("view engine","ejs");
 app.set("views", "./views");
@@ -17,6 +19,9 @@ app.use(session({
         maxAge: 1000 * 60 * 60,
     },
 }));
+
+app.use(passport.initialize());
+
 app.use((req, res, next) => {
     res.header(
         "Cache-Control",
@@ -26,5 +31,6 @@ app.use((req, res, next) => {
 });
 app.use(attachToast)
 app.use("/",userRoutes);
+app.use("/admin",adminRoutes);
 
 export default app;

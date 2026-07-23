@@ -266,25 +266,52 @@
                                     class="w-full bg-transparent border-b border-primary py-2 font-mono-data text-body-lg focus:outline-none focus:ring-0 focus:border-black "
                                     type="text" name="username" value="<%= user.username %>">
                             </div>
-                            <div class="space-y-4 mt-8">
-                                <label class="font-label-caps text-label-caps block">EMAIL
-                                    ADDRESS</label>
-                                <div class="flex items-center justify-between py-2 border-b border-primary">
-                                    <div class="flex items-center gap-4"><span class="font-mono-data text-body-lg">
-                                            <%= user.email %>
-                                        </span><span
-                                            class="flex items-center gap-1 text-accent-success font-label-caps text-[10px]"><span
-                                                class="material-symbols-outlined !text-[14px]">check_circle</span>VERIFIED</span>
+
+                            <% if (!user.googleId) { %>
+
+                                <div class="space-y-4 mt-8">
+                                    <label class="font-label-caps text-label-caps block">EMAIL
+                                        ADDRESS</label>
+                                    <div class="flex items-center justify-between py-2 border-b border-primary">
+                                        <div class="flex items-center gap-4"><span class="font-mono-data text-body-lg">
+                                                <%= user.email %>
+                                            </span><span
+                                                class="flex items-center gap-1 text-accent-success font-label-caps text-[10px]"><span
+                                                    class="material-symbols-outlined !text-[14px]">check_circle</span>VERIFIED</span>
+                                        </div>
+                                        <button id="change-email-btn"
+                                            class="font-label-caps text-label-caps hover:underline" type="button">CHANGE
+                                            EMAIL</button>
                                     </div>
-                                    <button id="change-email-btn"
-                                        class="font-label-caps text-label-caps hover:underline" type="button">CHANGE
-                                        EMAIL</button>
                                 </div>
-                            </div>
-                            <button type="submit"
-                                class="self-start border border-primary px-12 py-5 font-label-caps text-label-caps hover:bg-primary hover:text-on-primary mt-8">
-                                SAVE CHANGES
-                            </button>
+
+                                <% } else { %>
+
+                                    <div class="space-y-4 mt-8">
+
+                                        <label class="font-label-caps text-label-caps block">
+                                            GOOGLE ACCOUNT
+                                        </label>
+
+                                        <div class="py-2 border-b border-primary">
+
+                                            <p class="font-mono-data text-body-lg">
+
+                                                This account is connected with Google.
+                                                Your email is managed by Google.
+
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+                                    <% } %>
+
+                                        <button type="submit"
+                                            class="self-start border border-primary px-12 py-5 font-label-caps text-label-caps hover:bg-primary hover:text-on-primary mt-8">
+                                            SAVE CHANGES
+                                        </button>
 
                         </form>
 
@@ -303,108 +330,134 @@
                     </div>
                 </div>
                 <div class="md:col-span-8 p-container-padding border-t border-primary">
-                    <form action="/account-settings/change-password" method="post" id="password-form"
-                        class="flex flex-col gap-12 max-w-2xl">
-                        <div class="space-y-4">
-                            <label class="font-label-caps text-label-caps block">CURRENT
-                                PASSWORD</label>
-                            <div class="relative">
-                                <input name="currentPassword" id="current_password"
-                                    class="w-full bg-transparent border-b border-primary py-2 font-mono-data text-body-lg pr-10"
-                                    placeholder="••••••••••••" type="password">
-                                <button onclick="togglePassword('current_password',this)"
-                                    class="absolute right-2 bottom-2 material-symbols-outlined text-secondary"
-                                    type="button">visibility
-                                </button>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+                    <% if (!user.googleId) { %>
+
+                        <form action="/account-settings/change-password" method="post" id="password-form"
+                            class="flex flex-col gap-12 max-w-2xl">
                             <div class="space-y-4">
-                                <label class="font-label-caps text-label-caps block">NEW
-                                    PASSWORD
-                                </label>
+                                <label class="font-label-caps text-label-caps block">CURRENT
+                                    PASSWORD</label>
                                 <div class="relative">
-                                    <input id="new_password" name="password" 
+                                    <input name="currentPassword" id="current_password"
                                         class="w-full bg-transparent border-b border-primary py-2 font-mono-data text-body-lg pr-10"
                                         placeholder="••••••••••••" type="password">
-                                    <button onclick="togglePassword('new_password',this)"
+                                    <button onclick="togglePassword('current_password',this)"
                                         class="absolute right-2 bottom-2 material-symbols-outlined text-secondary"
                                         type="button">visibility
                                     </button>
                                 </div>
                             </div>
-                            <div class="space-y-4">
-                                <label class="font-label-caps text-label-caps block">CONFIRM
-                                    PASSWORD
-                                </label>
-                                <div class="relative">
-                                    <input id="confirm_password" name="confirmPassword"
-                                        class="w-full bg-transparent border-b border-primary py-2 font-mono-data text-body-lg pr-10"
-                                        placeholder="••••••••••••" type="password">
-                                    <button onclick="togglePassword('confirm_password',this)"
-                                        class="absolute right-2 bottom-2 material-symbols-outlined text-secondary"
-                                        type="button">visibility
-                                    </button>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div class="space-y-4">
+                                    <label class="font-label-caps text-label-caps block">NEW
+                                        PASSWORD
+                                    </label>
+                                    <div class="relative">
+                                        <input id="new_password" name="password"
+                                            class="w-full bg-transparent border-b border-primary py-2 font-mono-data text-body-lg pr-10"
+                                            placeholder="••••••••••••" type="password">
+                                        <button onclick="togglePassword('new_password',this)"
+                                            class="absolute right-2 bottom-2 material-symbols-outlined text-secondary"
+                                            type="button">visibility
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="space-y-4">
+                                    <label class="font-label-caps text-label-caps block">CONFIRM
+                                        PASSWORD
+                                    </label>
+                                    <div class="relative">
+                                        <input id="confirm_password" name="confirmPassword"
+                                            class="w-full bg-transparent border-b border-primary py-2 font-mono-data text-body-lg pr-10"
+                                            placeholder="••••••••••••" type="password">
+                                        <button onclick="togglePassword('confirm_password',this)"
+                                            class="absolute right-2 bottom-2 material-symbols-outlined text-secondary"
+                                            type="button">visibility
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-4 border border-primary p-6">
-                            <div id="length-rule" class="flex items-center gap-2 text-surface-dim">
-                                <span class="material-symbols-outlined text-[14px]">
-                                    circle
-                                </span>
-                                <span class="font-mono-data text-mono-data">
-                                    MIN. 6 CHARACTERS
-                                </span>
+                            <div class="grid grid-cols-2 gap-4 border border-primary p-6">
+                                <div id="length-rule" class="flex items-center gap-2 text-surface-dim">
+                                    <span class="material-symbols-outlined text-[14px]">
+                                        circle
+                                    </span>
+                                    <span class="font-mono-data text-mono-data">
+                                        MIN. 6 CHARACTERS
+                                    </span>
+                                </div>
+
+                                <div id="uppercase-rule" class="flex items-center gap-2 text-surface-dim">
+                                    <span class="material-symbols-outlined text-[14px]">
+                                        circle
+                                    </span>
+                                    <span class="font-mono-data text-mono-data">
+                                        ONE UPPERCASE
+                                    </span>
+                                </div>
+
+                                <div id="number-rule" class="flex items-center gap-2 text-surface-dim">
+                                    <span class="material-symbols-outlined text-[14px]">
+                                        circle
+                                    </span>
+                                    <span class="font-mono-data text-mono-data"> ONE NUMBER </span>
+                                </div>
+
+                                <div id="special-rule" class="flex items-center gap-2 text-surface-dim">
+                                    <span class="material-symbols-outlined text-[14px]">
+                                        circle
+                                    </span>
+                                    <span class="font-mono-data text-mono-data">
+                                        SPECIAL CHARACTER
+                                    </span>
+                                </div>
                             </div>
 
-                            <div id="uppercase-rule" class="flex items-center gap-2 text-surface-dim">
-                                <span class="material-symbols-outlined text-[14px]">
-                                    circle
-                                </span>
-                                <span class="font-mono-data text-mono-data">
-                                    ONE UPPERCASE
-                                </span>
-                            </div>
+                            <% if(passwordError){ %>
 
-                            <div id="number-rule" class="flex items-center gap-2 text-surface-dim">
-                                <span class="material-symbols-outlined text-[14px]">
-                                    circle
-                                </span>
-                                <span class="font-mono-data text-mono-data"> ONE NUMBER </span>
-                            </div>
+                                <div class="mb-8 border-l-2 border-red-500 pl-4">
 
-                            <div id="special-rule" class="flex items-center gap-2 text-surface-dim">
-                                <span class="material-symbols-outlined text-[14px]">
-                                    circle
-                                </span>
-                                <span class="font-mono-data text-mono-data">
-                                    SPECIAL CHARACTER
-                                </span>
-                            </div>
-                        </div>
+                                    <p class="font-mono-data text-mono-data uppercase text-red-500">
+                                        <%= passwordError %>
+                                    </p>
 
-                        <% if(passwordError){ %>
+                                </div>
 
-                            <div class="mb-8 border-l-2 border-red-500 pl-4">
+                                <% } %>
 
-                                <p class="font-mono-data text-mono-data uppercase text-red-500">
-                                    <%= passwordError %>
+                                    <button
+                                        class="self-start border border-primary px-12 py-5 font-label-caps text-label-caps hover:bg-primary hover:text-on-primary transition-none"
+                                        type="submit">UPDATE PASSWORD</button>
+                        </form>     
+
+
+
+                        <% } else { %>
+
+                            <div class="border border-primary p-8">
+
+                                <h3 class="font-headline-md mb-4">
+                                    Google Authentication
+                                </h3>
+
+                                <p class="font-body-md text-secondary">
+
+                                    This account uses Google Sign-In.
+
+                                    Password changes are managed through your Google Account.
+
                                 </p>
 
                             </div>
 
                             <% } %>
 
-                                <button
-                                    class="self-start border border-primary px-12 py-5 font-label-caps text-label-caps hover:bg-primary hover:text-on-primary transition-none"
-                                    type="submit">UPDATE PASSWORD</button>
-                    </form>
                 </div>
             </section>
             <!-- Section 03: EMAIL PREFERENCES -->
             <!-- Section 04: ACCOUNT PREFERENCES -->
-             <!-- Section 05: ACCOUNT ACTIONS -->
+            <!-- Section 05: ACCOUNT ACTIONS -->
             <section id="actions" class="grid scroll-mt-24 grid-cols-1 md:grid-cols-12 border-b border-primary">
                 <div
                     class="md:col-span-4 border-r border-primary border-t border-primary p-container-padding bg-surface-container-low">
@@ -422,11 +475,11 @@
                         </div>
                     </div>
                 </div>
-            </section> 
+            </section>
             <!-- </div> -->
 
-                    <!-- Footer -->
-        <%- include("partials/userFooter") %>
+            <!-- Footer -->
+            <%- include("partials/userFooter") %>
         </main>
         <!-- Watermark Background -->
         <div class="bg-text-watermark">
@@ -434,78 +487,76 @@
         </div>
 
 
-            <!-- Change Email Modal -->
-            <!-- CHANGE EMAIL MODAL -->
-            <div id="changeEmailModal"
-                class="fixed flex inset-0 z-50 hidden items-center justify-center bg-black/25 backdrop-blur-sm">
+        <!-- Change Email Modal -->
+        <!-- CHANGE EMAIL MODAL -->
+        <div id="changeEmailModal"
+            class="fixed flex inset-0 z-50 hidden items-center justify-center bg-black/25 backdrop-blur-sm">
 
-                <!-- Modal -->
-                <div class="modal-content w-full max-w-[460px] bg-background border border-primary">
+            <!-- Modal -->
+            <div class="modal-content w-full max-w-[460px] bg-background border border-primary">
 
-                    <!-- Header -->
-                    <div class="flex items-center justify-between px-8 pt-8">
+                <!-- Header -->
+                <div class="flex items-center justify-between px-8 pt-8">
 
-                        <h2 class="text-xl font-semibold tracking-[0.08em] uppercase">
-                            Change Email
-                        </h2>
+                    <h2 class="text-xl font-semibold tracking-[0.08em] uppercase">
+                        Change Email
+                    </h2>
 
-                        <button id="closeEmailModal" type="button"
-                            class="text-xl leading-none hover:opacity-60 transition">
-                            &times;
+                    <button id="closeEmailModal" type="button" class="text-xl leading-none hover:opacity-60 transition">
+                        &times;
+                    </button>
+
+                </div>
+
+                <!-- Body -->
+                <form action="/change-email/send-otp" method="POST">
+
+                    <div class="px-8 pt-6 pb-10">
+
+                        <p class="text-sm text-secondary leading-6 max-w-sm">
+                            Enter your new email address. A verification code will be
+                            sent before the change is applied.
+                        </p>
+
+                        <div class="mt-10">
+
+                            <label class="block text-[11px] uppercase tracking-[0.18em] font-medium mb-4">
+
+                                New Email Address
+
+                            </label>
+
+                            <input type="email" name="email" required autocomplete="off" placeholder="ENTER NEW EMAIL"
+                                class="w-full bg-transparent border-b border-primary pb-3 text-[15px] font-mono-data placeholder:text-secondary/50 focus:outline-none focus:border-black transition">
+
+                        </div>
+
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="flex items-center justify-end gap-3 px-8 py-6 border-t border-primary">
+
+                        <button id="cancelEmailModal" type="button"
+                            class="px-5 py-3 text-[11px] uppercase tracking-[0.15em] border border-primary hover:bg-primary hover:text-white transition">
+
+                            Cancel
+
+                        </button>
+
+                        <button type="submit"
+                            class="px-5 py-3 text-[11px] uppercase tracking-[0.15em] bg-primary text-white hover:opacity-90 transition">
+
+                            Send OTP
+
                         </button>
 
                     </div>
 
-                    <!-- Body -->
-                    <form action="/change-email/send-otp" method="POST">
-
-                        <div class="px-8 pt-6 pb-10">
-
-                            <p class="text-sm text-secondary leading-6 max-w-sm">
-                                Enter your new email address. A verification code will be
-                                sent before the change is applied.
-                            </p>
-
-                            <div class="mt-10">
-
-                                <label class="block text-[11px] uppercase tracking-[0.18em] font-medium mb-4">
-
-                                    New Email Address
-
-                                </label>
-
-                                <input type="email" name="email" required autocomplete="off"
-                                    placeholder="ENTER NEW EMAIL"
-                                    class="w-full bg-transparent border-b border-primary pb-3 text-[15px] font-mono-data placeholder:text-secondary/50 focus:outline-none focus:border-black transition">
-
-                            </div>
-
-                        </div>
-
-                        <!-- Footer -->
-                        <div class="flex items-center justify-end gap-3 px-8 py-6 border-t border-primary">
-
-                            <button id="cancelEmailModal" type="button"
-                                class="px-5 py-3 text-[11px] uppercase tracking-[0.15em] border border-primary hover:bg-primary hover:text-white transition">
-
-                                Cancel
-
-                            </button>
-
-                            <button type="submit"
-                                class="px-5 py-3 text-[11px] uppercase tracking-[0.15em] bg-primary text-white hover:opacity-90 transition">
-
-                                Send OTP
-
-                            </button>
-
-                        </div>
-
-                    </form>
-
-                </div>
+                </form>
 
             </div>
+
+        </div>
 
 </body>
 <div id="password-error-flag" data-error="<%= passwordError ? 'true' : 'false' %>" hidden>

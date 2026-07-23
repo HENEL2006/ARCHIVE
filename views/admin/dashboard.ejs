@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head></head>
+
+<body class="font-body-md text-body-md overflow-x-hidden">```html
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>ARCHIVE | Admin Portal</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#191c1e",
+                        "surface-tint": "#565e74",
+                        "inverse-on-surface": "#eff1f3",
+                        "on-tertiary-fixed-variant": "#004c69",
+                        "primary-container": "#131b2e",
+                        "tertiary-fixed-dim": "#7bd0ff",
+                        "primary": "#000000",
+                        "tertiary": "#000000",
+                        "on-tertiary-container": "#008ebf",
+                        "on-primary": "#ffffff",
+                        "surface-bright": "#f7f9fb",
+                        "on-surface-variant": "#45464d",
+                        "secondary-container": "#d0e1fb",
+                        "on-primary-fixed": "#131b2e",
+                        "surface-container-high": "#e6e8ea",
+                        "tertiary-container": "#001e2c",
+                        "surface-container-low": "#f2f4f6",
+                        "outline-variant": "#c6c6cd",
+                        "surface-container": "#eceef0",
+                        "on-error": "#ffffff",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "tertiary-fixed": "#c4e7ff",
+                        "surface": "#f7f9fb",
+                        "surface-dim": "#d8dadc",
+                        "surface-variant": "#e0e3e5",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "secondary-fixed": "#d3e4fe",
+                        "error": "#ba1a1a",
+                        "secondary": "#505f76",
+                        "inverse-primary": "#bec6e0",
+                        "primary-fixed": "#dae2fd",
+                        "on-error-container": "#93000a",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-fixed": "#001e2c",
+                        "background": "#f7f9fb",
+                        "on-primary-container": "#7c839b",
+                        "surface-container-highest": "#e0e3e5",
+                        "outline": "#76777d",
+                        "on-secondary-fixed": "#0b1c30",
+                        "on-surface": "#191c1e",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "inverse-surface": "#2d3133",
+                        "on-secondary-container": "#54647a",
+                        "primary-fixed-dim": "#bec6e0"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "8px",
+                        "xl": "8px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "xl": "32px",
+                        "2xl": "48px",
+                        "sm": "8px",
+                        "lg": "24px",
+                        "xs": "4px",
+                        "md": "16px",
+                        "base": "4px",
+                        "margin": "32px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["JetBrains Mono"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "display": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "display": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "600" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            background-color: #F7F9FB;
+            color: #191C1E;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 320px;
+            width: 100%;
+        }
+
+        .sharp-border {
+            border: 1px solid #e0e3e5;
+        }
+    </style>
+    <!-- SideNavBar (Shared Component) -->
+
+    <%- include("partials/toast") %>
+        <aside
+            class="fixed h-screen w-64 left-0 top-0 bg-surface-container-lowest border-r border-outline-variant flex flex-col py-xl px-md z-50 overflow-x-hidden">
+            <div class="mb-2xl px-sm">
+                <h1 class="font-display text-display text-on-surface tracking-tighter">ARCHIVE</h1>
+                <p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest mt-xs">Heritage
+                    Kit Co.</p>
+            </div>
+            <nav class="flex-1 space-y-sm overflow-y-auto overflow-x-hidden">
+                <a class="flex items-center gap-md bg-surface-container text-on-surface font-semibold border-l-2 border-primary px-md py-sm transition-all"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+                    <span class="font-label-md">Dashboard</span>
+                </a>
+                <a class="flex items-center gap-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low px-md py-sm rounded-lg transition-all duration-200"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+                    <span class="font-label-md">Products</span>
+                </a>
+                <a class="flex items-center gap-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low px-md py-sm rounded-lg transition-all duration-200"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="category">category</span>
+                    <span class="font-label-md">Categories</span>
+                </a>
+                <a class="flex items-center gap-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low px-md py-sm rounded-lg transition-all duration-200"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+                    <span class="font-label-md">Orders</span>
+                </a>
+                <a class="flex items-center gap-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low px-md py-sm rounded-lg transition-all duration-200"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="assignment_return">assignment_return</span>
+                    <span class="font-label-md">Returns</span>
+                </a>
+                <a class="flex items-center gap-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low px-md py-sm rounded-lg transition-all duration-200"
+                    href="/admin/customers" style="transform: translateX(0px);">
+                    <span class="material-symbols-outlined" data-icon="group">group</span>
+                    <span class="font-label-md">Customers</span>
+                </a>
+                <a class="flex items-center gap-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low px-md py-sm rounded-lg transition-all duration-200"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="local_offer">local_offer</span>
+                    <span class="font-label-md">Coupons</span>
+                </a>
+
+
+                <a class="flex items-center gap-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low px-md py-sm rounded-lg transition-all duration-200"
+                    href="#">
+                    <span class="material-symbols-outlined" data-icon="settings">settings</span>
+                    <span class="font-label-md">Settings</span>
+                </a>
+            </nav>
+            <div class="mt-auto pt-lg border-t border-outline-variant space-y-sm">
+                <button
+                    class="w-full text-left flex items-center gap-md text-on-surface-variant hover:text-on-surface px-md py-sm transition-all">
+                    <span class="material-symbols-outlined" data-icon="help">help</span>
+                    <span class="font-label-md">Support</span>
+                </button>
+                <a href="/admin/logout"
+                    class="w-full text-left flex items-center gap-md text-error hover:bg-error-container/20 px-md py-sm rounded-lg transition-all">
+                    <span class="material-symbols-outlined" data-icon="logout">logout</span>
+                    <span class="font-label-md">Log Out</span>
+                </a>
+            </div>
+        </aside>
+        <!-- Main Content Area -->
+        <main class="ml-64 min-h-screen">
+            <!-- TopNavBar (Shared Component) -->
+            <header
+                class="fixed top-0 right-0 w-[calc(100%-256px)] h-16 flex justify-between items-center px-xl z-40 bg-surface/80 backdrop-blur-md border-b border-outline-variant">
+                <div class="flex items-center flex-1 max-w-lg">
+                    <div class="relative w-full">
+                        <span
+                            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]"
+                            data-icon="search">search</span>
+                        <input
+                            class="w-full bg-surface-container-low border-none rounded-lg pl-10 pr-4 py-2 focus:ring-1 focus:ring-primary text-body-md transition-all"
+                            placeholder="Search orders, kits, or customers..." type="text">
+                    </div>
+                </div>
+                <div class="flex items-center gap-lg">
+
+                    <div class="flex items-center gap-md text-on-surface-variant">
+                        <button class="hover:bg-surface-container-high p-2 rounded-lg transition-all relative">
+                            <span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+                            <span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+                        </button>
+                        <div class="h-8 w-[1px] bg-outline-variant"></div>
+                        <div
+                            class="flex items-center gap-sm cursor-pointer hover:bg-surface-container-high p-1 rounded-lg transition-all">
+                            <img alt="Admin Profile" class="w-8 h-8 rounded-full border border-outline-variant"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8wLwORVf-XDgaH-eMImwN5A9873e60Xp0ZW00JE6nwJqEGia7NZuP0S4oTn8fNPkJThWa8ZOu8TYv68uZVuqwsEzEERA_bcKCs5LpnuDGfCjJhDyXRNzTzC5W-5pjGBI40ZfjHWvH5F2wqQuK4K2qbT1Fy5rtFEPfSUSwkC2BlJ3H5wzmaEIz-ZTNZEnxHBGj9gsPPOZ342KWuh51iLCTqqJRbD5hfW7OaaS_OWek4EKGg1jYBBM9iwl7qMNVFSocT_cxx3NA0bg">
+                            <span class="font-label-md hidden lg:block">Admin</span>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- Page Content -->
+            <div class="pt-24 px-xl pb-xl max-w-[1440px] mx-auto">
+                <!-- Page Header -->
+                <div class="mb-xl">
+                    <h2 class="font-headline-lg text-headline-lg">Dashboard</h2>
+                    <p class="text-on-surface-variant font-body-md">Store performance overview</p>
+                </div>
+                <!-- Top Metric Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-lg mb-xl">
+                    <div class="bg-surface-container-lowest p-lg sharp-border rounded-lg">
+                        <p class="text-on-surface-variant font-label-md uppercase tracking-wider mb-sm">Total Revenue
+                        </p>
+                        <div class="flex items-baseline gap-sm mb-xs">
+                            <h3 class="font-display text-[28px] font-bold">₹1,25,000</h3>
+                            <span class="text-success text-body-sm font-semibold">+12.5%</span>
+                        </div>
+                        <p class="text-on-surface-variant text-body-sm">vs last period</p>
+                    </div>
+                    <div class="bg-surface-container-lowest p-lg sharp-border rounded-lg">
+                        <p class="text-on-surface-variant font-label-md uppercase tracking-wider mb-sm">Total Orders</p>
+                        <div class="flex items-baseline gap-sm mb-xs">
+                            <h3 class="font-display text-[28px] font-bold">1,254</h3>
+                            <span class="text-success text-body-sm font-semibold">+8.2%</span>
+                        </div>
+                        <p class="text-on-surface-variant text-body-sm">vs last period</p>
+                    </div>
+                    <div class="bg-surface-container-lowest p-lg sharp-border rounded-lg">
+                        <p class="text-on-surface-variant font-label-md uppercase tracking-wider mb-sm">Customers</p>
+                        <div class="flex items-baseline gap-sm mb-xs">
+                            <h3 class="font-display text-[28px] font-bold">3,420</h3>
+                            <span class="text-error text-body-sm font-semibold">-4.2%</span>
+                        </div>
+                        <p class="text-on-surface-variant text-body-sm">vs last period</p>
+                    </div>
+                    <div class="bg-surface-container-lowest p-lg sharp-border rounded-lg">
+                        <p class="text-on-surface-variant font-label-md uppercase tracking-wider mb-sm">Products</p>
+                        <div class="flex items-baseline gap-sm mb-xs">
+                            <h3 class="font-display text-[28px] font-bold">128</h3>
+                            <span class="text-on-surface-variant text-body-sm font-semibold">0%</span>
+                        </div>
+                        <p class="text-on-surface-variant text-body-sm">vs last period</p>
+                    </div>
+                </div>
+                <!-- Revenue Analytics -->
+                <div class="bg-surface-container-lowest p-xl sharp-border rounded-lg mb-xl">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-md mb-xl">
+                        <div>
+                            <h4 class="font-headline-md text-headline-md">Revenue Analytics</h4>
+                            <p class="text-body-sm text-on-surface-variant">Performance trend across selected timeframe
+                            </p>
+                        </div>
+                        <div class="flex bg-surface-container-low p-1 rounded-lg border border-outline-variant">
+                            <button
+                                class="px-md py-1 text-label-md rounded hover:bg-surface-container transition-colors">Today</button>
+                            <button class="px-md py-1 text-label-md rounded bg-surface-container-lowest shadow-sm">This
+                                Week</button>
+                            <button
+                                class="px-md py-1 text-label-md rounded hover:bg-surface-container transition-colors">Last
+                                Week</button>
+                            <button
+                                class="px-md py-1 text-label-md rounded hover:bg-surface-container transition-colors">This
+                                Month</button>
+                            <button
+                                class="px-md py-1 text-label-md rounded hover:bg-surface-container transition-colors">Last
+                                Month</button>
+                            <button
+                                class="px-md py-1 text-label-md rounded hover:bg-surface-container transition-colors">This
+                                Year</button>
+                        </div>
+                    </div>
+                    <div class="chart-container flex items-end">
+                        <svg class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 1000 320">
+                            <!-- Simple Monochrome Line Chart -->
+                            <polyline fill="none"
+                                points="0,280 100,240 200,260 300,180 400,190 500,120 600,160 700,100 800,140 900,60 1000,40"
+                                stroke="#000000" stroke-width="2"></polyline>
+                            <!-- Reference Lines -->
+                            <line opacity="0.1" stroke="#000000" x1="0" x2="1000" y1="80" y2="80"></line>
+                            <line opacity="0.1" stroke="#000000" x1="0" x2="1000" y1="160" y2="160"></line>
+                            <line opacity="0.1" stroke="#000000" x1="0" x2="1000" y1="240" y2="240"></line>
+                        </svg>
+                    </div>
+                    <div
+                        class="flex justify-between mt-md font-label-md text-on-surface-variant border-t border-outline-variant pt-md">
+                        <span class="">Mon</span><span class="">Tue</span><span class="">Wed</span><span
+                            class="">Thu</span><span class="">Fri</span><span class="">Sat</span><span
+                            class="">Sun</span>
+                    </div>
+                </div>
+                <!-- Secondary Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-lg">
+                    <!-- Recent Orders Table -->
+                    <div
+                        class="lg:col-span-2 bg-surface-container-lowest sharp-border rounded-lg overflow-hidden flex flex-col">
+                        <div class="p-lg border-b border-outline-variant flex justify-between items-center">
+                            <h4 class="font-headline-md text-headline-md">Recent Orders</h4>
+                            <a class="text-primary font-label-md hover:underline" href="#">View All</a>
+                        </div>
+                        <div class="overflow-x-auto flex-1">
+                            <table class="w-full text-left">
+                                <thead>
+                                    <tr class="border-b border-outline-variant bg-surface-container-low/50">
+                                        <th
+                                            class="px-lg py-md font-label-md text-[11px] uppercase tracking-wider text-on-surface-variant">
+                                            Order ID</th>
+                                        <th
+                                            class="px-lg py-md font-label-md text-[11px] uppercase tracking-wider text-on-surface-variant">
+                                            Customer</th>
+                                        <th
+                                            class="px-lg py-md font-label-md text-[11px] uppercase tracking-wider text-on-surface-variant">
+                                            Product</th>
+                                        <th
+                                            class="px-lg py-md font-label-md text-[11px] uppercase tracking-wider text-on-surface-variant">
+                                            Date</th>
+                                        <th
+                                            class="px-lg py-md font-label-md text-[11px] uppercase tracking-wider text-on-surface-variant">
+                                            Status</th>
+                                        <th
+                                            class="px-lg py-md font-label-md text-[11px] uppercase tracking-wider text-on-surface-variant text-right">
+                                            Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-outline-variant">
+                                    <tr class="hover:bg-surface-container-low transition-colors group">
+                                        <td class="px-lg py-lg font-label-md">#ARC-9402</td>
+                                        <td class="px-lg py-lg text-body-sm font-semibold">Rahul S.</td>
+                                        <td class="px-lg py-lg text-body-sm">Man Utd 1994 Home</td>
+                                        <td class="px-lg py-lg text-body-sm text-on-surface-variant">Oct 24, 2023</td>
+                                        <td class="px-lg py-lg">
+                                            <span
+                                                class="px-md py-1 border border-secondary text-secondary text-[10px] font-label-md uppercase rounded">Processing</span>
+                                        </td>
+                                        <td class="px-lg py-lg font-label-md text-right">₹4,999</td>
+                                    </tr>
+                                    <tr class="hover:bg-surface-container-low transition-colors group">
+                                        <td class="px-lg py-lg font-label-md">#ARC-9401</td>
+                                        <td class="px-lg py-lg text-body-sm font-semibold">Arjun M.</td>
+                                        <td class="px-lg py-lg text-body-sm">Arsenal 2004 Away</td>
+                                        <td class="px-lg py-lg text-body-sm text-on-surface-variant">Oct 23, 2023</td>
+                                        <td class="px-lg py-lg">
+                                            <span
+                                                class="px-md py-1 border border-primary text-primary text-[10px] font-label-md uppercase rounded">Shipped</span>
+                                        </td>
+                                        <td class="px-lg py-lg font-label-md text-right">₹6,250</td>
+                                    </tr>
+                                    <tr class="hover:bg-surface-container-low transition-colors group">
+                                        <td class="px-lg py-lg font-label-md">#ARC-9400</td>
+                                        <td class="px-lg py-lg text-body-sm font-semibold">Priya K.</td>
+                                        <td class="px-lg py-lg text-body-sm">Brazil 2002 Home</td>
+                                        <td class="px-lg py-lg text-body-sm text-on-surface-variant">Oct 23, 2023</td>
+                                        <td class="px-lg py-lg">
+                                            <span
+                                                class="px-md py-1 border border-outline text-on-surface-variant text-[10px] font-label-md uppercase rounded">Delivered</span>
+                                        </td>
+                                        <td class="px-lg py-lg font-label-md text-right">₹5,500</td>
+                                    </tr>
+                                    <tr class="hover:bg-surface-container-low transition-colors group">
+                                        <td class="px-lg py-lg font-label-md">#ARC-9399</td>
+                                        <td class="px-lg py-lg text-body-sm font-semibold">Karan V.</td>
+                                        <td class="px-lg py-lg text-body-sm">AC Milan 1996 Home</td>
+                                        <td class="px-lg py-lg text-body-sm text-on-surface-variant">Oct 22, 2023</td>
+                                        <td class="px-lg py-lg">
+                                            <span
+                                                class="px-md py-1 border border-outline text-on-surface-variant text-[10px] font-label-md uppercase rounded">Delivered</span>
+                                        </td>
+                                        <td class="px-lg py-lg font-label-md text-right">₹5,999</td>
+                                    </tr>
+                                    <tr class="hover:bg-surface-container-low transition-colors group">
+                                        <td class="px-lg py-lg font-label-md">#ARC-9398</td>
+                                        <td class="px-lg py-lg text-body-sm font-semibold">Anita R.</td>
+                                        <td class="px-lg py-lg text-body-sm">Inter 2002 Home</td>
+                                        <td class="px-lg py-lg text-body-sm text-on-surface-variant">Oct 22, 2023</td>
+                                        <td class="px-lg py-lg">
+                                            <span
+                                                class="px-md py-1 border border-secondary text-secondary text-[10px] font-label-md uppercase rounded">Processing</span>
+                                        </td>
+                                        <td class="px-lg py-lg font-label-md text-right">₹5,200</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- Right Column -->
+                    <div class="flex flex-col gap-lg">
+                        <!-- Low Stock Alerts -->
+                        <div class="bg-surface-container-lowest p-lg sharp-border rounded-lg">
+                            <h4 class="font-headline-md text-headline-md mb-lg">Low Stock Alerts</h4>
+                            <div class="space-y-md">
+                                <div class="flex justify-between items-center border-b border-outline-variant pb-md">
+                                    <div>
+                                        <p class="font-label-md text-on-surface">MUFC 1994 Home</p>
+                                        <p class="text-body-sm text-on-surface-variant">Size: XL</p>
+                                    </div>
+                                    <span class="text-error font-label-md">2 Left</span>
+                                </div>
+                                <div class="flex justify-between items-center border-b border-outline-variant pb-md">
+                                    <div>
+                                        <p class="font-label-md text-on-surface">AC Milan 1996 Home</p>
+                                        <p class="text-body-sm text-on-surface-variant">Size: L</p>
+                                    </div>
+                                    <span class="text-error font-label-md">1 Left</span>
+                                </div>
+                                <div class="flex justify-between items-center border-b border-outline-variant pb-md">
+                                    <div>
+                                        <p class="font-label-md text-on-surface">Brazil 1998 Training</p>
+                                        <p class="text-body-sm text-on-surface-variant">Size: M</p>
+                                    </div><span class="text-error font-label-md">3 Left</span>
+                                </div>
+                                <div class="flex justify-between items-center border-b border-outline-variant pb-md">
+                                    <div>
+                                        <p class="font-label-md text-on-surface">Arsenal 2004 Away</p>
+                                        <p class="text-body-sm text-on-surface-variant">Size: S</p>
+                                    </div><span class="text-error font-label-md">2 Left</span>
+                                </div>
+                                <div class="flex justify-between items-center border-b border-outline-variant pb-md">
+                                    <div>
+                                        <p class="font-label-md text-on-surface">France 1998 World Cup</p>
+                                        <p class="text-body-sm text-on-surface-variant">Size: L</p>
+                                    </div><span class="text-error font-label-md">1 Left</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Return Requests -->
+
+                        <!-- Quick Actions -->
+
+                    </div>
+                </div>
+            </div>
+        </main>
+        <script>
+            document.querySelectorAll('aside nav a').forEach(link => {
+                link.addEventListener('mouseenter', () => {
+                    if (!link.classList.contains('bg-surface-container')) {
+                        link.style.transform = 'translateX(4px)';
+                    }
+                });
+                link.addEventListener('mouseleave', () => {
+                    link.style.transform = 'translateX(0)';
+                });
+            });
+        </script>
+
+
+        ```
+
+
+
+
+
+</body>
+
+</html>

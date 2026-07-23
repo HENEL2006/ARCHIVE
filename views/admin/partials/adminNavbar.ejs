@@ -1,0 +1,151 @@
+<!DOCTYPE html><html class="light" lang="en"><head></head><body class="font-body-md text-body-md overflow-x-hidden">```html
+
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>ARCHIVE | Admin Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-background": "#191c1e",
+                    "surface-tint": "#565e74",
+                    "inverse-on-surface": "#eff1f3",
+                    "on-tertiary-fixed-variant": "#004c69",
+                    "primary-container": "#131b2e",
+                    "tertiary-fixed-dim": "#7bd0ff",
+                    "primary": "#000000",
+                    "tertiary": "#000000",
+                    "on-tertiary-container": "#008ebf",
+                    "on-primary": "#ffffff",
+                    "surface-bright": "#f7f9fb",
+                    "on-surface-variant": "#45464d",
+                    "secondary-container": "#d0e1fb",
+                    "on-primary-fixed": "#131b2e",
+                    "surface-container-high": "#e6e8ea",
+                    "tertiary-container": "#001e2c",
+                    "surface-container-low": "#f2f4f6",
+                    "outline-variant": "#c6c6cd",
+                    "surface-container": "#eceef0",
+                    "on-error": "#ffffff",
+                    "secondary-fixed-dim": "#b7c8e1",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "tertiary-fixed": "#c4e7ff",
+                    "surface": "#f7f9fb",
+                    "surface-dim": "#d8dadc",
+                    "surface-variant": "#e0e3e5",
+                    "on-secondary-fixed-variant": "#38485d",
+                    "secondary-fixed": "#d3e4fe",
+                    "error": "#ba1a1a",
+                    "secondary": "#505f76",
+                    "inverse-primary": "#bec6e0",
+                    "primary-fixed": "#dae2fd",
+                    "on-error-container": "#93000a",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary-fixed": "#001e2c",
+                    "background": "#f7f9fb",
+                    "on-primary-container": "#7c839b",
+                    "surface-container-highest": "#e0e3e5",
+                    "outline": "#76777d",
+                    "on-secondary-fixed": "#0b1c30",
+                    "on-surface": "#191c1e",
+                    "on-primary-fixed-variant": "#3f465c",
+                    "inverse-surface": "#2d3133",
+                    "on-secondary-container": "#54647a",
+                    "primary-fixed-dim": "#bec6e0"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "8px",
+                    "xl": "8px",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "24px",
+                    "xl": "32px",
+                    "2xl": "48px",
+                    "sm": "8px",
+                    "lg": "24px",
+                    "xs": "4px",
+                    "md": "16px",
+                    "base": "4px",
+                    "margin": "32px"
+            },
+            "fontFamily": {
+                    "label-md": ["JetBrains Mono"],
+                    "headline-lg": ["Inter"],
+                    "body-md": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "display": ["Inter"]
+            },
+            "fontSize": {
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                    "display": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { background-color: #F7F9FB; color: #191C1E; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .chart-container { position: relative; height: 320px; width: 100%; }
+        .sharp-border { border: 1px solid #e0e3e5; }
+    </style>
+<!-- TopNavBar (Shared Component) -->
+<header class="fixed top-0 right-0 w-[calc(100%-256px)] h-16 flex justify-between items-center px-xl z-40 bg-surface/80 backdrop-blur-md border-b border-outline-variant">
+<div class="flex items-center flex-1 max-w-lg">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-[20px]" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-lg pl-10 pr-4 py-2 focus:ring-1 focus:ring-primary text-body-md transition-all" placeholder="Search orders, kits, or customers..." type="text">
+</div>
+</div>
+<div class="flex items-center gap-lg">
+
+<div class="flex items-center gap-md text-on-surface-variant">
+<button class="hover:bg-surface-container-high p-2 rounded-lg transition-all relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-2 right-2 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<div class="h-8 w-[1px] bg-outline-variant"></div>
+<div class="flex items-center gap-sm cursor-pointer hover:bg-surface-container-high p-1 rounded-lg transition-all">
+<img alt="Admin Profile" class="w-8 h-8 rounded-full border border-outline-variant" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8wLwORVf-XDgaH-eMImwN5A9873e60Xp0ZW00JE6nwJqEGia7NZuP0S4oTn8fNPkJThWa8ZOu8TYv68uZVuqwsEzEERA_bcKCs5LpnuDGfCjJhDyXRNzTzC5W-5pjGBI40ZfjHWvH5F2wqQuK4K2qbT1Fy5rtFEPfSUSwkC2BlJ3H5wzmaEIz-ZTNZEnxHBGj9gsPPOZ342KWuh51iLCTqqJRbD5hfW7OaaS_OWek4EKGg1jYBBM9iwl7qMNVFSocT_cxx3NA0bg">
+<span class="font-label-md hidden lg:block">Admin</span>
+</div>
+</div>
+</div>
+</header>
+<script>
+        document.querySelectorAll('aside nav a').forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                if (!link.classList.contains('bg-surface-container')) {
+                    link.style.transform = 'translateX(4px)';
+                }
+            });
+            link.addEventListener('mouseleave', () => {
+                link.style.transform = 'translateX(0)';
+            });
+        });
+    </script>
+
+
+```
+
+
+
+
+
+</body></html>
