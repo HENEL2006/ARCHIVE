@@ -1,25 +1,8 @@
-import User from "../models/User.js";
-import bcrypt from "bcrypt";
+import User from "../../models/User.js";
+import { uploadToCloudinary } from "../../utils/cloudinaryUpload.js";
+import cloudinary from "../../config/cloudinary.js";
 
-export const adminLoginService = async (email, password) => {
-  if (!email || !password) {
-    throw new Error("ALL FIELDS REQUIRED");
-  }
 
-  const admin = await User.findOne({ email, role: "admin" });
-
-  if (!admin) {
-    throw new Error("INVAILD EMAIL");
-  }
-
-  const isPasswordCorrect = await bcrypt.compare(password, admin.password);
-
-  if (!isPasswordCorrect) {
-    throw new Error("INVALID PASSWORD");
-  }
-
-  return admin;
-};
 
 export const getCustomersService = async (
   search,
@@ -70,7 +53,7 @@ export const getCustomersService = async (
     query.isVerified = false;
   }
 
-  if(status === "deleted"){
+  if (status === "deleted") {
     query.isDeleted = true;
   }
 
@@ -146,5 +129,18 @@ export const updateUserStatusService = async (userId) => {
 
   await user.save();
 
+  return user;
+};
+
+export const deleteUserService = async (userId) => {
+  const user = await User.findById(userId);
+
+  if (!user) {
+    throw new Error("USER NOT FOUND");
+  }
+
+  user.isDeleted = !user.isDeleted;
+
+  await user.save();
   return user;
 };

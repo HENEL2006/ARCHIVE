@@ -79,7 +79,7 @@
           <div>
             <label class="block text-[10px] uppercase tracking-[0.25em] text-black/60 mb-3">FULL NAME</label>
             <div class="relative mt-4 border-b border-black/30 transition-all duration-300 focus-within:border-black">
-              <input type="text" name="username" placeholder="ALEXANDER MCQUEEN"
+              <input type="text" name="username" placeholder="ALEXANDER MCQUEEN" id="username"
                 class="w-full bg-transparent pb-3 text-[13px] tracking-[0.12em] placeholder:text-black/35 focus:outline-none" />
             </div>
           </div>
@@ -87,7 +87,7 @@
           <div>
             <label class="block text-[10px] uppercase tracking-[0.25em] text-black/60 mb-3">EMAIL ADDRESS</label>
             <div class="relative mt-4 border-b border-black/30 transition-all duration-300 focus-within:border-black">
-              <input type="email" name="email" placeholder="STUDIO@ARCHIVE.COM"
+              <input type="email" name="email" placeholder="STUDIO@ARCHIVE.COM" id="email"
                 class="w-full bg-transparent pb-3 text-[13px] tracking-[0.12em] placeholder:text-black/35 focus:outline-none" />
             </div>
           </div>
@@ -95,7 +95,7 @@
           <div>
             <label class="block text-[10px] uppercase tracking-[0.25em] text-black/60 mb-3">PASSWORD</label>
             <div class="relative mt-4 border-b border-black/30 transition-all duration-300 focus-within:border-black">
-              <input type="password" name="password" placeholder="•••••••"
+              <input type="password" name="password" placeholder="•••••••" id="password"
                 class="w-full bg-transparent pb-3 text-[13px] tracking-[0.12em] placeholder:text-black/35 focus:outline-none" />
               <button type="button" aria-label="toggle visibility" data-toggle-password
                 class="absolute right-0 bottom-2 text-black/60">
@@ -110,7 +110,7 @@
           <div>
             <label class="block text-[10px] uppercase tracking-[0.25em] text-black/60 mb-3">CONFIRM PASSWORD</label>
             <div class="relative mt-4 border-b border-black/30 transition-all duration-300 focus-within:border-black">
-              <input type="password" name="confirmPassword" placeholder="•••••••"
+              <input type="password" name="confirmPassword" placeholder="•••••••" id="confirmPassword"
                 class="w-full bg-transparent pb-3 text-[13px] tracking-[0.12em] placeholder:text-black/35 focus:outline-none" />
               <button type="button" aria-label="toggle visibility" data-toggle-password
                 class="absolute right-0 bottom-2 text-black/60">
@@ -126,7 +126,7 @@
             <label class="block text-[10px] uppercase tracking-[0.25em] text-black/60 mb-3">REFERRAL CODE <span
                 class="text-black/40">(OPTIONAL)</span></label>
             <div class="relative mt-4 border-b border-black/30 transition-all duration-300 focus-within:border-black">
-              <input type="text" name="referralCode" placeholder="e.g. ARCHIVEHENEL"
+              <input type="text" name="referralCode" placeholder="e.g. ARCHIVEHENEL" id="referralCode"
                 class="w-full bg-transparent pb-3 text-[13px] tracking-[0.12em] placeholder:text-black/35 focus:outline-none" />
             </div>
           </div>
@@ -227,6 +227,136 @@
           behavior: "smooth"
         });
       }
+
+      const form = document.getElementById("signup-form");
+
+      const username = document.getElementById("username");
+      const email = document.getElementById("email");
+      const password = document.getElementById("password");
+      const confirmPassword = document.getElementById("confirmPassword");
+
+      const placeholders = {
+        username: "ALEXANDER MCQUEEN",
+        email: "STUDIO@ARCHIVE.COM",
+        password: "••••••••",
+        confirmPassword: "••••••••"
+      };
+
+      function showError(input, message) {
+
+        input.value = "";
+
+        input.placeholder = message;
+
+        input.classList.add(
+          "border-red-500",
+          "placeholder:text-red-500"
+        );
+
+      }
+
+      function clearError(input, placeholder) {
+
+        input.placeholder = placeholder;
+
+        input.classList.remove(
+          "border-red-500",
+          "placeholder:text-red-500"
+        );
+
+      }
+
+      [username, email, password, confirmPassword].forEach(input => {
+
+        input.addEventListener("input", () => {
+
+          clearError(input, placeholders[input.id]);
+
+        });
+
+      });
+
+      form.addEventListener("submit", function (e) {
+
+        let valid = true;
+
+        clearError(username, placeholders.username);
+        clearError(email, placeholders.email);
+        clearError(password, placeholders.password);
+        clearError(confirmPassword, placeholders.confirmPassword);
+
+        if (username.value.trim() === "") {
+
+          showError(username, "FULL NAME IS REQUIRED");
+
+          valid = false;
+
+        }
+
+        if (email.value.trim() === "") {
+
+          showError(email, "EMAIL IS REQUIRED");
+
+          valid = false;
+
+        }
+
+        else {
+
+          const emailRegex =
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+          if (!emailRegex.test(email.value.trim())) {
+
+            showError(email, "INVALID EMAIL");
+
+            valid = false;
+
+          }
+
+        }
+
+        if (password.value.trim() === "") {
+
+          showError(password, "PASSWORD IS REQUIRED");
+
+          valid = false;
+
+        }
+
+        else if (password.value.length < 8) {
+
+          showError(password, "MINIMUM 8 CHARACTERS");
+
+          valid = false;
+
+        }
+
+        if (confirmPassword.value.trim() === "") {
+
+          showError(confirmPassword, "CONFIRM PASSWORD IS REQUIRED");
+
+          valid = false;
+
+        }
+
+        else if (password.value !== confirmPassword.value) {
+
+          confirmPassword.value = "";
+
+          showError(confirmPassword, "PASSWORDS DO NOT MATCH");
+
+          valid = false;
+
+        }
+
+        if (!valid) {
+
+          e.preventDefault();
+
+        }
+
+      });
     </script>
 </body>
 

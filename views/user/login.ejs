@@ -126,13 +126,13 @@
             </p>
           </div>
           <!-- Form -->
-          <form class="space-y-8" action="/login" method="post">
+          <form id="loginForm" class="space-y-8" action="/login" method="post">
             <div class="space-y-6">
               <div class="group relative">
                 <label class="block text-[10px] uppercase tracking-[0.25em] text-black/60 mb-3">Email Address</label>
                 <input
                   class="w-full border-0 border-b border-black/30 bg-transparent py-4 px-0 text-[13px] tracking-[0.12em] placeholder:text-black/35 focus:outline-none focus:border-black transition-all duration-300"
-                  placeholder="USER@ARCHIVE-SPEC.COM" type="email" name="email" />
+                  placeholder="USER@ARCHIVE-SPEC.COM" type="email" name="email" id="email" />
               </div>
               <div class="group relative">
                 <div class="flex items-center justify-between mb-3">
@@ -144,7 +144,7 @@
                 </div>
                 <input
                   class="w-full border-0 border-b border-black/30 bg-transparent py-4 px-0 text-[13px] tracking-[0.12em] placeholder:text-black/35 focus:outline-none focus:border-black transition-all duration-300"
-                  placeholder="••••••••••••" type="password" name="password" /><button type="button"
+                  id="password" placeholder="••••••••••••" type="password" name="password" /><button type="button"
                   class="absolute right-0 bottom-4 text-primary opacity-60 hover:opacity-100 transition-opacity"
                   onclick="
                     const input = this.previousElementSibling;
@@ -347,6 +347,80 @@
 
         showToast(toastMessage, type);
       }
+
+      const loginForm = document.getElementById("loginForm");
+      const email = document.getElementById("email");
+      const password = document.getElementById("password");
+
+      const defaultEmailPlaceholder = "USER@ARCHIVE-SPEC.COM";
+      const defaultPasswordPlaceholder = "••••••••••••";
+
+      function showInputError(input, message) {
+
+        input.value = "";
+
+        input.placeholder = message;
+
+        input.classList.add(
+          "border-red-500",
+          "placeholder:text-red-500"
+        );
+
+      }
+
+      function clearInputError(input, defaultPlaceholder) {
+
+        input.placeholder = defaultPlaceholder;
+
+        input.classList.remove(
+          "border-red-500",
+          "placeholder:text-red-500"
+        );
+
+      }
+
+      email.addEventListener("input", () => {
+
+        clearInputError(email, defaultEmailPlaceholder);
+
+      });
+
+      password.addEventListener("input", () => {
+
+        clearInputError(password, defaultPasswordPlaceholder);
+
+      });
+
+      loginForm.addEventListener("submit", function (e) {
+
+        let valid = true;
+
+        clearInputError(email, defaultEmailPlaceholder);
+        clearInputError(password, defaultPasswordPlaceholder);
+
+        if (email.value.trim() === "") {
+
+          showInputError(email, "EMAIL IS REQUIRED");
+
+          valid = false;
+
+        }
+
+        if (password.value.trim() === "") {
+
+          showInputError(password, "PASSWORD IS REQUIRED");
+
+          valid = false;
+
+        }
+
+        if (!valid) {
+
+          e.preventDefault();
+
+        }
+
+      });
     </script>
 </body>
 

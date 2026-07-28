@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>ARCHIVE - Categories Management</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=JetBrains+Mono:wght@100..900&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#45464d",
+                        "secondary-fixed": "#d3e4fe",
+                        "surface-container-high": "#e6e8ea",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "surface-variant": "#e0e3e5",
+                        "on-tertiary-fixed-variant": "#004c69",
+                        "surface-dim": "#d8dadc",
+                        "tertiary-fixed-dim": "#7bd0ff",
+                        "primary-container": "#131b2e",
+                        "primary": "#000000",
+                        "on-primary-container": "#7c839b",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#f7f9fb",
+                        "on-surface": "#191c1e",
+                        "primary-fixed-dim": "#bec6e0",
+                        "tertiary": "#000000",
+                        "on-tertiary-fixed": "#001e2c",
+                        "on-error-container": "#93000a",
+                        "surface-container": "#eceef0",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#f7f9fb",
+                        "primary-fixed": "#dae2fd",
+                        "on-background": "#191c1e",
+                        "inverse-on-surface": "#eff1f3",
+                        "error-container": "#ffdad6",
+                        "on-tertiary-container": "#008ebf",
+                        "on-secondary": "#ffffff",
+                        "inverse-surface": "#2d3133",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-tertiary": "#ffffff",
+                        "inverse-primary": "#bec6e0",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#001e2c",
+                        "tertiary-fixed": "#c4e7ff",
+                        "surface-container-low": "#f2f4f6",
+                        "on-primary-fixed": "#131b2e",
+                        "on-secondary-container": "#54647a",
+                        "outline": "#76777d",
+                        "secondary": "#505f76",
+                        "outline-variant": "#c6c6cd",
+                        "surface-tint": "#565e74",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "secondary-container": "#d0e1fb",
+                        "on-secondary-fixed": "#0b1c30",
+                        "on-error": "#ffffff",
+                        "background": "#f7f9fb"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "margin": "32px",
+                        "lg": "24px",
+                        "gutter": "24px",
+                        "xs": "4px",
+                        "xl": "32px",
+                        "sm": "8px",
+                        "base": "4px",
+                        "2xl": "48px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["JetBrains Mono"],
+                        "display": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "display": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .category-card:hover img {
+            transform: scale(1.05);
+        }
+
+        .category-card {
+            transition: border-color 0.2s ease, transform 0.2s ease;
+        }
+    </style>
+</head>
+
+<body class="bg-surface-container text-on-surface min-h-screen">
+    <!-- Fixed Side Navigation Shell -->
+    <!-- Main Content Shell -->
+    <div class="ml-64 flex flex-col min-h-screen">
+        <!-- Top Navigation Bar -->
+        <!-- Fixed SideNavBar -->
+        <%- include("partials/adminSidebar") %>
+            <!-- TopAppBar -->
+            <%- include("partials/adminNavbar") %>
+                <!-- Content Area -->
+                <main class="p-lg mt-4">
+                    <!-- Breadcrumb & Header -->
+                    <div class="mb-2xl flex justify-between items-end">
+                        <div>
+                            <h2 class="font-headline-lg text-headline-lg text-on-surface">Categories</h2>
+                            <p class="text-on-surface-variant font-body-md">Organize football jerseys and accessories
+                                into structured collections.</p>
+                        </div>
+                        <a href="/admin/addCategory">
+                            <button
+                                class="bg-primary text-on-primary px-lg py-md rounded-lg font-label-md hover:opacity-90 transition-opacity flex items-center gap-sm shadow-sm">
+                                <span class="material-symbols-outlined text-[18px]">add</span>
+                                ADD CATEGORY
+                            </button>
+                        </a>
+                    </div>
+                    <!-- Statistics Grid -->
+                    <div class="grid grid-cols-4 gap-lg mb-2xl">
+                        <div class="bg-surface-container-lowest border border-outline-variant p-lg rounded-lg">
+                            <p class="text-on-surface-variant font-label-md mb-xs">TOTAL CATEGORIES</p>
+                            <h3 class="text-headline-lg font-bold">
+                                <%= totalCategories %>
+                            </h3>
+                        </div>
+                        <div class="bg-surface-container-lowest border border-outline-variant p-lg rounded-lg">
+                            <p class="text-on-surface-variant font-label-md mb-xs">LISTED CATEGORIES</p>
+                            <h3 class="text-headline-lg font-bold">
+                                <%= listedCategories %>
+                            </h3>
+                        </div>
+                        <div class="bg-surface-container-lowest border border-outline-variant p-lg rounded-lg">
+                            <p class="text-on-surface-variant font-label-md mb-xs">UNLISTED CATEGORIES</p>
+                            <h3 class="text-headline-lg font-bold">
+                                <%= unlistedCategories %>
+                            </h3>
+                        </div>
+                        <div class="bg-surface-container-lowest border border-outline-variant p-lg rounded-lg">
+                            <p class="text-on-surface-variant font-label-md mb-xs">DELETED CATEGORIES</p>
+                            <div class="flex items-baseline gap-xs">
+                                <h3 class="text-headline-md font-bold">
+                                    <%= deletedCategories %>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Management Toolbar -->
+                    <div class="mb-10 rounded-lg border border-neutral-200 bg-white">
+                        <form action="/admin/category" method="GET">
+                            <div class="flex h-16 items-center px-6">
+
+                                <!-- Search -->
+                                <div class="relative flex flex-1 items-center gap-3">
+
+                                    <span class="material-symbols-outlined text-[20px] text-neutral-400">
+                                        search
+                                    </span>
+
+                                    <input id="categorySearch" type="text" name="search"
+                                        value="<%= typeof search !== 'undefined' ? search : '' %>"
+                                        placeholder="Search categories..."
+                                        class="w-full border-none bg-transparent p-0 pr-8 text-sm text-black placeholder:text-neutral-400 focus:outline-none focus:ring-0">
+
+                                    <!-- Clear Button -->
+                                    <button type="button" id="clearSearch"
+                                        class="absolute right-0 hidden p-1 text-neutral-400 hover:text-black transition">
+
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M6 6l12 12M18 6L6 18" />
+
+                                        </svg>
+
+                                    </button>
+
+                                </div>
+
+                                <!-- Divider -->
+                                <div class="mx-6 h-6 w-px bg-neutral-200"></div>
+
+                                <!-- Status -->
+                                <select name="status" onchange="this.form.submit()"
+                                    class="border-none bg-transparent text-xs font-semibold uppercase tracking-[0.25em] text-neutral-700 focus:outline-none focus:ring-0">
+
+                                    <option value="" <%=status==="" ? "selected" : "" %>>
+                                        All Status
+                                    </option>
+
+                                    <option value="listed" <%=status==="listed" ? "selected" : "" %>>
+                                        Listed
+                                    </option>
+
+                                    <option value="unlisted" <%=status==="unlisted" ? "selected" : "" %>>
+                                        Unlisted
+                                    </option>
+
+                                    <option value="deleted" <%=status==="deleted" ? "selected" : "" %>>
+                                        Deleted
+                                    </option>
+
+                                </select>
+
+                                <!-- Divider -->
+                                <div class="mx-6 h-6 w-px bg-neutral-200"></div>
+
+                                <!-- Sort -->
+                                <select name="sort" onchange="this.form.submit()"
+                                    class="border-none bg-transparent text-xs font-semibold uppercase tracking-[0.25em] text-neutral-700 focus:outline-none focus:ring-0">
+
+                                    <option value="newest" <%=sort==="newest" ? "selected" : "" %>>
+                                        Newest
+                                    </option>
+
+                                    <option value="oldest" <%=sort==="oldest" ? "selected" : "" %>>
+                                        Oldest
+                                    </option>
+
+                                    <option value="az" <%=sort==="az" ? "selected" : "" %>>
+                                        A → Z
+                                    </option>
+
+                                    <option value="za" <%=sort==="za" ? "selected" : "" %>>
+                                        Z → A
+                                    </option>
+                                </select>
+
+                                <!-- Reset -->
+                                <a href="/admin/category"
+                                    class="ml-8 text-xs font-medium uppercase tracking-[0.25em] text-neutral-400 transition hover:text-black">
+                                    Reset Filters
+                                </a>
+
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Categories Grid -->
+                    <% if (categories.length> 0) { %>
+
+                        <div class="grid grid-cols-3 gap-xl w-full">
+                            <% categories.forEach(category=> { %>
+
+                                <div
+                                    class="category-card group bg-surface-container-lowest border border-outline-variant/30 rounded-lg overflow-hidden flex flex-col hover:border-primary/40 transition-all h-full">
+                                    <div class="aspect-video bg-surface-container overflow-hidden">
+                                        <img class="w-full h-full object-cover transition-transform duration-500 ease-out"
+                                            data-alt="A macro shot of a classic AC Milan home jersey from the early 90s, focusing on the textured red and black fabric and the intricate club crest. The lighting is dramatic and warm, highlighting the authentic vintage fibers and stitching details. The overall mood is nostalgic and premium, capturing the essence of historical football heritage in a clean, minimalist photographic style."
+                                            src="<%= category.image %>" />
+                                    </div>
+
+                                    <div class="p-lg flex flex-col flex-1">
+
+                                        <div class="flex justify-between items-center mb-xs">
+
+                                            <h4 class="font-headline-md text-on-surface">
+                                                <%= category.name %>
+                                            </h4>
+
+                                            <span class="text-[10px] font-label-md px-sm py-[1px] rounded tracking-wider uppercase
+                                             <% if (category.isDeleted) { %> bg-red-50 text-red-700
+                                             <% } else if (category.isListed) { %> bg-green-50 text-green-700
+                                             <% } else { %> bg-amber-50 text-amber-700
+                                             <% } %>">
+
+                                                <% if (category.isDeleted) { %>
+                                                    DELETED
+                                                    <% } else if (category.isListed) { %>
+                                                        LISTED
+                                                        <% } else { %>
+                                                            UNLISTED
+                                                            <% } %>
+
+                                            </span>
+
+                                        </div>
+
+                                        <div
+                                            class="font-label-md text-on-surface-variant mb-md text-[11px] tracking-wide">
+                                            58 PRODUCTS
+                                        </div>
+
+                                        <p class="text-on-surface-variant font-body-sm line-clamp-1 mb-lg">
+                                            <%= category.description %>
+                                        </p>
+
+                                        <div class="flex items-center mt-auto pt-md border-t border-outline-variant/10">
+
+                                            <% if (!category.isDeleted) { %>
+
+                                                <div class="flex items-center gap-10">
+
+                                                    <a href="/admin/editCategory/<%= category._id %>"
+                                                        class="text-on-surface font-label-md text-[11px] uppercase tracking-widest hover:text-primary transition-colors">
+                                                        Edit
+                                                    </a>
+
+                                                    <form id="toggleForm-<%= category._id %>" class="inline-flex"
+                                                        action="/admin/toggleCategory/<%= category._id %>"
+                                                        method="POST">
+
+                                                        <button type="button"
+                                                            onclick="openStatusModal('<%= category._id %>', <%= category.isListed %>)"
+                                                            class="leading-none <%= category.isListed ? 'text-amber-600' : 'text-green-600' %> font-label-md text-[11px] uppercase tracking-widest hover:opacity-70">
+
+                                                            <%= category.isListed ? "Unlist" : "List" %>
+
+                                                        </button>
+
+                                                    </form>
+
+                                                </div>
+
+                                                <form id="deleteForm-<%= category._id %>" class="ml-auto"
+                                                    action="/admin/deleteCategory/<%= category._id %>" method="POST">
+
+                                                    <button type="button"
+                                                        onclick="openDeleteModal('<%= category._id %>', '<%= category.name %>')"
+                                                        class="text-red-600 font-label-md text-[11px] uppercase tracking-widest hover:opacity-70">
+
+                                                        Delete
+
+                                                    </button>
+
+                                                </form>
+
+                                                <% } else { %>
+
+                                                    <form id="restoreForm-<%= category._id %>" class="ml-auto"
+                                                        action="/admin/deleteCategory/<%= category._id %>"
+                                                        method="POST">
+
+                                                        <button type="button"
+                                                            onclick="openRestoreModal('<%= category._id %>', '<%= category.name %>')"
+                                                            class="text-green-600 font-label-md text-[11px] uppercase tracking-widest hover:opacity-70">
+
+                                                            Restore
+
+                                                        </button>
+
+                                                    </form>
+
+                                                    <% } %>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <% }) %>
+                        </div>
+
+                        <% } else { %>
+
+                            <div
+                                class="flex min-h-[420px] flex-col items-center justify-center rounded-lg border border-dashed border-outline-variant bg-surface-container-lowest">
+
+                                <span class="material-symbols-outlined text-6xl text-neutral-300">
+                                    category
+                                </span>
+
+                                <% if (search) { %>
+
+                                    <h3 class="mt-6 text-xl font-semibold text-on-surface">
+                                        No categories found
+                                    </h3>
+
+                                    <p class="mt-2 text-sm text-on-surface-variant">
+                                        No categories match "<%= search %>".
+                                    </p>
+
+                                    <% } else if (status==="listed" ) { %>
+
+                                        <h3 class="mt-6 text-xl font-semibold text-on-surface">
+                                            No listed categories
+                                        </h3>
+
+                                        <p class="mt-2 text-sm text-on-surface-variant">
+                                            There are no listed categories.
+                                        </p>
+
+                                        <% } else if (status==="unlisted" ) { %>
+
+                                            <h3 class="mt-6 text-xl font-semibold text-on-surface">
+                                                No unlisted categories
+                                            </h3>
+
+                                            <p class="mt-2 text-sm text-on-surface-variant">
+                                                There are no unlisted categories.
+                                            </p>
+
+                                            <% } else if (status==="deleted" ) { %>
+
+                                                <h3 class="mt-6 text-xl font-semibold text-on-surface">
+                                                    No deleted categories
+                                                </h3>
+
+                                                <p class="mt-2 text-sm text-on-surface-variant">
+                                                    There are no deleted categories.
+                                                </p>
+
+                                                <% } else { %>
+
+                                                    <h3 class="mt-6 text-xl font-semibold text-on-surface">
+                                                        No categories yet
+                                                    </h3>
+
+                                                    <p class="mt-2 text-sm text-on-surface-variant">
+                                                        Create your first category to start organizing your products.
+                                                    </p>
+
+                                                    <a href="/admin/addCategory"
+                                                        class="mt-6 rounded-lg bg-black px-6 py-3 text-sm font-medium text-white transition hover:bg-neutral-800">
+                                                        Add Category
+                                                    </a>
+
+                                                    <% } %>
+
+                            </div>
+
+                            <% } %>
+                                <% if (categories.length> 0) { %>
+
+                                    <!-- Pagination -->
+
+                                    <div
+                                        class="py-lg border-t border-outline-variant flex items-center justify-between mt-2xl">
+
+                                        <div class="text-on-surface-variant font-body-sm">
+                                            Page
+                                            <span class="font-bold text-on-surface">
+                                                <%= page %>
+                                            </span>
+                                            of
+                                            <span class="font-bold text-on-surface">
+                                                <%= totalPages %>
+                                            </span>
+                                        </div>
+
+                                        <nav class="flex items-center gap-2">
+
+                                            <% if (page> 1) { %>
+
+                                                <a href="/admin/category?page=<%= page - 1 %>&search=<%= search %>&status=<%= status %>&sort=<%= sort %>"
+                                                    class="flex h-9 w-9 items-center justify-center rounded border border-outline-variant hover:bg-surface-container">
+
+                                                    <span class="material-symbols-outlined text-[18px]">
+                                                        chevron_left
+                                                    </span>
+
+                                                </a>
+
+                                                <% } %>
+
+                                                    <% for (let i=1; i <=totalPages; i++) { %>
+
+                                                        <a href="/admin/category?page=<%= i %>&search=<%= search %>&status=<%= status %>&sort=<%= sort %>"
+                                                            class="flex h-9 w-9 items-center justify-center rounded border font-label-md
+                                                            <%= page === i ? 'border-primary bg-primary text-white'
+                                                            : 'border-outline-variant hover:bg-surface-container' %>">
+
+                                                            <%= i %>
+
+                                                        </a>
+
+                                                        <% } %>
+
+                                                            <% if (page < totalPages) { %>
+
+                                                                <a href="/admin/category?page=<%= page + 1 %>&search=<%= search %>&status=<%= status %>&sort=<%= sort %>"
+                                                                    class="flex h-9 w-9 items-center justify-center rounded border border-outline-variant hover:bg-surface-container">
+
+                                                                    <span class="material-symbols-outlined text-[18px]">
+                                                                        chevron_right
+                                                                    </span>
+
+                                                                </a>
+
+                                                                <% } %>
+
+                                        </nav>
+
+                                    </div>
+
+                                    <% } %>
+                </main>
+    </div>
+
+    <!-- Status Confirmation Modal -->
+    <div id="statusModal"
+        class="fixed inset-0 z-[9999] hidden flex items-center justify-center bg-black/40 backdrop-blur-[2px] p-4">
+
+        <div class="w-full max-w-md border border-neutral-200 bg-white">
+
+            <!-- Header -->
+            <div class="border-b border-neutral-200 px-8 py-6">
+                <p class="text-xs font-medium uppercase tracking-[0.3em] text-neutral-500">
+                    Category Management
+                </p>
+
+                <h2 id="modalTitle" class="mt-2 text-2xl font-black uppercase tracking-tight text-black">
+                    Change Status
+                </h2>
+            </div>
+
+            <!-- Body -->
+            <div class="px-8 py-6">
+
+                <p id="modalMessage" class="text-sm leading-7 text-neutral-600">
+                </p>
+
+            </div>
+
+            <!-- Footer -->
+            <div class="flex justify-end gap-3 border-t border-neutral-200 px-8 py-6">
+
+                <button type="button" id="cancelModal"
+                    class="border border-neutral-300 px-6 py-2 text-sm font-medium transition hover:bg-neutral-100">
+
+                    Cancel
+
+                </button>
+
+                <button type="button" id="confirmModal"
+                    class="bg-black px-6 py-2 text-sm font-medium text-white transition hover:bg-neutral-800">
+
+                    Continue
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+    <script>
+        const modal = document.getElementById("statusModal");
+        const title = document.getElementById("modalTitle");
+        const message = document.getElementById("modalMessage");
+        const confirmBtn = document.getElementById("confirmModal");
+        const cancelBtn = document.getElementById("cancelModal");
+
+        let selectedForm = null;
+
+        function openDeleteModal(id, categoryName) {
+
+            selectedForm = document.getElementById(`deleteForm-${id}`);
+
+            modalAction = "delete";
+
+            title.textContent = "Delete Category";
+
+            message.textContent =
+                `Are you sure you want to delete "${categoryName}"? This category will be removed from the category list. You can restore it later if you build a recycle bin.`;
+
+            confirmBtn.textContent = "Delete Category";
+
+            confirmBtn.className =
+                "bg-red-600 text-white px-6 py-2 text-sm font-medium hover:bg-red-700 transition";
+
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+        }
+
+        function openStatusModal(id, isListed) {
+
+            selectedForm = document.getElementById(`toggleForm-${id}`);
+
+            if (isListed) {
+
+                title.textContent = "Unlist Category";
+
+                message.textContent =
+                    "This category will be hidden from customers. Products belonging to this category will no longer appear on the storefront.";
+
+                confirmBtn.textContent = "Yes, Unlist";
+
+                confirmBtn.className =
+                    "bg-amber-600 text-white px-6 py-2 text-sm font-medium hover:bg-amber-700 transition";
+
+            } else {
+
+                title.textContent = "List Category";
+
+                message.textContent =
+                    "This category will become visible to customers again.";
+
+                confirmBtn.textContent = "Yes, List";
+
+                confirmBtn.className =
+                    "bg-black text-white px-6 py-2 text-sm font-medium hover:bg-neutral-800 transition";
+
+            }
+
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+        }
+
+        function openRestoreModal(id, categoryName) {
+
+            selectedForm = document.getElementById(`restoreForm-${id}`);
+
+            title.textContent = "Restore Category";
+
+            message.textContent =
+                `Are you sure you want to restore "${categoryName}"? This category will be visible in the category list again.`;
+
+            confirmBtn.textContent = "Restore";
+
+            confirmBtn.className =
+                "bg-green-600 text-white px-6 py-2 text-sm font-medium hover:bg-green-700 transition";
+
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+        }
+
+        cancelBtn.addEventListener("click", () => {
+            modal.classList.remove("flex");
+            modal.classList.add("hidden");
+        });
+
+        confirmBtn.addEventListener("click", () => {
+            if (selectedForm) {
+                selectedForm.submit();
+            }
+        });
+
+        modal.addEventListener("click", (e) => {
+            if (e.target === modal) {
+                modal.classList.remove("flex");
+                modal.classList.add("hidden");
+            }
+        });
+
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") {
+                modal.classList.remove("flex");
+                modal.classList.add("hidden");
+            }
+        });
+
+        // =========================
+        // Search
+        // =========================
+
+        const searchInput = document.getElementById("categorySearch");
+        const clearBtn = document.getElementById("clearSearch");
+
+        function toggleClearButton() {
+            clearBtn.classList.toggle("hidden", searchInput.value.trim() === "");
+        }
+
+        toggleClearButton();
+
+        searchInput.addEventListener("input", toggleClearButton);
+
+        clearBtn.addEventListener("click", () => {
+            window.location.href = "/admin/category";
+        });
+    </script>
+</body>
+
+</html>

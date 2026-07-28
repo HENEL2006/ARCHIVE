@@ -1,35 +1,46 @@
 import express from "express";
 const router = express.Router();
 import {
+  googleAuthCallback,
+  googleCallback,
   signup,
   loadSignup,
-  loadOtp,
-  verifyOtp,
-  resendOtp,
   loadLogin,
   login,
   loadForgotPassword,
   forgotPassword,
   loadResetPassword,
   resetPassword,
-  loadHomePage,
   logout,
+} from "../controllers/user/authController.js";
+import {
+  loadOtp,
+  verifyOtp,
+  resendOtp,
+} from "../controllers/user/otpController.js";
+import {
+  loadHomePage,
+} from "../controllers/user/homeController.js";
+import {
   loadProfilePage,
+  uploadProfileImage,
+  removeProfileImage,
+} from "../controllers/user/profileController.js";
+import {
   loadAddressPage,
   loadAddAddress,
   loadEditAddress,
-  editAddress,
   addAddress,
+  editAddress,
   setAsDefault,
   deleteAddress,
+} from "../controllers/user/addressController.js";
+import {
   loadAccountSettings,
   sendChangeEmailOtp,
   updateProfile,
   changePassword,
-  googleCallback,
-  uploadProfileImage,
-  removeProfileImage,
-} from "../controllers/userController.js";
+} from "../controllers/user/accountController.js";
 import {
   canAccessOtp,
   isLoggedIn,
@@ -47,21 +58,7 @@ router.get(
 );
 router.get(
   "/auth/google/callback",
-  (req, res, next) => {
-    passport.authenticate("google", { session: false }, (err, user, info) => {
-      if (err) {
-        return next(err);
-      }
-
-      if (!user) {
-        req.session.toast = info?.message || "GOOGLE LOGIN FAILED";
-        return res.redirect("/login");
-      }
-
-      req.user = user;
-      next();
-    })(req, res, next);
-  },
+  googleAuthCallback,
   googleCallback,
 );
 

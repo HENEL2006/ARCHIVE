@@ -366,7 +366,12 @@
     const resendBtn = document.getElementById("resend-btn");
     const verifyBtn = document.querySelector("#otp-form button[type='submit']");
 
-    let timeLeft = 180; // 3 minutes
+    const otpExpiry = Number("<%= otpExpiry || 0 %>");
+
+    let timeLeft = Math.max(
+      0,
+      Math.floor((otpExpiry - Date.now()) / 1000)
+    );
 
     function updateTimer() {
 

@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Edit Category | ARCHIVE Admin</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;family=JetBrains+Mono:wght@100..900&amp;display=swap"
+        rel="stylesheet">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#45464d",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-secondary-fixed": "#0b1c30",
+                        "on-primary-container": "#7c839b",
+                        "on-primary": "#ffffff",
+                        "tertiary-container": "#001e2c",
+                        "inverse-surface": "#2d3133",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "surface-tint": "#565e74",
+                        "on-secondary": "#ffffff",
+                        "surface-bright": "#f7f9fb",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-tertiary-fixed-variant": "#004c69",
+                        "on-tertiary-fixed": "#001e2c",
+                        "surface": "#f7f9fb",
+                        "primary-fixed-dim": "#bec6e0",
+                        "surface-container-high": "#e6e8ea",
+                        "primary-fixed": "#dae2fd",
+                        "secondary-container": "#d0e1fb",
+                        "outline": "#76777d",
+                        "background": "#f7f9fb",
+                        "tertiary-fixed": "#c4e7ff",
+                        "surface-dim": "#d8dadc",
+                        "secondary": "#505f76",
+                        "inverse-on-surface": "#eff1f3",
+                        "primary-container": "#131b2e",
+                        "error": "#ba1a1a",
+                        "on-primary-fixed": "#131b2e",
+                        "secondary-fixed": "#d3e4fe",
+                        "on-error-container": "#93000a",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-tertiary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-secondary-container": "#54647a",
+                        "on-surface": "#191c1e",
+                        "surface-variant": "#e0e3e5",
+                        "tertiary-fixed-dim": "#7bd0ff",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#008ebf",
+                        "outline-variant": "#c6c6cd",
+                        "on-background": "#191c1e",
+                        "tertiary": "#000000",
+                        "inverse-primary": "#bec6e0",
+                        "surface-container": "#eceef0",
+                        "primary": "#000000"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "8px",
+                        "xl": "12px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "xs": "4px",
+                        "lg": "24px",
+                        "base": "4px",
+                        "gutter": "24px",
+                        "md": "16px",
+                        "xl": "32px",
+                        "margin": "32px",
+                        "2xl": "48px"
+                    },
+                    "fontFamily": {
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "label-md": ["JetBrains Mono"],
+                        "display": ["Inter"]
+                    },
+                    "fontSize": {
+                        "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "display": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        body {
+            background-color: #f7f9fb;
+            color: #191c1e;
+            -webkit-font-smoothing: antialiased;
+        }
+    </style>
+</head>
+
+<body class="font-body-md text-body-md">
+    <!-- Sidebar Navigation -->
+    <%- include("partials/adminSidebar") %>
+        <!-- TopAppBar -->
+        <%- include("partials/adminNavbar") %>
+
+            <!-- Main Content Area -->
+            <main class="ml-[256px] mt-16 p-2xl">
+                <!-- Page Header -->
+                <div class="mb-xl flex flex-col gap-xs">
+                    <nav class="flex items-center gap-xs mb-xs" aria-label="Breadcrumb">
+                        <a href="/admin/category"
+                            class="font-label-md text-on-surface-variant uppercase tracking-wider hover:text-primary transition-colors">Categories</a>
+                        <span
+                            class="material-symbols-outlined text-on-surface-variant opacity-60 !text-[14px]">chevron_right</span>
+                        <span class="font-label-md text-on-surface-variant opacity-60 uppercase tracking-wider">Edit
+                            Category</span>
+                    </nav>
+                    <h2 class="font-headline-lg text-headline-lg text-primary">Edit Category</h2>
+                    <p class="font-body-md text-on-surface-variant">Update category information and visual presence.</p>
+                </div>
+                <!-- Form Card -->
+                <div
+                    class="max-full bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden">
+                    <form id="editCategoryForm" class="p-xl space-y-xl" action="/admin/editCategory/<%= category._id %>"
+                        method="post" enctype="multipart/form-data">
+                        <!-- Section: Basic Info -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-xl">
+                            <div class="flex flex-col gap-xs">
+                                <label class="font-label-md text-on-surface-variant uppercase tracking-wider">Category
+                                    Name *</label>
+                                <input name="name"
+                                    class="w-full px-md py-sm bg-surface-bright border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all font-body-md"
+                                    placeholder="e.g. 90s Vintage Jerseys" type="text" value="<%= category.name %>">
+                            </div>
+                            <div class="flex flex-col gap-xs">
+                                <label
+                                    class="font-label-md text-on-surface-variant uppercase tracking-wider">Status</label>
+                                <select name="status"
+                                    class="w-full px-md py-sm bg-surface-bright border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all font-body-md appearance-none">
+                                    <option value="listed" <%=category.isListed ? "selected" : "" %>>
+                                        Listed
+                                    </option>
+
+                                    <option value="unlisted" <%=!category.isListed ? "selected" : "" %>>
+                                        Unlisted
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <!-- Section: Description -->
+                        <div class="flex flex-col gap-xs">
+                            <label
+                                class="font-label-md text-on-surface-variant uppercase tracking-wider">Description</label>
+                            <textarea name="description"
+                                class="w-full px-md py-sm bg-surface-bright border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all font-body-md resize-none"
+                                placeholder="Briefly describe the collection and its historical significance..."
+                                rows="4"><%= category.description %></textarea>
+                        </div>
+                        <!-- Section: Image Upload -->
+                        <!-- Section: Image Upload -->
+                        <div class="flex flex-col gap-xs">
+                            <label class="font-label-md text-on-surface-variant uppercase tracking-wider">
+                                Category Image
+                            </label>
+
+                            <div class="flex flex-col gap-md">
+
+                                <!-- Image Preview -->
+                                <div
+                                    class="relative w-full h-64 border border-outline-variant rounded-lg overflow-hidden bg-surface-bright">
+
+                                    <img id="imagePreview" src="<%= category.image %>"
+                                        class="w-full h-full object-cover" />
+
+                                    <div id="uploadPlaceholder"
+                                        class="hidden absolute inset-0 flex flex-col items-center justify-center">
+
+                                        <span class="material-symbols-outlined text-5xl text-on-surface-variant">
+                                            image
+                                        </span>
+
+                                        <p class="mt-sm font-body-md text-on-surface-variant">
+                                            No Image Selected
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                                <!-- Hidden File Input -->
+                                <input id="categoryImage" name="image" type="file" accept="image/*" class="hidden">
+
+                                <!-- Buttons -->
+                                <div class="flex items-center gap-md">
+
+                                    <button type="button" id="changeImageBtn"
+                                        class="px-lg py-sm bg-primary text-on-primary rounded font-body-md hover:bg-primary/90 transition">
+
+                                        Change Image
+
+                                    </button>
+
+                                    <!-- <button type="button" id="removeImageBtn"
+                                        class="px-lg py-sm border border-error text-error rounded font-body-md hover:bg-error/10 transition">
+
+                                        Remove
+
+                                    </button> -->
+
+                                </div>
+
+                                <p class="font-body-sm text-on-surface-variant">
+                                    PNG, JPG or WEBP (Maximum 5MB)
+                                </p>
+
+                            </div>
+                        </div>
+                        <!-- Action Buttons -->
+                        <div class="flex items-center justify-end gap-md pt-lg border-t border-outline-variant">
+                            <a href="/admin/category"
+                                class="px-xl py-sm border border-outline text-primary font-body-md font-bold rounded hover:bg-surface-container-low transition-colors">
+                                Cancel
+                            </a>
+                            <button
+                                class="px-xl py-sm bg-primary text-on-primary font-body-md font-bold rounded hover:bg-primary/90 transition-colors active:scale-[0.98] duration-150 shadow-sm"
+                                type="submit">
+                                Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </main>
+            <script>
+                // Micro-interaction: Active state visual feedback for buttons
+                document.querySelectorAll("button").forEach(button => {
+                    button.addEventListener("mousedown", () => {
+                        button.classList.add("scale-95");
+                    });
+
+                    button.addEventListener("mouseup", () => {
+                        button.classList.remove("scale-95");
+                    });
+
+                    button.addEventListener("mouseleave", () => {
+                        button.classList.remove("scale-95");
+                    });
+                });
+
+                const imageInput = document.getElementById("categoryImage");
+                const preview = document.getElementById("imagePreview");
+                const placeholder = document.getElementById("uploadPlaceholder");
+
+                const changeImageBtn = document.getElementById("changeImageBtn");
+                const removeImageBtn = document.getElementById("removeImageBtn");
+
+                // Open file picker
+                changeImageBtn.addEventListener("click", () => {
+                    imageInput.click();
+                });
+
+                // Preview selected image
+                imageInput.addEventListener("change", function () {
+                    const file = this.files[0];
+
+                    if (!file) return;
+
+                    preview.src = URL.createObjectURL(file);
+                    preview.classList.remove("hidden");
+                    placeholder.classList.add("hidden");
+                });
+
+            </script>
+
+
+</body>
+
+</html>
