@@ -25,6 +25,16 @@ import {
 } from "../controllers/admin/categoryController.js";
 import { adminAuth, adminGuest } from "../middlewares/authMiddleware.js";
 import upload from "../config/multer.js";
+import {
+  addProduct,
+  deleteProduct,
+  loadaddProduct,
+  loadEditProduct,
+  loadProducts,
+  toggleProductStatus,
+  updateProduct,
+} from "../controllers/admin/productController.js";
+import { productValidationMiddleware } from "../middlewares/ProductValidationMiddleware.js";
 
 router.get("/login", adminGuest, loadLogin);
 router.post("/login", adminGuest, adminLogin);
@@ -44,6 +54,24 @@ router.post(
 );
 router.post("/toggleCategory/:id", adminAuth, toggleCategoryStatus);
 router.post("/deleteCategory/:id", adminAuth, deleteCategory);
+router.get("/products", adminAuth, loadProducts);
+router.get("/addProducts", adminAuth, loadaddProduct);
+router.post(
+  "/addProducts",
+  adminAuth,
+  upload.array("images", 5),
+  productValidationMiddleware,
+  addProduct,
+);
+router.post("/products/:id/status", adminAuth, toggleProductStatus);
+router.get("/products/:id/edit", adminAuth, loadEditProduct);
+router.post(
+  "/products/:id/edit",
+  adminAuth,
+  upload.array("images", 5),
+  updateProduct,
+);
+router.post("/products/:id/delete",adminAuth,deleteProduct)
 
 router.get("/logout", adminLogout);
 

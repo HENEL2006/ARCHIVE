@@ -139,8 +139,9 @@
             </span>
 
         </a>
-        <a class="flex items-center gap-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low px-md py-sm rounded-lg transition-all duration-200"
-            href="#">
+        <a href="/admin/products" class="flex items-center gap-md px-md py-sm transition-all
+        <%= activePage === 'products' ? 'bg-surface-container text-on-surface font-semibold border-l-2 border-primary'
+        : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-lg' %>">
             <span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
             <span class="text-[14px] font-medium">Products</span>
         </a>
