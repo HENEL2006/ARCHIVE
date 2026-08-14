@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>MANU 1994 SHARP HOME | AESTHETIC_OFFSIDE</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&amp;family=Space+Mono:wght@400;700&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#e2e2e2",
+                        "background": "#fcf9f8",
+                        "on-secondary": "#ffffff",
+                        "on-background": "#1c1b1b",
+                        "on-secondary-fixed-variant": "#454747",
+                        "on-secondary-container": "#616363",
+                        "secondary": "#5d5f5f",
+                        "on-tertiary": "#ffffff",
+                        "surface-tint": "#5e5e5e",
+                        "accent-success": "#22CD5B",
+                        "on-surface-variant": "#4c4546",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#f6f3f2",
+                        "outline-variant": "#cfc4c5",
+                        "on-tertiary-container": "#848484",
+                        "tertiary-fixed": "#e2e2e2",
+                        "on-primary-container": "#848484",
+                        "on-surface": "#1c1b1b",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "on-primary-fixed": "#1b1b1b",
+                        "outline": "#7e7576",
+                        "on-primary-fixed-variant": "#474747",
+                        "inverse-primary": "#c6c6c6",
+                        "secondary-container": "#dfe0e0",
+                        "on-tertiary-fixed-variant": "#474747",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#dcd9d9",
+                        "surface-container-highest": "#e5e2e1",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "inverse-surface": "#313030",
+                        "on-tertiary-fixed": "#1b1b1b",
+                        "surface-container-high": "#ebe7e7",
+                        "secondary-fixed": "#e2e2e2",
+                        "surface-variant": "#e5e2e1",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#c6c6c6",
+                        "tertiary-fixed-dim": "#c6c6c6",
+                        "primary-container": "#1b1b1b",
+                        "primary": "#000000",
+                        "tertiary-container": "#1b1b1b",
+                        "inverse-on-surface": "#f3f0ef",
+                        "surface-container": "#f0edec",
+                        "surface": "#fcf9f8",
+                        "on-primary": "#ffffff",
+                        "on-error": "#ffffff",
+                        "tertiary": "#000000",
+                        "surface-bright": "#fcf9f8",
+                        "on-error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "section-gap": "128px",
+                        "mobile-margin": "20px",
+                        "grid-gutter": "0px",
+                        "unit": "8px",
+                        "container-padding": "64px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Space Mono"],
+                        "mono-data": ["Space Mono"],
+                        "display-xl": ["Syne"],
+                        "headline-lg-mobile": ["Syne"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Space Mono"],
+                        "label-caps": ["Space Mono"],
+                        "display": ['"Syne"', 'system-ui', 'sans-serif'],
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "1.2", "letterSpacing": "0.03em", "fontWeight": "700" }],
+                        "label-caps": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.1", "letterSpacing": "0.04em", "fontWeight": "700" }],
+                        "display-xl": ["80px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "800" }],
+                        "headline-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "0.04em", "fontWeight": "700" }],
+                        "body-lg": ["16px", { "lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400" }],
+                        "mono-data": ["12px", { "lineHeight": "1.0", "letterSpacing": "-0.02em", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+
+        body {
+            background-color: #fcf9f8;
+            color: #000000;
+        }
+
+        .grid-line-r {
+            border-right: 1px solid #000000;
+        }
+
+        .grid-line-l {
+            border-left: 1px solid #000000;
+        }
+
+        .grid-line-t {
+            border-top: 1px solid #000000;
+        }
+
+        .grid-line-b {
+            border-bottom: 1px solid #000000;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Accordion transition logic */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0, 1, 0, 1);
+        }
+
+        .accordion-item.active .accordion-content {
+            max-height: 1000px;
+            transition: max-height 0.4s ease-in-out;
+        }
+
+        .accordion-item.active .accordion-icon {
+            transform: rotate(45deg);
+        }
+    </style>
+</head>
+
+<body class="font-body-md overflow-x-hidden">
+    <!-- TopAppBar -->
+    <%- include("./partials/userHeader") %>
+        <%- include("partials/toast") %>
+            <main class="w-full pt-[85px]">
+                <!-- Product Hero -->
+                <section class="grid grid-cols-1 md:grid-cols-2 grid-line-b">
+                    <!-- Left Column: Imagery -->
+                    <div class="grid-line-r p-6 md:p-container-padding flex flex-col gap-unit">
+                        <div id="imageContainer"
+                            class="w-full h-[90vh] overflow-hidden bg-surface-container cursor-crosshair">
+
+                            <img id="mainImage" src="<%= product.images[0].url %>" alt="<%= product.name %>"
+                                class="w-full h-full object-cover transition-transform duration-150 ease-out">
+
+                        </div>
+                        <div class="grid grid-cols-3 gap-1 grid-line-t pt-1">
+                            <% product.images.forEach((image,index)=>{ %>
+                                <div
+                                    class="aspect-square bg-surface-container <%= index !== product.images.length-1 ? 'grid-line-r' : '' %>">
+                                    <img src="<%= image.url %>" alt="<%= product.name %>" class="thumbnail w-full h-full object-cover cursor-pointer transition-all duration-200 hover:scale-[1.03]
+<%= index === 0
+    ? 'opacity-100 border-2 border-primary'
+    : 'opacity-50 hover:opacity-100 border-2 border-transparent' %>">
+                                </div>
+                                <% }) %>
+                        </div>
+                    </div>
+                    <!-- Right Column: Details -->
+                    <div class="p-6 md:p-container-padding flex flex-col">
+                        <div class="space-y-8 flex-grow">
+                            <div class="space-y-2">
+
+                                <h1 class="font-display-xl text-headline-lg-mobile md:text-display-xl leading-none">
+                                    <%= product.name %>
+                                </h1>
+                            </div>
+                            <div class="grid grid-cols-2 gap-y-4 font-label-caps text-label-caps">
+                                <div>
+                                    <span class="text-secondary block mb-1">CATEGORY</span>
+                                    <span class="text-primary">
+                                        <%= product.category.name %>
+                                    </span>
+                                </div>
+                                <div>
+                                    <span class="text-secondary block mb-1">BRAND</span>
+                                    <span class="text-primary">
+                                        <%= product.brand %>
+                                    </span>
+                                </div>
+                                <div>
+                                    <span class="text-secondary block mb-1">PRICE</span>
+                                    <span class="text-primary">₹<%= product.price %></span>
+                                </div>
+                                <div>
+                                    <span class="text-secondary block mb-1">STATUS</span>
+                                    <span class="text-primary">
+                                        <%= product.isListed ? "AVAILABLE" : "UNAVAILABLE" %>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="mt-4">
+
+                                <% if (totalStock===0) { %>
+
+                                    <p class="font-mono-data text-[11px] uppercase tracking-[0.18em] text-red-600">
+                                        OUT OF STOCK
+                                    </p>
+
+                                    <% } else if (totalStock <=5) { %>
+
+                                        <p
+                                            class="font-mono-data text-[11px] uppercase tracking-[0.18em] text-amber-600">
+                                            LOW STOCK • ONLY <%= totalStock %> REMAINING
+                                        </p>
+
+                                        <% } else { %>
+
+                                            <p
+                                                class="font-mono-data text-[11px] uppercase tracking-[0.18em] text-green-700">
+                                                IN STOCK
+                                            </p>
+
+                                            <% } %>
+
+                            </div>
+                            <div class="grid-line-t pt-6">
+                                <p class="font-body-lg text-body-lg text-on-surface leading-relaxed max-w-lg">
+                                    <%= product.shortDescription %>
+                                </p>
+                            </div>
+                            <!-- Interactions -->
+                            <form action="/cart/add" method="post" class="space-y-6 pt-8 pb-12">
+
+                                <input type="hidden" name="productId" value="<%= product._id %>">
+
+                                <input type="hidden" id="selectedSize" name="size">
+
+                                <input type="hidden" id="selectedQuantity" name="quantity" value="1">
+                                <div>
+                                    <span class="font-label-caps text-label-caps mb-4 block">SELECT_SIZE</span>
+                                    <div class="flex gap-2">
+
+                                        <% product.variants.forEach((variant)=> { %>
+
+                                            <button type="button" data-size="<%= variant.size %>"
+                                                data-stock="<%= variant.stock %>" class="size-btn
+                                                    w-12 h-12
+                                                    border border-primary
+                                                    flex items-center justify-center
+                                                    font-label-caps
+                                                    transition-all duration-200
+
+                                                    <%= variant.stock === 0
+                                                        ? 'opacity-30 cursor-not-allowed'
+                                                        : 'hover:bg-primary hover:text-on-primary' %>"
+                                                <%=variant.stock===0 ? 'disabled' : '' %>>
+
+                                                <%= variant.size %>
+
+                                            </button>
+
+                                            <% }) %>
+                                    </div>
+                                </div>
+                                <div>
+                                    <span class="font-label-caps text-label-caps mb-4 block">QUANTITY</span>
+                                    <div class="flex items-center gap-6 font-label-caps">
+                                        <button id="decreaseQty" type="button" class="text-xl">
+                                            -
+                                        </button>
+
+                                        <span id="quantityValue" class="text-xl">
+                                            1
+                                        </span>
+
+                                        <button id="increaseQty" type="button" class="text-xl">
+                                            +
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col gap-4">
+                                    <button type="submit" <%=totalStock===0 ? "disabled" : "" %>
+                                        class="
+                                        w-full
+                                        py-6
+                                        font-label-caps
+                                        text-label-caps
+                                        transition-opacity
+
+                                        <%= totalStock===0
+                                            ? 'bg-secondary text-on-primary opacity-40 cursor-not-allowed'
+                                            : 'bg-primary text-on-primary hover:opacity-90' %>
+                                            ">
+
+                                            <%= totalStock===0 ? "OUT OF STOCK" : "ADD TO ARCHIVE" %>
+                                    </button>
+                                    <button
+                                        class="w-full grid-line-b grid-line-t grid-line-l grid-line-r py-6 font-label-caps text-label-caps hover:bg-primary hover:text-on-primary transition-none">
+                                        WISHLIST
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- Accordion Section -->
+                        <div class="grid-line-t mt-auto">
+                            <!-- Description -->
+                            <div class="accordion-item border-b border-primary">
+                                <button
+                                    class="w-full flex justify-between items-center py-6 font-label-caps text-label-caps group"
+                                    onclick="toggleAccordion(this)">
+                                    <span class="">DESCRIPTION</span>
+                                    <span
+                                        class="material-symbols-outlined accordion-icon transition-transform duration-300">add</span>
+                                </button>
+                                <div class="accordion-content">
+                                    <div class="pb-8 pt-2">
+                                        <p class="font-body-md text-body-md text-on-surface leading-relaxed">
+                                            <%= product.description %>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Ratings -->
+                            <div class="accordion-item border-b border-primary">
+                                <button
+                                    class="w-full flex justify-between items-center py-6 font-label-caps text-label-caps group"
+                                    onclick="toggleAccordion(this)">
+                                    <span class="">RATINGS &amp; REVIEWS [12]</span>
+                                    <span
+                                        class="material-symbols-outlined accordion-icon transition-transform duration-300">add</span>
+                                </button>
+                                <div class="accordion-content">
+                                    <div class="pb-8 space-y-6">
+                                        <div class="flex items-end gap-4">
+                                            <span class="font-display-xl text-headline-lg leading-none">4.9</span>
+                                            <div class="flex text-primary mb-1">
+                                                <span class="material-symbols-outlined text-sm fill-1">star</span>
+                                                <span class="material-symbols-outlined text-sm fill-1">star</span>
+                                                <span class="material-symbols-outlined text-sm fill-1">star</span>
+                                                <span class="material-symbols-outlined text-sm fill-1">star</span>
+                                                <span class="material-symbols-outlined text-sm fill-1">star</span>
+                                            </div>
+                                        </div>
+                                        <div class="space-y-4">
+                                            <div class="grid-line-t pt-4">
+                                                <p class="font-mono-data text-[10px] text-secondary">USER_082 //
+                                                    OCT_12_2024
+                                                </p>
+                                                <p class="font-body-md italic mt-2">'The preservation of this specimen
+                                                    is
+                                                    unparalleled. Deadstock condition is a myth until you hold this.'
+                                                </p>
+                                            </div>
+                                            <div class="grid-line-t pt-4">
+                                                <p class="font-mono-data text-[10px] text-secondary">ARCHIVIST_PK //
+                                                    SEP_28_2024</p>
+                                                <p class="font-body-md italic mt-2">'Sublimated crest detailing is
+                                                    crisp.
+                                                    Near-perfect example of 94 Umbro engineering.'</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FAQ -->
+                            <div class="accordion-item border-b border-primary">
+                                <button
+                                    class="w-full flex justify-between items-center py-6 font-label-caps text-label-caps group"
+                                    onclick="toggleAccordion(this)">
+                                    <span class="">FAQS</span>
+                                    <span
+                                        class="material-symbols-outlined accordion-icon transition-transform duration-300">add</span>
+                                </button>
+                                <div class="accordion-content">
+                                    <div class="pb-8 space-y-4 font-body-md text-on-surface">
+                                        <div>
+                                            <p class="font-bold mb-1 underline">Q: IS THIS AN AUTHENTIC VINTAGE ITEM?
+                                            </p>
+                                            <p class="text-secondary">A: Yes, all items in the archive are authenticated
+                                                100% original vintage releases from the stated era.</p>
+                                        </div>
+                                        <div>
+                                            <p class="font-bold mb-1 underline">Q: HOW IS THE CONDITION GRADED?</p>
+                                            <p class="text-secondary">A: We use a strict 10-point scale. This item is
+                                                9.5/10
+                                                (Deadstock with original tags).</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <!-- Editorial Content Section -->
+
+                <!-- Related Products -->
+                <section class="grid-line-b">
+                    <div class="px-6 md:px-section-gap py-12 grid-line-b">
+                        <h3 class="font-label-caps text-label-caps tracking-widest">RELATED ARTIFACTS</h3>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-4">
+
+                        <% if (relatedProducts.length> 0) { %>
+
+                            <% relatedProducts.forEach((related, index)=> { %>
+
+                                <a href="/product/<%= related.slug %>"
+                                    class="<%= index !== relatedProducts.length - 1 ? 'grid-line-r' : '' %> group cursor-pointer border-b border-primary">
+
+                                    <div
+                                        class="product-image-container aspect-[4/5] bg-surface-container overflow-hidden relative">
+
+                                        <% related.images.forEach((image, imageIndex)=> { %>
+
+                                            <img src="<%= image.url %>" alt="<%= related.name %>"
+                                                class="product-hover-image absolute inset-0 w-full h-full object-cover transition-opacity duration-700"
+                                                style="opacity: <%= imageIndex === 0 ? '1' : '0' %>;">
+
+                                            <% }) %>
+
+                                    </div>
+
+                                    <div class="p-6 grid-line-t bg-background text-primary
+           transition-colors duration-300
+           group-hover:bg-primary group-hover:text-on-primary">
+
+                                        <p class="font-mono-data text-mono-data mb-2 uppercase
+               transition-colors duration-300
+               group-hover:text-on-primary">
+                                            <%= related.category.name %>
+                                        </p>
+
+                                        <h4 class="font-label-caps text-label-caps mb-4 uppercase line-clamp-2
+               transition-colors duration-300
+               group-hover:text-on-primary">
+                                            <%= related.name %>
+                                        </h4>
+
+                                        <p class="font-mono-data text-mono-data
+               transition-colors duration-300
+               group-hover:text-on-primary">
+                                            ₹<%= related.price.toLocaleString() %>
+                                        </p>
+
+                                    </div>
+
+                                </a>
+
+                                <% }) %>
+
+                                    <% } else { %>
+
+                                        <div class="col-span-4 py-20 text-center">
+
+                                            <p class="font-mono-data text-secondary uppercase tracking-[0.18em]">
+
+                                                NO RELATED PRODUCTS FOUND
+
+                                            </p>
+
+                                        </div>
+
+                                        <% } %>
+
+                    </div>
+                </section>
+                <!-- Newsletter -->
+                <section class="grid grid-cols-1 md:grid-cols-2 grid-line-b">
+                    <div class="grid-line-r p-6 md:p-section-gap bg-primary text-on-primary">
+                        <h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg leading-tight mb-8">STAY
+                            IN
+                            THE ARCHIVE</h2>
+                        <p class="font-body-lg text-body-lg max-w-sm opacity-80">Join the collective to receive early
+                            access
+                            to seasonal drops and archival deep-dives.</p>
+                    </div>
+                    <div class="p-6 md:p-section-gap flex items-center">
+                        <form class="w-full flex border-b border-primary pb-4">
+                            <input
+                                class="flex-grow bg-transparent border-none focus:ring-0 font-label-caps text-label-caps placeholder:text-secondary/50"
+                                placeholder="EMAIL_ADDRESS" type="email">
+                            <button class="font-label-caps text-label-caps hover:tracking-[0.2em] transition-all"
+                                type="submit">JOIN</button>
+                        </form>
+                    </div>
+                </section>
+            </main>
+            <!-- Footer -->
+            <%- include("partials/userFooter") %>
+                <script>
+                    function toggleAccordion(btn) {
+                        const item = btn.parentElement;
+                        const isActive = item.classList.contains('active');
+
+                        // Close all other items
+                        document.querySelectorAll('.accordion-item').forEach(otherItem => {
+                            if (otherItem !== item) {
+                                otherItem.classList.remove('active');
+                            }
+                        });
+
+                        // Toggle current item
+                        item.classList.toggle('active');
+                    }
+
+                    // Related product image slideshow
+
+                    document.querySelectorAll(".product-image-container").forEach(container => {
+
+                        const images = container.querySelectorAll(".product-hover-image");
+
+                        if (images.length <= 1) {
+                            return;
+                        }
+
+                        let currentIndex = 0;
+                        let slideshowInterval = null;
+
+                        container.addEventListener("mouseenter", () => {
+
+                            currentIndex = 1;
+
+                            images.forEach((image, index) => {
+                                image.style.opacity = index === currentIndex ? "1" : "0";
+                            });
+
+                            slideshowInterval = setInterval(() => {
+
+                                images[currentIndex].style.opacity = "0";
+
+                                currentIndex++;
+
+                                if (currentIndex >= images.length) {
+                                    currentIndex = 0;
+                                }
+
+                                images[currentIndex].style.opacity = "1";
+
+                            }, 1200);
+
+                        });
+
+                        container.addEventListener("mouseleave", () => {
+
+                            clearInterval(slideshowInterval);
+
+                            slideshowInterval = null;
+
+                            images.forEach((image, index) => {
+                                image.style.opacity = index === 0 ? "1" : "0";
+                            });
+
+                            currentIndex = 0;
+
+                        });
+
+                    });
+
+                    // Micro-interactions for quantity
+                    const decreaseBtn = document.getElementById("decreaseQty");
+                    const increaseBtn = document.getElementById("increaseQty");
+
+                    const quantityDisplay = document.getElementById("quantityValue");
+
+                    const quantityInput = document.getElementById("selectedQuantity");
+
+                    let quantity = 1;
+                    let selectedStock = 0;
+
+                    quantityDisplay.innerText = quantity;
+                    quantityInput.value = quantity;
+
+                    const mainImage = document.getElementById("mainImage");
+                    const imageContainer = document.getElementById("imageContainer");
+
+                    const thumbnails = document.querySelectorAll(".thumbnail");
+
+                    thumbnails.forEach((thumbnail) => {
+
+                        thumbnail.addEventListener("click", () => {
+
+                            mainImage.src = thumbnail.src;
+
+                            thumbnails.forEach((img) => {
+
+                                img.classList.remove(
+                                    "opacity-100",
+                                    "border-primary"
+                                );
+
+                                img.classList.add(
+                                    "opacity-50",
+                                    "border-transparent"
+                                );
+
+                            });
+
+                            thumbnail.classList.remove(
+                                "opacity-50",
+                                "border-transparent"
+                            );
+
+                            thumbnail.classList.add(
+                                "opacity-100",
+                                "border-primary"
+                            );
+
+                        });
+
+                    });
+
+                    const sizeButtons = document.querySelectorAll(".size-btn");
+
+                    const selectedSize = document.getElementById("selectedSize");
+
+                    sizeButtons.forEach((button) => {
+
+                        button.addEventListener("click", () => {
+
+                            sizeButtons.forEach((btn) => {
+
+                                btn.classList.remove(
+                                    "bg-primary",
+                                    "text-on-primary"
+                                );
+
+                            });
+
+                            button.classList.add(
+                                "bg-primary",
+                                "text-on-primary"
+                            );
+
+                            selectedSize.value = button.dataset.size;
+                            selectedStock = Number(button.dataset.stock);
+
+                            quantity = 1;
+
+                            quantityDisplay.innerText = quantity;
+
+                            quantityInput.value = quantity;
+
+
+                        });
+                    });
+
+                    decreaseBtn.addEventListener("click", () => {
+
+                        if (!selectedSize.value) {
+
+                            showToast("Please select a size first.", "error");
+
+                            return;
+
+                        }
+
+                        if (quantity > 1) {
+
+                            quantity--;
+
+                            quantityDisplay.innerText = quantity;
+
+                            quantityInput.value = quantity;
+
+                        }
+
+                    });
+
+                    increaseBtn.addEventListener("click", () => {
+
+                        if (!selectedSize.value) {
+
+                            showToast("Please select a size first.", "error");
+
+                            return;
+
+                        }
+
+                        if (quantity < selectedStock) {
+
+                            quantity++;
+
+                            quantityDisplay.innerText = quantity;
+
+                            quantityInput.value = quantity;
+
+                        }
+
+                    });
+
+                    imageContainer.addEventListener("mousemove", (e) => {
+
+                        const rect = imageContainer.getBoundingClientRect();
+
+                        const x = ((e.clientX - rect.left) / rect.width) * 100;
+                        const y = ((e.clientY - rect.top) / rect.height) * 100;
+
+                        mainImage.style.transformOrigin = `${x}% ${y}%`;
+                        mainImage.style.transform = "scale(1.8)";
+
+                    });
+
+                    imageContainer.addEventListener("mouseleave", () => {
+
+                        mainImage.style.transform = "scale(1)";
+                        mainImage.style.transformOrigin = "center center";
+
+                    });
+
+                    const cartForm = document.querySelector('form[action="/cart/add"]');
+
+                    cartForm.addEventListener("submit", (e) => {
+
+                        if (!selectedSize.value) {
+
+                            e.preventDefault();
+
+                            showToast("Please select a size first.", "error");
+
+                        }
+
+                    });
+
+                    
+                </script>
+
+
+</body>
+
+</html>

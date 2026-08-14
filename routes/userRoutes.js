@@ -18,9 +18,7 @@ import {
   verifyOtp,
   resendOtp,
 } from "../controllers/user/otpController.js";
-import {
-  loadHomePage,
-} from "../controllers/user/homeController.js";
+import { loadHomePage } from "../controllers/user/homeController.js";
 import {
   loadProfilePage,
   uploadProfileImage,
@@ -49,6 +47,18 @@ import {
 import { validateAddress } from "../middlewares/addressValidationMiddleware.js";
 import passport from "passport";
 import upload from "../config/multer.js";
+import {
+  loadProductDetails,
+  loadProducts,
+} from "../controllers/user/productController.js";
+import {
+  addToCart,
+  loadCart,
+  loadCheckout,
+  removeCartItem,
+  updateCartQuantity,
+} from "../controllers/user/cartController.js";
+import { addToWishlist, loadWishlist, removeFromWishlist } from "../controllers/user/wishlistController.js";
 
 router.get(
   "/auth/google",
@@ -56,11 +66,7 @@ router.get(
     scope: ["profile", "email"],
   }),
 );
-router.get(
-  "/auth/google/callback",
-  googleAuthCallback,
-  googleCallback,
-);
+router.get("/auth/google/callback", googleAuthCallback, googleCallback);
 
 router.post(
   "/profile/upload-photo",
@@ -95,6 +101,16 @@ router.get("/account-settings", isLoggedIn, loadAccountSettings);
 router.post("/change-email/send-otp", isLoggedIn, sendChangeEmailOtp);
 router.post("/profile/update", isLoggedIn, updateProfile);
 router.post("/account-settings/change-password", isLoggedIn, changePassword);
+router.get("/products", isLoggedIn, loadProducts);
+router.get("/product/:slug", loadProductDetails);
+router.post("/cart/add", isLoggedIn, addToCart);
+router.get("/cart", isLoggedIn, loadCart);
+router.post("/cart/update", isLoggedIn, updateCartQuantity);
+router.post("/cart/remove", isLoggedIn, removeCartItem);
+router.get("/checkout", isLoggedIn, loadCheckout);
+router.get("/wishlist", isLoggedIn, loadWishlist);
+router.post("/wishlist/add", isLoggedIn,addToWishlist);
+router.post("/wishlist/remove",isLoggedIn,removeFromWishlist)
 
 router.get("/logout", isLoggedIn, logout);
 

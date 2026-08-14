@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CHECKOUT | AESTHETIC_OFFSIDE</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&amp;family=Space+Mono:ital,wght@0,400;0,700;1,400&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface": "#fcf9f8",
+                    "primary-fixed-dim": "#c6c6c6",
+                    "on-secondary": "#ffffff",
+                    "on-tertiary-fixed": "#1b1b1b",
+                    "error": "#ba1a1a",
+                    "on-primary-fixed-variant": "#474747",
+                    "secondary-fixed": "#e2e2e2",
+                    "on-error": "#ffffff",
+                    "on-primary-container": "#848484",
+                    "surface-container-high": "#ebe7e7",
+                    "primary": "#000000",
+                    "on-primary": "#ffffff",
+                    "outline-variant": "#cfc4c5",
+                    "on-secondary-container": "#616363",
+                    "on-secondary-fixed": "#1a1c1c",
+                    "tertiary-fixed-dim": "#c6c6c6",
+                    "tertiary-fixed": "#e2e2e2",
+                    "secondary-container": "#dfe0e0",
+                    "inverse-on-surface": "#f3f0ef",
+                    "primary-container": "#1b1b1b",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-variant": "#e5e2e1",
+                    "on-background": "#1c1b1b",
+                    "surface-container-highest": "#e5e2e1",
+                    "on-primary-fixed": "#1b1b1b",
+                    "inverse-surface": "#313030",
+                    "on-tertiary-fixed-variant": "#474747",
+                    "inverse-primary": "#c6c6c6",
+                    "tertiary": "#000000",
+                    "on-error-container": "#93000a",
+                    "surface-dim": "#dcd9d9",
+                    "background": "#fcf9f8",
+                    "surface-bright": "#fcf9f8",
+                    "on-tertiary-container": "#848484",
+                    "accent-success": "#22CD5B",
+                    "secondary": "#5d5f5f",
+                    "secondary-fixed-dim": "#c6c6c7",
+                    "error-container": "#ffdad6",
+                    "outline": "#7e7576",
+                    "primary-fixed": "#e2e2e2",
+                    "on-surface-variant": "#4c4546",
+                    "tertiary-container": "#1b1b1b",
+                    "surface-tint": "#5e5e5e",
+                    "on-surface": "#1c1b1b",
+                    "on-secondary-fixed-variant": "#454747",
+                    "surface-container-low": "#f6f3f2",
+                    "on-tertiary": "#ffffff",
+                    "surface-container": "#f0edec"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0rem",
+                    "lg": "0rem",
+                    "xl": "0rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "section-gap": "128px",
+                    "container-padding": "64px",
+                    "mobile-margin": "20px",
+                    "unit": "8px",
+                    "grid-gutter": "0px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": ["Syne"],
+                    "mono-data": ["Space Mono"],
+                    "body-md": ["Space Mono"],
+                    "label-caps": ["Space Mono"],
+                    "body-lg": ["Space Mono"],
+                    "headline-md": ["Syne"],
+                    "headline-lg": ["Syne"],
+                    "display-xl": ["Syne"]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": ["32px", {"lineHeight": "1.1", "letterSpacing": "0.04em", "fontWeight": "700"}],
+                    "mono-data": ["12px", {"lineHeight": "1.0", "letterSpacing": "-0.02em", "fontWeight": "400"}],
+                    "body-md": ["14px", {"lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400"}],
+                    "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "700"}],
+                    "body-lg": ["16px", {"lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.2", "letterSpacing": "0.03em", "fontWeight": "700"}],
+                    "headline-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "0.04em", "fontWeight": "700"}],
+                    "display-xl": ["80px", {"lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "800"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        input[type="checkbox"] {
+            border-radius: 0;
+            border: 1px solid #000;
+        }
+        input[type="checkbox"]:checked {
+            background-color: #000;
+            border-color: #000;
+        }
+        select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%23000' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+            background-position: right 0.5rem center;
+            background-repeat: no-repeat;
+            background-size: 1.5em 1.5em;
+            padding-right: 2.5rem;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+        }
+    </style>
+</head>
+<body class="bg-surface text-primary selection:bg-primary selection:text-on-primary font-body-md overflow-x-hidden">
+<!-- TopNavBar -->
+    <%- include("./partials/userHeader") %>
+        <%- include("partials/toast") %>
+<!-- Main Content Canvas -->
+<main class="w-full">
+<div class="grid grid-cols-1 md:grid-cols-12 w-full min-h-screen">
+<!-- Left Column (70%) -->
+<div class="md:col-span-8 border-r border-primary">
+<section class="p-container-padding">
+<h1 class="font-display-xl text-display-xl uppercase mb-12">CHECKOUT</h1>
+<!-- Section 01 / Delivery -->
+<div class="mb-20">
+<div class="flex items-baseline gap-4 mb-8">
+<span class="font-mono-data text-mono-data">01 /</span>
+<h2 class="font-headline-lg text-headline-lg uppercase">Delivery</h2>
+</div>
+<div class="border border-primary p-8 mb-6 max-w-2xl">
+<div class="flex justify-between items-start mb-6">
+<span class="font-label-caps text-label-caps px-3 py-1 bg-primary text-on-primary">DEFAULT ADDRESS</span>
+</div>
+<div class="space-y-1">
+<h3 class="font-headline-md text-headline-md uppercase">Julian Rossi</h3>
+<p class="font-mono-data text-mono-data text-secondary">+44 7700 900077</p>
+<p class="font-body-md text-body-md mt-4 leading-relaxed">
+                    Studio 12, Archival House<br/>
+                    Great Eastern St, London<br/>
+                    EC2A 3NT, United Kingdom
+</p>
+</div>
+</div>
+<div class="flex gap-4">
+<button class="font-label-caps text-label-caps border border-primary px-6 py-3 hover:bg-primary hover:text-on-primary transition-colors uppercase">Change Address</button>
+<button class="font-label-caps text-label-caps border border-primary px-6 py-3 hover:bg-primary hover:text-on-primary transition-colors uppercase">Add New Address</button>
+</div>
+</div>
+<!-- Section 02 / Payment -->
+<div class="mb-20">
+<div class="flex items-baseline gap-4 mb-8">
+<span class="font-mono-data text-mono-data">02 /</span>
+<h2 class="font-headline-lg text-headline-lg uppercase">Payment</h2>
+</div>
+<div class="space-y-0 border-t border-primary max-w-2xl">
+<!-- Razorpay Row -->
+<label class="flex items-center justify-between p-6 border-b border-l border-r border-primary cursor-pointer hover:bg-surface-container transition-colors group">
+<div class="flex items-center gap-6">
+<input checked="" class="w-4 h-4 text-primary focus:ring-0" name="payment" type="radio"/>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-xl">payments</span>
+<span class="font-label-caps text-label-caps uppercase">Razorpay</span>
+</div>
+</div>
+<span class="font-mono-data text-mono-data text-secondary">UPI / CARDS / NETBANKING</span>
+</label>
+<!-- COD Row -->
+<label class="flex items-center justify-between p-6 border-b border-l border-r border-primary cursor-pointer hover:bg-surface-container transition-colors group">
+<div class="flex items-center gap-6">
+<input class="w-4 h-4 text-primary focus:ring-0" name="payment" type="radio"/>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-xl">local_shipping</span>
+<span class="font-label-caps text-label-caps uppercase">Cash On Delivery</span>
+</div>
+</div>
+<span class="font-mono-data text-mono-data text-secondary">ELIGIBLE ORDERS ONLY</span>
+</label>
+</div>
+</div>
+<!-- Wallet Section -->
+<div class="p-8 border border-primary max-w-2xl bg-surface-container-low">
+<div class="flex justify-between items-center">
+<div>
+<h4 class="font-label-caps text-label-caps mb-1">WALLET BALANCE</h4>
+<p class="font-headline-md text-headline-md tracking-tighter">₹450.00</p>
+</div>
+<label class="flex items-center gap-3 cursor-pointer">
+<input class="w-5 h-5 text-primary focus:ring-0" type="checkbox"/>
+<span class="font-label-caps text-label-caps">USE WALLET BALANCE</span>
+</label>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column (30%) -->
+<div class="md:col-span-4 bg-surface h-full">
+<div class="sticky top-20 p-container-padding">
+<h2 class="font-headline-md text-headline-md uppercase mb-8 tracking-tighter border-b border-primary pb-4">Order Summary</h2>
+<!-- Items List -->
+<div class="space-y-6 mb-8">
+<!-- Item 1 -->
+<div class="flex gap-4 items-start">
+<div class="w-[60px] h-[60px] border border-primary flex-shrink-0">
+<img alt="Man Utd 1994" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AP1WRLtShlTR8qqKX-DTbO0w9Xjh42c4ckH4ECCMXbrpFmM7fGaPZrsD6ZW9RJRHyic0PqX4cHAw6Hjs0JAvBaxVGy9gmf_v9lDGKIH1_-_uwqAPI29hVyEfI6-8symKX4yzPUPam_tJxQ0ENORJgh2SBIAo0mF7ZBTnIMs2EA3PqOv-XDTOTfX_pYhPs6z_BPDoHD6g0d9saL8tXZlFuCNYGCUZPGzOssUv73j6Z2X-1zHEszzNC7N3DHbcWg"/>
+</div>
+<div class="flex-grow">
+<h4 class="font-label-caps text-label-caps leading-none mb-1">MANCHESTER UNITED</h4>
+<p class="font-mono-data text-mono-data text-secondary">SIZE: L / QTY: 1</p>
+<p class="font-mono-data text-mono-data mt-1">$285.00</p>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="flex gap-4 items-start">
+<div class="w-[60px] h-[60px] border border-primary flex-shrink-0">
+<img alt="Inter 2002" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AP1WRLtGhytMttdlrgkSgyMY94FphCNA2ILfdNBNtZGFCWYhiPNuB-t83JAORqvexRavH_ou3AfsBf6-KPMzffC58TxW1PAFuIv0xTae5zGsh_fZTknDu7eVYkHM8T8GlZpJQvVoohUxV0sa_OhoJMR5Au_bzbdTdNACeiVKbLPtv-A1y0yo_bvvZNniahkOJsOZGxSu9u4RmkQENv5myYMh-3wiZnq7vICnqk6OQ0jFQ9cMz_6fRgFpT5UcNqw"/>
+</div>
+<div class="flex-grow">
+<h4 class="font-label-caps text-label-caps leading-none mb-1">INTER MILAN</h4>
+<p class="font-mono-data text-mono-data text-secondary">SIZE: M / QTY: 1</p>
+<p class="font-mono-data text-mono-data mt-1">$210.00</p>
+</div>
+</div>
+<!-- More Items -->
+<div class="flex justify-between items-center pt-2">
+<span class="font-mono-data text-mono-data text-secondary uppercase">+3 MORE ITEMS</span>
+<a class="font-label-caps text-label-caps underline hover:no-underline" href="#">VIEW ALL ITEMS</a>
+</div>
+</div>
+<!-- Promo Code -->
+<div class="mb-10 space-y-4">
+<div class="relative">
+<select class="w-full bg-transparent border border-primary font-mono-data text-mono-data py-3 px-4 focus:ring-0 appearance-none cursor-pointer">
+<option disabled="" selected="" value="">AVAILABLE COUPONS</option>
+<option value="ARCHIVE10">ARCHIVE10 - 10% OFF</option>
+<option value="LEGACY25">LEGACY25 - 25% OFF</option>
+</select>
+</div>
+<div class="flex gap-0">
+<input class="flex-grow bg-transparent border border-primary border-r-0 font-mono-data text-mono-data py-3 px-4 focus:ring-0" placeholder="ENTER CODE" type="text"/>
+<button class="bg-primary text-on-primary font-label-caps text-label-caps px-6 py-3 hover:opacity-90 transition-opacity">APPLY</button>
+</div>
+</div>
+<!-- Financials -->
+<div class="border-t border-primary pt-6 space-y-4">
+<div class="flex justify-between font-mono-data text-mono-data text-secondary">
+<span>SUBTOTAL</span>
+<span>$495.00</span>
+</div>
+<div class="flex justify-between font-mono-data text-mono-data text-secondary">
+<span>SHIPPING</span>
+<span>$25.00</span>
+</div>
+<div class="flex justify-between font-mono-data text-mono-data text-accent-success">
+<span>DISCOUNT</span>
+<span>-$50.00</span>
+</div>
+<div class="flex justify-between font-headline-md text-headline-md border-t border-primary pt-6 mt-4">
+<span>TOTAL</span>
+<span>$470.00</span>
+</div>
+</div>
+<!-- CTA -->
+<button class="w-full bg-primary text-on-primary font-label-caps text-label-caps py-6 mt-12 hover:opacity-90 transition-opacity tracking-widest text-lg">PLACE ORDER</button>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<%- include("partials/userFooter") %>
+</body></html>

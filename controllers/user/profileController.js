@@ -2,8 +2,6 @@ import User from "../../models/User.js";
 import cloudinary from "../../config/cloudinary.js";
 import streamifier from "streamifier";
 import {
-  updateProfileService,
-  changePasswordService,
   removeProfileImageService,
 } from "../../services/user/profileService.js";
 
@@ -11,7 +9,7 @@ export const loadProfilePage = async (req, res) => {
   const user = await User.findById(req.session.userId);
   res.render("user/profile", {
     user,
-    error: null,
+    activePage: "profile"
   });
 };
 

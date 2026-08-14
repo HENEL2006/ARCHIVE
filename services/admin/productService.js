@@ -32,7 +32,6 @@ export const addProductService = async (data, files) => {
     size,
     stock: Number(stocks[index]),
   }));
-
   const images = [];
 
   for (const file of files) {

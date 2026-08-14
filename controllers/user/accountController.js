@@ -13,6 +13,7 @@ export const loadAccountSettings = async (req, res) => {
     user,
     passwordError: null,
     oldData: {},
+    activePage: "account",
   });
 };
 

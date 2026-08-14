@@ -1,0 +1,71 @@
+<div id="toast"
+    class="fixed top-8 left-1/2 -translate-x-1/2 -translate-y-20 opacity-0 z-50 transition-all duration-500 ease-out bg-white border border-black shadow-lg px-5 py-3 rounded-full flex items-center gap-3">
+
+    <div id="toast-icon" class="w-6 h-6 rounded-full border border-black flex items-center justify-center text-[10px]">
+        ✓
+    </div>
+
+    <p id="toast-message" class="text-[10px] uppercase tracking-[0.25em] whitespace-nowrap text-black font-bold">
+    </p>
+
+</div>
+
+
+<script>
+
+    function showToast(message, type = "success") {
+
+        const toast = document.getElementById("toast");
+        const toastMessage = document.getElementById("toast-message");
+        const toastIcon = document.getElementById("toast-icon");
+
+        toastMessage.textContent = message;
+
+        toastIcon.innerHTML = type === "error" ? "✕" : "✓";
+
+        toast.classList.remove(
+            "-translate-y-20",
+            "opacity-0"
+        );
+
+        toast.classList.add(
+            "translate-y-0",
+            "opacity-100"
+        );
+
+        setTimeout(() => {
+
+            toast.classList.remove(
+                "translate-y-0",
+                "opacity-100"
+            );
+
+            toast.classList.add(
+                "-translate-y-20",
+                "opacity-0"
+            );
+
+        }, 2500);
+
+    }
+
+    const toastData = <%- JSON.stringify(toast || null) %>;
+
+    if (toastData) {
+
+        if (typeof toastData === "string") {
+
+            showToast(toastData, "success");
+
+        } else {
+
+            showToast(
+                toastData.message,
+                toastData.type
+            );
+
+        }
+
+    }
+
+</script>

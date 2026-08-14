@@ -1,7 +1,6 @@
 import {
   verifyUserOtp,
   resendUserOtp,
-  sendEmailChangeOtp,
   verifyEmailChangeOtp,
 } from "../../services/user/otpService.js";
 

@@ -5,13 +5,17 @@ import { sendOtpEmail } from "../../utils/sendOtpEmail.js";
 import { isPasswordValid } from "../../public/JS/passwordValidation.js";
 import passport from "passport";
 
-
-
 export const signupUser = async (userData) => {
   const { username, email, password, confirmPassword, referralCode } = userData;
 
   if (!username || !email || !password || !confirmPassword) {
     throw new Error("ALL FIELDS REQUIRED");
+  }
+
+  const nameRegex = /^[A-Za-z]+(?: [A-Za-z]+)*$/;
+
+  if (!nameRegex.test(username.trim())) {
+    throw new Error("NAME CAN ONLY CONTAIN LETTERS AND SPACES");
   }
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -156,7 +160,6 @@ export const resetUserPassword = async (userId, password, confirmPassword) => {
 
   return true;
 };
-
 
 export const googleAuthCallback = (req, res, next) => {
   passport.authenticate("google", { session: false }, (err, user, info) => {

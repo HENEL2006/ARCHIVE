@@ -1,5 +1,8 @@
 import Category from "../../models/category.js";
 import { uploadToCloudinary } from "../../utils/cloudinaryUpload.js";
+import cloudinary from "../../config/cloudinary.js";
+import Product from "../../models/product.js";
+import category from "../../models/category.js";
 
 export const getCategoryService = async (
   search = "",
@@ -47,7 +50,28 @@ export const getCategoryService = async (
   const categories = await Category.find(query)
     .sort(sortQuery)
     .skip(skip)
-    .limit(limit);
+    .limit(limit)
+    .lean();
+
+  const productCounts = await Product.aggregate([
+    {
+      $group: {
+        _id: "$category",
+        productCount: {
+          $sum: 1,
+        },
+      },
+    },
+  ]);
+
+  const productCountMap = new Map(
+    productCounts.map((item) => [item._id.toString(), item.productCount]),
+  );
+
+  const categoriesWithCounts = categories.map((category) => ({
+    ...category,
+    productCount: productCountMap.get(category._id.toString()) || 0,
+  }));
 
   const totalPages = Math.ceil(filteredCount / limit);
 
@@ -68,7 +92,7 @@ export const getCategoryService = async (
   });
 
   return {
-    categories,
+    categories : categoriesWithCounts,
     totalCategories,
     listedCategories,
     unlistedCategories,
@@ -130,8 +154,10 @@ export const editCategoryService = async (id, data, file) => {
     throw new Error("CATEGORY NOT FOUND");
   }
 
+  const categoryName = data.name.trim().toLowerCase();
+
   const existingCategory = await Category.findOne({
-    name: data.name.trim(),
+    name: { $regex: new RegExp(`^${categoryName}$`, "i") },
     _id: { $ne: id },
   });
 

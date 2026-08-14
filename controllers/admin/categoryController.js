@@ -6,7 +6,6 @@ import {
   toggleCategoryStatusService,
   deleteCategoryService,
 } from "../../services/admin/categoryService.js";
-import cloudinary from "../../config/cloudinary.js";
 
 export const loadCategory = async (req, res) => {
   try {
@@ -86,8 +85,11 @@ export const editCategory = async (req, res) => {
     res.redirect("/admin/category");
   } catch (error) {
     console.log(error);
-    req.session.toast = error.message;
-    res.redirect(`/admin/editCategory${req.params.id}`);
+    req.session.toast = {
+      type: "error",
+      message: error.message,
+    };
+    res.redirect(`/admin/editCategory/${req.params.id}`);
   }
 };
 

@@ -11,7 +11,7 @@ export const loadAddressPage = async (req, res) => {
   const addresses = await getUserAddresses(req.session.userId);
   res.render("user/address", {
     addresses,
-    error: null,
+    activePage: "profile",
   });
 };
 
@@ -19,6 +19,7 @@ export const loadAddAddress = (req, res) => {
   res.render("user/addAddress", {
     errors: {},
     oldData: {},
+    activePage: "profile",
   });
 };
 
@@ -45,6 +46,7 @@ export const loadEditAddress = async (req, res) => {
     address,
     oldData: {},
     errors: {},
+    activePage: "profile",
   });
 };
 

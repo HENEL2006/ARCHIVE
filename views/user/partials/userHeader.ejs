@@ -13,6 +13,12 @@
     <div></div>
     <div></div>
 </div>
+
+<%
+const currentPage = typeof activePage !== "undefined"
+    ? activePage
+    : "";
+%>
 <!-- Navigation Shell -->
 <header
     class="fixed top-0 left-0 w-full z-50 bg-surface border-b border-primary px-12 py-6 flex items-center justify-between">
@@ -25,39 +31,65 @@
     <!-- Navigation Links (Desktop Only) -->
     <nav class="hidden md:flex flex-1 justify-center space-x-10 h-full">
         <div class="group relative flex items-center h-full">
-            <a class="text-[11px] tracking-[0.18em] font-semibold uppercase text-primary hover:underline underline-offset-8"
-                href="#">SHOP</a>
-            <!-- Minimal Dropdown -->
-            <div
-                class="absolute top-16 left-1/2 -translate-x-1/2 w-64 bg-background border border-primary p-6 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-none z-[60]">
-                <div class="flex flex-col space-y-4">
-                    <a class="font-label-caps text-[10px] hover:bg-primary hover:text-on-primary p-2" href="#">NEW
-                        ARRIVALS</a>
-                    <a class="font-label-caps text-[10px] hover:bg-primary hover:text-on-primary p-2" href="#">BEST
-                        SELLERS</a>
-                    <a class="font-label-caps text-[10px] hover:bg-primary hover:text-on-primary p-2" href="#">ALL
-                        JERSEYS</a>
-                </div>
-            </div>
+            <a class="text-[11px] tracking-[0.18em] font-semibold uppercase text-primary hover:underline underline-offset-8  <%= currentPage === "home" ? "underline" : "" %>"
+                href="/home">HOME</a>
         </div>
         <div class="group relative flex items-center h-full">
-            <a class="text-[11px] tracking-[0.18em] font-semibold uppercase text-primary hover:underline underline-offset-8"
-                href="#">COLLECTIONS</a>
+            <a class="text-[11px] tracking-[0.18em] font-semibold uppercase text-primary hover:underline underline-offset-8 <%= currentPage === "shop" ? "underline" : "" %>"
+                href="/products">SHOP</a>
+        </div>
+        <div class="group relative flex items-center h-full">
+            <a class="text-[11px] tracking-[0.18em] font-semibold uppercase text-primary hover:underline underline-offset-8 <%= currentPage === "collection" ? "underline" : "" %>"
+                href="#">
+                COLLECTIONS
+            </a>
             <div
-                class="absolute top-16 left-1/2 -translate-x-1/2 w-64 bg-background border border-primary p-6 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-none z-[60]">
-                <div class="flex flex-col space-y-4">
-                    <a class="font-label-caps text-[10px] hover:bg-primary hover:text-on-primary p-2" href="#">CLUB
-                        JERSEYS</a>
-                    <a class="font-label-caps text-[10px] hover:bg-primary hover:text-on-primary p-2" href="#">NATIONAL
-                        TEAMS</a>
-                    <a class="font-label-caps text-[10px] hover:bg-primary hover:text-on-primary p-2" href="#">LIMITED
-                        EDITIONS</a>
+                class="absolute top-full left-1/2 -translate-x-1/2 w-64 bg-background border border-primary py-3 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-none z-[60]">
+                <div class="flex flex-col">
+
+                    <a href="/products"
+                        class="font-label-caps text-[10px] uppercase px-4 py-3 hover:bg-primary hover:text-on-primary transition-none">
+                        ALL JERSEYS
+                    </a>
+
+                    <a href="/products?category=<%= categories.find(c => c.name === 'Club Jerseys')?._id %>"
+                        class="font-label-caps text-[10px] uppercase px-4 py-3 hover:bg-primary hover:text-on-primary transition-none">
+                        CLUB JERSEYS
+                    </a>
+
+                    <a href="/products?category=<%= categories.find(c => c.name === 'National Jerseys')?._id %>"
+                        class="font-label-caps text-[10px] uppercase px-4 py-3 hover:bg-primary hover:text-on-primary transition-none">
+                        NATIONAL JERSEYS
+                    </a>
+
+                    <a href="/products?category=<%= categories.find(c => c.name === 'Retro Jerseys')?._id %>"
+                        class="font-label-caps text-[10px] uppercase px-4 py-3 hover:bg-primary hover:text-on-primary transition-none">
+                        RETRO JERSEYS
+                    </a>
+
+                    <a href="/products?category=<%= categories.find(c => c.name === 'Limited Editions')?._id %>"
+                        class="font-label-caps text-[10px] uppercase px-4 py-3 hover:bg-primary hover:text-on-primary transition-none">
+                        LIMITED EDITIONS
+                    </a>
+
+                    <a href="/products?category=<%= categories.find(c => c.name === '2026/27 Season Kits')?._id %>"
+                        class="font-label-caps text-[10px] uppercase px-4 py-3 hover:bg-primary hover:text-on-primary transition-none">
+                        2026/27 SEASON KITS
+                    </a>
+
+                    <a href="/products?category=<%= categories.find(c => c.name === 'Accessories')?._id %>"
+                        class="font-label-caps text-[10px] uppercase px-4 py-3 hover:bg-primary hover:text-on-primary transition-none">
+                        ACCESSORIES
+                    </a>
+
                 </div>
             </div>
         </div>
         <div class="flex items-center h-full">
-            <a class="text-[11px] tracking-[0.18em] font-semibold uppercase text-primary hover:underline underline-offset-8"
-                href="#">ABOUT</a>
+            <a class="text-[11px] tracking-[0.18em] font-semibold uppercase text-primary hover:underline underline-offset-8 <%= currentPage === "about" ? "underline" : "" %>"
+                href="/about">
+                ABOUT
+            </a>
         </div>
     </nav>
     <!-- Actions (Desktop & Mobile) -->
@@ -66,14 +98,14 @@
             <span class="material-symbols-outlined text-[20px] text-primary group-hover:scale-110 transition-none"
                 data-icon="search">search</span>
         </button>
-        <button aria-label="Favorites" class="hidden md:flex items-center group">
+        <a href="/wishlist" class="hidden md:flex items-center group">
             <span class="material-symbols-outlined text-[20px] text-primary group-hover:scale-110 transition-none"
                 data-icon="favorite">favorite</span>
-        </button>
-        <button aria-label="Cart" class="flex items-center group">
+        </a>
+        <a href="/cart" class="flex items-center group">
             <span class="material-symbols-outlined text-[20px] text-primary group-hover:scale-110 transition-none"
                 data-icon="shopping_bag">shopping_bag</span>
-        </button>
+        </a>
         <a href="/profile" class="hidden md:flex items-center group">
             <span class="material-symbols-outlined text-[20px] text-primary group-hover:scale-110">
                 person
@@ -85,133 +117,89 @@
         </button>
     </div>
 </header>
-<% if (toast) { %>
-    <div id="toast" class="fixed top-6 left-1/2 -translate-x-1/2 z-[9999]
-       inline-flex items-center gap-4
-       bg-background
-       border border-outline-variant
-       rounded-full
-       px-6 py-4
-       shadow-lg
-       w-fit">
 
-        <div class="w-7 h-7 rounded-full border border-primary
-       flex items-center justify-center shrink-0">
-
-            <span class="material-symbols-outlined text-[16px]">
-                check
-            </span>
+<!-- Mobile Navigation Drawer (Hidden by default) -->
+<div class="fixed inset-0 z-[100] bg-background translate-x-full transition-transform duration-300 md:hidden"
+    id="mobile-menu">
+    <div class="flex flex-col h-full">
+        <div class="h-20 border-b border-primary px-mobile-margin flex items-center justify-between">
+            <span class="font-headline-md text-headline-md font-bold tracking-tighter text-primary">ARCHIVE</span>
+            <button id="close-menu-btn">
+                <span class="material-symbols-outlined text-[20px] text-primary" data-icon="close">close</span>
+            </button>
         </div>
-
-        <span class="font-label-caps tracking-[0.2em] uppercase text-[12px]">
-            <%= toast %>
-        </span>
-
-    </div>
-
-    <script>
-        setTimeout(() => {
-            const toast = document.getElementById("toast");
-
-            if (!toast) return;
-
-            toast.style.transition = "all .35s ease";
-            toast.style.opacity = "0";
-            toast.style.transform = "translate(-50%, -20px)";
-
-            setTimeout(() => toast.remove(), 350);
-        }, 2500);
-    </script>
-    <% } %>
-        <!-- Mobile Navigation Drawer (Hidden by default) -->
-        <div class="fixed inset-0 z-[100] bg-background translate-x-full transition-transform duration-300 md:hidden"
-            id="mobile-menu">
-            <div class="flex flex-col h-full">
-                <div class="h-20 border-b border-primary px-mobile-margin flex items-center justify-between">
-                    <span
-                        class="font-headline-md text-headline-md font-bold tracking-tighter text-primary">ARCHIVE</span>
-                    <button id="close-menu-btn">
-                        <span class="material-symbols-outlined text-[20px] text-primary" data-icon="close">close</span>
-                    </button>
-                </div>
-                <div class="p-mobile-margin flex flex-col space-y-8 mt-12">
-                    <a class="font-headline-lg-mobile text-headline-lg-mobile text-primary border-b border-outline-variant pb-4"
-                        href="#">SHOP</a>
-                    <a class="font-headline-lg-mobile text-headline-lg-mobile text-primary border-b border-outline-variant pb-4"
-                        href="#">COLLECTIONS</a>
-                    <a class="font-headline-lg-mobile text-headline-lg-mobile text-primary border-b border-outline-variant pb-4"
-                        href="#">ABOUT</a>
-                </div>
-                <div class="mt-auto p-mobile-margin border-t border-primary flex justify-between items-center py-8">
-                    <div class="flex space-x-6">
-                        <span class="material-symbols-outlined" data-icon="favorite">favorite</span>
-                        <span class="material-symbols-outlined" data-icon="person">person</span>
-                    </div>
-                    <button class="font-label-caps px-6 py-3 bg-primary text-on-primary">LOG IN</button>
-                </div>
+        <div class="p-mobile-margin flex flex-col space-y-8 mt-12">
+            <a class="font-headline-lg-mobile text-headline-lg-mobile text-primary border-b border-outline-variant pb-4"
+                href="#">SHOP</a>
+            <a class="font-headline-lg-mobile text-headline-lg-mobile text-primary border-b border-outline-variant pb-4"
+                href="#">COLLECTIONS</a>
+            <a class="font-headline-lg-mobile text-headline-lg-mobile text-primary border-b border-outline-variant pb-4"
+                href="#">ABOUT</a>
+        </div>
+        <div class="mt-auto p-mobile-margin border-t border-primary flex justify-between items-center py-8">
+            <div class="flex space-x-6">
+                <span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+                <span class="material-symbols-outlined" data-icon="person">person</span>
             </div>
+            <button class="font-label-caps px-6 py-3 bg-primary text-on-primary">LOG IN</button>
         </div>
+    </div>
+</div>
 
-        <script>
-            // Micro-interactions for Mobile Menu
-            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-            const closeMenuBtn = document.getElementById('close-menu-btn');
-            const mobileMenu = document.getElementById('mobile-menu');
+<script>
+    // Micro-interactions for Mobile Menu
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const closeMenuBtn = document.getElementById('close-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
 
-            mobileMenuBtn.addEventListener('click', () => {
-                mobileMenu.classList.remove('translate-x-full');
-            });
+    mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.remove('translate-x-full');
+    });
 
-            closeMenuBtn.addEventListener('click', () => {
-                mobileMenu.classList.add('translate-x-full');
-            });
+    closeMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.add('translate-x-full');
+    });
 
-            // Sticky Navbar reveal/hide on scroll
-            // Hide navbar only on browsing pages
-            const dashboardPages = [
-                "/account-settings",
-                "/profile",
-                "/address",
-                "/cart",
-                "/checkout",
-                "/orders",
-                "/wallet",
-                "/wishlist"
-            ];
+    // Sticky Navbar reveal/hide on scroll
+    // Hide navbar only on browsing pages
+    const dashboardPages = [
+        "/account-settings",
+        "/profile",
+        "/address",
+        "/checkout",
+        "/orders",
+        "/wallet",
+        "/wishlist"
+    ];
 
-            if (!dashboardPages.includes(window.location.pathname)) {
+    if (!dashboardPages.includes(window.location.pathname)) {
 
-                let lastScroll = 0;
-                const navbar = document.querySelector("header");
+        let lastScroll = 0;
+        const navbar = document.querySelector("header");
 
-                window.addEventListener("scroll", () => {
+        window.addEventListener("scroll", () => {
 
-                    const currentScroll = window.pageYOffset;
+            const currentScroll = window.pageYOffset;
 
-                    if (currentScroll <= 0) {
-                        navbar.style.transform = "translateY(0)";
-                        return;
-                    }
-
-                    if (currentScroll > lastScroll) {
-                        navbar.style.transform = "translateY(-100%)";
-                        navbar.style.transition = "transform .3s ease";
-                    } else {
-                        navbar.style.transform = "translateY(0)";
-                    }
-
-                    lastScroll = currentScroll;
-
-                });
-
+            if (currentScroll <= 0) {
+                navbar.style.transform = "translateY(0)";
+                return;
             }
-            // Active State Logic - Autonomously setting active link
-            // For this page, "ARCHIVE" logo is the home, no specific sub-tab is active unless user navigates.
-            // We simulate "SHOP" as the intent for this landing page layout.
-            const HeadernavLinks = document.querySelectorAll('nav a');
-            HeadernavLinks.forEach(link => {
-                if (link.textContent === 'SHOP') {
-                    link.classList.add('underline', 'underline-offset-8');
-                }
-            });
-        </script>
+
+            if (currentScroll > lastScroll) {
+                navbar.style.transform = "translateY(-100%)";
+                navbar.style.transition = "transform .3s ease";
+            } else {
+                navbar.style.transform = "translateY(0)";
+            }
+
+            lastScroll = currentScroll;
+
+        });
+
+    }
+    // Active State Logic - Autonomously setting active link
+    // For this page, "ARCHIVE" logo is the home, no specific sub-tab is active unless user navigates.
+    // We simulate "SHOP" as the intent for this landing page layout.
+
+</script>

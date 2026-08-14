@@ -174,7 +174,9 @@
                                     <p
                                         class="font-label-md text-on-surface-variant uppercase text-[10px] tracking-widest">
                                         Total Products</p>
-                                    <p class="font-headline-md text-headline-md"><%= stats.totalProducts %></p>
+                                    <p class="font-headline-md text-headline-md">
+                                        <%= stats.totalProducts %>
+                                    </p>
                                 </div>
                             </div>
                             <div
@@ -186,7 +188,9 @@
                                     <p
                                         class="font-label-md text-on-surface-variant uppercase text-[10px] tracking-widest">
                                         Listed Products</p>
-                                    <p class="font-headline-md text-headline-md"><%= stats.listedProducts %></p>
+                                    <p class="font-headline-md text-headline-md">
+                                        <%= stats.listedProducts %>
+                                    </p>
                                 </div>
                             </div>
                             <div
@@ -198,7 +202,9 @@
                                     <p
                                         class="font-label-md text-on-surface-variant uppercase text-[10px] tracking-widest">
                                         Unlisted Products</p>
-                                    <p class="font-headline-md text-headline-md"><%= stats.unlistedProducts %></p>
+                                    <p class="font-headline-md text-headline-md">
+                                        <%= stats.unlistedProducts %>
+                                    </p>
                                 </div>
                             </div>
                             <div
@@ -210,7 +216,9 @@
                                     <p
                                         class="font-label-md text-on-surface-variant uppercase text-[10px] tracking-widest">
                                         Deleted Products</p>
-                                    <p class="font-headline-md text-headline-md"><%= stats.deletedProducts %></p>
+                                    <p class="font-headline-md text-headline-md">
+                                        <%= stats.deletedProducts %>
+                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -469,10 +477,15 @@
                                                         </a>
 
                                                         <!-- DELETE -->
-                                                        <button type="button"
-                                                            class="material-symbols-outlined text-[21px] text-red-500 hover:opacity-60">
-                                                            delete
-                                                        </button>
+                                                        <form action="/admin/products/<%= product._id %>/delete"
+                                                            method="POST" class="inline-flex">
+
+                                                            <button type="submit" title="Delete Product"
+                                                                class="material-symbols-outlined text-[21px] text-red-500 hover:opacity-60">
+                                                                delete
+                                                            </button>
+
+                                                        </form>
 
                                                     </div>
                                                 </td>

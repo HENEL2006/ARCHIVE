@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>MY ARCHIVE | ARCHIVE</title>
+    <!-- Material Symbols -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <!-- Typography: Syne and Space Mono -->
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&amp;family=Syne:wght@400..800&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "surface-variant": "#e5e2e1",
+                        "primary": "#000000",
+                        "surface-tint": "#5e5e5e",
+                        "on-surface-variant": "#4c4546",
+                        "surface-bright": "#fcf9f8",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "tertiary-container": "#1b1b1b",
+                        "surface-container-low": "#f6f3f2",
+                        "on-tertiary-container": "#848484",
+                        "primary-fixed": "#e2e2e2",
+                        "on-primary-fixed": "#1b1b1b",
+                        "surface-container-high": "#ebe7e7",
+                        "accent-success": "#22CD5B",
+                        "on-primary": "#ffffff",
+                        "surface-dim": "#dcd9d9",
+                        "outline": "#7e7576",
+                        "tertiary-fixed-dim": "#c6c6c6",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "inverse-on-surface": "#f3f0ef",
+                        "surface": "#fcf9f8",
+                        "outline-variant": "#cfc4c5",
+                        "on-tertiary-fixed-variant": "#474747",
+                        "on-background": "#1c1b1b",
+                        "on-primary-container": "#848484",
+                        "primary-fixed-dim": "#c6c6c6",
+                        "secondary": "#5d5f5f",
+                        "primary-container": "#1b1b1b",
+                        "inverse-surface": "#313030",
+                        "inverse-primary": "#c6c6c6",
+                        "tertiary": "#000000",
+                        "on-error": "#ffffff",
+                        "secondary-fixed": "#e2e2e2",
+                        "on-tertiary-fixed": "#1b1b1b",
+                        "background": "#fcf9f8",
+                        "on-secondary-fixed-variant": "#454747",
+                        "on-primary-fixed-variant": "#474747",
+                        "surface-container": "#f0edec",
+                        "tertiary-fixed": "#e2e2e2",
+                        "secondary-container": "#dfe0e0",
+                        "on-secondary-container": "#616363",
+                        "error-container": "#ffdad6",
+                        "on-surface": "#1c1b1b",
+                        "surface-container-highest": "#e5e2e1",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "on-secondary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "mobile-margin": "20px",
+                        "unit": "8px",
+                        "section-gap": "128px",
+                        "grid-gutter": "0px",
+                        "container-padding": "64px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Space Mono"],
+                        "mono-data": ["Space Mono"],
+                        "display-xl": ["Syne"],
+                        "headline-lg-mobile": ["Syne"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Space Mono"],
+                        "label-caps": ["Space Mono"],
+                        "display": ['"Syne"', 'system-ui', 'sans-serif'],
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "1.2", "letterSpacing": "0.03em", "fontWeight": "700" }],
+                        "display-xl": ["80px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "800" }],
+                        "body-md": ["14px", { "lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "body-lg": ["16px", { "lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400" }],
+                        "mono-data": ["12px", { "lineHeight": "1.0", "letterSpacing": "-0.02em", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.1", "letterSpacing": "0.04em", "fontWeight": "700" }],
+                        "headline-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "0.04em", "fontWeight": "700" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .grid-line-v {
+            @apply border-r border-primary;
+        }
+
+        .grid-line-h {
+            @apply border-b border-primary;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+
+<body class="bg-background text-primary font-body-md overflow-x-hidden">
+    <!-- TopNavBar -->
+    <%- include("partials/userHeader") %>
+        <%- include("partials/toast") %>
+            <!-- Main Content Canvas -->
+            <main class="mt-20">
+                <!-- Hero Section -->
+                <header class="border-b border-primary px-container-padding py-24 grid grid-cols-12 gap-0">
+                    <div class="col-span-12 md:col-span-8">
+                        <h1 class="font-display-xl text-display-xl uppercase mb-4">
+                            MY WISHLIST
+                        </h1>
+                        <p class="font-body-lg text-body-lg opacity-70 max-w-lg">Saved pieces from football history. A
+                            curated selection of legacy and design.</p>
+                    </div>
+                    <div class="col-span-12 md:col-span-4 flex flex-col justify-end items-end">
+
+                    </div>
+                </header>
+                <!-- Filters -->
+                <section class="border-b border-primary sticky top-20 bg-surface z-40">
+
+                </section>
+                <!-- Archive Grid -->
+                <section class="grid grid-cols-1 md:grid-cols-4 border-b border-primary">
+
+                    <% if (products.length===0) { %>
+
+                        <div
+                            class="col-span-1 md:col-span-4 min-h-[400px] flex flex-col items-center justify-center border-b border-primary">
+                            <span class="material-symbols-outlined text-[48px] mb-6">
+                                favorite_border
+                            </span>
+
+                            <h2 class="font-headline-md text-headline-md uppercase mb-3">
+                                YOUR ARCHIVE IS EMPTY
+                            </h2>
+
+                            <p class="font-body-md text-body-md opacity-60 mb-8">
+                                No saved pieces yet.
+                            </p>
+
+                            <a href="/products"
+                                class="bg-primary text-surface font-label-caps text-label-caps px-8 py-4">
+                                EXPLORE JERSEYS
+                            </a>
+                        </div>
+
+                        <% } else { %>
+
+                            <% products.forEach((product)=> { %>
+
+                                <article class="border-r border-primary flex flex-col group">
+
+                                    <div
+                                        class="aspect-square bg-white flex items-center justify-center p-12 border-b border-primary overflow-hidden relative">
+
+                                        <img src="<%= product.images?.[0]?.url %>" alt="<%= product.name %>"
+                                            class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500">
+
+                                        <button type="button"
+                                            class="remove-wishlist absolute top-4 right-4 material-symbols-outlined text-primary bg-surface p-2 hover:bg-primary hover:text-surface border border-primary"
+                                            data-product-id="<%= product._id %>" aria-label="Remove from wishlist">
+                                            close
+                                        </button>
+
+                                    </div>
+
+                                    <div class="p-6 flex flex-col gap-4 flex-grow">
+
+                                        <div class="flex justify-between items-start gap-4">
+
+                                            <div>
+                                                <span class="font-mono-data text-mono-data block mb-1">
+                                                    <%= product.category?.name || "ARCHIVE" %>
+                                                </span>
+
+                                                <h3 class="font-headline-md text-headline-md uppercase">
+                                                    <%= product.name %>
+                                                </h3>
+                                            </div>
+
+                                            <span class="font-mono-data text-headline-md font-bold whitespace-nowrap">
+                                                ₹<%= product.price %>
+                                            </span>
+
+                                        </div>
+
+                                        <div class="mt-auto grid grid-cols-2 border border-primary">
+
+                                            <button type="button"
+                                                class="move-to-cart-btn bg-primary text-surface font-label-caps text-label-caps py-4"
+                                                data-product-id="<%= product._id %>"
+                                                data-variants='<%- JSON.stringify(product.variants) %>'>
+                                                MOVE TO CART
+                                            </button>
+
+                                            <a href="/product/<%= product.slug %>"
+                                                class="bg-surface text-primary font-label-caps text-label-caps py-4 border-l border-primary text-center">
+                                                VIEW PRODUCT
+                                            </a>
+
+                                        </div>
+
+                                        <button type="button"
+                                            class="remove-wishlist text-left font-label-caps text-label-caps opacity-50 hover:opacity-100 hover:underline"
+                                            data-product-id="<%= product._id %>">
+                                            REMOVE FROM ARCHIVE
+                                        </button>
+
+                                    </div>
+
+                                </article>
+
+                                <% }) %>
+
+                                    <% } %>
+
+                </section>
+                <div id="size-modal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/60">
+                    <div class="bg-surface border border-primary w-[90%] max-w-md p-8">
+
+                        <div class="flex justify-between items-center mb-8">
+                            <h2 class="font-headline-md uppercase">
+                                SELECT SIZE
+                            </h2>
+
+                            <button type="button" id="close-size-modal" class="material-symbols-outlined">
+                                close
+                            </button>
+                        </div>
+
+                        <div id="size-options" class="grid grid-cols-4 gap-2 mb-8">
+                        </div>
+
+                        <form id="move-to-cart-form" method="POST" action="/cart/add">
+
+                            <input type="hidden" name="productId" id="cart-product-id">
+
+                            <input type="hidden" name="size" id="cart-size">
+
+                            <input type="hidden" name="quantity" value="1">
+
+                            <button type="submit" id="add-selected-size" disabled
+                                class="w-full bg-primary text-surface py-4 font-label-caps disabled:opacity-30">
+                                ADD TO CART
+                            </button>
+
+                        </form>
+
+                    </div>
+                </div>
+            </main>
+            <!-- Footer -->
+            <%- include("partials/userFooter") %>
+                <script>
+                    // Simple micro-interactions
+                    document.querySelectorAll('button, a').forEach(el => {
+                        el.addEventListener('mouseenter', () => {
+                            // Inversion logic is mostly handled by Tailwind classes but can be extended here
+                        });
+                    });
+
+                    // Search interaction placeholder
+                    const searchBtn = document.querySelector('button[data-icon="search"]');
+                    if (searchBtn) {
+                        searchBtn.addEventListener('click', () => {
+                            console.log('Search interface triggered');
+                        });
+                    }
+
+                    document.querySelectorAll(".remove-wishlist").forEach((button) => {
+
+                        button.addEventListener("click", async () => {
+
+                            const productId = button.dataset.productId;
+
+                            try {
+
+                                const response = await fetch("/wishlist/remove", {
+                                    method: "POST",
+
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                    },
+
+                                    body: JSON.stringify({
+                                        productId,
+                                    }),
+                                });
+
+                                const data = await response.json();
+
+                                if (data.success) {
+
+                                    showToast(data.message, "success");
+
+                                    const article = button.closest("article");
+
+                                    if (article) {
+                                        article.remove();
+                                    }
+
+                                } else {
+
+                                    showToast(data.message, "error");
+
+                                }
+
+                            } catch (error) {
+
+                                console.error(error);
+
+                                showToast(
+                                    "FAILED TO REMOVE FROM WISHLIST",
+                                    "error"
+                                );
+
+                            }
+
+                        });
+
+                    });
+
+                    const sizeModal = document.getElementById("size-modal");
+                    const sizeOptions = document.getElementById("size-options");
+
+                    const cartProductId = document.getElementById("cart-product-id");
+                    const cartSize = document.getElementById("cart-size");
+
+                    const addSelectedSize =
+                        document.getElementById("add-selected-size");
+
+                    const closeSizeModal =
+                        document.getElementById("close-size-modal");
+
+
+                    document.querySelectorAll(".move-to-cart-btn").forEach((button) => {
+
+                        button.addEventListener("click", () => {
+
+                            const productId = button.dataset.productId;
+                            const variants = JSON.parse(button.dataset.variants);
+
+                            cartProductId.value = productId;
+
+                            cartSize.value = "";
+                            addSelectedSize.disabled = true;
+
+                            sizeOptions.innerHTML = "";
+
+                            variants.forEach((variant) => {
+
+                                const sizeButton = document.createElement("button");
+
+                                sizeButton.type = "button";
+
+                                sizeButton.textContent = variant.size;
+
+                                sizeButton.className =
+                                    "border border-primary py-3 font-label-caps hover:bg-primary hover:text-surface transition-none";
+
+                                if (variant.stock <= 0) {
+
+                                    sizeButton.disabled = true;
+
+                                    sizeButton.classList.add(
+                                        "opacity-30",
+                                        "line-through",
+                                        "cursor-not-allowed"
+                                    );
+                                }
+
+                                sizeButton.addEventListener("click", () => {
+
+                                    document
+                                        .querySelectorAll("#size-options button")
+                                        .forEach((btn) => {
+                                            btn.classList.remove(
+                                                "bg-primary",
+                                                "text-surface"
+                                            );
+                                        });
+
+                                    sizeButton.classList.add(
+                                        "bg-primary",
+                                        "text-surface"
+                                    );
+
+                                    cartSize.value = variant.size;
+
+                                    addSelectedSize.disabled = false;
+                                });
+
+                                sizeOptions.appendChild(sizeButton);
+                            });
+
+                            sizeModal.classList.remove("hidden");
+                            sizeModal.classList.add("flex");
+                        });
+
+                    });
+
+
+                    closeSizeModal.addEventListener("click", () => {
+
+                        sizeModal.classList.add("hidden");
+                        sizeModal.classList.remove("flex");
+
+                    });
+
+
+                    sizeModal.addEventListener("click", (event) => {
+
+                        if (event.target === sizeModal) {
+
+                            sizeModal.classList.add("hidden");
+                            sizeModal.classList.remove("flex");
+
+                        }
+
+                    });
+                </script>
+
+
+</body>
+
+</html>
