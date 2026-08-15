@@ -258,7 +258,7 @@
 
                                 <input type="hidden" id="selectedQuantity" name="quantity" value="1">
                                 <div>
-                                    <span class="font-label-caps text-label-caps mb-4 block">SELECT_SIZE</span>
+                                    <span class="font-label-caps text-label-caps mb-4 block">SELECT SIZE</span>
                                     <div class="flex gap-2">
 
                                         <% product.variants.forEach((variant)=> { %>
@@ -315,7 +315,7 @@
 
                                             <%= totalStock===0 ? "OUT OF STOCK" : "ADD TO ARCHIVE" %>
                                     </button>
-                                    <button
+                                    <button type="button" id="wishlistBtn" data-product-id="<%= product._id %>"
                                         class="w-full grid-line-b grid-line-t grid-line-l grid-line-r py-6 font-label-caps text-label-caps hover:bg-primary hover:text-on-primary transition-none">
                                         WISHLIST
                                     </button>
@@ -509,6 +509,48 @@
             <!-- Footer -->
             <%- include("partials/userFooter") %>
                 <script>
+
+                    // Add to Wishlist
+
+                    const wishlistBtn = document.getElementById("wishlistBtn");
+
+                    wishlistBtn.addEventListener("click", async () => {
+
+                        const productId = wishlistBtn.dataset.productId;
+
+                        try {
+
+                            const response = await fetch("/wishlist/add", {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+
+                                body: JSON.stringify({
+                                    productId,
+                                }),
+                            });
+
+                            const data = await response.json();
+
+                            if (!response.ok || !data.success) {
+                                showToast(data.message, "error");
+                                return;
+                            }
+
+                            showToast(data.message, "success");
+
+                            wishlistBtn.textContent = "IN WISHLIST";
+
+                        } catch (error) {
+
+                            console.error(error);
+
+                            showToast("SOMETHING WENT WRONG", "error");
+                        }
+                    });
+
                     function toggleAccordion(btn) {
                         const item = btn.parentElement;
                         const isActive = item.classList.contains('active');
@@ -742,7 +784,7 @@
 
                     });
 
-                    
+
                 </script>
 
 

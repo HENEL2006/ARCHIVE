@@ -18,6 +18,7 @@ export const getProductService = async (query, userId) => {
     isDeleted: false,
   }).lean();
 
+
   let selectedCategory = null;
   if (query.category) {
     selectedCategory = categories.find(

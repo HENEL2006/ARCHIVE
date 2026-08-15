@@ -60,7 +60,15 @@ export const addProductService = async (data, files) => {
 };
 
 export const getProductService = async (query) => {
-  const categories = await Category.find({ isListed: true });
+  const categories = await Category.find({ isListed: true, isDeleted: false });
+
+  for (const category of categories) {
+    category.productCount = await Product.countDocuments({
+      category: category._id,
+      isListed: true,
+      isDeleted: false,
+    });
+  }
 
   const {
     search = "",
@@ -269,13 +277,13 @@ export const updateProductService = async (productId, data, files) => {
   return product;
 };
 
-export const deleteProductService = async (productId)=>{
+export const deleteProductService = async (productId) => {
   const product = await Product.findById(productId);
 
-  if(!product){
+  if (!product) {
     throw new Error("PRODUCT NOT FOUND");
   }
 
   product.isDeleted = true;
   product.save();
-}
+};

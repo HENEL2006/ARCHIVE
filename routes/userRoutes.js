@@ -107,10 +107,10 @@ router.post("/cart/add", isLoggedIn, addToCart);
 router.get("/cart", isLoggedIn, loadCart);
 router.post("/cart/update", isLoggedIn, updateCartQuantity);
 router.post("/cart/remove", isLoggedIn, removeCartItem);
-router.get("/checkout", isLoggedIn, loadCheckout);
 router.get("/wishlist", isLoggedIn, loadWishlist);
 router.post("/wishlist/add", isLoggedIn,addToWishlist);
 router.post("/wishlist/remove",isLoggedIn,removeFromWishlist)
+router.get("/checkout", isLoggedIn, loadCheckout);
 
 router.get("/logout", isLoggedIn, logout);
 

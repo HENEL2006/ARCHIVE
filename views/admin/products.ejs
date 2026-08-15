@@ -263,7 +263,7 @@
                                 <% categories.forEach(category=> { %>
                                     <option value="<%= category._id %>" <%=query.category==category._id.toString()
                                         ? "selected" : "" %>>
-                                        <%= category.name %>
+                                        <%= category.name %>(<%= category.productCount %>)
                                     </option>
                                     <% }) %>
 
