@@ -4,7 +4,6 @@ import {
   getCartService,
   updateCartQuantityService,
   removeCartItemService,
-  validateCartService,
 } from "../../services/user/cartService.js";
 
 export const addToCart = async (req, res) => {
@@ -102,19 +101,3 @@ export const removeCartItem = async (req, res) => {
   }
 };
 
-export const loadCheckout = async (req, res) => {
-  try {
-    await validateCartService(req.session.userId);
-
-    res.render("user/checkout", {
-      activePage: "checkout",
-    });
-  } catch (error) {
-    console.log(error);
-    req.session.toast = {
-      type: "error",
-      message: error.message,
-    };
-    res.redirect("/cart");
-  }
-};

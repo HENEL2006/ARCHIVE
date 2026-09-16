@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html class="light" lang="en" style="">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Order Details #ORD-1042 | ARCHIVE Admin</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@500&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-fixed": "#001e2c",
+                        "primary-fixed-dim": "#bec6e0",
+                        "inverse-on-surface": "#eff1f3",
+                        "tertiary-fixed-dim": "#7bd0ff",
+                        "surface-container-high": "#e6e8ea",
+                        "on-primary": "#ffffff",
+                        "primary": "#000000",
+                        "primary-fixed": "#dae2fd",
+                        "on-surface": "#191c1e",
+                        "on-primary-fixed": "#131b2e",
+                        "secondary-container": "#d0e1fb",
+                        "background": "#f7f9fb",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-container": "#eceef0",
+                        "on-secondary-fixed": "#0b1c30",
+                        "primary-container": "#131b2e",
+                        "surface-bright": "#f7f9fb",
+                        "on-tertiary-fixed-variant": "#004c69",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "outline": "#76777d",
+                        "on-surface-variant": "#45464d",
+                        "on-secondary-container": "#54647a",
+                        "inverse-surface": "#2d3133",
+                        "on-background": "#191c1e",
+                        "tertiary": "#000000",
+                        "inverse-primary": "#bec6e0",
+                        "on-error-container": "#93000a",
+                        "surface-tint": "#565e74",
+                        "secondary": "#505f76",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed": "#c4e7ff",
+                        "surface-container-highest": "#e0e3e5",
+                        "surface-dim": "#d8dadc",
+                        "surface": "#f7f9fb",
+                        "outline-variant": "#c6c6cd",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "surface-variant": "#e0e3e5",
+                        "on-error": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#d3e4fe",
+                        "tertiary-container": "#001e2c",
+                        "on-primary-container": "#7c839b",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-tertiary-container": "#008ebf"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xs": "4px",
+                        "2xl": "48px",
+                        "md": "16px",
+                        "xl": "32px",
+                        "sm": "8px",
+                        "margin": "32px",
+                        "base": "4px",
+                        "lg": "24px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "display": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["JetBrains Mono"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+        }
+    </style>
+</head>
+
+<body class="text-on-surface">
+    <%- include("partials/toast") %>
+        <!-- Fixed SideNavBar -->
+        <%- include("partials/adminSidebar") %>
+            <!-- TopAppBar -->
+            <%- include("partials/adminNavbar") %>
+                <!-- Main Content Area -->
+                <main class="ml-[240px] mt-16 p-lg">
+                    <!-- Header & Breadcrumbs -->
+                    <div class="mb-lg flex justify-between items-start">
+                        <div>
+                            <nav
+                                class="flex items-center gap-2 mb-xs text-on-surface-variant font-label-md text-label-md">
+                                <span class="">Orders</span>
+                                <span class="material-symbols-outlined text-sm">chevron_right</span>
+                                <span class="text-primary font-bold">Order Details</span>
+                            </nav>
+                            <h2 class="font-headline-lg text-headline-lg text-primary">Order <%= order.orderId %>
+                            </h2>
+                            <p class="font-body-md text-body-md text-on-surface-variant">View and manage customer order
+                                information.</p>
+                        </div>
+                        <!-- <div class="flex gap-sm">
+                            <button
+                                class="bg-surface-container-lowest border border-outline-variant px-md py-2 rounded-lg font-body-md text-body-md hover:bg-surface-container transition-colors flex items-center gap-2">
+                                <span class="material-symbols-outlined text-[18px]">print</span>
+                                Print Invoice
+                            </button>
+                            <button
+                                class="bg-surface-container-lowest border border-outline-variant px-md py-2 rounded-lg font-body-md text-body-md hover:bg-surface-container transition-colors flex items-center gap-2">
+                                <span class="material-symbols-outlined text-[18px]">download</span>
+                                Download Invoice
+                            </button>
+                            <button
+                                class="bg-primary text-on-primary px-lg py-2 rounded-lg font-body-md text-body-md font-bold hover:bg-opacity-90 transition-all flex items-center gap-2 shadow-sm">
+                                Update Status
+                            </button>
+                        </div> -->
+                    </div>
+                    <div class="flex flex-col gap-gutter">
+                        <!-- Section 1: Order Information -->
+                        <div
+                            class="bg-surface-container-lowest border border-outline-variant rounded-lg p-lg shadow-sm">
+                            <div class="grid grid-cols-4 gap-lg">
+                                <div>
+                                    <p class="font-label-md text-label-md text-on-surface-variant uppercase mb-xs">Order
+                                        ID</p>
+                                    <p class="font-headline-md text-headline-sm font-black text-primary">
+                                        <%= order.orderId %>
+                                    </p>
+                                </div>
+                                <div>
+                                    <p class="font-label-md text-label-md text-on-surface-variant uppercase mb-xs">Order
+                                        Date</p>
+                                    <p class="font-body-md text-body-md font-bold">
+                                        <%= new Date(order.createdAt).toLocaleDateString("en-IN", { day: "2-digit" ,
+                                            month: "short" , year: "numeric" }) %>
+                                    </p>
+                                </div>
+                                <div>
+                                    <p class="font-label-md text-label-md text-on-surface-variant uppercase mb-xs">
+                                        Status</p>
+                                    <span
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-secondary-container text-on-secondary-container">
+                                        <%= order.orderStatus %>
+                                    </span>
+                                </div>
+                                <div>
+                                    <p class="font-label-md text-label-md text-on-surface-variant uppercase mb-xs">
+                                        Payment</p>
+                                    <span
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-800">
+                                        <%= order.paymentStatus %>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="mt-lg pt-lg border-t border-outline-variant grid grid-cols-2 gap-lg">
+                                <div>
+                                    <p class="font-label-md text-label-md text-on-surface-variant uppercase mb-xs">
+                                        Payment Method</p>
+                                    <div class="flex items-center gap-2">
+                                        <span class="material-symbols-outlined text-primary text-[20px]">payments</span>
+                                        <p class="font-body-md text-body-md">
+                                            <%= order.paymentMethod %>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div>
+                                    <p class="font-label-md text-label-md text-on-surface-variant uppercase mb-xs">
+                                        Transaction ID</p>
+                                    <p class="font-label-md text-label-md font-medium text-on-surface">
+                                        <%= order.transactionId || "N/A" %>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Section 2: Customer & Shipping side-by-side -->
+                        <div class="grid grid-cols-2 gap-gutter">
+                            <div
+                                class="bg-surface-container-lowest border border-outline-variant rounded-lg p-lg shadow-sm">
+                                <div class="flex justify-between items-start mb-md">
+                                    <h3 class="font-headline-md text-[16px] text-primary">Customer Information</h3>
+                                </div>
+                                <div class="flex items-center gap-md mb-lg">
+
+                                    <% if (order.userId.profileImage) { %>
+
+                                        <img src="<%= order.userId.profileImage %>" alt="<%= order.userId.username %>"
+                                            class="w-12 h-12 rounded-full object-cover border border-outline-variant flex-shrink-0">
+
+                                        <% } else { %>
+
+                                            <div
+                                                class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center font-bold text-primary uppercase">
+                                                <%= order.userId.username ? order.userId.username.substring(0,
+                                                    2).toUpperCase() : "NA" %>
+                                            </div>
+
+                                            <% } %>
+
+                                                <div>
+
+                                                    <p class="font-body-md text-body-md font-bold text-primary">
+                                                        <%= order.userId.username %>
+                                                    </p>
+
+                                                    <p class="font-body-sm text-body-sm text-on-surface-variant">
+                                                        Customer since
+                                                        <%= new Date(order.userId.createdAt).toLocaleDateString("en-US",
+                                                            { month: "long" , year: "numeric" }) %>
+                                                    </p>
+
+                                                </div>
+
+                                </div>
+                                <div class="space-y-md">
+                                    <div class="flex items-center gap-sm">
+                                        <span
+                                            class="material-symbols-outlined text-on-surface-variant text-[18px]">mail</span>
+                                        <span class="font-body-md text-body-md break-all">
+                                            <%= order.userId.email %>
+                                        </span>
+                                    </div>
+                                    <div class="flex items-center gap-sm">
+                                        <span
+                                            class="material-symbols-outlined text-on-surface-variant text-[18px]">phone</span>
+                                        <span class="font-body-md text-body-md">
+                                            <%= order.deliveryAddress.phone %>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div
+                                class="bg-surface-container-lowest border border-outline-variant rounded-lg p-lg shadow-sm">
+                                <h3 class="font-headline-md text-[16px] text-primary mb-md">Shipping Address</h3>
+                                <div class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+                                    <p class="font-semibold">
+                                        <%= order.deliveryAddress.fullName %>
+                                    </p>
+
+                                    <p>
+                                        <%= order.deliveryAddress.addressLine1 %>
+                                    </p>
+
+                                    <% if (order.deliveryAddress.addressLine2) { %>
+                                        <p>
+                                            <%= order.deliveryAddress.addressLine2 %>
+                                        </p>
+                                        <% } %>
+
+                                            <p>
+                                                <%= order.deliveryAddress.city %>,
+                                                    <%= order.deliveryAddress.state %>
+                                                        - <%= order.deliveryAddress.postalCode %>
+                                            </p>
+
+                                            <p>
+                                                <%= order.deliveryAddress.country %>
+                                            </p>
+
+                                            <p>
+                                                Phone: <%= order.deliveryAddress.phone %>
+                                            </p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Section 3: Ordered Products (Full Width) -->
+                        <div
+                            class="bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden shadow-sm">
+                            <div
+                                class="px-lg py-md border-b border-outline-variant flex justify-between items-center bg-surface-container-low">
+                                <h3 class="font-headline-md text-[16px] text-primary">Ordered Products</h3>
+                                <span class="font-label-md text-label-md text-on-surface-variant">2 Items</span>
+                            </div>
+                            <div class="divide-y divide-outline-variant">
+                                <table class="w-full border-collapse">
+                                    <thead>
+                                        <tr class="bg-surface-container-low border-b border-outline-variant">
+                                            <th
+                                                class="p-lg text-left font-label-md text-label-md text-on-surface-variant uppercase">
+                                                Product
+                                            </th>
+
+                                            <th
+                                                class="p-lg text-center font-label-md text-label-md text-on-surface-variant uppercase">
+                                                Size
+                                            </th>
+
+                                            <th
+                                                class="p-lg text-center font-label-md text-label-md text-on-surface-variant uppercase">
+                                                Qty
+                                            </th>
+
+                                            <th
+                                                class="p-lg text-right font-label-md text-label-md text-on-surface-variant uppercase">
+                                                Price
+                                            </th>
+
+                                            <th
+                                                class="p-lg text-right font-label-md text-label-md text-on-surface-variant uppercase">
+                                                Subtotal
+                                            </th>
+
+                                            <th
+                                                class="p-lg text-center font-label-md text-label-md text-on-surface-variant uppercase">
+                                                Status &amp; Action
+                                            </th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody class="divide-y divide-outline-variant">
+
+                                        <% order.items.forEach((item)=> { %>
+
+                                            <tr class="hover:bg-surface-container-low transition-colors">
+
+                                                <!-- Product -->
+                                                <td class="p-lg align-middle">
+                                                    <div class="flex items-center gap-md">
+
+                                                        <img src="<%= item.image %>" alt="<%= item.name %>"
+                                                            class="w-20 h-20 rounded border border-outline-variant object-cover flex-shrink-0">
+
+                                                        <div class="min-w-0">
+
+                                                            <h4 class="font-bold text-primary text-body-md">
+                                                                <%= item.name %>
+                                                            </h4>
+
+                                                            <p class="font-body-sm text-on-surface-variant">
+                                                                Size: <%= item.size %>
+                                                            </p>
+
+                                                        </div>
+
+                                                    </div>
+                                                </td>
+
+
+                                                <!-- Size -->
+                                                <td class="p-lg text-center align-middle font-medium">
+                                                    <%= item.size %>
+                                                </td>
+
+
+                                                <!-- Quantity -->
+                                                <td class="p-lg text-center align-middle font-medium">
+                                                    <%= item.quantity %>
+                                                </td>
+
+
+                                                <!-- Price -->
+                                                <td class="p-lg text-right align-middle font-medium">
+                                                    ₹<%= item.price.toLocaleString("en-IN") %>
+                                                </td>
+
+
+                                                <!-- Subtotal -->
+                                                <td class="p-lg text-right align-middle font-bold text-primary">
+                                                    ₹<%= item.itemTotal.toLocaleString("en-IN") %>
+                                                </td>
+
+
+                                                <!-- Status -->
+                                                <td class="p-lg align-middle">
+                                                    <div class="flex flex-col items-center gap-2">
+
+                                                        <% if (item.itemStatus==="CANCELLED" ) { %>
+
+                                                            <!-- Cancelled product -->
+                                                            <span
+                                                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-700 uppercase">
+                                                                Cancelled
+                                                            </span>
+
+                                                            <% if (item.cancellationSource==="ADMIN" ) { %>
+
+                                                                <p
+                                                                    class="text-[10px] uppercase tracking-wider text-red-500">
+                                                                    Cancelled by admin
+                                                                </p>
+
+                                                                <% } else { %>
+
+                                                                    <p
+                                                                        class="text-[10px] uppercase tracking-wider text-red-500">
+                                                                        Cancelled by customer
+                                                                    </p>
+
+                                                                    <% } %>
+
+                                                                        <% } else { %>
+
+                                                                            <!-- Current status -->
+                                                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold
+    <%= item.itemStatus === " RETURN_REQUESTED" ? "bg-blue-100 text-blue-700" : "bg-secondary-container text-on-secondary-container"
+                                                                                %>
+                                                                                uppercase">
+
+                                                                                <%= item.itemStatus.replaceAll("_", " "
+                                                                                    ) %>
+
+                                                                            </span>
+
+
+                                                                            <% if (item.itemStatus !=="RETURN_REQUESTED"
+                                                                                ) { %>
+
+                                                                                <!-- Status change -->
+                                                                                <form
+                                                                                    action="/admin/orders/<%= order.orderId %>/items/<%= item._id %>/status"
+                                                                                    method="POST" class="w-full">
+
+                                                                                    <select name="status"
+                                                                                        onchange="this.form.submit()"
+                                                                                        class="bg-surface-container-lowest border border-outline-variant rounded px-2 py-1 font-body-sm text-xs focus:ring-1 focus:ring-primary w-full">
+
+                                                                                        <option value="PLACED"
+                                                                                            <%=item.itemStatus==="PLACED"
+                                                                                            ? "selected" : "" %>>
+                                                                                            Placed
+                                                                                        </option>
+
+                                                                                        <option value="CONFIRMED"
+                                                                                            <%=item.itemStatus==="CONFIRMED"
+                                                                                            ? "selected" : "" %>>
+                                                                                            Confirmed
+                                                                                        </option>
+
+                                                                                        <option value="SHIPPED"
+                                                                                            <%=item.itemStatus==="SHIPPED"
+                                                                                            ? "selected" : "" %>>
+                                                                                            Shipped
+                                                                                        </option>
+
+                                                                                        <option value="DELIVERED"
+                                                                                            <%=item.itemStatus==="DELIVERED"
+                                                                                            ? "selected" : "" %>>
+                                                                                            Delivered
+                                                                                        </option>
+
+                                                                                    </select>
+
+                                                                                </form>
+
+                                                                                <% } %>
+
+
+                                                                                    <!-- Admin cancellation -->
+                                                                                    <% if ( item.itemStatus==="PLACED"
+                                                                                        || item.itemStatus==="CONFIRMED"
+                                                                                        ) { %>
+
+                                                                                        <form
+                                                                                            action="/admin/orders/<%= order.orderId %>/items/<%= item._id %>/cancel"
+                                                                                            method="POST"
+                                                                                            class="w-full">
+
+                                                                                            <input type="text"
+                                                                                                name="cancellationReason"
+                                                                                                placeholder="Cancellation reason"
+                                                                                                required
+                                                                                                class="w-full border border-outline-variant rounded px-2 py-1 text-xs mb-1 focus:outline-none focus:ring-1 focus:ring-primary">
+
+                                                                                            <button type="submit"
+                                                                                                class="w-full border border-red-300 text-red-600 hover:bg-red-50 rounded px-2 py-1 text-[10px] font-bold uppercase tracking-wider transition">
+
+                                                                                                Cancel Product
+
+                                                                                            </button>
+
+                                                                                        </form>
+
+                                                                                        <% } %>
+
+                                                                                            <% } %>
+
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+
+                                            <% }) %>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- Section 4: Summary & Admin side-by-side -->
+                        <div class="grid grid-cols-2 gap-gutter">
+                            <div
+                                class="bg-surface-container-lowest border border-outline-variant rounded-lg p-lg shadow-sm">
+
+                                <h3 class="font-headline-md text-[16px] text-primary mb-md">
+                                    Order Summary
+                                </h3>
+
+                                <div class="space-y-sm font-body-md text-body-md">
+
+                                    <!-- Subtotal -->
+                                    <div class="flex justify-between">
+                                        <span class="text-on-surface-variant">
+                                            Subtotal
+                                        </span>
+
+                                        <span class="font-medium">
+                                            ₹<%= Number(order.activeTotal || 0).toLocaleString("en-IN") %>
+                                        </span>
+                                    </div>
+
+
+                                    <!-- Shipping -->
+                                    <div class="flex justify-between">
+                                        <span class="text-on-surface-variant">
+                                            Shipping
+                                        </span>
+
+                                        <span class="font-medium">
+                                            ₹<%= Number(order.shipping || 0).toLocaleString("en-IN") %>
+                                        </span>
+                                    </div>
+
+
+                                    <!-- Tax -->
+                                    <% if (Number(order.tax || 0)> 0) { %>
+
+                                        <div class="flex justify-between">
+                                            <span class="text-on-surface-variant">
+                                                Tax
+                                            </span>
+
+                                            <span class="font-medium">
+                                                ₹<%= Number(order.tax || 0).toLocaleString("en-IN") %>
+                                            </span>
+                                        </div>
+
+                                        <% } %>
+
+
+                                            <!-- Discount -->
+                                            <% if (Number(order.discount || 0)> 0) { %>
+
+                                                <div class="flex justify-between text-error">
+                                                    <span>
+                                                        Discount
+                                                    </span>
+
+                                                    <span class="font-medium">
+                                                        -₹<%= Number(order.discount || 0).toLocaleString("en-IN") %>
+                                                    </span>
+                                                </div>
+
+                                                <% } %>
+
+
+                                                    <% if (order.cancelledItemCount> 0) { %>
+                                                        <div class="flex justify-between text-error">
+                                                            <span>Cancelled Items</span>
+                                                            <span class="font-medium">
+                                                                <%= order.cancelledItemCount %>
+                                                            </span>
+                                                        </div>
+                                                        <% } %>
+
+
+                                                            <!-- Total -->
+                                                            <div
+                                                                class="border-t border-outline-variant mt-md pt-md flex justify-between items-center">
+
+                                                                <span class="font-bold text-primary">
+                                                                    Total
+                                                                </span>
+
+                                                                <span
+                                                                    class="font-headline-md text-headline-md font-black text-primary">
+
+                                                                    ₹<%= Number(order.payableAmount ||
+                                                                        0).toLocaleString("en-IN") %>
+
+                                                                </span>
+
+                                                            </div>
+
+                                </div>
+                            </div>
+                            <div
+                                class="bg-surface-container-lowest border border-outline-variant rounded-lg p-lg shadow-sm space-y-md">
+                                <h3 class="font-headline-md text-[16px] text-primary mb-md">Admin Controls</h3>
+                                <div class="space-y-sm">
+                                    <p class="font-label-md text-label-md text-on-surface-variant uppercase">Overall
+                                        Order Status</p>
+                                    <div
+                                        class="flex items-center justify-between bg-surface-container-low p-md rounded-lg border border-outline-variant">
+                                        <div class="flex items-center gap-2">
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold
+    <%= order.orderStatus === " RETURN_REQUESTED" ? "bg-blue-100 text-blue-700"
+                                                : "bg-secondary-container text-on-secondary-container" %>">
+
+                                                <%= order.orderStatus.replaceAll("_", " " ) %>
+
+                                            </span>
+                                            <span
+                                                class="material-symbols-outlined text-on-surface-variant text-sm">info</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button
+                                    class="w-full border border-outline-variant text-primary px-lg py-2 rounded-lg font-body-md text-body-md hover:bg-surface-container transition-colors mt-md">Send
+                                    Customer Notification</button>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <script>
+                    // Simple micro-interaction for notification hover
+                    document.querySelectorAll('button').forEach(btn => {
+                        btn.addEventListener('mousedown', () => btn.classList.add('scale-95'));
+                        btn.addEventListener('mouseup', () => btn.classList.remove('scale-95'));
+                        btn.addEventListener('mouseleave', () => btn.classList.remove('scale-95'));
+                    });
+
+
+
+                    function handleItemStatusChange(select) {
+
+                        const status = select.value;
+
+                        const orderId = select.dataset.orderId;
+                        const itemId = select.dataset.itemId;
+
+                        if (status === "CANCELLED") {
+
+                            const reason = prompt(
+                                "Enter cancellation reason:"
+                            );
+
+                            if (!reason || !reason.trim()) {
+
+                                // Reset dropdown to previous value
+                                window.location.reload();
+
+                                return;
+                            }
+
+                            const form = document.createElement("form");
+
+                            form.method = "POST";
+
+                            form.action =
+                                `/admin/orders/${orderId}/items/${itemId}/cancel`;
+
+                            const input = document.createElement("input");
+
+                            input.type = "hidden";
+                            input.name = "cancellationReason";
+                            input.value = reason.trim();
+
+                            form.appendChild(input);
+
+                            document.body.appendChild(form);
+
+                            form.submit();
+
+                            return;
+                        }
+
+                        const form = document.createElement("form");
+
+                        form.method = "POST";
+
+                        form.action =
+                            `/admin/orders/${orderId}/items/${itemId}/status`;
+
+                        const input = document.createElement("input");
+
+                        input.type = "hidden";
+                        input.name = "status";
+                        input.value = status;
+
+                        form.appendChild(input);
+
+                        document.body.appendChild(form);
+
+                        form.submit();
+                    }
+                </script>
+
+
+</body>
+
+</html>

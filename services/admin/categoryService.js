@@ -2,7 +2,6 @@ import Category from "../../models/category.js";
 import { uploadToCloudinary } from "../../utils/cloudinaryUpload.js";
 import cloudinary from "../../config/cloudinary.js";
 import Product from "../../models/product.js";
-import category from "../../models/category.js";
 
 export const getCategoryService = async (
   search = "",

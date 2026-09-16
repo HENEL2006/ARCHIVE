@@ -35,6 +35,18 @@ import {
   updateProduct,
 } from "../controllers/admin/productController.js";
 import { productValidationMiddleware } from "../middlewares/ProductValidationMiddleware.js";
+import {
+  cancelOrderItemByAdmin,
+  loadOrderDetails,
+  loadOrdersPage,
+  updateOrderItemStatus,
+  updateOrderStatus,
+} from "../controllers/admin/orderController.js";
+import {
+  approveReturn,
+  loadReturn,
+  rejectReturn,
+} from "../controllers/admin/returnController.js";
 
 router.get("/login", adminGuest, loadLogin);
 router.post("/login", adminGuest, adminLogin);
@@ -71,7 +83,23 @@ router.post(
   upload.array("images", 5),
   updateProduct,
 );
-router.post("/products/:id/delete",adminAuth,deleteProduct)
+router.post("/products/:id/delete", adminAuth, deleteProduct);
+router.get("/orders", adminAuth, loadOrdersPage);
+router.post("/orders/:orderId/status", adminAuth, updateOrderStatus);
+router.get("/orders/:orderId", adminAuth, loadOrderDetails);
+router.post(
+  "/orders/:orderId/items/:itemId/status",
+  adminAuth,
+  updateOrderItemStatus,
+);
+router.post(
+  "/orders/:orderId/items/:itemId/cancel",
+  adminAuth,
+  cancelOrderItemByAdmin,
+);
+router.get("/return", adminAuth, loadReturn);
+router.post("/return/:orderId/:itemId/approve", approveReturn);
+router.post("/return/:orderId/:itemId/reject", adminAuth, rejectReturn);
 
 router.get("/logout", adminLogout);
 

@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<% const trackingSteps=[ "PLACED" , "CONFIRMED" , "SHIPPED" , "DELIVERED" ]; const currentStatus=order.orderStatus;
+    const currentStepIndex=trackingSteps.indexOf(currentStatus); %>
+
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+        <title>ORDER CONFIRMED | ARCHIVE</title>
+        <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&amp;family=Syne:wght@700;800&amp;display=swap"
+            rel="stylesheet">
+        <link
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+            rel="stylesheet">
+        <link
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+            rel="stylesheet">
+        <script id="tailwind-config">
+            tailwind.config = {
+                darkMode: "class",
+                theme: {
+                    extend: {
+                        "colors": {
+                            "surface-container-low": "#f6f3f2",
+                            "on-surface": "#1c1b1b",
+                            "on-tertiary-fixed-variant": "#474747",
+                            "outline-variant": "#cfc4c5",
+                            "tertiary-fixed-dim": "#c6c6c6",
+                            "primary": "#000000",
+                            "surface-container-lowest": "#ffffff",
+                            "surface-bright": "#fcf9f8",
+                            "primary-fixed": "#e2e2e2",
+                            "tertiary-fixed": "#e2e2e2",
+                            "surface-variant": "#e5e2e1",
+                            "on-secondary-fixed-variant": "#454747",
+                            "error": "#ba1a1a",
+                            "accent-success": "#22CD5B",
+                            "surface": "#fcf9f8",
+                            "inverse-surface": "#313030",
+                            "on-secondary": "#ffffff",
+                            "error-container": "#ffdad6",
+                            "secondary": "#5d5f5f",
+                            "secondary-fixed": "#e2e2e2",
+                            "on-secondary-fixed": "#1a1c1c",
+                            "secondary-container": "#dfe0e0",
+                            "on-error": "#ffffff",
+                            "on-secondary-container": "#616363",
+                            "on-primary-fixed-variant": "#474747",
+                            "on-primary": "#ffffff",
+                            "on-background": "#1c1b1b",
+                            "background": "#fcf9f8",
+                            "surface-container-highest": "#e5e2e1",
+                            "outline": "#7e7576",
+                            "on-error-container": "#93000a",
+                            "on-surface-variant": "#4c4546",
+                            "tertiary": "#000000",
+                            "surface-dim": "#dcd9d9",
+                            "on-tertiary-fixed": "#1b1b1b",
+                            "surface-container-high": "#ebe7e7",
+                            "inverse-on-surface": "#f3f0ef",
+                            "primary-fixed-dim": "#c6c6c6",
+                            "surface-container": "#f0edec",
+                            "inverse-primary": "#c6c6c6",
+                            "on-primary-fixed": "#1b1b1b",
+                            "on-tertiary-container": "#848484",
+                            "tertiary-container": "#1b1b1b",
+                            "surface-tint": "#5e5e5e",
+                            "on-tertiary": "#ffffff",
+                            "secondary-fixed-dim": "#c6c6c7",
+                            "primary-container": "#1b1b1b",
+                            "on-primary-container": "#848484"
+                        },
+                        "borderRadius": {
+                            "DEFAULT": "0px",
+                            "lg": "0px",
+                            "xl": "0px",
+                            "full": "0px"
+                        },
+                        "spacing": {
+                            "unit": "8px",
+                            "grid-gutter": "0px",
+                            "container-padding": "64px",
+                            "section-gap": "128px",
+                            "mobile-margin": "20px"
+                        },
+                        "fontFamily": {
+                            "body-lg": ["Space Mono"],
+                            "mono-data": ["Space Mono"],
+                            "display-xl": ["Syne"],
+                            "headline-lg-mobile": ["Syne"],
+                            "headline-lg": ["Inter"],
+                            "headline-md": ["Inter"],
+                            "body-md": ["Space Mono"],
+                            "label-caps": ["Space Mono"],
+                            "display": ['"Syne"', 'system-ui', 'sans-serif'],
+                        },
+                        "fontSize": {
+                            "body-lg": ["16px", { "lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400" }],
+                            "mono-data": ["12px", { "lineHeight": "1.0", "letterSpacing": "-0.02em", "fontWeight": "400" }],
+                            "headline-lg-mobile": ["32px", { "lineHeight": "1.1", "letterSpacing": "0.04em", "fontWeight": "700" }],
+                            "headline-md": ["24px", { "lineHeight": "1.2", "letterSpacing": "0.03em", "fontWeight": "700" }],
+                            "headline-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "0.04em", "fontWeight": "700" }],
+                            "display-xl": ["80px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "800" }],
+                            "body-md": ["14px", { "lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400" }],
+                            "label-caps": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "700" }]
+                        }
+                    },
+                },
+            }
+        </script>
+        <style>
+            .material-symbols-outlined {
+                font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+            }
+
+            ::-webkit-scrollbar {
+                width: 4px;
+            }
+
+            ::-webkit-scrollbar-track {
+                background: #fcf9f8;
+            }
+
+            ::-webkit-scrollbar-thumb {
+                background: #000;
+            }
+
+            body {
+                -webkit-font-smoothing: antialiased;
+            }
+
+            .order-confirmation-page {
+                animation: slideUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            }
+
+            @keyframes slideUp {
+                from {
+                    transform: translateY(100vh);
+                }
+
+                to {
+                    transform: translateY(0);
+                }
+            }
+
+            .order-check {
+                opacity: 0;
+                transform: scale(0.8);
+                animation: checkReveal 0.5s ease-out 0.6s forwards;
+            }
+
+            @keyframes checkReveal {
+                to {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+            }
+        </style>
+    </head>
+
+    <body class="bg-surface text-primary selection:bg-primary selection:text-surface overflow-x-hidden">
+        <%- include("partials/userHeader") %>
+            <%- include("partials/toast") %>
+                <main class="order-confirmation-page">
+                    <!-- Hero Section -->
+                    <section
+                        class="border-b border-primary px-container-padding py-section-gap flex flex-col items-start relative overflow-hidden">
+                        <div class="z-10 w-full">
+                            <div class="flex items-center gap-4 mb-unit">
+                                <span class="material-symbols-outlined text-[48px] order-check">
+                                    check_circle
+                                </span>
+                                <span class="font-label-caps text-label-caps tracking-[0.2em]">VERIFIED
+                                    TRANSACTION</span>
+                            </div>
+                            <h1 class="font-display-xl text-display-xl uppercase leading-none mt-4 max-w-4xl">ORDER
+                                CONFIRMED
+                            </h1>
+                            <p class="font-body-lg text-body-lg mt-8 max-w-xl text-secondary">Thank you for preserving
+                                football
+                                history. Your artifacts have been secured and are being prepared for dispatch from our
+                                climate-controlled vault.</p>
+                        </div>
+                    </section>
+                    <!-- Main Confirmation Grid -->
+                    <section class="grid grid-cols-1 md:grid-cols-4 border-b border-primary">
+                        <div class="p-container-padding border-b md:border-b-0 md:border-r border-primary">
+                            <p class="font-label-caps text-label-caps text-secondary mb-4">ORDER NUMBER</p>
+                            <p class="font-mono-data text-xl font-bold">
+                                <%= order.orderId %>
+                            </p>
+                        </div>
+                        <div class="p-container-padding border-b md:border-b-0 md:border-r border-primary">
+                            <p class="font-label-caps text-label-caps text-secondary mb-4">ORDER DATE</p>
+                            <p class="font-mono-data text-xl font-bold uppercase">
+                                <%= new Date(order.createdAt).toLocaleDateString("en-GB", { day: "2-digit" ,
+                                    month: "long" , year: "numeric" }) %>
+                            </p>
+                        </div>
+                        <div class="p-container-padding border-b md:border-b-0 md:border-r border-primary">
+                            <p class="font-label-caps text-label-caps text-secondary mb-4">PAYMENT METHOD</p>
+                            <p class="font-mono-data text-xl font-bold uppercase">
+                                <%= order.paymentMethod %>
+                            </p>
+                        </div>
+                        <div class="p-container-padding">
+                            <p class="font-label-caps text-label-caps text-secondary mb-4">DELIVERY ADDRESS</p>
+                            <p class="font-mono-data text-sm leading-relaxed">
+                                <%= order.deliveryAddress.addressLine1 %><br>
+
+                                    <% if (order.deliveryAddress.addressLine2) { %>
+                                        <%= order.deliveryAddress.addressLine2 %><br>
+                                            <% } %>
+
+                                                <%= order.deliveryAddress.city %>,
+                                                    <%= order.deliveryAddress.state %><br>
+
+                                                        <%= order.deliveryAddress.postalCode %><br>
+
+                                                            <%= order.deliveryAddress.country %>
+                            </p>
+                        </div>
+                    </section>
+                    <!-- Purchased Items Section -->
+                    <section class="border-b border-primary">
+                        <div class="px-container-padding pt-16 pb-8">
+
+                            <div class="flex items-baseline gap-4 mb-5">
+                                <span class="font-mono-data text-xs text-secondary">
+                                    02 /
+                                </span>
+
+                                <span class="font-label-caps text-xs text-secondary uppercase">
+                                    COLLECTION
+                                </span>
+                            </div>
+
+                            <div class="border-t border-primary pt-6">
+
+                                <!-- <h2 class="font-headline-md uppercase tracking-tight">
+                                    SECURED ARTIFACTS
+                                </h2> -->
+
+                            </div>
+
+                        </div>
+
+                        <% order.items.forEach((item, index)=> { %>
+
+                            <div class="grid grid-cols-1 md:grid-cols-12 border-b border-primary">
+
+                                <!-- PRODUCT IMAGE -->
+                                <div
+                                    class="md:col-span-4 border-b md:border-b-0 md:border-r border-primary bg-white flex items-center justify-center p-6 h-[320px]">
+
+                                    <img src="<%= item.image %>" alt="<%= item.name %>"
+                                        class="h-full w-full object-contain">
+
+                                </div>
+
+
+                                <!-- PRODUCT DETAILS -->
+                                <div class="md:col-span-8 p-8 flex flex-col justify-between h-[320px]">
+
+                                    <div>
+
+                                        <div class="flex justify-between items-start mb-6">
+
+                                            <div>
+                                                <h3 class="font-headline-md text-headline-md uppercase">
+                                                    <%= item.name %>
+                                                </h3>
+
+                                                <p class="font-label-caps text-label-caps text-secondary">
+                                                    SIZE / <%= item.size %>
+                                                </p>
+                                            </div>
+
+                                            <span class="font-display-xl text-headline-lg">
+                                                <%= String(index + 1).padStart(2, "0" ) %>
+                                            </span>
+
+                                        </div>
+
+
+                                        <div class="grid grid-cols-3 gap-8">
+
+                                            <div>
+                                                <p class="font-label-caps text-label-caps text-secondary">
+                                                    SIZE
+                                                </p>
+
+                                                <p class="font-mono-data text-lg mt-1">
+                                                    <%= item.size %>
+                                                </p>
+                                            </div>
+
+
+                                            <div>
+                                                <p class="font-label-caps text-label-caps text-secondary">
+                                                    QTY
+                                                </p>
+
+                                                <p class="font-mono-data text-lg mt-1">
+                                                    <%= String(item.quantity).padStart(2, "0" ) %>
+                                                </p>
+                                            </div>
+
+
+                                            <div>
+                                                <p class="font-label-caps text-label-caps text-secondary">
+                                                    PRICE
+                                                </p>
+
+                                                <p class="font-mono-data text-lg mt-1">
+                                                    ₹<%= item.price.toFixed(2) %>
+                                                </p>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="pt-4 border-t border-primary/10">
+
+                                        <p class="font-body-md text-body-md italic text-secondary">
+                                            <%= item.name %> — archival acquisition.
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <% }) %>
+                    </section>
+                    <!-- Tracking Section -->
+                    <!-- Tracking Section -->
+                    <section class="border-b border-primary">
+
+                        <!-- HEADER -->
+                        <div class="px-container-padding pt-16 pb-8">
+
+                            <div class="flex items-baseline gap-4 mb-5">
+                                <span class="font-mono-data text-xs text-secondary">
+                                    03 /
+                                </span>
+
+                                <span class="font-label-caps text-xs text-secondary uppercase">
+                                    DELIVERY
+                                </span>
+                            </div>
+
+                            <div class="border-t border-primary pt-6">
+
+                                <h2 class="font-headline-md uppercase tracking-tight">
+                                    TRACKING & DELIVERY
+                                </h2>
+
+                            </div>
+
+                        </div>
+
+
+
+                                    <!-- ORDER TOTALS + ACTIONS -->
+                                    <div class="grid grid-cols-1 md:grid-cols-2  border-primary">
+
+                                        <!-- DELIVERY INFO -->
+                                        <div
+                                            class="p-container-padding border-b md:border-b-0 md:border-r border-primary">
+
+                                            <h3 class="font-headline-md text-headline-md uppercase mb-8">
+                                                DELIVERY
+                                            </h3>
+
+                                            <div class="space-y-6">
+
+                                                <div class="flex items-center gap-4">
+
+                                                    <span class="material-symbols-outlined">
+                                                        local_shipping
+                                                    </span>
+
+                                                    <div>
+
+                                                        <p class="font-label-caps text-label-caps">
+                                                            ESTIMATED DELIVERY
+                                                        </p>
+
+                                                        <p class="font-mono-data text-sm">
+                                                            5-7 BUSINESS DAYS
+                                                        </p>
+
+                                                    </div>
+
+                                                </div>
+
+
+                                                <div class="flex items-center gap-4">
+
+                                                    <span class="material-symbols-outlined">
+                                                        verified
+                                                    </span>
+
+                                                    <div>
+
+                                                        <p class="font-label-caps text-label-caps">
+                                                            PAYMENT STATUS
+                                                        </p>
+
+                                                        <p class="font-mono-data text-sm">
+                                                            <%= order.paymentStatus %>
+                                                        </p>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+
+                                            <div class="mt-12 flex flex-col gap-4">
+
+                                                <button type="button"
+                                                    class="w-full py-5 bg-primary text-surface font-label-caps text-lg hover:bg-surface hover:text-primary border border-primary transition-all duration-300">
+
+                                                    TRACK ORDER
+
+                                                </button>
+
+                                                <a href="/products"
+                                                    class="text-center font-label-caps py-2 hover:line-through">
+
+                                                    CONTINUE SHOPPING
+
+                                                </a>
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <!-- ORDER TOTALS -->
+                                        <div
+                                            class="bg-surface-container-high p-container-padding flex flex-col justify-center">
+
+                                            <p class="font-label-caps text-label-caps text-secondary mb-4">
+                                                SUBTOTAL: ₹<%= order.subtotal.toFixed(2) %>
+                                            </p>
+
+                                            <p class="font-label-caps text-label-caps text-secondary mb-4">
+                                                SHIPPING: ₹<%= order.shipping.toFixed(2) %>
+                                            </p>
+
+                                            <p class="font-label-caps text-label-caps text-secondary mb-8">
+                                                TAX: ₹<%= order.tax.toFixed(2) %>
+                                            </p>
+
+                                            <% if (order.discount> 0) { %>
+
+                                                <p class="font-label-caps text-label-caps text-secondary mb-8">
+                                                    DISCOUNT: -₹<%= order.discount.toFixed(2) %>
+                                                </p>
+
+                                                <% } %>
+
+
+                                                    <div class="border-t border-primary pt-8">
+
+                                                        <p class="font-label-caps text-label-caps mb-2">
+                                                            TOTAL AMOUNT
+                                                        </p>
+
+                                                        <p class="font-display-xl text-[64px] leading-none">
+                                                            ₹<%= order.total.toFixed(2) %>
+                                                        </p>
+
+                                                    </div>
+
+                                        </div>
+
+                                    </div>
+
+                    </section>
+                    <!-- Statement Section -->
+                    <section class="p-container-padding text-center bg-surface border-b border-primary">
+                        <div class="max-w-3xl mx-auto py-24">
+                            <span
+                                class="font-label-caps text-label-caps tracking-[0.3em] block mb-8 text-secondary">ARCHIVE
+                                STATEMENT No. 0481</span>
+                            <p class="font-body-lg text-2xl leading-relaxed">
+                                We do not sell merchandise. We curate legacies. By acquiring these pieces, you become
+                                the
+                                custodian of a specific temporal fragment of the beautiful game. Maintain them with the
+                                respect
+                                their history demands.
+                            </p>
+                        </div>
+                    </section>
+                </main>
+                <!-- Footer -->
+                <%- include("partials/userFooter") %>
+                    <script>
+                        // Micro-interaction for smooth reveal or hover state handling
+                        document.querySelectorAll('button').forEach(btn => {
+                            btn.addEventListener('mouseenter', () => {
+                                btn.style.transition = 'all 0.2s cubic-bezier(0,0,0,1)';
+                            });
+                        });
+
+                        // Simple parallax-ish effect for the large background typography
+                        window.addEventListener('scroll', () => {
+                            const scrolled = window.pageYOffset;
+                            const watermark = document.querySelector('.absolute.select-none');
+                            if (watermark) {
+                                watermark.style.transform = `translateX(-${scrolled * 0.1}px)`;
+                            }
+                        });
+
+                    </script>
+
+
+    </body>
+
+</html>

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&amp;family=Space+Mono:wght@400;700&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#e2e2e2",
+                        "surface-container-low": "#f6f3f2",
+                        "on-primary": "#ffffff",
+                        "surface-dim": "#dcd9d9",
+                        "inverse-primary": "#c6c6c6",
+                        "tertiary-fixed-dim": "#c6c6c6",
+                        "on-tertiary-container": "#848484",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "surface-container-highest": "#e5e2e1",
+                        "secondary-container": "#dfe0e0",
+                        "surface-container": "#f0edec",
+                        "error": "#ba1a1a",
+                        "surface-container-high": "#ebe7e7",
+                        "primary-container": "#1b1b1b",
+                        "surface": "#fcf9f8",
+                        "on-tertiary-fixed": "#1b1b1b",
+                        "on-secondary-fixed-variant": "#454747",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#848484",
+                        "on-error-container": "#93000a",
+                        "tertiary-fixed": "#e2e2e2",
+                        "background": "#fcf9f8",
+                        "inverse-on-surface": "#f3f0ef",
+                        "on-tertiary-fixed-variant": "#474747",
+                        "tertiary-container": "#1b1b1b",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "outline": "#7e7576",
+                        "on-surface-variant": "#4c4546",
+                        "on-primary-fixed-variant": "#474747",
+                        "surface-bright": "#fcf9f8",
+                        "secondary-fixed": "#e2e2e2",
+                        "secondary": "#5d5f5f",
+                        "surface-variant": "#e5e2e1",
+                        "on-secondary-container": "#616363",
+                        "on-primary-fixed": "#1b1b1b",
+                        "error-container": "#ffdad6",
+                        "on-error": "#ffffff",
+                        "on-background": "#1c1b1b",
+                        "inverse-surface": "#313030",
+                        "primary-fixed-dim": "#c6c6c6",
+                        "outline-variant": "#cfc4c5",
+                        "on-surface": "#1c1b1b",
+                        "surface-tint": "#5e5e5e",
+                        "tertiary": "#000000",
+                        "accent-success": "#22CD5B",
+                        "primary": "#000000"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0rem",
+                        "lg": "0rem",
+                        "xl": "0rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit": "8px",
+                        "section-gap": "128px",
+                        "container-padding": "64px",
+                        "mobile-margin": "20px",
+                        "grid-gutter": "0px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Space Mono"],
+                        "mono-data": ["Space Mono"],
+                        "display-xl": ["Syne"],
+                        "headline-lg-mobile": ["Syne"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Space Mono"],
+                        "label-caps": ["Space Mono"],
+                        "display": ['"Syne"', 'system-ui', 'sans-serif'],
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", { "lineHeight": "1.2", "letterSpacing": "0.03em", "fontWeight": "700" }],
+                        "body-lg": ["16px", { "lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400" }],
+                        "headline-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "0.04em", "fontWeight": "700" }],
+                        "display-xl": ["80px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "800" }],
+                        "label-caps": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.1", "letterSpacing": "0.04em", "fontWeight": "700" }],
+                        "body-md": ["14px", { "lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400" }],
+                        "mono-data": ["12px", { "lineHeight": "1.0", "letterSpacing": "-0.02em", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .watermark {
+            pointer-events: none;
+            user-select: none;
+            opacity: 0.03;
+            white-space: nowrap;
+            z-index: -1;
+        }
+    </style>
+</head>
+
+<body class="bg-surface text-on-surface font-body-md overflow-x-hidden">
+    <!-- Background Watermark -->
+    <div class="fixed inset-0 flex items-center justify-center watermark overflow-hidden">
+        <span class="font-display-xl text-[20vw] leading-none uppercase select-none">FOOTBALL. CULTURE. MEMORY.</span>
+    </div>
+    <!-- TopNavBar -->
+    <%- include("partials/userHeader") %>
+        <%- include("partials/toast") %>
+            <main class="min-h-screen border-x border-primary mx-container-padding">
+                <!-- Hero Section -->
+                <header
+                    class="py-section-gap border-b border-primary px-container-padding flex flex-col md:flex-row justify-between items-end gap-12">
+                    <div class="max-w-4xl">
+                        <h2 class="font-display-xl text-headline-lg md:text-display-xl uppercase leading-none mb-6">MY
+                            WALLET
+                        </h2>
+                        <p class="font-body-lg text-body-lg text-on-surface-variant max-w-xl">
+                            Store credits, refunds, and rewards available for future archive acquisitions. Managed
+                            through our
+                            decentralized ledger.
+                        </p>
+                    </div>
+                    <div class="flex flex-col gap-4 w-full md:w-auto">
+                        <!-- <button
+                            class="bg-primary text-on-primary px-8 py-4 font-label-caps text-label-caps border border-primary hover:bg-surface hover:text-primary transition-colors">ADD
+                            MONEY</button> -->
+                        <button
+                            class="bg-surface text-primary px-8 py-4 font-label-caps text-label-caps border border-primary hover:bg-primary hover:text-on-primary transition-colors">VIEW
+                            TRANSACTIONS
+                        </button>
+                    </div>
+                </header>
+                <!-- Balance Section -->
+                <section class="grid grid-cols-1 md:grid-cols-12 border-b border-primary">
+                    <div class="md:col-span-8 border-r border-primary px-container-padding py-16">
+                        <p class="font-label-caps text-label-caps text-on-surface-variant mb-4">AVAILABLE BALANCE</p>
+                        <h3 class="font-display-xl text-display-xl leading-none"
+                            style="transition: 0.1s; transform: skewX(0deg);">₹<%= Number(wallet.balance ||
+                                0).toLocaleString("en-IN") %>
+                        </h3>
+                    </div>
+                    <div
+                        class="md:col-span-4 flex flex-col justify-center px-container-padding py-16 bg-surface-container-low">
+                        <p class="font-mono-data text-mono-data uppercase mb-4 opacity-70">Wallet Information</p>
+                        <div class="space-y-4">
+                            <p class="font-body-md text-body-md italic text-on-surface-variant">Refunds are
+                                automatically
+                                credited to your wallet.</p>
+                            <p class="font-body-md text-body-md italic text-on-surface-variant">Wallet balance can be
+                                used
+                                during checkout.</p>
+                            <p class="font-body-md text-body-md italic text-on-surface-variant">Added funds remain
+                                available
+                                until used.</p>
+                        </div>
+                    </div>
+                </section>
+                <!-- Wallet Summary Cards -->
+                <section class="grid grid-cols-1 md:grid-cols-3 border-b border-primary">
+                    <div class="p-12 border-r border-primary flex flex-col justify-between min-h-[240px]">
+                        <p class="font-label-caps text-label-caps text-on-surface-variant">CURRENT BALANCE</p>
+                        <div class="font-headline-lg text-headline-lg"
+                            style="transition: 0.1s; transform: skewX(0deg);">₹<%= Number(wallet.balance ||
+                                0).toLocaleString("en-IN") %>
+                        </div>
+                    </div>
+                    <div class="p-12 border-r border-primary flex flex-col justify-between min-h-[240px]">
+                        <p class="font-label-caps text-label-caps text-on-surface-variant">TOTAL REFUNDS RECEIVED</p>
+                        <div class="font-headline-lg text-headline-lg"
+                            style="transition: 0.1s; transform: skewX(0deg);">₹<%= Number( wallet.transactions
+                                .filter(transaction=> transaction.type === "CREDIT")
+                                .reduce((total, transaction) => total + transaction.amount, 0)
+                                ).toLocaleString("en-IN") %>
+                        </div>
+                    </div>
+                    <div class="p-12 flex flex-col justify-between min-h-[240px]">
+                        <p class="font-label-caps text-label-caps text-on-surface-variant">CREDITS USED</p>
+                        <div class="font-headline-lg text-headline-lg"
+                            style="transition: 0.1s; transform: skewX(0deg);">₹450
+                        </div>
+                    </div>
+                </section>
+                <!-- Wallet Activity -->
+                <!-- <section class="border-b border-primary px-container-padding py-24 bg-surface">
+                    <div class="max-w-4xl mx-auto">
+                        <h4 class="font-label-caps text-label-caps text-on-surface-variant mb-12 tracking-widest">ADD
+                            FUNDS</h4>
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
+                            <div
+                                class="border border-primary p-6 text-center cursor-pointer hover:bg-primary hover:text-on-primary transition-colors group">
+                                <p class="font-label-caps text-label-caps opacity-50 mb-2">PRESET</p>
+                                <p class="font-headline-md text-headline-md">₹500</p>
+                            </div>
+                            <div
+                                class="border border-primary p-6 text-center cursor-pointer hover:bg-primary hover:text-on-primary transition-colors group">
+                                <p class="font-label-caps text-label-caps opacity-50 mb-2">PRESET</p>
+                                <p class="font-headline-md text-headline-md">₹1000</p>
+                            </div>
+                            <div
+                                class="border border-primary p-6 text-center cursor-pointer hover:bg-primary hover:text-on-primary transition-colors group">
+                                <p class="font-label-caps text-label-caps opacity-50 mb-2">PRESET</p>
+                                <p class="font-headline-md text-headline-md">₹2000</p>
+                            </div>
+                            <div
+                                class="border border-primary p-6 text-center cursor-pointer hover:bg-primary hover:text-on-primary transition-colors group">
+                                <p class="font-label-caps text-label-caps opacity-50 mb-2">PRESET</p>
+                                <p class="font-headline-md text-headline-md">₹5000</p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
+                            <div class="md:col-span-8"> <label
+                                    class="block font-label-caps text-label-caps text-on-surface-variant mb-4">CUSTOM
+                                    AMOUNT</label><input
+                                    class="w-full bg-transparent border-0 border-b border-primary p-4 font-mono-data text-headline-md focus:ring-0 placeholder:opacity-20"
+                                    placeholder="ENTER AMOUNT (₹)" type="text"></div>
+                            <div class="md:col-span-4"> <button
+                                    class="w-full bg-primary text-on-primary py-6 font-label-caps text-label-caps border border-primary hover:bg-surface hover:text-primary transition-colors">ADD
+                                    TO WALLET</button></div>
+                        </div>
+                    </div>
+                </section> -->
+                <section class="px-container-padding py-section-gap">
+                    <h4 class="font-label-caps text-label-caps text-on-surface-variant mb-12 tracking-widest">WALLET
+                        ACTIVITY
+                    </h4>
+
+
+                    <% if (wallet.transactions && wallet.transactions.length> 0) { %>
+
+                        <% wallet.transactions.forEach(transaction=> { %>
+
+                            <div
+                                class="grid grid-cols-12 py-8 border-b border-primary hover:bg-surface-container-low transition-colors group">
+
+                                <div class="col-span-12 md:col-span-6 mb-4 md:mb-0">
+                                    <p class="font-headline-md text-headline-md uppercase">
+                                        <%= transaction.reason.replaceAll("_", " " ) %>
+                                    </p>
+
+                                    <% if (transaction.orderId) { %>
+                                        <p class="font-mono-data text-mono-data text-on-surface-variant">
+                                            ORDER: <%= transaction.orderId %>
+                                        </p>
+                                        <% } else { %>
+                                            <p class="font-mono-data text-mono-data text-on-surface-variant">
+                                                WALLET TRANSACTION
+                                            </p>
+                                            <% } %>
+                                </div>
+
+                                <div class="col-span-6 md:col-span-3 flex items-center">
+                                    <p class="font-mono-data text-mono-data text-on-surface-variant uppercase">
+                                        <%= new Date(transaction.createdAt).toLocaleDateString("en-IN", { day: "2-digit"
+                                            , month: "short" , year: "numeric" }) %>
+                                    </p>
+                                </div>
+
+                                <div class="col-span-6 md:col-span-3 flex items-center justify-end">
+                                    <p
+                                        class="font-headline-md text-headline-md <%= transaction.type === 'CREDIT' ? 'text-accent-success' : '' %>">
+                                        <%= transaction.type==="CREDIT" ? "+" : "-" %>₹<%=
+                                                Number(transaction.amount).toLocaleString("en-IN") %>
+                                    </p>
+                                </div>
+
+                            </div>
+
+                            <% }) %>
+
+                                <% } else { %>
+
+                                    <div class="py-16 text-center border-b border-primary">
+                                        <p class="font-headline-md text-headline-md uppercase">
+                                            NO WALLET ACTIVITY
+                                        </p>
+
+                                        <p class="font-mono-data text-mono-data text-on-surface-variant mt-3">
+                                            Your wallet transactions will appear here.
+                                        </p>
+                                    </div>
+
+                                    <% } %>
+
+
+                                        <div class="mt-12 flex justify-center">
+                                            <% if (wallet.totalPages> 1) { %>
+                                                <div class="mt-12 border-t border-primary">
+
+                                                    <div class="flex items-center justify-between py-6">
+
+                                                        <!-- Previous -->
+                                                        <div>
+                                                            <% if (wallet.currentPage> 1) { %>
+
+                                                                <a href="/wallet?page=<%= wallet.currentPage - 1 %>"
+                                                                    class="group inline-flex items-center gap-3 font-label-caps text-label-caps hover:opacity-60 transition-opacity">
+
+                                                                    <span class="text-lg">←</span>
+                                                                    <span>PREVIOUS</span>
+
+                                                                </a>
+
+                                                                <% } else { %>
+
+                                                                    <span
+                                                                        class="inline-flex items-center gap-3 font-label-caps text-label-caps opacity-20 cursor-not-allowed">
+
+                                                                        <span class="text-lg">←</span>
+                                                                        <span>PREVIOUS</span>
+
+                                                                    </span>
+
+                                                                    <% } %>
+                                                        </div>
+
+
+                                                        <!-- Page Indicator -->
+                                                        <div class="flex items-center gap-6">
+
+                                                            <span
+                                                                class="font-mono-data text-mono-data text-on-surface-variant">
+                                                                PAGE
+                                                            </span>
+
+                                                            <div class="flex items-center gap-2">
+
+                                                                <% for (let i=1; i <=wallet.totalPages; i++) { %>
+
+                                                                    <% if (wallet.currentPage===i) { %>
+
+                                                                        <span
+                                                                            class="w-10 h-10 flex items-center justify-center bg-primary text-on-primary font-label-caps text-label-caps">
+                                                                            <%= i %>
+                                                                        </span>
+
+                                                                        <% } else { %>
+
+                                                                            <a href="/wallet?page=<%= i %>"
+                                                                                class="w-10 h-10 flex items-center justify-center border border-primary font-label-caps text-label-caps hover:bg-primary hover:text-on-primary transition-colors">
+                                                                                <%= i %>
+                                                                            </a>
+
+                                                                            <% } %>
+
+                                                                                <% } %>
+
+                                                            </div>
+
+                                                            <span
+                                                                class="font-mono-data text-mono-data text-on-surface-variant">
+                                                                / <%= wallet.totalPages %>
+                                                            </span>
+
+                                                        </div>
+
+
+                                                        <!-- Next -->
+                                                        <div>
+                                                            <% if (wallet.currentPage < wallet.totalPages) { %>
+
+                                                                <a href="/wallet?page=<%= wallet.currentPage + 1 %>"
+                                                                    class="group inline-flex items-center gap-3 font-label-caps text-label-caps hover:opacity-60 transition-opacity">
+
+                                                                    <span>NEXT</span>
+                                                                    <span class="text-lg">→</span>
+
+                                                                </a>
+
+                                                                <% } else { %>
+
+                                                                    <span
+                                                                        class="inline-flex items-center gap-3 font-label-caps text-label-caps opacity-20 cursor-not-allowed">
+
+                                                                        <span>NEXT</span>
+                                                                        <span class="text-lg">→</span>
+
+                                                                    </span>
+
+                                                                    <% } %>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                                <% } %>
+                                        </div>
+                </section>
+            </main>
+            <!-- Footer -->
+            <%- include("partials/userFooter") %>
+                <script>
+                    // Micro-interaction for currency numbers
+                    document.addEventListener('DOMContentLoaded', () => {
+                        const balances = document.querySelectorAll('.font-display-xl, .font-headline-lg');
+                        balances.forEach(balance => {
+                            balance.addEventListener('mouseenter', () => {
+                                balance.style.transition = 'all 0.1s';
+                                balance.style.transform = 'skewX(-5deg)';
+                            });
+                            balance.onmouseleave = () => {
+                                balance.style.transform = 'skewX(0deg)';
+                            };
+                        });
+                    });
+                </script>
+
+
+</body>
+
+</html>

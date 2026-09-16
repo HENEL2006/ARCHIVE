@@ -460,13 +460,17 @@
 
                                                         <!-- LIST / UNLIST -->
                                                         <form action="/admin/products/<%= product._id %>/status"
-                                                            method="POST" class="inline-flex">
-                                                            <button type="submit"
+                                                            method="POST" class="inline-flex status-form"
+                                                            data-product-name="<%= product.name %>"
+                                                            data-action="<%= product.isListed ? 'unlist' : 'list' %>">
+
+                                                            <button type="button"
                                                                 title="<%= product.isListed ? 'Unlist Product' : 'List Product' %>"
-                                                                class="material-symbols-outlined text-[21px] text-on-surface hover:opacity-60 transition-opacity">
+                                                                class="status-button material-symbols-outlined text-[21px] text-on-surface hover:opacity-60 transition-opacity">
                                                                 <%= product.isListed ? 'visibility' : 'visibility_off'
                                                                     %>
                                                             </button>
+
                                                         </form>
 
                                                         <!-- EDIT -->
@@ -478,10 +482,11 @@
 
                                                         <!-- DELETE -->
                                                         <form action="/admin/products/<%= product._id %>/delete"
-                                                            method="POST" class="inline-flex">
+                                                            method="POST" class="inline-flex delete-form"
+                                                            data-product-name="<%= product.name %>">
 
-                                                            <button type="submit" title="Delete Product"
-                                                                class="material-symbols-outlined text-[21px] text-red-500 hover:opacity-60">
+                                                            <button type="button" title="Delete Product"
+                                                                class="delete-button material-symbols-outlined text-[21px] text-red-500 hover:opacity-60">
                                                                 delete
                                                             </button>
 
@@ -607,7 +612,181 @@
                         </div>
                     </div>
                 </main>
+
+                <!-- LIST / UNLIST CONFIRMATION MODAL -->
+                <div id="statusModal"
+                    class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-sm">
+
+                    <div class="w-full max-w-md bg-white border border-outline-variant rounded-xl shadow-2xl p-8">
+
+                        <!-- Icon -->
+                        <div
+                            class="w-12 h-12 bg-surface-container-high rounded-full flex items-center justify-center mb-6">
+                            <span id="statusModalIcon" class="material-symbols-outlined text-2xl">
+                                visibility_off
+                            </span>
+                        </div>
+
+                        <!-- Heading -->
+                        <h3 class="font-headline-md text-xl font-semibold text-on-surface mb-2">
+                            <span id="statusModalTitle">Unlist Product?</span>
+                        </h3>
+
+                        <!-- Message -->
+                        <p class="text-sm text-on-surface-variant leading-6">
+                            Are you sure you want to
+                            <span id="statusModalAction" class="font-semibold text-on-surface">
+                                unlist
+                            </span>
+                            <span id="statusModalProduct" class="font-semibold text-on-surface">
+                                this product
+                            </span>?
+                        </p>
+
+                        <p id="statusModalDescription" class="text-xs text-on-surface-variant mt-2">
+                            Unlisted products will no longer be visible to customers.
+                        </p>
+
+                        <!-- Buttons -->
+                        <div class="flex justify-end gap-3 mt-8">
+
+                            <button type="button" id="cancelStatus"
+                                class="px-5 py-2.5 border border-outline-variant rounded-lg text-sm font-semibold hover:bg-surface-container transition-colors">
+                                Cancel
+                            </button>
+
+                            <button type="button" id="confirmStatus"
+                                class="px-5 py-2.5 bg-black text-white rounded-lg text-sm font-semibold hover:opacity-80 transition-opacity">
+                                Confirm
+                            </button>
+
+                        </div>
+
+                    </div>
+                </div>
                 <script>
+
+                    // ================================
+                    // DELETE PRODUCT CONFIRMATION
+                    // ================================
+
+                    document.querySelectorAll(".delete-button").forEach((button) => {
+                        button.addEventListener("click", () => {
+                            selectedDeleteForm = button.closest(".delete-form");
+
+                            const productName = selectedDeleteForm.dataset.productName;
+
+                            statusModalTitle.textContent = "Delete Product?";
+                            statusModalAction.textContent = "delete";
+                            statusModalProduct.textContent = `"${productName}"`;
+
+                            statusModalIcon.textContent = "delete";
+
+                            statusModalDescription.textContent =
+                                "This product will be removed from the product list. This action cannot be undone.";
+
+                            // Make the confirm button clearly destructive
+                            confirmStatus.classList.remove("bg-black");
+                            confirmStatus.classList.add("bg-red-600");
+
+                            statusModal.classList.remove("hidden");
+                            statusModal.classList.add("flex");
+                        });
+                    });
+
+                    // ================================
+                    // LIST / UNLIST CONFIRMATION MODAL
+                    // ================================
+
+                    const statusModal = document.getElementById("statusModal");
+                    const cancelStatus = document.getElementById("cancelStatus");
+                    const confirmStatus = document.getElementById("confirmStatus");
+
+                    const statusModalTitle = document.getElementById("statusModalTitle");
+                    const statusModalAction = document.getElementById("statusModalAction");
+                    const statusModalProduct = document.getElementById("statusModalProduct");
+                    const statusModalDescription = document.getElementById(
+                        "statusModalDescription",
+                    );
+                    const statusModalIcon = document.getElementById("statusModalIcon");
+
+                    let selectedStatusForm = null;
+                    let selectedDeleteForm = null;
+
+                    // Open modal
+                    document.querySelectorAll(".status-button").forEach((button) => {
+                        button.addEventListener("click", () => {
+                            selectedStatusForm = button.closest(".status-form");
+
+                            const productName = selectedStatusForm.dataset.productName;
+                            const action = selectedStatusForm.dataset.action;
+
+                            statusModalProduct.textContent = `"${productName}"`;
+
+                            if (action === "unlist") {
+                                statusModalTitle.textContent = "Unlist Product?";
+                                statusModalAction.textContent = "unlist";
+                                statusModalIcon.textContent = "visibility_off";
+
+                                statusModalDescription.textContent =
+                                    "Unlisted products will no longer be visible to customers.";
+                            } else {
+                                statusModalTitle.textContent = "List Product?";
+                                statusModalAction.textContent = "list";
+                                statusModalIcon.textContent = "visibility";
+
+                                statusModalDescription.textContent =
+                                    "This product will become visible to customers.";
+                            }
+
+                            statusModal.classList.remove("hidden");
+                            statusModal.classList.add("flex");
+                        });
+                    });
+
+                    // Cancel
+                    cancelStatus.addEventListener("click", () => {
+                        closeStatusModal();
+                    });
+
+                    // Confirm
+                    confirmStatus.addEventListener("click", () => {
+                        if (selectedDeleteForm) {
+                            selectedDeleteForm.submit();
+                            return;
+                        }
+
+                        if (selectedStatusForm) {
+                            selectedStatusForm.submit();
+                        }
+                    });
+
+                    // Close modal
+                    function closeStatusModal() {
+                        statusModal.classList.add("hidden");
+                        statusModal.classList.remove("flex");
+
+                        selectedStatusForm = null;
+                        selectedDeleteForm = null;
+
+                        // Reset confirm button
+                        confirmStatus.classList.remove("bg-red-600");
+                        confirmStatus.classList.add("bg-black");
+                    }
+
+                    // Close when clicking outside modal
+                    statusModal.addEventListener("click", (e) => {
+                        if (e.target === statusModal) {
+                            closeStatusModal();
+                        }
+                    });
+
+                    // Close with Escape
+                    document.addEventListener("keydown", (e) => {
+                        if (e.key === "Escape" && !statusModal.classList.contains("hidden")) {
+                            closeStatusModal();
+                        }
+                    });
 
                     // ================================
                     // TABLE ROW HOVER EFFECT

@@ -54,11 +54,31 @@ import {
 import {
   addToCart,
   loadCart,
-  loadCheckout,
   removeCartItem,
   updateCartQuantity,
 } from "../controllers/user/cartController.js";
-import { addToWishlist, loadWishlist, removeFromWishlist } from "../controllers/user/wishlistController.js";
+import {
+  addToWishlist,
+  loadWishlist,
+  removeFromWishlist,
+} from "../controllers/user/wishlistController.js";
+import {
+  createRazorpayOrder,
+  loadCheckout,
+  loadOrderSuccess,
+  loadPaymentFailed,
+  placeOrder,
+  verifyRazorpayPayment,
+} from "../controllers/user/checkoutController.js";
+import {
+  cancelOrder,
+  cancelOrderItem,
+  downloadInvoice,
+  loadOrderDetails,
+  loadOrders,
+  requestReturn,
+} from "../controllers/user/orderController.js";
+import { loadWallet } from "../controllers/user/walletController.js";
 
 router.get(
   "/auth/google",
@@ -89,7 +109,9 @@ router.get("/forgot-password", isLoggedOut, loadForgotPassword);
 router.post("/forgot-password", forgotPassword);
 router.get("/reset-password", isLoggedOut, loadResetPassword);
 router.post("/reset-password", resetPassword);
+
 router.get("/profile", isLoggedIn, loadProfilePage);
+
 router.get("/address", isLoggedIn, loadAddressPage);
 router.get("/address/add", isLoggedIn, loadAddAddress);
 router.post("/address/add", isLoggedIn, validateAddress, addAddress);
@@ -97,20 +119,47 @@ router.get("/address/edit/:id", isLoggedIn, loadEditAddress);
 router.post("/address/edit/:id", isLoggedIn, editAddress);
 router.get("/address/default/:id", isLoggedIn, setAsDefault);
 router.get("/address/delete/:id", isLoggedIn, deleteAddress);
+
 router.get("/account-settings", isLoggedIn, loadAccountSettings);
 router.post("/change-email/send-otp", isLoggedIn, sendChangeEmailOtp);
 router.post("/profile/update", isLoggedIn, updateProfile);
 router.post("/account-settings/change-password", isLoggedIn, changePassword);
+
 router.get("/products", isLoggedIn, loadProducts);
 router.get("/product/:slug", loadProductDetails);
+
 router.post("/cart/add", isLoggedIn, addToCart);
 router.get("/cart", isLoggedIn, loadCart);
 router.post("/cart/update", isLoggedIn, updateCartQuantity);
 router.post("/cart/remove", isLoggedIn, removeCartItem);
+
 router.get("/wishlist", isLoggedIn, loadWishlist);
-router.post("/wishlist/add", isLoggedIn,addToWishlist);
-router.post("/wishlist/remove",isLoggedIn,removeFromWishlist)
+router.post("/wishlist/add", isLoggedIn, addToWishlist);
+router.post("/wishlist/remove", isLoggedIn, removeFromWishlist);
+
 router.get("/checkout", isLoggedIn, loadCheckout);
+router.post("/checkout/place-order", isLoggedIn, placeOrder);
+router.post("/checkout/create-razorpay-order", isLoggedIn, createRazorpayOrder);
+router.post(
+  "/checkout/verify-razorpay-payment",
+  isLoggedIn,
+  verifyRazorpayPayment,
+);
+router.get("/order-success/:orderId", isLoggedIn, loadOrderSuccess);
+router.get("/payment-failed", isLoggedIn, loadPaymentFailed);
+
+router.get("/orders", isLoggedIn, loadOrders);
+router.get("/order/:orderId", isLoggedIn, loadOrderDetails);
+router.get("/order/:orderId/invoice", isLoggedIn, downloadInvoice);
+router.patch("/orders/:orderId/cancel", isLoggedIn, cancelOrder);
+router.patch(
+  "/orders/:orderId/items/:itemId/cancel",
+  isLoggedIn,
+  cancelOrderItem,
+);
+router.post("/orders/:orderId/items/:itemId/return", isLoggedIn, requestReturn);
+
+router.get("/wallet",isLoggedIn, loadWallet);
 
 router.get("/logout", isLoggedIn, logout);
 

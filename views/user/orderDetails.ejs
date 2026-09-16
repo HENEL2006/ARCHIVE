@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html class="light" lang="en" style="">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>ARCHIVE | Order Details</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&amp;family=Syne:wght@400;700;800&amp;display=swap"
+        rel="stylesheet">
+    <!-- Material Symbols -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface-variant": "#e5e2e1",
+                        "on-tertiary-container": "#848484",
+                        "secondary-fixed": "#e2e2e2",
+                        "secondary-container": "#dfe0e0",
+                        "on-secondary-fixed": "#1a1c1c",
+                        "on-background": "#1c1b1b",
+                        "on-tertiary-fixed-variant": "#474747",
+                        "secondary": "#5d5f5f",
+                        "on-secondary-container": "#616363",
+                        "on-primary-fixed-variant": "#474747",
+                        "background": "#fcf9f8",
+                        "tertiary-fixed-dim": "#c6c6c6",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#e2e2e2",
+                        "primary": "#000000",
+                        "tertiary": "#000000",
+                        "outline-variant": "#cfc4c5",
+                        "outline": "#7e7576",
+                        "on-tertiary": "#ffffff",
+                        "on-surface": "#1c1b1b",
+                        "surface-container": "#f0edec",
+                        "primary-container": "#1b1b1b",
+                        "surface-container-high": "#ebe7e7",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#c6c6c6",
+                        "tertiary-container": "#1b1b1b",
+                        "surface-container-low": "#f6f3f2",
+                        "accent-success": "#22CD5B",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#fcf9f8",
+                        "error-container": "#ffdad6",
+                        "surface-container-highest": "#e5e2e1",
+                        "on-secondary-fixed-variant": "#454747",
+                        "on-tertiary-fixed": "#1b1b1b",
+                        "primary-fixed-dim": "#c6c6c6",
+                        "surface-tint": "#5e5e5e",
+                        "surface": "#fcf9f8",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#848484",
+                        "on-surface-variant": "#4c4546",
+                        "on-error": "#ffffff",
+                        "inverse-on-surface": "#f3f0ef",
+                        "surface-dim": "#dcd9d9",
+                        "secondary-fixed-dim": "#c6c6c7",
+                        "on-primary-fixed": "#1b1b1b",
+                        "on-error-container": "#93000a",
+                        "inverse-surface": "#313030",
+                        "tertiary-fixed": "#e2e2e2"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0px",
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding": "64px",
+                        "section-gap": "128px",
+                        "grid-gutter": "0px",
+                        "mobile-margin": "20px",
+                        "unit": "8px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Space Mono"],
+                        "mono-data": ["Space Mono"],
+                        "display-xl": ["Syne"],
+                        "headline-lg-mobile": ["Syne"],
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Space Mono"],
+                        "label-caps": ["Space Mono"],
+                        "display": ['"Syne"', 'system-ui', 'sans-serif'],
+                    },
+                    "fontSize": {
+                        "mono-data": ["12px", { "lineHeight": "1.0", "letterSpacing": "-0.02em", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "1.2", "letterSpacing": "0.03em", "fontWeight": "700" }],
+                        "body-lg": ["16px", { "lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400" }],
+                        "label-caps": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "700" }],
+                        "headline-lg-mobile": ["32px", { "lineHeight": "1.1", "letterSpacing": "0.04em", "fontWeight": "700" }],
+                        "headline-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "0.04em", "fontWeight": "700" }],
+                        "display-xl": ["80px", { "lineHeight": "1.0", "letterSpacing": "0.05em", "fontWeight": "800" }],
+                        "body-md": ["14px", { "lineHeight": "1.6", "letterSpacing": "0em", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+        }
+
+        .watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            z-index: -1;
+            opacity: 0.03;
+            pointer-events: none;
+            white-space: nowrap;
+        }
+
+        .grid-line-v {
+            border-right: 1px solid #000;
+        }
+
+        .grid-line-h {
+            border-bottom: 1px solid #000;
+        }
+
+        .grid-container {
+            border: 1px solid #000;
+        }
+
+        /* Custom scrollbar for brutalist look */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #000;
+        }
+
+        @media (max-width: 768px) {
+            .grid-line-v {
+                border-right: none;
+                border-bottom: 1px solid #000;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-background selection:bg-primary selection:text-on-primary">
+    <!-- Watermark Background -->
+    <div class="watermark font-headline-lg text-[120px] font-extrabold uppercase select-none">
+        FOOTBALL. CULTURE. MEMORY.
+    </div>
+    <!-- TopNavBar -->
+    <%- include("partials/userHeader") %>
+        <%- include("partials/toast") %>
+            <main class="min-h-screen">
+                <!-- Hero Section -->
+                <section class="px-container-padding pt-section-gap pb-16 border-b border-primary">
+                    <div class="max-w-[1440px] mx-auto">
+                        <h1 class="font-syne text-headline-lg md:text-display-xl uppercase leading-none mb-4">ORDER
+                            DETAILS</h1>
+                        <p class="font-mono-data text-body-lg text-secondary uppercase tracking-widest">A record of your
+                            latest addition.</p>
+                    </div>
+                </section>
+                <!-- Order Information Grid -->
+                <section class="grid grid-cols-1 md:grid-cols-4 border-b border-primary">
+                    <div class="p-16 grid-line-v flex flex-col gap-4">
+                        <span class="font-label-caps text-label-caps text-secondary">ORDER NUMBER</span>
+                        <span class="font-headline-md text-headline-md uppercase">
+                            <%= order.orderId %>
+                        </span>
+                    </div>
+                    <div class="p-16 grid-line-v flex flex-col gap-4">
+                        <span class="font-label-caps text-label-caps text-secondary">ORDER DATE</span>
+                        <span class="font-headline-md text-headline-md uppercase">
+                            <%= new Date(order.createdAt).toLocaleDateString("en-IN", { day: "2-digit" , month: "long" ,
+                                year: "numeric" }) %>
+                        </span>
+                    </div>
+                    <div class="p-16 grid-line-v flex flex-col gap-4">
+                        <span class="font-label-caps text-label-caps text-secondary">ORDER STATUS</span>
+                        <span class="font-headline-md text-headline-md uppercase">
+                            <%= order.orderStatus %>
+                        </span>
+                    </div>
+                    <div class="p-16 flex flex-col gap-4">
+                        <span class="font-label-caps text-label-caps text-secondary">TOTAL AMOUNT</span>
+                        <span class="font-headline-md text-headline-md uppercase">₹<%= order.total %></span>
+                    </div>
+                </section>
+                <!-- Product Focus Section -->
+                <section class="flex flex-col md:flex-row border-b border-primary">
+                    <div class="w-full">
+
+                        <% order.items.forEach((item, index)=> { %>
+
+                            <!-- Dynamic Item -->
+                            <div
+                                class="flex flex-col md:flex-row <%= index !== order.items.length - 1 ? 'border-b border-primary' : '' %>">
+
+                                <!-- Product Image -->
+                                <div class="w-full md:w-1/4 aspect-square bg-surface-container overflow-hidden">
+                                    <img src="<%= item.image %>" alt="<%= item.name %>"
+                                        class="w-full h-full object-cover">
+                                </div>
+
+
+                                <!-- Product Information -->
+                                <div class="w-full md:w-3/4 p-8 flex flex-col">
+
+                                    <div class="flex flex-col md:flex-row justify-between gap-8">
+
+                                        <!-- Main Info -->
+                                        <div class="flex-1">
+
+                                            <span class="font-label-caps text-label-caps text-secondary block mb-2">
+                                                PURCHASED ITEM
+                                            </span>
+
+                                            <h2 class="font-headline-md text-headline-md uppercase mb-6">
+                                                <%= item.name %>
+                                            </h2>
+
+
+                                            <!-- Product Details -->
+                                            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+
+                                                <!-- UNIT PRICE -->
+                                                <div>
+                                                    <span class="font-label-caps text-[10px] text-secondary block">
+                                                        UNIT PRICE
+                                                    </span>
+
+                                                    <span class="font-mono-data text-body-md uppercase">
+                                                        ₹<%= item.price.toLocaleString("en-IN") %>
+                                                    </span>
+                                                </div>
+
+
+                                                <!-- ITEM TOTAL -->
+                                                <div>
+                                                    <span class="font-label-caps text-[10px] text-secondary block">
+                                                        ITEM TOTAL
+                                                    </span>
+
+                                                    <span class="font-mono-data text-body-md uppercase">
+                                                        ₹<%= item.itemTotal.toLocaleString("en-IN") %>
+                                                    </span>
+                                                </div>
+
+
+                                                <!-- SIZE -->
+                                                <div>
+                                                    <span class="font-label-caps text-[10px] text-secondary block">
+                                                        SIZE
+                                                    </span>
+
+                                                    <span class="font-mono-data text-body-md uppercase">
+                                                        <%= item.size %>
+                                                    </span>
+                                                </div>
+
+
+                                                <!-- QUANTITY -->
+                                                <div>
+                                                    <span class="font-label-caps text-[10px] text-secondary block">
+                                                        QTY
+                                                    </span>
+
+                                                    <span class="font-mono-data text-body-md uppercase">
+                                                        <%= item.quantity %>
+                                                    </span>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <!-- Status + Price -->
+                                        <div class="flex flex-col items-start md:items-end justify-between gap-4">
+
+                                            <!-- Status -->
+                                            <div class="text-left md:text-right">
+
+                                                <span class="font-label-caps text-label-caps text-secondary block mb-1">
+                                                    STATUS
+                                                </span>
+
+                                                <span class="font-label-caps text-label-caps
+                                    <%= item.itemStatus === 'DELIVERED'
+                                        ? 'text-accent-success'
+                                        : item.itemStatus === 'CANCELLED'
+                                            ? 'text-red-500'
+                                            : 'text-primary'
+                                    %>">
+                                                    <%= item.itemStatus %>
+                                                </span>
+
+                                            </div>
+
+
+                                            <!-- Price -->
+                                            <div class="text-left md:text-right">
+
+                                                <span class="font-label-caps text-label-caps text-secondary block mb-1">
+                                                    PRICE
+                                                </span>
+
+                                                <span class="font-headline-md text-headline-md">
+                                                    ₹<%= item.itemTotal.toLocaleString("en-IN") %>
+                                                </span>
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- Action Button -->
+                                    <div class="mt-8 flex justify-end">
+
+                                        <% if (order.orderStatus==="CANCELLED" ) { %>
+
+                                            <span class="font-label-caps text-label-caps text-red-500">
+                                                ORDER CANCELLED
+                                            </span>
+
+                                            <% } else if (item.itemStatus==="DELIVERED" ) { %>
+
+                                                <button type="button"
+                                                    onclick="openReturnModal('<%= order.orderId %>', '<%= item._id %>')"
+                                                    class="px-4 py-2 border border-black text-xs font-bold uppercase tracking-wider hover:bg-black hover:text-white transition">
+                                                    Request Return
+                                                </button>
+
+                                                <% } else if ( item.itemStatus==="PLACED" ||
+                                                    item.itemStatus==="CONFIRMED" ) { %>
+
+                                                    <button type="button"
+                                                        class="cancelItemButton border border-primary py-3 px-8 font-label-caps text-label-caps hover:bg-primary hover:text-on-primary uppercase"
+                                                        data-item-id="<%= item._id %>"
+                                                        data-item-name="<%= item.name %>">
+
+                                                        CANCEL ITEM
+
+                                                    </button>
+
+                                                    <% } else if (item.itemStatus==="CANCELLED" ) { %>
+
+                                                        <span class="font-label-caps text-label-caps text-red-500">
+                                                            ORDER CANCELLED
+                                                        </span>
+
+                                                        <% } else if (item.itemStatus==="RETURN_REQUESTED" ) { %>
+
+                                                            <span
+                                                                class="font-label-caps text-label-caps text-secondary">
+                                                                RETURN REQUESTED
+                                                            </span>
+
+                                                            <% } else if (item.itemStatus==="RETURNED" ) { %>
+
+                                                                <span
+                                                                    class="font-label-caps text-label-caps text-secondary">
+                                                                    RETURNED
+                                                                </span>
+
+                                                                <% } %>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <% }) %>
+
+                    </div>
+                </section>
+                <!-- Delivery & Journey Section -->
+                <section class="grid grid-cols-1 md:grid-cols-2 border-b border-primary">
+                    <!-- Delivery Details -->
+                    <div class="p-16 md:border-r border-primary">
+
+                        <h3 class="font-label-caps text-label-caps text-secondary mb-12">
+                            DELIVERY DETAILS
+                        </h3>
+
+                        <div class="space-y-2">
+
+                            <!-- Full Name -->
+                            <p class="font-headline-md text-headline-md uppercase">
+                                <%= order.deliveryAddress.fullName %>
+                            </p>
+
+                            <!-- Phone -->
+                            <p class="font-mono-data text-body-lg">
+                                <%= order.deliveryAddress.phone %>
+                            </p>
+
+                            <!-- Address -->
+                            <div class="font-mono-data text-body-lg uppercase mt-6 leading-relaxed">
+
+                                <p>
+                                    <%= order.deliveryAddress.addressLine1 %>
+                                </p>
+
+                                <% if (order.deliveryAddress.addressLine2) { %>
+                                    <p>
+                                        <%= order.deliveryAddress.addressLine2 %>
+                                    </p>
+                                    <% } %>
+
+                                        <p>
+                                            <%= order.deliveryAddress.city %>,
+                                                <%= order.deliveryAddress.state %>
+                                                    - <%= order.deliveryAddress.postalCode %>
+                                        </p>
+
+                                        <p>
+                                            <%= order.deliveryAddress.country %>
+                                        </p>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- Order Journey -->
+                    <div class="p-16">
+
+                        <!-- ORDER JOURNEY HEADER -->
+                        <div class="flex items-center justify-between mb-12">
+
+                            <h3 class="font-label-caps text-label-caps text-secondary">
+                                ORDER JOURNEY
+                            </h3>
+
+                            <a href="/order/<%= order.orderId %>/invoice"
+                                class="inline-block border border-primary px-6 py-3 font-label-caps text-sm hover:bg-primary hover:text-white transition">
+                                DOWNLOAD INVOICE
+                            </a>
+
+                        </div>
+
+                        <% if (order.orderStatus==="CANCELLED" ) { %>
+
+                            <!-- CANCELLED JOURNEY -->
+
+                            <div class="relative pt-8 pb-4">
+
+                                <!-- Cancelled Line -->
+                                <div class="absolute top-[35px] left-0 w-full h-[1px] bg-outline-variant">
+                                </div>
+
+                                <!-- Cancelled Progress -->
+                                <div class="absolute top-[35px] left-0 h-[1px] bg-red-500 w-full">
+                                </div>
+
+                                <div class="relative flex justify-center">
+
+                                    <div class="flex flex-col items-center gap-4">
+
+                                        <!-- Cancelled Dot -->
+                                        <div class="
+                        w-3 h-3 rounded-full z-10
+                        border-4 border-background
+                        ring-1 ring-red-500
+                        bg-red-500
+                        scale-125
+                    ">
+                                        </div>
+
+                                        <!-- Cancelled Label -->
+                                        <span class="
+                        font-mono-data
+                        text-[10px]
+                        uppercase
+                        text-red-500
+                        text-center
+                    ">
+                                            CANCELLED
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                            <% } else { %>
+
+                                <!-- NORMAL ORDER JOURNEY -->
+
+                                <% const statusSteps=[ "PLACED" , "CONFIRMED" , "SHIPPED" , "DELIVERED" ]; const
+                                    currentStatusIndex=statusSteps.indexOf(order.orderStatus); const
+                                    progressWidth=currentStatusIndex>= 0
+                                    ? (currentStatusIndex / (statusSteps.length - 1)) * 100
+                                    : 0;
+                                    %>
+
+                                    <div class="relative pt-8 pb-4">
+
+                                        <!-- Background Progress Line -->
+                                        <div class="
+                absolute
+                top-[35px]
+                left-0
+                w-full
+                h-[1px]
+                bg-outline-variant
+            "></div>
+
+                                        <!-- Completed Progress Line -->
+                                        <div class="
+                    absolute
+                    top-[35px]
+                    left-0
+                    h-[1px]
+                    bg-primary
+                    transition-all
+                    duration-700
+                " style="width: <%= progressWidth %>%;">
+                                        </div>
+
+                                        <!-- Status Steps -->
+                                        <div class="relative flex justify-between">
+
+                                            <% statusSteps.forEach((status, index)=> {
+
+                                                const isCompleted =
+                                                index <= currentStatusIndex; const isCurrent=index===currentStatusIndex;
+                                                    %>
+
+                                                    <div class="flex flex-col items-center gap-4">
+
+                                                        <!-- Status Dot -->
+                                                        <div class="
+                            w-3 h-3 rounded-full z-10
+                            border-4 border-background
+                            ring-1 ring-primary
+                            <%= isCompleted
+                                ? 'bg-primary'
+                                : 'bg-background'
+                            %>
+                            <%= isCurrent
+                                ? 'scale-125'
+                                : ''
+                            %>
+                            transition-transform duration-300
+                        ">
+                                                        </div>
+
+                                                        <!-- Status Label -->
+                                                        <span class="
+                            font-mono-data
+                            text-[10px]
+                            uppercase
+                            text-center
+                            <%= isCompleted
+                                ? 'text-primary'
+                                : 'text-secondary'
+                            %>
+                        ">
+                                                            <%= status %>
+                                                        </span>
+
+                                                    </div>
+
+                                                    <% }) %>
+
+                                        </div>
+
+                                    </div>
+
+                                    <% } %>
+
+
+                                        <!-- Current Status Message -->
+
+                                        <div class="
+        mt-12
+        p-6
+        bg-surface-container
+        flex
+        items-center
+        gap-4
+        border
+        border-primary
+    ">
+
+                                            <span class="
+            material-symbols-outlined
+            <%= order.orderStatus === 'CANCELLED'
+                ? 'text-red-500'
+                : 'text-primary'
+            %>
+        ">
+                                                <%= order.orderStatus==="CANCELLED" ? "cancel" :
+                                                    order.orderStatus==="DELIVERED" ? "verified" :
+                                                    order.orderStatus==="SHIPPED" ? "local_shipping" :
+                                                    order.orderStatus==="CONFIRMED" ? "check_circle" : "receipt_long" %>
+                                            </span>
+
+                                            <p class="
+            font-mono-data
+            text-body-md
+            uppercase
+            <%= order.orderStatus === 'CANCELLED'
+                ? 'text-red-500'
+                : ''
+            %>
+        ">
+                                                ORDER <%= order.orderStatus.replace("_", " " ) %>
+                                            </p>
+
+                                        </div>
+
+                    </div>
+                </section>
+                <!-- Recommendations Section -->
+                <section class="border-b border-primary">
+
+
+                </section>
+            </main>
+
+            <!-- Cancel Order Modal -->
+            <div id="cancelOrderModal" class="fixed inset-0 z-[100] hidden items-center justify-center px-4">
+
+                <!-- Backdrop -->
+                <div id="cancelModalBackdrop" class="absolute inset-0 bg-primary/60">
+                </div>
+
+                <!-- Modal -->
+                <div class="relative w-full max-w-lg bg-background border border-primary">
+
+                    <!-- Header -->
+                    <div class="flex items-center justify-between px-8 py-6 border-b border-primary">
+
+                        <div>
+                            <span class="font-label-caps text-[10px] text-secondary block mb-2">
+                                ITEM ACTION
+                            </span>
+
+                            <h2 class="font-headline-md text-headline-md uppercase">
+                                CANCEL ITEM
+                            </h2>
+                        </div>
+
+                        <button type="button" id="closeCancelModal"
+                            class="font-mono-data text-lg text-secondary hover:text-primary transition-none">
+                            ×
+                        </button>
+
+                    </div>
+
+
+                    <!-- Content -->
+                    <div class="p-8">
+
+                        <p class="font-mono-data text-body-md text-secondary mb-8 leading-relaxed">
+                            Please tell us why you want to cancel this item.
+                        </p>
+
+
+                        <!-- Reason -->
+                        <div>
+
+                            <label for="cancellationReason"
+                                class="font-label-caps text-[10px] text-secondary block mb-3">
+                                CANCELLATION REASON
+                            </label>
+
+                            <textarea id="cancellationReason" rows="4" maxlength="250"
+                                placeholder="Enter your reason..."
+                                class="w-full resize-none border border-primary bg-background px-4 py-4 font-mono-data text-body-md text-primary placeholder:text-secondary placeholder:opacity-50 focus:outline-none focus:ring-0">
+                </textarea>
+
+                            <p id="cancelReasonError"
+                                class="hidden mt-2 font-mono-data text-[11px] text-red-500 uppercase">
+                                PLEASE ENTER A REASON
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Footer -->
+                    <div class="flex border-t border-primary">
+
+                        <button type="button" id="keepOrderButton"
+                            class="flex-1 py-5 border-r border-primary font-label-caps text-label-caps text-secondary hover:bg-surface-container hover:text-primary transition-none">
+                            KEEP ITEM
+                        </button>
+
+                        <button type="button" id="confirmCancelButton"
+                            class="flex-1 py-5 font-label-caps text-label-caps bg-primary text-on-primary hover:bg-secondary transition-none">
+                            CANCEL ITEM
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Return Request Modal -->
+            <div id="returnModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/50 px-4">
+
+                <div class="w-full max-w-md bg-white border border-neutral-300 rounded-lg shadow-xl">
+
+                    <!-- Header -->
+                    <div class="flex items-center justify-between px-6 py-5 border-b border-neutral-200">
+
+                        <div>
+                            <p class="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-semibold">
+                                RETURN REQUEST
+                            </p>
+
+                            <h2 class="mt-1 text-xl font-semibold text-black">
+                                Request Product Return
+                            </h2>
+                        </div>
+
+                        <button type="button" onclick="closeReturnModal()"
+                            class="flex items-center justify-center w-9 h-9 border border-neutral-300 text-neutral-500 hover:text-black hover:border-black transition">
+
+                            <span class="material-symbols-outlined text-[20px]">
+                                close
+                            </span>
+
+                        </button>
+
+                    </div>
+
+
+                    <!-- Form -->
+                    <form id="returnRequestForm" method="POST">
+
+                        <div class="px-6 py-6">
+
+                            <label for="returnReason"
+                                class="block text-xs font-bold uppercase tracking-wider text-neutral-700 mb-2">
+                                Return Reason
+                            </label>
+
+                            <textarea id="returnReason" name="returnReason" rows="5" required minlength="5"
+                                placeholder="Please explain why you want to return this product..."
+                                class="w-full border border-neutral-300 rounded-md px-3 py-3 text-sm resize-none focus:outline-none focus:ring-1 focus:ring-black"></textarea>
+
+                            <p class="mt-2 text-[10px] uppercase tracking-wider text-neutral-400">
+                                Please provide a valid reason for the return.
+                            </p>
+
+                        </div>
+
+
+                        <!-- Footer -->
+                        <div class="flex justify-end gap-3 px-6 py-4 bg-neutral-50 border-t border-neutral-200">
+
+                            <button type="button" onclick="closeReturnModal()"
+                                class="px-5 py-2.5 border border-neutral-300 text-xs font-bold uppercase tracking-wider hover:border-black transition">
+                                Cancel
+                            </button>
+
+                            <button type="submit"
+                                class="px-5 py-2.5 bg-black text-white text-xs font-bold uppercase tracking-wider hover:bg-neutral-800 transition">
+                                Submit Request
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+            <!-- Footer -->
+            <%- include("partials/userFooter") %>
+                <!-- Simple Hover Interaction Script -->
+                <script>
+                    // ==========================================
+                    // return modal
+                    // ==========================================
+
+                    const returnModal = document.getElementById("returnModal");
+                    const returnRequestForm = document.getElementById("returnRequestForm");
+                    const returnReason = document.getElementById("returnReason");
+
+                    function openReturnModal(orderId, itemId) {
+                        returnRequestForm.action =
+                            `/orders/${orderId}/items/${itemId}/return`;
+
+                        returnReason.value = "";
+
+                        returnModal.classList.remove("hidden");
+                        returnModal.classList.add("flex");
+
+                        returnReason.focus();
+                    }
+
+                    function closeReturnModal() {
+                        returnModal.classList.add("hidden");
+                        returnModal.classList.remove("flex");
+                    }
+
+                    returnModal.addEventListener("click", (event) => {
+                        if (event.target === returnModal) {
+                            closeReturnModal();
+                        }
+                    });
+
+
+                    // ==========================================
+                    // STICKY HEADER
+                    // ==========================================
+
+                    let lastScroll = 0;
+
+                    window.addEventListener('scroll', () => {
+
+                        const currentScroll = window.pageYOffset;
+                        const header = document.querySelector('header');
+
+                        if (!header) return;
+
+                        if (currentScroll > lastScroll && currentScroll > 80) {
+
+                            header.style.transform = 'translateY(-100%)';
+                            header.style.transition = 'transform 0.3s ease';
+
+                        } else {
+
+                            header.style.transform = 'translateY(0)';
+                        }
+
+                        lastScroll = currentScroll;
+                    });
+
+
+                    // ==========================================
+                    // CANCEL ITEM
+                    // ==========================================
+
+                    const cancelItemButtons =
+                        document.querySelectorAll(".cancelItemButton");
+
+                    const cancelOrderModal =
+                        document.getElementById("cancelOrderModal");
+
+                    const cancelModalBackdrop =
+                        document.getElementById("cancelModalBackdrop");
+
+                    const closeCancelModal =
+                        document.getElementById("closeCancelModal");
+
+                    const keepOrderButton =
+                        document.getElementById("keepOrderButton");
+
+                    const confirmCancelButton =
+                        document.getElementById("confirmCancelButton");
+
+                    const cancellationReason =
+                        document.getElementById("cancellationReason");
+
+                    const cancelReasonError =
+                        document.getElementById("cancelReasonError");
+
+
+                    // ==========================================
+                    // SAFETY CHECK
+                    // ==========================================
+
+                    if (
+                        !cancelOrderModal ||
+                        !cancelModalBackdrop ||
+                        !closeCancelModal ||
+                        !keepOrderButton ||
+                        !confirmCancelButton ||
+                        !cancellationReason ||
+                        !cancelReasonError
+                    ) {
+                        console.error("Cancel order modal elements are missing.");
+                    }
+
+
+                    // ==========================================
+                    // OPEN MODAL
+                    // ==========================================
+
+                    cancelItemButtons.forEach(button => {
+
+                        button.addEventListener("click", () => {
+
+                            const itemId = button.dataset.itemId;
+                            const itemName = button.dataset.itemName;
+
+                            console.log("Cancel item:", itemId);
+                            console.log("Product:", itemName);
+
+
+                            // Store selected item ID in modal
+                            cancelOrderModal.dataset.itemId = itemId;
+
+
+                            // Reset modal
+                            cancellationReason.value = "";
+                            cancelReasonError.classList.add("hidden");
+
+                            cancelReasonError.textContent =
+                                "PLEASE ENTER A REASON";
+
+
+                            // Open modal
+                            cancelOrderModal.classList.remove("hidden");
+                            cancelOrderModal.classList.add("flex");
+
+
+                            // Focus textarea
+                            setTimeout(() => {
+                                cancellationReason.focus();
+                            }, 100);
+
+                        });
+
+                    });
+
+
+                    // ==========================================
+                    // CLOSE MODAL
+                    // ==========================================
+
+                    const closeModal = () => {
+
+                        cancelOrderModal.classList.add("hidden");
+                        cancelOrderModal.classList.remove("flex");
+
+                        cancellationReason.value = "";
+
+                        cancelReasonError.classList.add("hidden");
+
+                        // Remove stored item ID
+                        delete cancelOrderModal.dataset.itemId;
+                    };
+
+
+                    // Close button
+                    closeCancelModal.addEventListener(
+                        "click",
+                        closeModal
+                    );
+
+
+                    // Keep order
+                    keepOrderButton.addEventListener(
+                        "click",
+                        closeModal
+                    );
+
+
+                    // Click outside modal
+                    cancelModalBackdrop.addEventListener(
+                        "click",
+                        closeModal
+                    );
+
+
+                    // ==========================================
+                    // ESC KEY TO CLOSE MODAL
+                    // ==========================================
+
+                    document.addEventListener("keydown", event => {
+
+                        if (
+                            event.key === "Escape" &&
+                            !cancelOrderModal.classList.contains("hidden")
+                        ) {
+                            closeModal();
+                        }
+
+                    });
+
+
+                    // ==========================================
+                    // CONFIRM ITEM CANCELLATION
+                    // ==========================================
+
+                    confirmCancelButton.addEventListener(
+                        "click",
+                        async () => {
+
+                            const reason =
+                                cancellationReason.value.trim();
+
+                            const itemId =
+                                cancelOrderModal.dataset.itemId;
+
+
+                            // Validate item ID
+                            if (!itemId) {
+
+                                cancelReasonError.textContent =
+                                    "UNABLE TO IDENTIFY ORDER ITEM";
+
+                                cancelReasonError.classList.remove("hidden");
+
+                                return;
+                            }
+
+
+                            // Validate reason
+                            if (!reason) {
+
+                                cancelReasonError.textContent =
+                                    "PLEASE ENTER A REASON";
+
+                                cancelReasonError.classList.remove("hidden");
+
+                                cancellationReason.focus();
+
+                                return;
+                            }
+
+
+                            // Disable button
+                            confirmCancelButton.disabled = true;
+
+                            confirmCancelButton.textContent =
+                                "CANCELLING...";
+
+
+                            try {
+
+                                const response = await fetch(
+                                    `/orders/<%= order.orderId %>/items/${itemId}/cancel`,
+                                    {
+                                        method: "PATCH",
+
+                                        headers: {
+                                            "Content-Type": "application/json"
+                                        },
+
+                                        body: JSON.stringify({
+                                            cancellationReason: reason
+                                        })
+                                    }
+                                );
+
+
+                                const data = await response.json();
+
+
+                                // Backend error
+                                if (!response.ok) {
+                                    throw new Error(
+                                        data.message ||
+                                        "UNABLE TO CANCEL ORDER ITEM"
+                                    );
+                                }
+
+
+                                // Success
+                                window.location.reload();
+
+
+                            } catch (error) {
+
+                                console.error(
+                                    "Cancel item error:",
+                                    error
+                                );
+
+
+                                confirmCancelButton.disabled = false;
+
+                                confirmCancelButton.textContent =
+                                    "CANCEL ITEM";
+
+
+                                cancelReasonError.textContent =
+                                    error.message ||
+                                    "UNABLE TO CANCEL ORDER ITEM";
+
+                                cancelReasonError.classList.remove(
+                                    "hidden"
+                                );
+                            }
+
+                        }
+                    );
+
+                </script>
+
+
+</body>
+
+</html>
