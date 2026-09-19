@@ -63,11 +63,13 @@ import {
   removeFromWishlist,
 } from "../controllers/user/wishlistController.js";
 import {
+  applyCoupon,
   createRazorpayOrder,
   loadCheckout,
   loadOrderSuccess,
   loadPaymentFailed,
   placeOrder,
+  removeCoupon,
   verifyRazorpayPayment,
 } from "../controllers/user/checkoutController.js";
 import {
@@ -138,6 +140,8 @@ router.post("/wishlist/add", isLoggedIn, addToWishlist);
 router.post("/wishlist/remove", isLoggedIn, removeFromWishlist);
 
 router.get("/checkout", isLoggedIn, loadCheckout);
+router.post("/checkout/apply-coupon", isLoggedIn, applyCoupon);
+router.post("/checkout/remove-coupon", isLoggedIn, removeCoupon);
 router.post("/checkout/place-order", isLoggedIn, placeOrder);
 router.post("/checkout/create-razorpay-order", isLoggedIn, createRazorpayOrder);
 router.post(
@@ -159,7 +163,7 @@ router.patch(
 );
 router.post("/orders/:orderId/items/:itemId/return", isLoggedIn, requestReturn);
 
-router.get("/wallet",isLoggedIn, loadWallet);
+router.get("/wallet", isLoggedIn, loadWallet);
 
 router.get("/logout", isLoggedIn, logout);
 

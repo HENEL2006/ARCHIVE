@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Create Coupon | ARCHIVE Admin</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@500&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .mono-label {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+            opacity: 0;
+            cursor: pointer;
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#f7f9fb",
+                        "inverse-primary": "#bec6e0",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "tertiary-fixed": "#c4e7ff",
+                        "tertiary-fixed-dim": "#7bd0ff",
+                        "secondary-container": "#d0e1fb",
+                        "on-tertiary": "#ffffff",
+                        "primary-fixed": "#dae2fd",
+                        "surface-container": "#eceef0",
+                        "on-secondary-fixed": "#0b1c30",
+                        "secondary": "#505f76",
+                        "tertiary": "#000000",
+                        "surface-container-high": "#e6e8ea",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed-variant": "#004c69",
+                        "primary-container": "#131b2e",
+                        "tertiary-container": "#001e2c",
+                        "on-tertiary-container": "#008ebf",
+                        "on-surface-variant": "#45464d",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#131b2e",
+                        "outline": "#76777d",
+                        "surface-dim": "#d8dadc",
+                        "background": "#f7f9fb",
+                        "surface-variant": "#e0e3e5",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "surface-tint": "#565e74",
+                        "on-error-container": "#93000a",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "error-container": "#ffdad6",
+                        "primary-fixed-dim": "#bec6e0",
+                        "primary": "#000000",
+                        "surface-container-low": "#f2f4f6",
+                        "on-tertiary-fixed": "#001e2c",
+                        "on-primary": "#ffffff",
+                        "surface-container-highest": "#e0e3e5",
+                        "inverse-surface": "#2d3133",
+                        "on-primary-container": "#7c839b",
+                        "surface-container-lowest": "#ffffff",
+                        "outline-variant": "#c6c6cd",
+                        "surface-bright": "#f7f9fb",
+                        "inverse-on-surface": "#eff1f3",
+                        "secondary-fixed": "#d3e4fe",
+                        "on-surface": "#191c1e",
+                        "on-secondary-container": "#54647a",
+                        "on-background": "#191c1e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "md": "16px",
+                        "sm": "8px",
+                        "lg": "24px",
+                        "xl": "32px",
+                        "2xl": "48px",
+                        "gutter": "24px",
+                        "base": "4px",
+                        "xs": "4px",
+                        "margin": "32px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["JetBrains Mono"],
+                        "body-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "display": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "display": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-surface text-on-surface">
+    <%- include("partials/toast") %>
+        <!-- Sidebar Navigation -->
+        <%- include("partials/adminSidebar") %>
+            <!-- TopAppBar -->
+            <%- include("partials/adminNavbar") %>
+                <!-- Main Content Area -->
+                <main class="ml-[240px] pt-24 pb-12 px-xl bg-surface min-h-screen">
+                    <div class="max-w-4xl mx-auto">
+                        <!-- Header Section -->
+                        <div class="mb-8">
+                            <!-- <div class="flex items-center gap-2 text-outline mb-2">
+                                <span class="font-label-md text-label-md uppercase tracking-wider">Marketing</span>
+                                <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+                                <span class="font-label-md text-label-md uppercase tracking-wider text-primary">Create
+                                    Coupon</span>
+                            </div> -->
+                            <h2 class="font-headline-lg text-headline-lg text-primary tracking-tight">Create Coupon</h2>
+                            <p class="font-body-md text-body-md text-on-surface-variant mt-1">Configure a new discount
+                                code for the vintage football archive.</p>
+                        </div>
+                        <!-- Form Card -->
+                        <div
+                            class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden">
+                            <div class="p-8">
+                                <form id="couponForm" action="/admin/addCoupon" method="POST" class="space-y-8"
+                                    novalidate>
+
+                                    <!-- Technical Section 1: Basic Info -->
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-gutter gap-y-6">
+
+                                        <!-- Coupon Code -->
+                                        <div class="flex flex-col gap-1.5">
+                                            <label for="code"
+                                                class="font-label-md text-label-md text-primary uppercase tracking-wider">
+                                                Coupon Code
+                                            </label>
+
+                                            <div>
+                                                <input id="code" name="code" type="text" placeholder="e.g., WELCOME10"
+                                                    class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:ring-1 focus:ring-primary focus:border-primary transition-all font-label-md placeholder:text-outline-variant">
+
+                                                <p id="codeError" class="hidden text-xs text-red-600 mt-1"></p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Status -->
+                                        <div class="flex flex-col gap-1.5">
+                                            <label for="isActive"
+                                                class="font-label-md text-label-md text-primary uppercase tracking-wider">
+                                                Status
+                                            </label>
+
+                                            <select id="isActive" name="isActive"
+                                                class="bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:ring-1 focus:ring-primary focus:border-primary transition-all">
+
+                                                <option value="true">Active</option>
+                                                <option value="false">Disabled</option>
+
+                                            </select>
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- Technical Section 2: Values & Limits -->
+                                    <div class="pt-6 border-t border-outline-variant">
+
+                                        <h3
+                                            class="font-label-md text-[10px] text-outline uppercase tracking-[0.2em] mb-6">
+                                            Discount Parameters
+                                        </h3>
+
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-gutter gap-y-6">
+
+                                            <!-- Discount Type -->
+                                            <div class="flex flex-col gap-1.5">
+
+                                                <label for="discountType"
+                                                    class="font-label-md text-label-md text-primary uppercase tracking-wider">
+                                                    Discount Type
+                                                </label>
+
+                                                <div>
+                                                    <select id="discountType" name="discountType"
+                                                        class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:ring-1 focus:ring-primary focus:border-primary transition-all">
+
+                                                        <option value="PERCENTAGE">Percentage (%)</option>
+                                                        <option value="FIXED">Flat Amount (₹)</option>
+
+                                                    </select>
+
+                                                    <p id="discountTypeError" class="hidden text-xs text-red-600 mt-1">
+                                                    </p>
+                                                </div>
+
+                                            </div>
+
+
+                                            <!-- Discount Value -->
+                                            <div class="flex flex-col gap-1.5">
+
+                                                <label for="discountValue"
+                                                    class="font-label-md text-label-md text-primary uppercase tracking-wider">
+                                                    Discount Value
+                                                </label>
+
+                                                <div>
+                                                    <div class="relative">
+
+                                                        <input id="discountValue" name="discountValue" type="number"
+                                                            min="0" step="0.01" placeholder="10"
+                                                            class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:ring-1 focus:ring-primary focus:border-primary transition-all placeholder:text-outline-variant">
+
+                                                        <span id="discountSymbol"
+                                                            class="absolute right-4 top-1/2 -translate-y-1/2 text-outline font-label-md">
+                                                            %
+                                                        </span>
+
+                                                    </div>
+
+                                                    <p id="discountValueError" class="hidden text-xs text-red-600 mt-1">
+                                                    </p>
+                                                </div>
+
+                                            </div>
+
+
+                                            <!-- Minimum Purchase -->
+                                            <div class="flex flex-col gap-1.5">
+
+                                                <label for="minimumPurchase"
+                                                    class="font-label-md text-label-md text-primary uppercase tracking-wider">
+                                                    Minimum Purchase
+                                                </label>
+
+                                                <div>
+                                                    <div class="relative">
+
+                                                        <span
+                                                            class="absolute left-4 top-1/2 -translate-y-1/2 text-outline font-label-md">
+                                                            ₹
+                                                        </span>
+
+                                                        <input id="minimumPurchase" name="minimumPurchase" type="number"
+                                                            min="0" step="0.01" placeholder="500"
+                                                            class="w-full bg-white border border-outline-variant rounded-lg pl-8 pr-4 py-2.5 text-body-md focus:ring-1 focus:ring-primary focus:border-primary transition-all placeholder:text-outline-variant">
+
+                                                    </div>
+
+                                                    <p id="minimumPurchaseError"
+                                                        class="hidden text-xs text-red-600 mt-1"></p>
+                                                </div>
+
+                                            </div>
+
+
+                                            <!-- Maximum Discount -->
+                                            <div class="flex flex-col gap-1.5">
+
+                                                <label for="maximumDiscount"
+                                                    class="font-label-md text-label-md text-primary uppercase tracking-wider">
+                                                    Maximum Discount
+                                                </label>
+
+                                                <div>
+                                                    <div class="relative">
+
+                                                        <span
+                                                            class="absolute left-4 top-1/2 -translate-y-1/2 text-outline font-label-md">
+                                                            ₹
+                                                        </span>
+
+                                                        <input id="maximumDiscount" name="maximumDiscount" type="number"
+                                                            min="0" step="0.01" placeholder="500"
+                                                            class="w-full bg-white border border-outline-variant rounded-lg pl-8 pr-4 py-2.5 text-body-md focus:ring-1 focus:ring-primary focus:border-primary transition-all placeholder:text-outline-variant">
+
+                                                    </div>
+
+                                                    <p id="maximumDiscountError"
+                                                        class="hidden text-xs text-red-600 mt-1"></p>
+                                                </div>
+
+                                            </div>
+
+
+                                            <!-- Usage Limit -->
+                                            <div class="flex flex-col gap-1.5">
+
+                                                <label for="usageLimit"
+                                                    class="font-label-md text-label-md text-primary uppercase tracking-wider">
+                                                    Usage Limit
+                                                </label>
+
+                                                <div>
+                                                    <input id="usageLimit" name="usageLimit" type="number" min="1"
+                                                        step="1" placeholder="1000"
+                                                        class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:ring-1 focus:ring-primary focus:border-primary transition-all placeholder:text-outline-variant">
+
+                                                    <p id="usageLimitError" class="hidden text-xs text-red-600 mt-1">
+                                                    </p>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+                                    <!-- Technical Section 3: Conditions & Validity -->
+                                    <div class="pt-6 border-t border-outline-variant">
+
+                                        <h3
+                                            class="font-label-md text-[10px] text-outline uppercase tracking-[0.2em] mb-6">
+                                            Conditions &amp; Validity
+                                        </h3>
+
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-gutter gap-y-6">
+
+                                            <!-- Start Date -->
+                                            <div class="flex flex-col gap-1.5">
+
+                                                <label for="startDate"
+                                                    class="font-label-md text-label-md text-primary uppercase tracking-wider">
+                                                    Start Date
+                                                </label>
+
+                                                <div class="relative">
+
+                                                    <input id="startDate" name="startDate" type="datetime-local"
+                                                        class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:ring-1 focus:ring-primary focus:border-primary transition-all">
+
+                                                    <p id="startDateError" class="hidden text-xs text-red-600 mt-1"></p>
+
+                                                    <span
+                                                        class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline text-[20px] pointer-events-none">
+                                                        calendar_today
+                                                    </span>
+
+                                                </div>
+                                            </div>
+
+
+                                            <!-- Expiry Date -->
+                                            <div class="flex flex-col gap-1.5">
+
+                                                <label for="expiryDate"
+                                                    class="font-label-md text-label-md text-primary uppercase tracking-wider">
+                                                    Expiry Date
+                                                </label>
+
+                                                <div class="relative">
+
+                                                    <input id="expiryDate" name="expiryDate" type="datetime-local"
+                                                        class="w-full bg-white border border-outline-variant rounded-lg px-4 py-2.5 text-body-md focus:ring-1 focus:ring-primary focus:border-primary transition-all">
+
+                                                    <p id="expiryDateError" class="hidden text-xs text-red-600 mt-1">
+                                                    </p>
+
+                                                    <span
+                                                        class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline text-[20px] pointer-events-none">
+                                                        calendar_today
+                                                    </span>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                            <!-- Footer Actions -->
+                            <div
+                                class="bg-surface-container-low px-8 py-6 flex items-center justify-end gap-4 border-t border-outline-variant">
+                                <a href="/admin/coupons"
+                                    class="px-6 py-2.5 rounded-lg border border-outline text-primary font-body-md font-semibold hover:bg-surface-container-high transition-colors active:scale-[0.98]">
+                                    Cancel
+                                </a>
+                                <button type="submit" form="couponForm"
+                                    class="px-8 py-2.5 rounded-lg bg-primary text-on-primary font-body-md font-bold shadow-sm hover:opacity-90 transition-all active:scale-[0.98]">
+                                    Create Coupon
+                                </button>
+                            </div>
+                        </div>
+                        <!-- Atmospheric Illustration (Subtle) -->
+                        <div class="mt-12 opacity-40 grayscale pointer-events-none select-none flex justify-center">
+                            <div class="relative w-32 h-32">
+                                <div
+                                    class="absolute inset-0 border-2 border-dashed border-outline-variant rounded-full animate-[spin_20s_linear_infinite]">
+                                </div>
+                                <div
+                                    class="absolute inset-4 border border-outline-variant rounded-lg rotate-12 flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-outline">confirmation_number</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <script>
+
+                    // Active tab interaction logic
+                    document.querySelectorAll('nav a').forEach(link => {
+                        link.addEventListener('click', (e) => {
+                            document.querySelectorAll('nav a').forEach(l => {
+                                l.className = "flex items-center gap-3 px-6 py-2 text-on-surface-variant hover:bg-surface-container-low transition-colors duration-200";
+                                if (l.querySelector('.material-symbols-outlined')) {
+                                    l.querySelector('.material-symbols-outlined').style.fontVariationSettings = "'FILL' 0";
+                                }
+                                l.style.borderLeft = "none";
+                            });
+
+                            link.className = "flex items-center gap-3 px-6 py-2 bg-surface-container text-primary border-l-2 border-primary";
+                            if (link.querySelector('.material-symbols-outlined')) {
+                                link.querySelector('.material-symbols-outlined').style.fontVariationSettings = "'FILL' 1";
+                            }
+                        });
+                    });
+
+                    // frontEnd validation
+
+                    const couponForm = document.getElementById("couponForm");
+
+                    const code = document.getElementById("code");
+                    const discountType = document.getElementById("discountType");
+                    const discountValue = document.getElementById("discountValue");
+                    const minimumPurchase = document.getElementById("minimumPurchase");
+                    const maximumDiscount = document.getElementById("maximumDiscount");
+                    const usageLimit = document.getElementById("usageLimit");
+                    const startDate = document.getElementById("startDate");
+                    const expiryDate = document.getElementById("expiryDate");
+
+
+                    // Show error
+                    function showError(input, errorElement, message) {
+                        input.classList.add("border-red-500");
+                        input.classList.remove("border-outline-variant");
+
+                        errorElement.textContent = message;
+                        errorElement.classList.remove("hidden");
+                    }
+
+
+                    // Clear only this field's error
+                    function clearError(input, errorElement) {
+                        input.classList.remove("border-red-500");
+                        input.classList.add("border-outline-variant");
+
+                        errorElement.textContent = "";
+                        errorElement.classList.add("hidden");
+                    }
+
+
+                    // Error elements
+                    const codeError = document.getElementById("codeError");
+                    const discountTypeError = document.getElementById("discountTypeError");
+                    const discountValueError = document.getElementById("discountValueError");
+                    const minimumPurchaseError = document.getElementById("minimumPurchaseError");
+                    const maximumDiscountError = document.getElementById("maximumDiscountError");
+                    const usageLimitError = document.getElementById("usageLimitError");
+                    const startDateError = document.getElementById("startDateError");
+                    const expiryDateError = document.getElementById("expiryDateError");
+
+
+                    couponForm.addEventListener("submit", function (event) {
+
+                        event.preventDefault();
+
+                        let isValid = true;
+
+
+                        // Coupon Code
+                        const couponCode = code.value.trim();
+
+                        if (couponCode === "") {
+
+                            showError(
+                                code,
+                                codeError,
+                                "Coupon code is required."
+                            );
+
+                            isValid = false;
+
+                        } else if (!/^[A-Za-z0-9]+$/.test(couponCode)) {
+
+                            showError(
+                                code,
+                                codeError,
+                                "Coupon code can contain only letters and numbers."
+                            );
+
+                            isValid = false;
+
+                        } else if (couponCode.length < 4) {
+
+                            showError(
+                                code,
+                                codeError,
+                                "Coupon code must be at least 4 characters."
+                            );
+
+                            isValid = false;
+                        }
+
+
+                        // Discount Type
+                        if (discountType.value === "") {
+
+                            showError(
+                                discountType,
+                                discountTypeError,
+                                "Please select a discount type."
+                            );
+
+                            isValid = false;
+                        }
+
+
+                        // Discount Value
+                        const value = Number(discountValue.value);
+
+                        if (discountValue.value.trim() === "") {
+
+                            showError(
+                                discountValue,
+                                discountValueError,
+                                "Discount value is required."
+                            );
+
+                            isValid = false;
+
+                        } else if (value <= 0) {
+
+                            showError(
+                                discountValue,
+                                discountValueError,
+                                "Discount value must be greater than 0."
+                            );
+
+                            isValid = false;
+
+                        } else if (
+                            discountType.value === "PERCENTAGE" &&
+                            value > 100
+                        ) {
+
+                            showError(
+                                discountValue,
+                                discountValueError,
+                                "Percentage discount cannot exceed 100%."
+                            );
+
+                            isValid = false;
+                        }
+
+
+                        // Minimum Purchase
+                        const minimum = Number(minimumPurchase.value);
+
+                        if (minimumPurchase.value.trim() === "") {
+
+                            showError(
+                                minimumPurchase,
+                                minimumPurchaseError,
+                                "Minimum purchase is required."
+                            );
+
+                            isValid = false;
+
+                        } else if (minimum < 0) {
+
+                            showError(
+                                minimumPurchase,
+                                minimumPurchaseError,
+                                "Minimum purchase cannot be negative."
+                            );
+
+                            isValid = false;
+                        }
+
+
+                        // Maximum Discount
+                        const maximum = Number(maximumDiscount.value);
+
+                        if (
+                            maximumDiscount.value.trim() !== "" &&
+                            maximum < 0
+                        ) {
+
+                            showError(
+                                maximumDiscount,
+                                maximumDiscountError,
+                                "Maximum discount cannot be negative."
+                            );
+
+                            isValid = false;
+                        }
+
+
+                        // Usage Limit
+                        const usage = Number(usageLimit.value);
+
+                        if (usageLimit.value.trim() === "") {
+
+                            showError(
+                                usageLimit,
+                                usageLimitError,
+                                "Usage limit is required."
+                            );
+
+                            isValid = false;
+
+                        } else if (!Number.isInteger(usage) || usage < 1) {
+
+                            showError(
+                                usageLimit,
+                                usageLimitError,
+                                "Usage limit must be a whole number greater than 0."
+                            );
+
+                            isValid = false;
+                        }
+
+
+                        // Start Date
+                        if (startDate.value === "") {
+
+                            showError(
+                                startDate,
+                                startDateError,
+                                "Start date is required."
+                            );
+
+                            isValid = false;
+                        }
+
+
+                        // Expiry Date
+                        if (expiryDate.value === "") {
+
+                            showError(
+                                expiryDate,
+                                expiryDateError,
+                                "Expiry date is required."
+                            );
+
+                            isValid = false;
+                        }
+
+
+                        // Date comparison
+                        if (
+                            startDate.value !== "" &&
+                            expiryDate.value !== ""
+                        ) {
+
+                            const start = new Date(startDate.value);
+                            const expiry = new Date(expiryDate.value);
+
+                            if (expiry <= start) {
+
+                                showError(
+                                    expiryDate,
+                                    expiryDateError,
+                                    "Expiry date must be after the start date."
+                                );
+
+                                isValid = false;
+                            }
+                        }
+
+
+                        // Submit form
+                        if (isValid) {
+                            couponForm.submit();
+                        }
+                    });
+
+
+                    // Clear ONLY the error of the field being edited
+
+                    code.addEventListener("input", function () {
+                        clearError(code, codeError);
+                    });
+
+                    discountType.addEventListener("change", function () {
+                        clearError(discountType, discountTypeError);
+                    });
+
+                    discountValue.addEventListener("input", function () {
+                        clearError(discountValue, discountValueError);
+                    });
+
+                    minimumPurchase.addEventListener("input", function () {
+                        clearError(minimumPurchase, minimumPurchaseError);
+                    });
+
+                    maximumDiscount.addEventListener("input", function () {
+                        clearError(maximumDiscount, maximumDiscountError);
+                    });
+
+                    usageLimit.addEventListener("input", function () {
+                        clearError(usageLimit, usageLimitError);
+                    });
+
+                    startDate.addEventListener("change", function () {
+                        clearError(startDate, startDateError);
+                    });
+
+                    expiryDate.addEventListener("change", function () {
+                        clearError(expiryDate, expiryDateError);
+                    });
+
+
+                    // Change % symbol to ₹ for fixed discount
+                    discountType.addEventListener("change", function () {
+
+                        const discountSymbol = document.getElementById("discountSymbol");
+
+                        if (discountType.value === "FIXED") {
+                            discountSymbol.textContent = "₹";
+                        } else {
+                            discountSymbol.textContent = "%";
+                        }
+                    });
+                </script>
+</body>
+
+</html>

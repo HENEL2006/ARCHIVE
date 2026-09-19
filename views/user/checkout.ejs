@@ -380,23 +380,79 @@
 
 
                                             <!-- Promo Code -->
-                                            <div class="mb-10 space-y-4">
-                                                <div class="relative">
-                                                    <select
-                                                        class="w-full bg-transparent border border-primary font-mono-data text-mono-data py-3 px-4 focus:ring-0 appearance-none cursor-pointer">
-                                                        <option disabled="" selected="" value="">AVAILABLE COUPONS
-                                                        </option>
-                                                        <option value="ARCHIVE10">ARCHIVE10 - 10% OFF</option>
-                                                        <option value="LEGACY25">LEGACY25 - 25% OFF</option>
-                                                    </select>
-                                                </div>
-                                                <div class="flex gap-0">
-                                                    <input
-                                                        class="flex-grow bg-transparent border border-primary border-r-0 font-mono-data text-mono-data py-3 px-4 focus:ring-0"
-                                                        placeholder="ENTER CODE" type="text" />
-                                                    <button
-                                                        class="bg-primary text-on-primary font-label-caps text-label-caps px-6 py-3 hover:opacity-90 transition-opacity">APPLY</button>
-                                                </div>
+                                            <div id="couponSection" class="mb-10 space-y-4">
+
+                                                <% if (!appliedCoupon) { %>
+
+                                                    <!-- Available Coupons -->
+                                                    <div class="relative">
+                                                        <select id="availableCouponSelect"
+                                                            class="w-full appearance-none bg-transparent border border-primary font-mono-data text-mono-data py-3 px-4 pr-10 focus:ring-0 outline-none">
+                                                            <option value="">AVAILABLE COUPONS</option>
+
+                                                            <% availableCoupons.forEach(coupon=> { %>
+                                                                <option value="<%= coupon.code %>">
+                                                                    <%= coupon.code %> -
+                                                                        <%= coupon.discountType==="PERCENTAGE" ?
+                                                                            `${coupon.discountValue}% OFF` :
+                                                                            `₹${coupon.discountValue} OFF` %>
+                                                                </option>
+                                                                <% }) %>
+                                                        </select>
+
+                                                        <span
+                                                            class="material-symbols-outlined pointer-events-none absolute right-4 top-1/2 -translate-y-1/2">
+                                                            expand_more
+                                                        </span>
+                                                    </div>
+
+                                                    <!-- Apply Selected Coupon -->
+                                                    <button type="button" id="applySelectedCouponBtn"
+                                                        class="w-full bg-primary text-on-primary font-label-caps text-label-caps px-6 py-3">
+                                                        APPLY SELECTED COUPON
+                                                    </button>
+
+                                                    <!-- Manual Coupon -->
+                                                    <div class="flex gap-0">
+                                                        <input id="couponCode"
+                                                            class="flex-grow bg-transparent border border-primary border-r-0 font-mono-data text-mono-data py-3 px-4 focus:ring-0 uppercase"
+                                                            placeholder="ENTER CODE" type="text" />
+
+                                                        <button type="button" id="applyCouponBtn"
+                                                            class="bg-primary text-on-primary font-label-caps text-label-caps px-6 py-3">
+                                                            APPLY
+                                                        </button>
+                                                    </div>
+
+                                                    <% } else { %>
+
+                                                        <!-- Applied Coupon -->
+                                                        <div class="border border-primary p-4">
+
+                                                            <div class="flex justify-between items-center gap-4">
+
+                                                                <div>
+                                                                    <p
+                                                                        class="font-label-caps text-label-caps text-secondary mb-2">
+                                                                        APPLIED COUPON
+                                                                    </p>
+
+                                                                    <p class="font-mono-data text-mono-data font-bold">
+                                                                        <%= appliedCoupon.code %>
+                                                                    </p>
+                                                                </div>
+
+                                                                <button type="button" id="removeCouponBtn"
+                                                                    class="font-label-caps text-label-caps border border-primary px-4 py-2">
+                                                                    REMOVE
+                                                                </button>
+
+                                                            </div>
+
+                                                        </div>
+
+                                                        <% } %>
+
                                             </div>
                                             <!-- Financials -->
                                             <div class="border-t border-primary pt-6 space-y-4">
@@ -415,8 +471,16 @@
 
                                                 <div
                                                     class="flex justify-between font-mono-data text-mono-data text-accent-success">
-                                                    <span>DISCOUNT</span>
-                                                    <span>-₹<%= discount.toLocaleString("en-IN") %></span>
+
+                                                    <span id="discountLabel">
+                                                        <%= appliedCoupon ? `COUPON — ${appliedCoupon.code}`
+                                                            : "DISCOUNT" %>
+                                                    </span>
+
+                                                    <span id="discountAmount">
+                                                        -₹<%= discount.toLocaleString("en-IN") %>
+                                                    </span>
+
                                                 </div>
 
                                                 <div
@@ -424,7 +488,7 @@
 
                                                     <span>TOTAL</span>
 
-                                                    <span>
+                                                    <span id="checkoutTotal">
                                                         ₹<%= total.toLocaleString("en-IN") %>
                                                     </span>
 
@@ -596,6 +660,36 @@
 
 
                 <script>
+
+                    function attachSelectedCoupon() {
+                        const applySelectedCouponBtn = document.getElementById(
+                            "applySelectedCouponBtn"
+                        );
+
+                        if (!applySelectedCouponBtn) return;
+
+                        applySelectedCouponBtn.addEventListener("click", () => {
+                            const availableCouponSelect = document.getElementById(
+                                "availableCouponSelect"
+                            );
+
+                            const couponCodeInput = document.getElementById("couponCode");
+                            const applyCouponBtn = document.getElementById("applyCouponBtn");
+
+                            const selectedCoupon = availableCouponSelect.value;
+
+                            if (!selectedCoupon) {
+                                showToast("PLEASE SELECT A COUPON", "error");
+                                return;
+                            }
+
+                            couponCodeInput.value = selectedCoupon;
+
+                            applyCouponBtn.click();
+                        });
+                    }
+
+
 
                     const addressModal = document.getElementById("addressModal");
                     const changeAddressBtn = document.getElementById("changeAddressBtn");
@@ -862,6 +956,253 @@
                             }
                         }
                     });
+
+                    // COUPONS >>>>>>>>
+
+
+                    function attachApplyCoupon() {
+
+                        const applyCouponBtn =
+                            document.getElementById("applyCouponBtn");
+
+                        if (!applyCouponBtn) {
+                            return;
+                        }
+
+                        applyCouponBtn.addEventListener("click", async () => {
+
+                            const couponCodeInput =
+                                document.getElementById("couponCode");
+
+                            const code = couponCodeInput.value.trim();
+
+                            if (!code) {
+                                showToast("PLEASE ENTER A COUPON CODE", "error");
+                                return;
+                            }
+
+                            try {
+
+                                applyCouponBtn.disabled = true;
+                                applyCouponBtn.textContent = "APPLYING...";
+
+                                const response = await fetch(
+                                    "/checkout/apply-coupon",
+                                    {
+                                        method: "POST",
+                                        headers: {
+                                            "Content-Type": "application/json",
+                                        },
+                                        body: JSON.stringify({
+                                            code,
+                                        }),
+                                    }
+                                );
+
+                                const data = await response.json();
+
+                                if (!response.ok || !data.success) {
+                                    throw new Error(
+                                        data.message || "FAILED TO APPLY COUPON"
+                                    );
+                                }
+
+                                const discount =
+                                    Number(data.coupon.discount);
+
+                                const subtotal = <%= subtotal %>;
+                                const shipping = <%= shipping %>;
+                                const tax = 0;
+
+                                const total =
+                                    subtotal + shipping + tax - discount;
+
+                                document.getElementById(
+                                    "discountLabel"
+                                ).textContent =
+                                    `COUPON — ${data.coupon.code}`;
+
+                                document.getElementById(
+                                    "discountAmount"
+                                ).textContent =
+                                    `-₹${discount.toLocaleString("en-IN")}`;
+
+                                document.getElementById(
+                                    "checkoutTotal"
+                                ).textContent =
+                                    `₹${total.toLocaleString("en-IN")}`;
+
+                                document.getElementById("couponSection").innerHTML = `
+    <div class="relative">
+        <select
+            id="availableCouponSelect"
+            class="w-full appearance-none bg-transparent border border-primary font-mono-data text-mono-data py-3 px-4 pr-10 focus:ring-0 outline-none"
+        >
+            <option value="">AVAILABLE COUPONS</option>
+
+            <% availableCoupons.forEach(coupon => { %>
+                <option value="<%= coupon.code %>">
+                    <%= coupon.code %> -
+                    <%= coupon.discountType === "PERCENTAGE"
+                        ? `${ coupon.discountValue }% OFF`
+                        : `₹${ coupon.discountValue } OFF`
+                    %>
+                </option>
+            <% }) %>
+        </select>
+
+        <span
+            class="material-symbols-outlined pointer-events-none absolute right-4 top-1/2 -translate-y-1/2"
+        >
+            expand_more
+        </span>
+    </div>
+
+    <button
+        type="button"
+        id="applySelectedCouponBtn"
+        class="w-full bg-primary text-on-primary font-label-caps text-label-caps px-6 py-3"
+    >
+        APPLY SELECTED COUPON
+    </button>
+
+    <div class="flex gap-0">
+        <input
+            id="couponCode"
+            class="flex-grow bg-transparent border border-primary border-r-0 font-mono-data text-mono-data py-3 px-4 focus:ring-0 uppercase"
+            placeholder="ENTER CODE"
+            type="text"
+        />
+
+        <button
+            type="button"
+            id="applyCouponBtn"
+            class="bg-primary text-on-primary font-label-caps text-label-caps px-6 py-3"
+        >
+            APPLY
+        </button>
+    </div>
+`;
+
+                                attachApplyCoupon();
+                                attachSelectedCoupon();
+
+                                attachRemoveCoupon();
+
+                                showToast(
+                                    "COUPON APPLIED SUCCESSFULLY",
+                                    "success"
+                                );
+
+                            } catch (error) {
+
+                                console.log(error);
+
+                                showToast(
+                                    error.message || "FAILED TO APPLY COUPON",
+                                    "error"
+                                );
+
+                                applyCouponBtn.disabled = false;
+                                applyCouponBtn.textContent = "APPLY";
+                            }
+                        });
+                    }
+
+                    function attachRemoveCoupon() {
+
+                        const removeCouponBtn =
+                            document.getElementById("removeCouponBtn");
+
+                        if (!removeCouponBtn) {
+                            return;
+                        }
+
+                        removeCouponBtn.addEventListener("click", async () => {
+
+                            try {
+
+                                removeCouponBtn.disabled = true;
+                                removeCouponBtn.textContent = "REMOVING...";
+
+                                const response = await fetch(
+                                    "/checkout/remove-coupon",
+                                    {
+                                        method: "POST",
+                                    }
+                                );
+
+                                const data = await response.json();
+
+                                if (!response.ok || !data.success) {
+                                    throw new Error(
+                                        data.message || "FAILED TO REMOVE COUPON"
+                                    );
+                                }
+
+                                // Reset discount
+                                const subtotal = <%= subtotal %>;
+                                const shipping = <%= shipping %>;
+                                const tax = 0;
+
+                                const total = subtotal + shipping + tax;
+
+                                document.getElementById("discountLabel").textContent =
+                                    "DISCOUNT";
+
+                                document.getElementById("discountAmount").textContent =
+                                    "-₹0";
+
+                                document.getElementById("checkoutTotal").textContent =
+                                    `₹${total.toLocaleString("en-IN")}`;
+
+                                // Restore coupon input
+                                document.getElementById("couponSection").innerHTML = `
+                <div class="flex gap-0">
+
+                    <input
+                        id="couponCode"
+                        class="flex-grow bg-transparent border border-primary border-r-0 font-mono-data text-mono-data py-3 px-4 focus:ring-0 uppercase"
+                        placeholder="ENTER CODE"
+                        type="text"
+                    />
+
+                    <button
+                        type="button"
+                        id="applyCouponBtn"
+                        class="bg-primary text-on-primary font-label-caps text-label-caps px-6 py-3">
+                        APPLY
+                    </button>
+
+                </div>
+            `;
+
+                                // Reattach Apply event
+                                attachApplyCoupon();
+
+                                showToast(
+                                    "COUPON REMOVED SUCCESSFULLY",
+                                    "success"
+                                );
+
+                            } catch (error) {
+
+                                console.log(error);
+
+                                showToast(
+                                    error.message || "FAILED TO REMOVE COUPON",
+                                    "error"
+                                );
+
+                                removeCouponBtn.disabled = false;
+                                removeCouponBtn.textContent = "REMOVE";
+                            }
+                        });
+                    }
+
+                    attachApplyCoupon();
+                    attachRemoveCoupon();
+                    attachSelectedCoupon();
 
                 </script>
 </body>

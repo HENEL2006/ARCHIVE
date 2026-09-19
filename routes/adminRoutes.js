@@ -47,6 +47,14 @@ import {
   loadReturn,
   rejectReturn,
 } from "../controllers/admin/returnController.js";
+import {
+  addCoupon,
+  loadAddCoupon,
+  loadCoupon,
+  loadEditCoupon,
+  toggleCouponStatus,
+  updateCoupon,
+} from "../controllers/admin/couponController.js";
 
 router.get("/login", adminGuest, loadLogin);
 router.post("/login", adminGuest, adminLogin);
@@ -100,6 +108,13 @@ router.post(
 router.get("/return", adminAuth, loadReturn);
 router.post("/return/:orderId/:itemId/approve", approveReturn);
 router.post("/return/:orderId/:itemId/reject", adminAuth, rejectReturn);
+
+router.get("/coupons", adminAuth, loadCoupon);
+router.get("/addCoupon", adminAuth, loadAddCoupon);
+router.post("/addCoupon", adminAuth, addCoupon);
+router.get("/editCoupon/:id", adminAuth, loadEditCoupon);
+router.post("/editCoupon/:id", adminAuth, updateCoupon);
+router.post("/coupons/toggle/:id", adminAuth, toggleCouponStatus);
 
 router.get("/logout", adminLogout);
 

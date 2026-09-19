@@ -6,8 +6,10 @@ import Order from "../../models/order.js";
 import razorpay from "../../config/razorpay.js";
 import crypto from "crypto";
 import { debitWalletService } from "./walletService.js";
+import { getAppliedCouponService } from "./couponService.js";
+import Coupon from "../../models/coupon.js";
 
-export const placeOrderService = async (userId, data) => {
+export const placeOrderService = async (userId, data, appliedCoupon = null) => {
   const { addressId, payment, transactionId } = data;
 
   if (!addressId || !payment) {
@@ -97,8 +99,13 @@ export const placeOrderService = async (userId, data) => {
   }
 
   const shipping = subtotal > 0 ? 99 : 0;
-  const discount = 0;
   const tax = 0;
+
+  const { coupon, discount } = await getAppliedCouponService(
+    userId,
+    appliedCoupon,
+    subtotal,
+  );
 
   const total = subtotal + shipping + tax - discount;
 
@@ -136,6 +143,20 @@ export const placeOrderService = async (userId, data) => {
     orderStatus: "PLACED",
   });
 
+  if (coupon) {
+    await Coupon.findByIdAndUpdate(coupon._id, {
+      $inc: {
+        usedCount: 1,
+      },
+      $push: {
+        usedBy: {
+          userId,
+          usedAt: new Date(),
+        },
+      },
+    });
+  }
+
   for (const item of cart.items) {
     await Product.updateOne(
       {
@@ -155,7 +176,11 @@ export const placeOrderService = async (userId, data) => {
   return order;
 };
 
-export const createRazorpayOrderService = async (userId, data) => {
+export const createRazorpayOrderService = async (
+  userId,
+  data,
+  appliedCoupon = null,
+) => {
   const { addressId } = data;
 
   if (!addressId) {
@@ -224,8 +249,13 @@ export const createRazorpayOrderService = async (userId, data) => {
   }
 
   const shipping = subtotal > 0 ? 99 : 0;
-  const discount = 0;
   const tax = 0;
+
+  const { discount } = await getAppliedCouponService(
+    userId,
+    appliedCoupon,
+    subtotal,
+  );
 
   const total = subtotal + shipping + tax - discount;
 
@@ -242,7 +272,11 @@ export const createRazorpayOrderService = async (userId, data) => {
   };
 };
 
-export const verifyRazorpayPaymentService = async (userId, data) => {
+export const verifyRazorpayPaymentService = async (
+  userId,
+  data,
+  appliedCoupon = null,
+) => {
   const {
     razorpay_payment_id,
     razorpay_order_id,
@@ -323,8 +357,13 @@ export const verifyRazorpayPaymentService = async (userId, data) => {
   }
 
   const shipping = subtotal > 0 ? 99 : 0;
-  const discount = 0;
   const tax = 0;
+
+  const { discount } = await getAppliedCouponService(
+    userId,
+    appliedCoupon,
+    subtotal,
+  );
 
   const total = subtotal + shipping + tax - discount;
 
@@ -338,11 +377,15 @@ export const verifyRazorpayPaymentService = async (userId, data) => {
     throw new Error("INVALID PAYMENT CURRENCY");
   }
 
-  const order = await placeOrderService(userId, {
-    addressId,
-    payment: "RAZORPAY",
-    transactionId: razorpay_payment_id,
-  });
+  const order = await placeOrderService(
+    userId,
+    {
+      addressId,
+      payment: "RAZORPAY",
+      transactionId: razorpay_payment_id,
+    },
+    appliedCoupon,
+  );
 
   return order;
 };

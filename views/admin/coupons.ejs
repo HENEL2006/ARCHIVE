@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>ARCHIVE | Coupons Management</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@500&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .mono-label {
+            font-family: 'JetBrains Mono', monospace;
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline": "#76777d",
+                        "on-error-container": "#93000a",
+                        "on-surface": "#191c1e",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "surface-container-low": "#f2f4f6",
+                        "surface-bright": "#f7f9fb",
+                        "on-background": "#191c1e",
+                        "primary": "#000000",
+                        "tertiary-fixed-dim": "#7bd0ff",
+                        "inverse-on-surface": "#eff1f3",
+                        "secondary-container": "#d0e1fb",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-primary-container": "#7c839b",
+                        "tertiary-fixed": "#c4e7ff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary-container": "#008ebf",
+                        "surface": "#f7f9fb",
+                        "surface-container-high": "#e6e8ea",
+                        "primary-fixed": "#dae2fd",
+                        "primary-container": "#131b2e",
+                        "on-secondary-container": "#54647a",
+                        "secondary-fixed": "#d3e4fe",
+                        "inverse-primary": "#bec6e0",
+                        "tertiary": "#000000",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "secondary": "#505f76",
+                        "surface-dim": "#d8dadc",
+                        "surface-container": "#eceef0",
+                        "background": "#f7f9fb",
+                        "surface-variant": "#e0e3e5",
+                        "tertiary-container": "#001e2c",
+                        "on-surface-variant": "#45464d",
+                        "inverse-surface": "#2d3133",
+                        "on-primary-fixed": "#131b2e",
+                        "on-error": "#ffffff",
+                        "surface-tint": "#565e74",
+                        "on-tertiary-fixed-variant": "#004c69",
+                        "primary-fixed-dim": "#bec6e0",
+                        "error": "#ba1a1a",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "outline-variant": "#c6c6cd",
+                        "on-tertiary-fixed": "#001e2c",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-secondary-fixed": "#0b1c30",
+                        "error-container": "#ffdad6"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "base": "4px",
+                        "lg": "24px",
+                        "xs": "4px",
+                        "2xl": "48px",
+                        "md": "16px",
+                        "xl": "32px",
+                        "sm": "8px",
+                        "margin": "32px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Inter"],
+                        "display": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "label-md": ["JetBrains Mono"],
+                        "headline-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "display": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-background text-on-surface">
+    <%- include("partials/toast") %>
+        <!-- Fixed SideNavBar -->
+        <%- include("partials/adminSidebar") %>
+
+            <!-- Main Content Area -->
+            <main class="ml-[260px] min-h-screen">
+                <!-- TopAppBar -->
+                <%- include("partials/adminNavbar") %>
+                    <!-- Page Content -->
+                    <section class="pt-24 px-lg pb-lg">
+                        <!-- Header Section -->
+                        <div class="flex justify-between items-end mb-xl">
+                            <div>
+                                <h2 class="font-headline-lg text-headline-lg text-primary tracking-tight">Coupons</h2>
+                                <p class="font-body-md text-body-md text-on-surface-variant">Manage discount codes and
+                                    promotional
+                                    offers for your catalog.</p>
+                            </div>
+                            <a href="/admin/addCoupon"
+                                class="bg-primary text-on-primary px-xl py-2.5 rounded-lg font-body-md text-body-md font-bold flex items-center gap-2 hover:opacity-90 active:scale-[0.98] transition-all">
+
+                                <span class="material-symbols-outlined text-[18px]">
+                                    add
+                                </span>
+
+                                Create Coupon
+
+                            </a>
+                        </div>
+                        <!-- Stats Grid -->
+                        <div class="grid grid-cols-4 gap-lg mb-xl">
+                            <div class="bg-surface-container-lowest border border-outline-variant p-md rounded-xl">
+                                <div class="flex items-center justify-between mb-sm">
+                                    <span
+                                        class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">Total
+                                        Coupons</span>
+                                    <span class="material-symbols-outlined text-outline">confirmation_number</span>
+                                </div>
+                                <div class="text-headline-md font-headline-md font-black">
+                                    <%= totalCoupons %>
+                                </div>
+                            </div>
+                            <div class="bg-surface-container-lowest border border-outline-variant p-md rounded-xl">
+                                <div class="flex items-center justify-between mb-sm">
+                                    <span
+                                        class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">Active
+                                        Coupons</span>
+                                    <span class="material-symbols-outlined text-tertiary-fixed-dim">check_circle</span>
+                                </div>
+                                <div class="text-headline-md font-headline-md font-black">
+                                    <%= activeCoupons %>
+                                </div>
+                            </div>
+                            <div class="bg-surface-container-lowest border border-outline-variant p-md rounded-xl">
+                                <div class="flex items-center justify-between mb-sm">
+                                    <span
+                                        class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">Expired</span>
+                                    <span class="material-symbols-outlined text-error">history</span>
+                                </div>
+                                <div class="text-headline-md font-headline-md font-black">
+                                    <%= expiredCoupons %>
+                                </div>
+                            </div>
+                            <div class="bg-surface-container-lowest border border-outline-variant p-md rounded-xl">
+                                <div class="flex items-center justify-between mb-sm">
+                                    <span
+                                        class="text-on-surface-variant font-label-md text-label-md uppercase tracking-wider">Total
+                                        Discounted</span>
+                                    <span class="material-symbols-outlined text-on-primary-container">payments</span>
+                                </div>
+                                <div class="text-headline-md font-headline-md font-black">₹2,48,500</div>
+                            </div>
+                        </div>
+
+                        <!-- Management Toolbar -->
+                        <div class="mb-10 rounded-lg border border-neutral-200 bg-white">
+                            <form action="/admin/coupons" method="GET">
+                                <div class="flex h-16 items-center px-6">
+
+                                    <!-- Search -->
+                                    <div class="relative flex flex-1 items-center gap-3">
+
+                                        <span class="material-symbols-outlined text-[20px] text-neutral-400">
+                                            search
+                                        </span>
+
+                                        <input id="couponSearch" type="text" name="search"
+                                            value="<%= typeof search !== 'undefined' ? search : '' %>"
+                                            placeholder="Search coupons..."
+                                            class="w-full border-none bg-transparent p-0 pr-8 text-sm text-black placeholder:text-neutral-400 focus:outline-none focus:ring-0">
+
+                                        <!-- Clear Button -->
+                                        <button type="button" id="clearSearch"
+                                            class="absolute right-0 hidden p-1 text-neutral-400 hover:text-black transition">
+
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M6 6l12 12M18 6L6 18" />
+
+                                            </svg>
+
+                                        </button>
+
+                                    </div>
+
+                                    <!-- Divider -->
+                                    <div class="mx-6 h-6 w-px bg-neutral-200"></div>
+
+                                    <!-- Status -->
+                                    <select name="status" onchange="this.form.submit()"
+                                        class="border-none bg-transparent text-xs font-semibold uppercase tracking-[0.25em] text-neutral-700 focus:outline-none focus:ring-0">
+
+                                        <option value="ALL" <%=status==="ALL" ? "selected" : "" %>>
+                                            All Status
+                                        </option>
+
+                                        <option value="ACTIVE" <%=status==="ACTIVE" ? "selected" : "" %>>
+                                            Active
+                                        </option>
+
+                                        <option value="EXPIRED" <%=status==="EXPIRED" ? "selected" : "" %>>
+                                            Expired
+                                        </option>
+
+                                        <option value="DISABLED" <%=status==="DISABLED" ? "selected" : "" %>>
+                                            Disabled
+                                        </option>
+
+                                    </select>
+
+                                    <!-- Divider -->
+                                    <div class="mx-6 h-6 w-px bg-neutral-200"></div>
+
+                                    <!-- Reset -->
+                                    <a href="/admin/coupons"
+                                        class="ml-8 text-xs font-medium uppercase tracking-[0.25em] text-neutral-400 transition hover:text-black">
+                                        Reset Filters
+                                    </a>
+
+                                </div>
+                            </form>
+                        </div>
+                        <!-- List View -->
+                        <div
+                            class="bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden">
+
+                            <!-- Table Content -->
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left border-collapse">
+                                    <thead class="bg-surface-container-low">
+                                        <tr>
+                                            <th
+                                                class="px-lg py-3 font-label-md text-label-md uppercase text-on-surface-variant border-b border-outline-variant">
+                                                Coupon Code</th>
+                                            <th
+                                                class="px-lg py-3 font-label-md text-label-md uppercase text-on-surface-variant border-b border-outline-variant">
+                                                Discount</th>
+                                            <th
+                                                class="px-lg py-3 font-label-md text-label-md uppercase text-on-surface-variant border-b border-outline-variant">
+                                                Usage</th>
+                                            <th
+                                                class="px-lg py-3 font-label-md text-label-md uppercase text-on-surface-variant border-b border-outline-variant">
+                                                Expiry Date</th>
+                                            <th
+                                                class="px-lg py-3 font-label-md text-label-md uppercase text-on-surface-variant border-b border-outline-variant">
+                                                Status</th>
+                                            <th
+                                                class="px-lg py-3 font-label-md text-label-md uppercase text-on-surface-variant border-b border-outline-variant text-right">
+                                                Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-outline-variant">
+
+                                        <% if (coupons.length===0) { %>
+
+                                            <tr>
+                                                <td colspan="6" class="px-lg py-12 text-center">
+                                                    <div class="flex flex-col items-center gap-2">
+                                                        <span class="material-symbols-outlined text-4xl text-outline">
+                                                            confirmation_number
+                                                        </span>
+
+                                                        <p class="font-body-md text-body-md font-bold">
+                                                            No coupons found
+                                                        </p>
+
+                                                        <p class="font-body-sm text-body-sm text-on-surface-variant">
+                                                            There are no coupons matching your current filter.
+                                                        </p>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                            <% } else { %>
+
+                                                <% coupons.forEach(coupon=> { %>
+
+                                                    <% const now=new Date(); let couponStatus="Active" ; if
+                                                        (!coupon.isActive) { couponStatus="Disabled" ; } else if (new
+                                                        Date(coupon.expiryDate) < now) { couponStatus="Expired" ; } else
+                                                        if (new Date(coupon.startDate)> now) {
+                                                        couponStatus = "Upcoming";
+                                                        }
+
+                                                        const usageLimit = coupon.usageLimit;
+                                                        const usedCount = coupon.usedCount || 0;
+
+                                                        const usagePercentage = usageLimit
+                                                        ? Math.min((usedCount / usageLimit) * 100, 100)
+                                                        : 0;
+                                                        %>
+
+                                                        <tr
+                                                            class="hover:bg-surface-container-lowest transition-colors group">
+
+                                                            <!-- Coupon Code -->
+                                                            <td class="px-lg py-4">
+                                                                <span
+                                                                    class="mono-label bg-surface-container text-primary px-2 py-1 rounded text-body-sm font-bold">
+                                                                    <%= coupon.code %>
+                                                                </span>
+                                                            </td>
+
+                                                            <!-- Discount -->
+                                                            <td class="px-lg py-4 font-body-md text-body-md font-bold">
+
+                                                                <% if (coupon.discountType==="PERCENTAGE" ) { %>
+
+                                                                    <%= coupon.discountValue %>% OFF
+
+                                                                        <% } else { %>
+
+                                                                            ₹<%= coupon.discountValue.toLocaleString("en-IN")
+                                                                                %> OFF
+
+                                                                                <% } %>
+
+                                                            </td>
+
+                                                            <!-- Usage -->
+                                                            <td class="px-lg py-4">
+
+                                                                <% if (usageLimit) { %>
+
+                                                                    <div class="w-full max-w-[100px]">
+
+                                                                        <div
+                                                                            class="flex justify-between text-[10px] mb-1 font-bold">
+                                                                            <span>
+                                                                                <%= usedCount %> / <%= usageLimit %>
+                                                                            </span>
+
+                                                                            <span>
+                                                                                <%= Math.round(usagePercentage) %>%
+                                                                            </span>
+                                                                        </div>
+
+                                                                        <div
+                                                                            class="h-1 w-full bg-surface-container rounded-full overflow-hidden">
+
+                                                                            <div class="h-full bg-primary"
+                                                                                style="width: <%= usagePercentage %>%">
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                    <% } else { %>
+
+                                                                        <span
+                                                                            class="font-body-sm text-body-sm text-on-surface-variant">
+                                                                            Unlimited
+                                                                        </span>
+
+                                                                        <% } %>
+
+                                                            </td>
+
+                                                            <!-- Expiry Date -->
+                                                            <td class="px-lg py-4 font-body-md text-body-md">
+
+                                                                <%= new
+                                                                    Date(coupon.expiryDate).toLocaleDateString("en-GB",
+                                                                    { day: "2-digit" , month: "short" , year: "numeric"
+                                                                    }) %>
+
+                                                            </td>
+
+                                                            <!-- Status -->
+                                                            <td class="px-lg py-4">
+
+                                                                <% if (couponStatus==="Active" ) { %>
+
+                                                                    <span
+                                                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-green-100 text-green-800 border border-green-200">
+                                                                        Active
+                                                                    </span>
+
+                                                                    <% } else if (couponStatus==="Expired" ) { %>
+
+                                                                        <span
+                                                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-error-container text-on-error-container border border-outline-variant">
+                                                                            Expired
+                                                                        </span>
+
+                                                                        <% } else if (couponStatus==="Disabled" ) { %>
+
+                                                                            <span
+                                                                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-surface-container-high text-on-surface-variant border border-outline-variant">
+                                                                                Disabled
+                                                                            </span>
+
+                                                                            <% } else { %>
+
+                                                                                <span
+                                                                                    class="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-yellow-100 text-yellow-800 border border-yellow-200">
+                                                                                    Upcoming
+                                                                                </span>
+
+                                                                                <% } %>
+
+                                                            </td>
+
+                                                            <!-- Actions -->
+                                                            <td class="px-lg py-4 text-right">
+
+                                                                <div
+                                                                    class="flex justify-end gap-2">
+
+                                                                    <a href="/admin/editCoupon/<%= coupon._id %>"
+                                                                        class="p-1.5 rounded bg-surface-container-low hover:bg-outline-variant transition-colors text-on-surface-variant"
+                                                                        title="Edit">
+
+                                                                        <span
+                                                                            class="material-symbols-outlined text-[18px]">
+                                                                            edit
+                                                                        </span>
+
+                                                                    </a>
+
+                                                                    <% if (coupon.isActive) { %>
+
+                                                                        <button type="button" onclick="openCouponStatusModal(
+            '<%= coupon._id %>',
+            true,
+            '<%= coupon.code %>'
+        )" class="p-1.5 rounded bg-surface-container-low hover:bg-outline-variant transition-colors text-on-surface-variant"
+                                                                            title="Disable">
+
+                                                                            <span
+                                                                                class="material-symbols-outlined text-[18px]">
+                                                                                block
+                                                                            </span>
+
+                                                                        </button>
+
+                                                                        <% } else { %>
+
+                                                                            <button type="button" onclick="openCouponStatusModal(
+                                                                                '<%= coupon._id %>',
+                                                                                false,
+                                                                                '<%= coupon.code %>'
+                                                                            )" class="p-1.5 rounded bg-surface-container-low hover:bg-outline-variant transition-colors text-on-surface-variant"
+                                                                                title="Enable">
+
+                                                                                <span
+                                                                                    class="material-symbols-outlined text-[18px]">
+                                                                                    check_circle
+                                                                                </span>
+
+                                                                            </button>
+
+                                                                            <% } %>
+
+                                                                </div>
+
+                                                            </td>
+
+                                                        </tr>
+
+                                                        <% }) %>
+
+                                                            <% } %>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- Pagination -->
+                            <% if (totalPages> 0) { %>
+
+                                <% const startItem=(currentPage - 1) * limit + 1; const endItem=Math.min(currentPage *
+                                    limit, totalCoupons); %>
+
+                                    <div
+                                        class="px-lg py-md bg-surface-container-lowest flex justify-between items-center border-t border-outline-variant">
+
+                                        <!-- Showing Count -->
+                                        <p class="font-body-sm text-body-sm text-on-surface-variant">
+                                            Showing <%= startItem %>-<%= endItem %> of <%= totalCoupons %> coupons
+                                        </p>
+
+
+                                        <!-- Pagination Controls -->
+                                        <div class="flex items-center gap-1">
+
+                                            <!-- Previous -->
+                                            <% if (currentPage> 1) { %>
+
+                                                <a href="/admin/coupons?page=<%= currentPage - 1 %>&search=<%= encodeURIComponent(search) %>&status=<%= status %>"
+                                                    class="p-2 border border-outline-variant rounded-lg hover:bg-surface-container transition-colors">
+
+                                                    <span class="material-symbols-outlined text-[18px]">
+                                                        chevron_left
+                                                    </span>
+
+                                                </a>
+
+                                                <% } else { %>
+
+                                                    <button
+                                                        class="p-2 border border-outline-variant rounded-lg opacity-30 cursor-not-allowed"
+                                                        disabled>
+
+                                                        <span class="material-symbols-outlined text-[18px]">
+                                                            chevron_left
+                                                        </span>
+
+                                                    </button>
+
+                                                    <% } %>
+
+
+                                                        <!-- Page Numbers -->
+                                                        <% for (let page=1; page <=totalPages; page++) { %>
+
+                                                            <% if ( page===1 || page===totalPages || Math.abs(page -
+                                                                currentPage) <=1 ) { %>
+
+                                                                <% if (page===currentPage) { %>
+
+                                                                    <span
+                                                                        class="w-8 h-8 flex items-center justify-center font-body-sm text-body-sm bg-primary text-on-primary rounded-lg font-bold">
+                                                                        <%= page %>
+                                                                    </span>
+
+                                                                    <% } else { %>
+
+                                                                        <a href="/admin/coupons?page=<%= page %>&search=<%= encodeURIComponent(search) %>&status=<%= status %>"
+                                                                            class="w-8 h-8 flex items-center justify-center font-body-sm text-body-sm hover:bg-surface-container rounded-lg">
+
+                                                                            <%= page %>
+
+                                                                        </a>
+
+                                                                        <% } %>
+
+                                                                            <% } else if ( page===currentPage - 2 ||
+                                                                                page===currentPage + 2 ) { %>
+
+                                                                                <span class="px-2">
+                                                                                    ...
+                                                                                </span>
+
+                                                                                <% } %>
+
+                                                                                    <% } %>
+
+
+                                                                                        <!-- Next -->
+                                                                                        <% if (currentPage < totalPages)
+                                                                                            { %>
+
+                                                                                            <a href="/admin/coupons?page=<%= currentPage + 1 %>&search=<%= encodeURIComponent(search) %>&status=<%= status %>"
+                                                                                                class="p-2 border border-outline-variant rounded-lg hover:bg-surface-container transition-colors">
+
+                                                                                                <span
+                                                                                                    class="material-symbols-outlined text-[18px]">
+                                                                                                    chevron_right
+                                                                                                </span>
+
+                                                                                            </a>
+
+                                                                                            <% } else { %>
+
+                                                                                                <button
+                                                                                                    class="p-2 border border-outline-variant rounded-lg opacity-30 cursor-not-allowed"
+                                                                                                    disabled>
+
+                                                                                                    <span
+                                                                                                        class="material-symbols-outlined text-[18px]">
+                                                                                                        chevron_right
+                                                                                                    </span>
+
+                                                                                                </button>
+
+                                                                                                <% } %>
+
+                                        </div>
+                                    </div>
+
+                                    <% } %>
+                        </div>
+                    </section>
+            </main>
+
+            <!-- Coupon Status Confirmation Modal -->
+            <div id="couponStatusModal"
+                class="fixed inset-0 z-50 hidden items-center justify-center bg-black/40 backdrop-blur-sm">
+
+                <div
+                    class="w-full max-w-md mx-4 bg-surface-container-lowest border border-outline-variant rounded-xl overflow-hidden">
+
+                    <!-- Modal Header -->
+                    <div class="px-6 py-5 border-b border-outline-variant">
+
+                        <div class="flex items-start gap-4">
+
+                            <div id="couponStatusIcon"
+                                class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center shrink-0">
+
+                                <span class="material-symbols-outlined text-[22px]">
+                                    block
+                                </span>
+
+                            </div>
+
+                            <div>
+                                <h3 id="couponStatusTitle" class="font-headline-md text-headline-md text-primary">
+                                    Disable Coupon
+                                </h3>
+
+                                <p id="couponStatusMessage"
+                                    class="font-body-sm text-body-sm text-on-surface-variant mt-1">
+                                    Are you sure you want to disable this coupon?
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Coupon Info -->
+                    <div class="px-6 py-4 bg-surface-container-low">
+
+                        <div class="flex items-center justify-between">
+
+                            <span class="font-label-md text-label-md uppercase tracking-wider text-on-surface-variant">
+                                Coupon
+                            </span>
+
+                            <span id="couponStatusCode"
+                                class="mono-label bg-surface-container text-primary px-2 py-1 rounded text-body-sm font-bold">
+                                -
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Modal Actions -->
+                    <div class="px-6 py-5 flex justify-end gap-3 border-t border-outline-variant">
+
+                        <button type="button" onclick="closeCouponStatusModal()"
+                            class="px-5 py-2.5 rounded-lg border border-outline text-primary font-body-md font-semibold hover:bg-surface-container-high transition-colors">
+
+                            Cancel
+
+                        </button>
+
+                        <form id="couponStatusForm" method="POST">
+
+                            <button id="couponStatusConfirmButton" type="submit"
+                                class="px-6 py-2.5 rounded-lg bg-primary text-on-primary font-body-md font-bold hover:opacity-90 transition-all">
+
+                                Disable Coupon
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+            <script>
+                // Simple Micro-interaction for filter buttons
+                document.querySelectorAll('button[class*="px-md py-4"]').forEach(btn => {
+                    btn.addEventListener('click', function () {
+                        document.querySelectorAll('button[class*="px-md py-4"]').forEach(b => {
+                            b.classList.remove('border-b-2', 'border-primary', 'text-primary', 'font-bold');
+                            b.classList.add('text-on-surface-variant');
+                        });
+                        this.classList.add('border-b-2', 'border-primary', 'text-primary', 'font-bold');
+                        this.classList.remove('text-on-surface-variant');
+                    });
+                });
+
+
+                const searchInput = document.getElementById("couponSearch");
+                const clearSearch = document.getElementById("clearSearch");
+
+                function toggleClearButton() {
+                    if (searchInput.value.trim()) {
+                        clearSearch.classList.remove("hidden");
+                    } else {
+                        clearSearch.classList.add("hidden");
+                    }
+                }
+
+                searchInput.addEventListener("input", toggleClearButton);
+
+                clearSearch.addEventListener("click", () => {
+                    searchInput.value = "";
+                    searchInput.form.submit();
+                });
+
+                toggleClearButton();
+
+                // Coupon status confirmation modal
+
+                const couponStatusModal = document.getElementById("couponStatusModal");
+                const couponStatusForm = document.getElementById("couponStatusForm");
+                const couponStatusTitle = document.getElementById("couponStatusTitle");
+                const couponStatusMessage = document.getElementById("couponStatusMessage");
+                const couponStatusCode = document.getElementById("couponStatusCode");
+                const couponStatusConfirmButton = document.getElementById(
+                    "couponStatusConfirmButton"
+                );
+                const couponStatusIcon = document.getElementById("couponStatusIcon");
+
+
+                function openCouponStatusModal(couponId, isActive, couponCode) {
+
+                    couponStatusForm.action = `/admin/coupons/toggle/${couponId}`;
+
+                    couponStatusCode.textContent = couponCode;
+
+                    if (isActive) {
+
+                        // Disable
+                        couponStatusTitle.textContent = "Disable Coupon";
+
+                        couponStatusMessage.textContent =
+                            "Are you sure you want to disable this coupon?";
+
+                        couponStatusConfirmButton.textContent =
+                            "Disable Coupon";
+
+                        couponStatusIcon.innerHTML = `
+            <span class="material-symbols-outlined text-[22px]">
+                block
+            </span>
+        `;
+
+                    } else {
+
+                        // Enable
+                        couponStatusTitle.textContent = "Enable Coupon";
+
+                        couponStatusMessage.textContent =
+                            "Are you sure you want to enable this coupon?";
+
+                        couponStatusConfirmButton.textContent =
+                            "Enable Coupon";
+
+                        couponStatusIcon.innerHTML = `
+            <span class="material-symbols-outlined text-[22px]">
+                check_circle
+            </span>
+        `;
+                    }
+
+                    couponStatusModal.classList.remove("hidden");
+                    couponStatusModal.classList.add("flex");
+                }
+
+
+                function closeCouponStatusModal() {
+
+                    couponStatusModal.classList.add("hidden");
+                    couponStatusModal.classList.remove("flex");
+
+                }
+
+
+                // Close when clicking outside modal
+                couponStatusModal.addEventListener("click", function (event) {
+
+                    if (event.target === couponStatusModal) {
+                        closeCouponStatusModal();
+                    }
+
+                });
+
+
+                // Close with Escape key
+                document.addEventListener("keydown", function (event) {
+
+                    if (event.key === "Escape") {
+                        closeCouponStatusModal();
+                    }
+
+                });
+
+            </script>
+</body>
+
+</html>

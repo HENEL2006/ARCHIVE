@@ -103,15 +103,18 @@ export const approveReturnService = async (orderId, itemId) => {
     throw new Error("RETURN REQUEST IS NOT PENDING");
   }
 
-  if (order.paymentMethod === "RAZORPAY" && order.paymentStatus === "PAID") {
-    await creditWalletService(
-      order.userId,
-      item.itemTotal,
-      "RETURN_REFUND",
-      order.orderId,
-    );
-  }
+  const itemDiscount =
+    order.subtotal > 0 ? (item.itemTotal / order.subtotal) * order.discount : 0;
+
+  const refundAmount = item.itemTotal - itemDiscount;
   
+  await creditWalletService(
+    order.userId,
+    item.itemTotal,
+    "RETURN_REFUND",
+    order.orderId,
+  );
+
   item.itemStatus = "RETURNED";
 
   updateOverallOrderStatus(order);
