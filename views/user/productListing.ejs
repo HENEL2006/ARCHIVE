@@ -641,11 +641,46 @@
                                                 <%= product.name %>
                                             </h4>
 
-                                            <p class="font-body-md text-body-md
-                    transition-colors duration-300
-                    group-hover:text-on-primary">
-                                                ₹<%= product.price.toLocaleString() %>
-                                            </p>
+                                            <% if (product.offer) { %>
+
+                                                <div class="flex items-center gap-3">
+
+                                                    <span class="font-body-md text-body-md font-bold
+                     transition-colors duration-300
+                     group-hover:text-on-primary">
+                                                        ₹<%= product.finalPrice.toLocaleString("en-IN", {
+                                                            maximumFractionDigits: 0 }) %>
+                                                    </span>
+
+                                                    <span class="font-mono-data text-[11px] line-through
+                     text-secondary
+                     group-hover:text-on-primary/60">
+                                                        ₹<%= product.originalPrice.toLocaleString("en-IN", {
+                                                            maximumFractionDigits: 0 }) %>
+                                                    </span>
+
+                                                </div>
+
+                                                <p class="font-mono-data text-[10px] mt-1
+              text-green-700
+              group-hover:text-on-primary">
+                                                    SAVE ₹<%= product.discountAmount.toLocaleString("en-IN", {
+                                                        maximumFractionDigits: 0 }) %>
+
+                                                        <% if (product.offer.discountType==="PERCENTAGE" ) { %>
+                                                            · <%= product.offer.discountValue %>% OFF
+                                                                <% } %>
+                                                </p>
+
+                                                <% } else { %>
+
+                                                    <p class="font-body-md text-body-md
+              transition-colors duration-300
+              group-hover:text-on-primary">
+                                                        ₹<%= product.price.toLocaleString("en-IN") %>
+                                                    </p>
+
+                                                    <% } %>
 
                                         </div>
 

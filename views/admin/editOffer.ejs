@@ -1,0 +1,1678 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Edit Offer | ARCHIVE Admin</title>
+
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500&display=swap"
+        rel="stylesheet">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet">
+
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings:
+                'FILL' 0,
+                'wght' 400,
+                'GRAD' 0,
+                'opsz' 24;
+            vertical-align: middle;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .mono-label {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #e2e8f0;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-secondary-container": "#54647a",
+                        "surface-container-lowest": "#ffffff",
+                        "on-background": "#191c1e",
+                        "error-container": "#ffdad6",
+                        "on-surface-variant": "#45464d",
+                        "on-surface": "#191c1e",
+                        "surface-bright": "#f7f9fb",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-primary-container": "#7c839b",
+                        "surface-dim": "#d8dadc",
+                        "primary-fixed": "#dae2fd",
+                        "on-tertiary-container": "#008ebf",
+                        "surface-container": "#eceef0",
+                        "inverse-primary": "#bec6e0",
+                        "on-tertiary-fixed-variant": "#004c69",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#131b2e",
+                        "on-error": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "inverse-surface": "#2d3133",
+                        "surface-container-highest": "#e0e3e5",
+                        "tertiary-fixed-dim": "#7bd0ff",
+                        "surface-container-low": "#f2f4f6",
+                        "tertiary": "#000000",
+                        "outline-variant": "#c6c6cd",
+                        "on-secondary-fixed": "#0b1c30",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#e0e3e5",
+                        "primary-container": "#131b2e",
+                        "on-tertiary-fixed": "#001e2c",
+                        "secondary-container": "#d0e1fb",
+                        "surface-container-high": "#e6e8ea",
+                        "primary": "#000000",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed": "#d3e4fe",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-tint": "#565e74",
+                        "primary-fixed-dim": "#bec6e0",
+                        "tertiary-container": "#001e2c",
+                        "surface": "#f7f9fb",
+                        "outline": "#76777d",
+                        "background": "#f7f9fb",
+                        "secondary": "#505f76",
+                        "tertiary-fixed": "#c4e7ff",
+                        "on-error-container": "#93000a"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.25rem",
+                        lg: "0.5rem",
+                        xl: "0.75rem",
+                        full: "9999px"
+                    },
+                    spacing: {
+                        lg: "24px",
+                        base: "4px",
+                        sm: "8px",
+                        md: "16px",
+                        xs: "4px",
+                        xl: "32px",
+                        margin: "32px",
+                        gutter: "24px"
+                    },
+                    fontFamily: {
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["JetBrains Mono"],
+                        "display": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    fontSize: {
+                        "headline-lg": [
+                            "24px",
+                            {
+                                lineHeight: "32px",
+                                letterSpacing: "-0.01em",
+                                fontWeight: "600"
+                            }
+                        ],
+                        "headline-md": [
+                            "20px",
+                            {
+                                lineHeight: "28px",
+                                fontWeight: "600"
+                            }
+                        ],
+                        "headline-lg-mobile": [
+                            "20px",
+                            {
+                                lineHeight: "28px",
+                                fontWeight: "600"
+                            }
+                        ],
+                        "body-sm": [
+                            "12px",
+                            {
+                                lineHeight: "16px",
+                                fontWeight: "400"
+                            }
+                        ],
+                        "body-md": [
+                            "14px",
+                            {
+                                lineHeight: "20px",
+                                fontWeight: "400"
+                            }
+                        ],
+                        "label-md": [
+                            "12px",
+                            {
+                                lineHeight: "16px",
+                                letterSpacing: "0.02em",
+                                fontWeight: "500"
+                            }
+                        ],
+                        "display": [
+                            "36px",
+                            {
+                                lineHeight: "44px",
+                                letterSpacing: "-0.02em",
+                                fontWeight: "600"
+                            }
+                        ],
+                        "body-lg": [
+                            "16px",
+                            {
+                                lineHeight: "24px",
+                                fontWeight: "400"
+                            }
+                        ]
+                    }
+                }
+            }
+        };
+    </script>
+</head>
+
+<body class="bg-background text-on-surface">
+
+    <%- include("partials/toast") %>
+
+    <!-- Sidebar -->
+    <%- include("partials/adminSidebar") %>
+
+    <!-- Main Content -->
+    <div class="ml-[240px] flex flex-col min-h-screen">
+
+        <%- include("partials/adminNavbar") %>
+
+        <main class="mt-16 p-xl max-w-6xl w-full mx-auto pb-2xl font-body-md">
+
+            <!-- Header -->
+            <div class="flex justify-between items-end mb-xl">
+
+                <div>
+                    <h2 class="font-headline-lg text-headline-lg text-primary">
+                        Edit Offer
+                    </h2>
+
+                    <p class="font-body-md text-body-md text-on-surface-variant">
+                        Update the discount configuration for this offer.
+                    </p>
+                </div>
+
+                <div class="flex gap-md">
+
+                    <a href="/admin/offers">
+                        <button
+                            type="button"
+                            class="px-md py-2 border border-outline text-body-sm font-bold uppercase tracking-widest hover:bg-surface-container-low transition-colors">
+                            Back to Offers
+                        </button>
+                    </a>
+
+                </div>
+            </div>
+
+            <!-- FORM -->
+            <form
+                id="editOfferForm"
+                action="/admin/offers/<%= offer._id %>/edit"
+                method="POST">
+
+                <div class="grid grid-cols-12 gap-lg">
+
+                    <!-- LEFT -->
+                    <div class="col-span-12 lg:col-span-8 space-y-lg">
+
+                        <!-- SECTION 01 -->
+                        <section
+                            class="bg-surface-container-lowest border border-outline-variant p-lg">
+
+                            <div class="flex items-center gap-2 mb-md">
+
+                                <span class="font-label-md text-label-md text-primary opacity-40">
+                                    01
+                                </span>
+
+                                <h3
+                                    class="font-label-md text-label-md text-primary uppercase tracking-widest">
+                                    Offer Information
+                                </h3>
+
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+
+                                <div class="flex flex-col gap-base">
+
+                                    <label
+                                        class="font-label-md text-[10px] uppercase tracking-widest text-on-surface-variant">
+                                        Offer Name
+                                    </label>
+
+                                    <input
+                                        id="offerName"
+                                        name="name"
+                                        value="<%= offer.name %>"
+                                        class="w-full border-outline-variant focus:border-primary focus:ring-0 p-3 text-body-md"
+                                        placeholder="e.g. Summer Heritage Sale"
+                                        type="text"
+                                        maxlength="100">
+
+                                    <p
+                                        id="offerNameError"
+                                        class="hidden text-[11px] text-red-600 mt-1">
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+
+                        <!-- SECTION 02 -->
+                        <section
+                            class="bg-surface-container-lowest border border-outline-variant p-lg">
+
+                            <div class="flex items-center gap-2 mb-md">
+
+                                <span class="font-label-md text-label-md text-primary opacity-40">
+                                    02
+                                </span>
+
+                                <h3
+                                    class="font-label-md text-label-md text-primary uppercase tracking-widest">
+                                    Offer Target
+                                </h3>
+
+                            </div>
+
+                            <div class="space-y-md">
+
+                                <!-- Target Type -->
+                                <div class="flex items-center gap-xl">
+
+                                    <label class="flex items-center gap-3 cursor-pointer">
+
+                                        <input
+                                            id="productTarget"
+                                            class="w-4 h-4 text-primary focus:ring-0"
+                                            name="type"
+                                            value="PRODUCT"
+                                            type="radio"
+                                            <%= offer.type === "PRODUCT" ? "checked" : "" %>>
+
+                                        <span class="font-body-md text-body-md text-primary">
+                                            Specific Product
+                                        </span>
+
+                                    </label>
+
+
+                                    <label class="flex items-center gap-3 cursor-pointer">
+
+                                        <input
+                                            id="categoryTarget"
+                                            class="w-4 h-4 text-primary focus:ring-0"
+                                            name="type"
+                                            value="CATEGORY"
+                                            type="radio"
+                                            <%= offer.type === "CATEGORY" ? "checked" : "" %>>
+
+                                        <span class="font-body-md text-body-md text-on-surface-variant">
+                                            Entire Category
+                                        </span>
+
+                                    </label>
+
+                                </div>
+
+
+                                <!-- Search -->
+                                <div class="space-y-4">
+
+                                    <div class="relative">
+
+                                        <span
+                                            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">
+                                            search
+                                        </span>
+
+                                        <input
+                                            id="targetSearch"
+                                            name="search"
+                                            class="w-full pl-10 pr-10 py-3 border-outline-variant focus:border-primary focus:ring-0 text-body-md"
+                                            type="text"
+                                            autocomplete="off"
+                                            placeholder="<%= offer.type === 'CATEGORY' ? 'Search categories...' : 'Search products...' %>"
+                                            value="<%= offer.type === 'PRODUCT' ? (offer.product?.name || '') : (offer.category?.name || '') %>">
+
+                                        <button
+                                            type="button"
+                                            id="clearTargetSearch"
+                                            class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary"
+                                            aria-label="Clear search">
+
+                                            <span class="material-symbols-outlined text-[18px]">
+                                                close
+                                            </span>
+
+                                        </button>
+
+                                        <div
+                                            id="productSearchResults"
+                                            class="absolute left-0 right-0 top-full z-50 mt-1 hidden border border-outline-variant bg-white shadow-sm">
+                                        </div>
+
+                                    </div>
+
+
+                                    <!-- Existing Target IDs -->
+                                    <input
+                                        type="hidden"
+                                        id="selectedProduct"
+                                        name="product"
+                                        value="<%= offer.type === 'PRODUCT' ? offer.product?._id : '' %>">
+
+                                    <input
+                                        type="hidden"
+                                        id="selectedCategory"
+                                        name="category"
+                                        value="<%= offer.type === 'CATEGORY' ? offer.category?._id : '' %>">
+
+
+                                    <!-- Selected Target -->
+                                    <div
+                                        id="selectedProductContainer"
+                                        class="<%= offer.product || offer.category ? '' : 'hidden' %>">
+
+                                        <div
+                                            class="flex items-center gap-4 border border-primary p-3 bg-surface-container-low">
+
+                                            <img
+                                                id="selectedProductImage"
+                                                src="<%= offer.type === 'PRODUCT'
+                                                    ? (offer.product?.images?.[0]?.url || '/images/placeholder.jpg')
+                                                    : (offer.category?.image || '/images/placeholder.jpg') %>"
+                                                alt="<%= offer.type === 'PRODUCT'
+                                                    ? (offer.product?.name || '')
+                                                    : (offer.category?.name || '') %>"
+                                                class="w-16 h-16 object-cover border border-outline-variant">
+
+                                            <div class="flex-1 min-w-0">
+
+                                                <p
+                                                    id="selectedProductName"
+                                                    class="text-body-md font-semibold text-primary truncate">
+
+                                                    <%= offer.type === "PRODUCT"
+                                                        ? (offer.product?.name || "Product not found")
+                                                        : (offer.category?.name || "Category not found") %>
+
+                                                </p>
+
+                                                <p
+                                                    id="selectedProductPrice"
+                                                    class="text-body-sm text-on-surface-variant mt-1">
+
+                                                    <%= offer.type === "PRODUCT"
+                                                        ? `₹${offer.product?.price ?? ""}`
+                                                        : "Entire Category" %>
+
+                                                </p>
+
+                                            </div>
+
+                                            <button
+                                                type="button"
+                                                id="removeSelectedProduct"
+                                                class="text-[10px] font-bold uppercase tracking-widest text-red-600 hover:underline">
+
+                                                Remove
+
+                                            </button>
+
+                                        </div>
+
+                                    </div>
+
+                                    <p
+                                        id="targetError"
+                                        class="hidden text-[11px] text-red-600 mt-1">
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+
+                        <!-- SECTION 03 -->
+                        <section
+                            class="bg-surface-container-lowest border border-outline-variant p-lg">
+
+                            <div class="flex items-center gap-2 mb-md">
+
+                                <span class="font-label-md text-label-md text-primary opacity-40">
+                                    03
+                                </span>
+
+                                <h3
+                                    class="font-label-md text-label-md text-primary uppercase tracking-widest">
+                                    Discount Configuration
+                                </h3>
+
+                            </div>
+
+                            <div
+                                class="grid grid-cols-1 md:grid-cols-2 gap-md items-end">
+
+                                <!-- Discount Type -->
+                                <div class="flex flex-col gap-base">
+
+                                    <label
+                                        class="font-label-md text-[10px] uppercase tracking-widest text-on-surface-variant">
+                                        Discount Type
+                                    </label>
+
+                                    <select
+                                        id="discountType"
+                                        name="discountType"
+                                        class="w-full border-outline-variant focus:border-primary focus:ring-0 p-3 text-body-md">
+
+                                        <option
+                                            value="PERCENTAGE"
+                                            <%= offer.discountType === "PERCENTAGE" ? "selected" : "" %>>
+                                            Percentage (%)
+                                        </option>
+
+                                        <option
+                                            value="FIXED"
+                                            <%= offer.discountType === "FIXED" ? "selected" : "" %>>
+                                            Flat Amount (₹)
+                                        </option>
+
+                                    </select>
+
+                                    <p
+                                        id="discountTypeError"
+                                        class="hidden text-[11px] text-red-600 mt-1">
+                                    </p>
+
+                                </div>
+
+
+                                <!-- Discount Value -->
+                                <div class="flex flex-col gap-base">
+
+                                    <label
+                                        class="font-label-md text-[10px] uppercase tracking-widest text-on-surface-variant">
+                                        Discount Value
+                                    </label>
+
+                                    <div class="relative">
+
+                                        <input
+                                            id="discountValue"
+                                            name="discountValue"
+                                            value="<%= offer.discountValue %>"
+                                            class="w-full border-outline-variant focus:border-primary focus:ring-0 p-3 text-body-md"
+                                            type="number"
+                                            min="0"
+                                            step="0.01"
+                                            placeholder="Enter discount value">
+
+                                        <span
+                                            id="discountSymbol"
+                                            class="absolute right-3 top-1/2 -translate-y-1/2 font-label-md text-label-md font-bold">
+
+                                            <%= offer.discountType === "FIXED" ? "₹" : "%" %>
+
+                                        </span>
+
+                                    </div>
+
+                                    <p
+                                        id="discountValueError"
+                                        class="hidden text-[11px] text-red-600 mt-1">
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+
+                        <!-- SECTION 04 -->
+                        <section
+                            class="bg-surface-container-lowest border border-outline-variant p-lg">
+
+                            <div class="flex items-center gap-2 mb-md">
+
+                                <span class="font-label-md text-label-md text-primary opacity-40">
+                                    04
+                                </span>
+
+                                <h3
+                                    class="font-label-md text-label-md text-primary uppercase tracking-widest">
+                                    Offer Schedule
+                                </h3>
+
+                            </div>
+
+                            <div class="space-y-md">
+
+                                <!-- Dates -->
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+
+                                    <div class="flex flex-col gap-base">
+
+                                        <label
+                                            class="font-label-md text-[10px] uppercase tracking-widest text-on-surface-variant">
+                                            Start Date
+                                        </label>
+
+                                        <input
+                                            id="startDate"
+                                            name="startDate"
+                                            value="<%= new Date(offer.startDate).toISOString().split('T')[0] %>"
+                                            class="w-full border-outline-variant focus:border-primary focus:ring-0 p-3 text-body-md"
+                                            type="date">
+
+                                        <p
+                                            id="startDateError"
+                                            class="hidden text-[11px] text-red-600 mt-1">
+                                        </p>
+
+                                    </div>
+
+
+                                    <div class="flex flex-col gap-base">
+
+                                        <label
+                                            class="font-label-md text-[10px] uppercase tracking-widest text-on-surface-variant">
+                                            End Date
+                                        </label>
+
+                                        <input
+                                            id="expiryDate"
+                                            name="expiryDate"
+                                            value="<%= new Date(offer.expiryDate).toISOString().split('T')[0] %>"
+                                            class="w-full border-outline-variant focus:border-primary focus:ring-0 p-3 text-body-md"
+                                            type="date">
+
+                                        <p
+                                            id="expiryDateError"
+                                            class="hidden text-[11px] text-red-600 mt-1">
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+
+                                <!-- Status -->
+                                <div class="pt-2">
+
+                                    <label
+                                        class="font-label-md text-[10px] uppercase tracking-widest text-on-surface-variant block mb-3">
+                                        Initial Status
+                                    </label>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+
+                                        <label
+                                            class="flex items-center gap-3 p-3 border border-outline-variant cursor-pointer hover:bg-surface-container-low transition-colors">
+
+                                            <input
+                                                id="activeStatus"
+                                                class="w-4 h-4 text-primary focus:ring-0"
+                                                name="status"
+                                                value="ACTIVE"
+                                                type="radio"
+                                                <%= offer.isActive ? "checked" : "" %>>
+
+                                            <span
+                                                class="font-body-sm text-body-sm uppercase tracking-wider">
+                                                Active
+                                            </span>
+
+                                        </label>
+
+
+                                        <label
+                                            class="flex items-center gap-3 p-3 border border-outline-variant cursor-pointer hover:bg-surface-container-low transition-colors">
+
+                                            <input
+                                                id="disabledStatus"
+                                                class="w-4 h-4 text-primary focus:ring-0"
+                                                name="status"
+                                                value="DISABLED"
+                                                type="radio"
+                                                <%= !offer.isActive ? "checked" : "" %>>
+
+                                            <span
+                                                class="font-body-sm text-body-sm uppercase tracking-wider">
+                                                Disabled
+                                            </span>
+
+                                        </label>
+
+                                    </div>
+
+                                    <p
+                                        id="statusError"
+                                        class="hidden text-[11px] text-red-600 mt-1">
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+                    </div>
+
+
+                    <!-- RIGHT COLUMN -->
+                    <div class="col-span-12 lg:col-span-4 space-y-lg">
+
+                        <!-- PREVIEW -->
+                        <section
+                            class="bg-surface-container-lowest border border-outline-variant p-lg">
+
+                            <div class="flex items-center gap-2 mb-md">
+
+                                <span
+                                    class="font-label-md text-label-md text-primary opacity-40">
+                                    05
+                                </span>
+
+                                <h3
+                                    class="font-label-md text-label-md text-primary uppercase tracking-widest">
+                                    Live Preview
+                                </h3>
+
+                            </div>
+
+
+                            <div
+                                class="border border-outline-variant group overflow-hidden">
+
+                                <div
+                                    class="aspect-square relative overflow-hidden bg-surface-container-low">
+
+                                    <img
+                                        id="previewImage"
+                                        class="w-full h-full object-cover grayscale-0 group-hover:scale-105 transition-transform duration-700"
+                                        src="<%= offer.type === 'PRODUCT'
+                                            ? (offer.product?.images?.[0]?.url || '/images/placeholder.jpg')
+                                            : (offer.category?.image || '/images/placeholder.jpg') %>"
+                                        alt="Offer preview">
+
+                                    <div
+                                        id="previewDiscount"
+                                        class="absolute top-4 right-4 bg-primary text-on-primary px-3 py-1 font-label-md text-[10px] font-black uppercase tracking-widest">
+
+                                        <%= offer.discountType === "PERCENTAGE"
+                                            ? `-${offer.discountValue}%`
+                                            : `-₹${offer.discountValue}` %>
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="p-md bg-white">
+
+                                    <p
+                                        id="previewTargetType"
+                                        class="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest mb-1">
+
+                                        <%= offer.type === "PRODUCT"
+                                            ? "PRODUCT OFFER"
+                                            : "CATEGORY OFFER" %>
+
+                                    </p>
+
+
+                                    <h4
+                                        id="previewName"
+                                        class="font-headline-md text-headline-md text-primary leading-tight mb-4">
+
+                                        <%= offer.type === "PRODUCT"
+                                            ? (offer.product?.name || "Product")
+                                            : (offer.category?.name || "Category") %>
+
+                                    </h4>
+
+
+                                    <% if (offer.type === "PRODUCT" && offer.product) { %>
+
+                                        <div
+                                            class="flex items-baseline gap-3 mb-2">
+
+                                            <span
+                                                id="previewFinalPrice"
+                                                class="font-label-md text-lg font-black text-primary">
+                                                ₹<%= offer.discountType === "PERCENTAGE"
+                                                    ? (offer.product.price - (offer.product.price * offer.discountValue / 100)).toFixed(2)
+                                                    : Math.max(offer.product.price - offer.discountValue, 0).toFixed(2) %>
+                                            </span>
+
+                                            <span
+                                                class="font-label-md text-sm text-on-surface-variant line-through opacity-50">
+
+                                                ₹<%= offer.product.price %>
+
+                                            </span>
+
+                                        </div>
+
+
+                                        <div
+                                            class="bg-surface-container px-3 py-2 flex justify-between items-center border-l-4 border-primary">
+
+                                            <span
+                                                class="font-label-md text-[10px] uppercase font-bold text-on-surface-variant">
+                                                Savings
+                                            </span>
+
+                                            <span
+                                                id="previewSavings"
+                                                class="font-label-md text-[10px] font-black text-primary">
+
+                                                You Save ₹<%= offer.discountType === "PERCENTAGE"
+                                                    ? (offer.product.price * offer.discountValue / 100).toFixed(2)
+                                                    : Math.min(offer.discountValue, offer.product.price).toFixed(2) %>
+
+                                            </span>
+
+                                        </div>
+
+                                    <% } else { %>
+
+                                        <p class="text-body-sm text-on-surface-variant">
+                                            Offer applies to the selected category.
+                                        </p>
+
+                                    <% } %>
+
+                                </div>
+
+                            </div>
+
+
+                            <p
+                                class="mt-4 font-body-sm text-[11px] text-on-surface-variant text-center px-4">
+                                This is how the offer will appear to customers on the product page.
+                            </p>
+
+                        </section>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ACTIONS -->
+                <div
+                    class="mt-xl pt-xl border-t border-outline-variant flex justify-end items-center gap-lg">
+
+                    <div class="flex gap-md">
+
+                        <a href="/admin/offers">
+
+                            <button
+                                type="button"
+                                class="px-xl py-3 border border-outline text-body-sm font-bold uppercase tracking-widest hover:bg-surface-container-low transition-colors">
+                                Cancel
+                            </button>
+
+                        </a>
+
+                        <button
+                            id="updateOffer"
+                            type="submit"
+                            class="px-2xl py-3 bg-primary text-on-primary text-body-sm font-bold uppercase tracking-widest hover:opacity-90 transition-opacity">
+
+                            Update Offer
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+        </main>
+
+    </div>
+
+
+    <script>
+
+        const offerName = document.getElementById("offerName");
+        const targetSearch = document.getElementById("targetSearch");
+        const productSearchResults =
+            document.getElementById("productSearchResults");
+
+        const clearTargetSearch =
+            document.getElementById("clearTargetSearch");
+
+        const productTarget =
+            document.getElementById("productTarget");
+
+        const categoryTarget =
+            document.getElementById("categoryTarget");
+
+        const selectedProduct =
+            document.getElementById("selectedProduct");
+
+        const selectedCategory =
+            document.getElementById("selectedCategory");
+
+        const selectedProductContainer =
+            document.getElementById("selectedProductContainer");
+
+        const selectedProductImage =
+            document.getElementById("selectedProductImage");
+
+        const selectedProductName =
+            document.getElementById("selectedProductName");
+
+        const selectedProductPrice =
+            document.getElementById("selectedProductPrice");
+
+        const removeSelectedProduct =
+            document.getElementById("removeSelectedProduct");
+
+        const targetError =
+            document.getElementById("targetError");
+
+        const discountType =
+            document.getElementById("discountType");
+
+        const discountSymbol =
+            document.getElementById("discountSymbol");
+
+        const discountValue =
+            document.getElementById("discountValue");
+
+        const startDate =
+            document.getElementById("startDate");
+
+        const expiryDate =
+            document.getElementById("expiryDate");
+
+        const activeStatus =
+            document.getElementById("activeStatus");
+
+        const disabledStatus =
+            document.getElementById("disabledStatus");
+
+
+        function getSearchType() {
+
+            return categoryTarget.checked
+                ? "CATEGORY"
+                : "PRODUCT";
+
+        }
+
+
+        function updateSearchPlaceholder() {
+
+            if (categoryTarget.checked) {
+
+                targetSearch.placeholder =
+                    "Search categories...";
+
+            } else {
+
+                targetSearch.placeholder =
+                    "Search products...";
+
+            }
+
+        }
+
+
+        function showSelectedTarget(
+            id,
+            name,
+            price,
+            image,
+            type
+        ) {
+
+            if (type === "PRODUCT") {
+
+                selectedProduct.value = id;
+                selectedCategory.value = "";
+
+                selectedProductPrice.textContent =
+                    `₹${price}`;
+
+            } else {
+
+                selectedCategory.value = id;
+                selectedProduct.value = "";
+
+                selectedProductPrice.textContent =
+                    "Entire Category";
+
+            }
+
+            selectedProductImage.src =
+                image || "/images/placeholder.jpg";
+
+            selectedProductImage.alt = name;
+
+            selectedProductName.textContent =
+                name;
+
+            selectedProductContainer.classList.remove("hidden");
+
+            targetError.textContent = "";
+            targetError.classList.add("hidden");
+
+        }
+
+
+        productTarget.addEventListener(
+            "change",
+            () => {
+
+                updateSearchPlaceholder();
+
+                targetSearch.value = "";
+
+                clearTargetSearch.classList.add("hidden");
+
+                productSearchResults.innerHTML = "";
+
+                productSearchResults.classList.add("hidden");
+
+                selectedProduct.value = "";
+
+                selectedCategory.value = "";
+
+                selectedProductContainer.classList.add("hidden");
+
+            }
+        );
+
+
+        categoryTarget.addEventListener(
+            "change",
+            () => {
+
+                updateSearchPlaceholder();
+
+                targetSearch.value = "";
+
+                clearTargetSearch.classList.add("hidden");
+
+                productSearchResults.innerHTML = "";
+
+                productSearchResults.classList.add("hidden");
+
+                selectedProduct.value = "";
+
+                selectedCategory.value = "";
+
+                selectedProductContainer.classList.add("hidden");
+
+            }
+        );
+
+
+        targetSearch.addEventListener(
+            "input",
+            () => {
+
+                const search =
+                    targetSearch.value.trim();
+
+                clearTimeout(window.offerSearchTimeout);
+
+                if (search) {
+
+                    clearTargetSearch.classList.remove("hidden");
+
+                } else {
+
+                    clearTargetSearch.classList.add("hidden");
+
+                    productSearchResults.innerHTML = "";
+
+                    productSearchResults.classList.add("hidden");
+
+                    return;
+
+                }
+
+
+                window.offerSearchTimeout =
+                    setTimeout(async () => {
+
+                        try {
+
+                            const searchType =
+                                getSearchType();
+
+                            const endpoint =
+                                searchType === "CATEGORY"
+                                    ? "/admin/offers/search-categories"
+                                    : "/admin/offers/search-products";
+
+
+                            const response =
+                                await fetch(
+                                    `${endpoint}?search=${encodeURIComponent(search)}`
+                                );
+
+
+                            const data =
+                                await response.json();
+
+
+                            const results =
+                                searchType === "CATEGORY"
+                                    ? data.categories
+                                    : data.products;
+
+
+                            if (
+                                !data.success ||
+                                results.length === 0
+                            ) {
+
+                                productSearchResults.innerHTML = `
+                                    <div class="p-4 text-body-sm text-on-surface-variant">
+                                        No results found.
+                                    </div>
+                                `;
+
+                                productSearchResults.classList.remove(
+                                    "hidden"
+                                );
+
+                                return;
+
+                            }
+
+
+                            productSearchResults.innerHTML =
+                                results.map((item) => {
+
+                                    const image =
+                                        searchType === "PRODUCT"
+                                            ? item.images &&
+                                              item.images.length > 0
+                                                ? item.images[0]?.url
+                                                : "/images/placeholder.jpg"
+                                            : item.image ||
+                                              "/images/placeholder.jpg";
+
+                                    const price =
+                                        searchType === "PRODUCT"
+                                            ? `₹${item.price}`
+                                            : "Category";
+
+
+                                    return `
+
+                                        <div
+                                            class="product-result flex items-center gap-3 p-3 border-b border-outline-variant last:border-b-0 hover:bg-surface-container-low cursor-pointer"
+                                            data-id="${item._id}"
+                                            data-name="${item.name}"
+                                            data-price="${item.price || ""}"
+                                            data-image="${image}"
+                                            data-type="${searchType}"
+                                        >
+
+                                            <img
+                                                src="${image}"
+                                                alt="${item.name}"
+                                                class="w-12 h-12 object-cover border border-outline-variant"
+                                            >
+
+                                            <div class="flex-1 min-w-0">
+
+                                                <p
+                                                    class="text-body-sm font-semibold text-primary truncate">
+                                                    ${item.name}
+                                                </p>
+
+                                                <p
+                                                    class="text-[11px] text-on-surface-variant mt-1">
+                                                    ${price}
+                                                </p>
+
+                                            </div>
+
+                                            <span
+                                                class="text-[10px] font-bold uppercase tracking-widest text-primary">
+                                                Select
+                                            </span>
+
+                                        </div>
+
+                                    `;
+
+                                }).join("");
+
+
+                            document
+                                .querySelectorAll(".product-result")
+                                .forEach((element) => {
+
+                                    element.addEventListener(
+                                        "click",
+                                        () => {
+
+                                            showSelectedTarget(
+                                                element.dataset.id,
+                                                element.dataset.name,
+                                                element.dataset.price,
+                                                element.dataset.image,
+                                                element.dataset.type
+                                            );
+
+                                            targetSearch.value =
+                                                element.dataset.name;
+
+                                            clearTargetSearch.classList.remove(
+                                                "hidden"
+                                            );
+
+                                            productSearchResults.innerHTML =
+                                                "";
+
+                                            productSearchResults.classList.add(
+                                                "hidden"
+                                            );
+
+                                        }
+                                    );
+
+                                });
+
+
+                            productSearchResults.classList.remove(
+                                "hidden"
+                            );
+
+                        } catch (error) {
+
+                            console.error(
+                                "Offer target search error:",
+                                error
+                            );
+
+                        }
+
+                    }, 300);
+
+            }
+        );
+
+
+        clearTargetSearch.addEventListener(
+            "click",
+            () => {
+
+                targetSearch.value = "";
+
+                clearTargetSearch.classList.add("hidden");
+
+                productSearchResults.innerHTML = "";
+
+                productSearchResults.classList.add("hidden");
+
+                targetSearch.focus();
+
+            }
+        );
+
+
+        removeSelectedProduct.addEventListener(
+            "click",
+            () => {
+
+                selectedProduct.value = "";
+
+                selectedCategory.value = "";
+
+                selectedProductContainer.classList.add(
+                    "hidden"
+                );
+
+                selectedProductImage.src = "";
+
+                selectedProductName.textContent = "";
+
+                selectedProductPrice.textContent = "";
+
+                targetSearch.value = "";
+
+                targetError.textContent = "";
+
+                targetError.classList.add("hidden");
+
+            }
+        );
+
+
+        // Discount symbol
+
+        discountType.addEventListener(
+            "change",
+            () => {
+
+                if (discountType.value === "FIXED") {
+
+                    discountSymbol.textContent = "₹";
+
+                } else {
+
+                    discountSymbol.textContent = "%";
+
+                }
+
+            }
+        );
+
+
+        // Basic validation
+
+        document
+            .getElementById("editOfferForm")
+            .addEventListener(
+                "submit",
+                (event) => {
+
+                    let isValid = true;
+
+
+                    // Offer name
+
+                    const offerNameError =
+                        document.getElementById(
+                            "offerNameError"
+                        );
+
+                    if (!offerName.value.trim()) {
+
+                        offerNameError.textContent =
+                            "Offer name is required.";
+
+                        offerNameError.classList.remove(
+                            "hidden"
+                        );
+
+                        offerName.classList.add(
+                            "border-red-500"
+                        );
+
+                        isValid = false;
+
+                    } else {
+
+                        offerNameError.textContent = "";
+
+                        offerNameError.classList.add(
+                            "hidden"
+                        );
+
+                        offerName.classList.remove(
+                            "border-red-500"
+                        );
+
+                    }
+
+
+                    // Target
+
+                    if (
+                        getSearchType() === "PRODUCT" &&
+                        !selectedProduct.value
+                    ) {
+
+                        targetError.textContent =
+                            "Please select a product.";
+
+                        targetError.classList.remove(
+                            "hidden"
+                        );
+
+                        isValid = false;
+
+                    } else if (
+                        getSearchType() === "CATEGORY" &&
+                        !selectedCategory.value
+                    ) {
+
+                        targetError.textContent =
+                            "Please select a category.";
+
+                        targetError.classList.remove(
+                            "hidden"
+                        );
+
+                        isValid = false;
+
+                    } else {
+
+                        targetError.textContent = "";
+
+                        targetError.classList.add(
+                            "hidden"
+                        );
+
+                    }
+
+
+                    // Discount
+
+                    const discountValueError =
+                        document.getElementById(
+                            "discountValueError"
+                        );
+
+                    const value =
+                        Number(discountValue.value);
+
+
+                    if (
+                        !discountValue.value.trim()
+                    ) {
+
+                        discountValueError.textContent =
+                            "Discount value is required.";
+
+                        discountValueError.classList.remove(
+                            "hidden"
+                        );
+
+                        discountValue.classList.add(
+                            "border-red-500"
+                        );
+
+                        isValid = false;
+
+                    } else if (value <= 0) {
+
+                        discountValueError.textContent =
+                            "Discount value must be greater than 0.";
+
+                        discountValueError.classList.remove(
+                            "hidden"
+                        );
+
+                        discountValue.classList.add(
+                            "border-red-500"
+                        );
+
+                        isValid = false;
+
+                    } else if (
+                        discountType.value === "PERCENTAGE" &&
+                        value > 100
+                    ) {
+
+                        discountValueError.textContent =
+                            "Percentage discount cannot exceed 100%.";
+
+                        discountValueError.classList.remove(
+                            "hidden"
+                        );
+
+                        discountValue.classList.add(
+                            "border-red-500"
+                        );
+
+                        isValid = false;
+
+                    } else {
+
+                        discountValueError.textContent = "";
+
+                        discountValueError.classList.add(
+                            "hidden"
+                        );
+
+                        discountValue.classList.remove(
+                            "border-red-500"
+                        );
+
+                    }
+
+
+                    // Dates
+
+                    const startDateError =
+                        document.getElementById(
+                            "startDateError"
+                        );
+
+                    const expiryDateError =
+                        document.getElementById(
+                            "expiryDateError"
+                        );
+
+
+                    if (!startDate.value) {
+
+                        startDateError.textContent =
+                            "Start date is required.";
+
+                        startDateError.classList.remove(
+                            "hidden"
+                        );
+
+                        isValid = false;
+
+                    } else {
+
+                        startDateError.textContent = "";
+
+                        startDateError.classList.add(
+                            "hidden"
+                        );
+
+                    }
+
+
+                    if (!expiryDate.value) {
+
+                        expiryDateError.textContent =
+                            "End date is required.";
+
+                        expiryDateError.classList.remove(
+                            "hidden"
+                        );
+
+                        isValid = false;
+
+                    } else if (
+                        startDate.value &&
+                        expiryDate.value <= startDate.value
+                    ) {
+
+                        expiryDateError.textContent =
+                            "End date must be after the start date.";
+
+                        expiryDateError.classList.remove(
+                            "hidden"
+                        );
+
+                        isValid = false;
+
+                    } else {
+
+                        expiryDateError.textContent = "";
+
+                        expiryDateError.classList.add(
+                            "hidden"
+                        );
+
+                    }
+
+
+                    if (!isValid) {
+
+                        event.preventDefault();
+
+                    }
+
+                }
+            );
+
+
+        // Remove errors while typing
+
+        offerName.addEventListener(
+            "input",
+            () => {
+
+                const error =
+                    document.getElementById(
+                        "offerNameError"
+                    );
+
+                if (offerName.value.trim()) {
+
+                    error.textContent = "";
+
+                    error.classList.add("hidden");
+
+                    offerName.classList.remove(
+                        "border-red-500"
+                    );
+
+                }
+
+            }
+        );
+
+
+        discountValue.addEventListener(
+            "input",
+            () => {
+
+                const value =
+                    Number(discountValue.value);
+
+                const error =
+                    document.getElementById(
+                        "discountValueError"
+                    );
+
+
+                if (
+                    discountValue.value.trim() &&
+                    value > 0 &&
+                    (
+                        discountType.value !== "PERCENTAGE" ||
+                        value <= 100
+                    )
+                ) {
+
+                    error.textContent = "";
+
+                    error.classList.add("hidden");
+
+                    discountValue.classList.remove(
+                        "border-red-500"
+                    );
+
+                }
+
+            }
+        );
+
+
+        startDate.addEventListener(
+            "change",
+            () => {
+
+                if (startDate.value) {
+
+                    const error =
+                        document.getElementById(
+                            "startDateError"
+                        );
+
+                    error.textContent = "";
+
+                    error.classList.add("hidden");
+
+                }
+
+            }
+        );
+
+
+        expiryDate.addEventListener(
+            "change",
+            () => {
+
+                if (
+                    expiryDate.value &&
+                    startDate.value &&
+                    expiryDate.value > startDate.value
+                ) {
+
+                    const error =
+                        document.getElementById(
+                            "expiryDateError"
+                        );
+
+                    error.textContent = "";
+
+                    error.classList.add("hidden");
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>

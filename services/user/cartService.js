@@ -1,6 +1,7 @@
 import Cart from "../../models/cart.js";
 import Product from "../../models/product.js";
 import Wishlist from "../../models/wishlist.js";
+import { getBestOfferService } from "./offerService.js";
 
 export const addToCartService = async (userId, data) => {
   const { productId, size, quantity } = data;
@@ -100,9 +101,32 @@ export const getCartService = async (userId) => {
 
   let subtotal = 0;
 
-  cart.items.forEach((item) => {
-    subtotal += item.price * item.quantity;
-  });
+  const cartItemsWithOffers = await Promise.all(
+    cart.items.map(async (item) => {
+      const product = item.product;
+
+      const offer = await getBestOfferService({
+        ...product,
+        category: product.category?._id || product.category,
+      });
+
+      const finalPrice = offer.finalPrice;
+      const itemTotal = finalPrice * item.quantity;
+
+      subtotal += itemTotal;
+
+      return {
+        ...item,
+        originalPrice: product.price,
+        price: finalPrice,
+        discountAmount: offer.discountAmount,
+        offer: offer.offer,
+        itemTotal,
+      };
+    }),
+  );
+
+  cart.items = cartItemsWithOffers;
 
   const shipping = subtotal > 0 ? 99 : 0;
   const discount = 0;

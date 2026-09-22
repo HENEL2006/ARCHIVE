@@ -210,7 +210,49 @@
                                 </div>
                                 <div>
                                     <span class="text-secondary block mb-1">PRICE</span>
-                                    <span class="text-primary">₹<%= product.price %></span>
+                                    <% if (product.offer) { %>
+
+                                        <div class="flex items-center gap-3">
+
+                                            <!-- Offer Price -->
+                                            <span class="text-primary font-semibold">
+                                                ₹<%= product.finalPrice.toLocaleString("en-IN", { maximumFractionDigits:
+                                                    0 }) %>
+                                            </span>
+
+                                            <!-- Original Price -->
+                                            <span class="text-secondary line-through text-sm">
+                                                ₹<%= product.originalPrice.toLocaleString("en-IN", {
+                                                    maximumFractionDigits: 0 }) %>
+                                            </span>
+
+                                        </div>
+
+                                        <!-- Offer Information -->
+                                        <div class="flex items-center gap-2 mt-2">
+
+                                            <span class="text-green-700 text-sm font-medium">
+                                                SAVE ₹<%= product.discountAmount.toLocaleString("en-IN", {
+                                                    maximumFractionDigits: 0 }) %>
+                                            </span>
+
+                                            <% if (product.offer.discountType==="PERCENTAGE" ) { %>
+
+                                                <span class="text-green-700 text-sm">
+                                                    · <%= product.offer.discountValue %>% OFF
+                                                </span>
+
+                                                <% } %>
+
+                                        </div>
+
+                                        <% } else { %>
+
+                                            <span class="text-primary">
+                                                ₹<%= product.price.toLocaleString("en-IN") %>
+                                            </span>
+
+                                            <% } %>
                                 </div>
                                 <div>
                                     <span class="text-secondary block mb-1">STATUS</span>
@@ -457,11 +499,48 @@
                                             <%= related.name %>
                                         </h4>
 
-                                        <p class="font-mono-data text-mono-data
-               transition-colors duration-300
-               group-hover:text-on-primary">
-                                            ₹<%= related.price.toLocaleString() %>
-                                        </p>
+                                        <% if (related.offer) { %>
+
+                                            <div class="flex items-center gap-3">
+
+                                                <!-- Offer Price -->
+                                                <span class="font-mono-data text-mono-data font-bold
+                     transition-colors duration-300
+                     group-hover:text-on-primary">
+                                                    ₹<%= related.finalPrice.toLocaleString("en-IN", {
+                                                        maximumFractionDigits: 0 }) %>
+                                                </span>
+
+                                                <!-- Original Price -->
+                                                <span class="font-mono-data text-[11px] line-through
+                     text-secondary
+                     group-hover:text-on-primary/60">
+                                                    ₹<%= related.originalPrice.toLocaleString("en-IN", {
+                                                        maximumFractionDigits: 0 }) %>
+                                                </span>
+
+                                            </div>
+
+                                            <p class="font-mono-data text-[10px] mt-1
+              text-green-700
+              group-hover:text-on-primary">
+                                                SAVE ₹<%= related.discountAmount.toLocaleString("en-IN", {
+                                                    maximumFractionDigits: 0 }) %>
+
+                                                    <% if (related.offer.discountType==="PERCENTAGE" ) { %>
+                                                        · <%= related.offer.discountValue %>% OFF
+                                                            <% } %>
+                                            </p>
+
+                                            <% } else { %>
+
+                                                <p class="font-mono-data text-mono-data
+              transition-colors duration-300
+              group-hover:text-on-primary">
+                                                    ₹<%= related.price.toLocaleString("en-IN") %>
+                                                </p>
+
+                                                <% } %>
 
                                     </div>
 

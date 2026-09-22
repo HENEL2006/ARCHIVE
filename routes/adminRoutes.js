@@ -55,6 +55,15 @@ import {
   toggleCouponStatus,
   updateCoupon,
 } from "../controllers/admin/couponController.js";
+import { loadOffers } from "../controllers/admin/offersController.js";
+import { loadAddOffers } from "../controllers/admin/offersController.js";
+import { searchProducts } from "../controllers/admin/offersController.js";
+import { searchCategories } from "../controllers/admin/offersController.js";
+import { createOffer } from "../controllers/admin/offersController.js";
+import { toggleOffer } from "../controllers/admin/offersController.js";
+import { loadEditOffer } from "../controllers/admin/offersController.js";
+import { updateOffer } from "../controllers/admin/offersController.js";
+import { deleteOffer } from "../controllers/admin/offersController.js";
 
 router.get("/login", adminGuest, loadLogin);
 router.post("/login", adminGuest, adminLogin);
@@ -115,6 +124,16 @@ router.post("/addCoupon", adminAuth, addCoupon);
 router.get("/editCoupon/:id", adminAuth, loadEditCoupon);
 router.post("/editCoupon/:id", adminAuth, updateCoupon);
 router.post("/coupons/toggle/:id", adminAuth, toggleCouponStatus);
+
+router.get("/offers", adminAuth, loadOffers);
+router.get("/addOffer", adminAuth, loadAddOffers);
+router.post("/addOffer", adminAuth, createOffer);
+router.get("/offers/search-products", adminAuth, searchProducts);
+router.get("/offers/search-categories", adminAuth, searchCategories);
+router.post("/offers/:id/toggle", adminAuth, toggleOffer);
+router.get("/offers/:id/edit", adminAuth, loadEditOffer);
+router.post("/offers/:id/edit", adminAuth, updateOffer);
+router.post("/offers/:id/delete", adminAuth, deleteOffer);
 
 router.get("/logout", adminLogout);
 

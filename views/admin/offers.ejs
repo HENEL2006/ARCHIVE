@@ -1,0 +1,782 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Offers Management | ARCHIVE</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#45464d",
+                        "surface-dim": "#d8dadc",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "primary-fixed-dim": "#bec6e0",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-fixed-variant": "#004c69",
+                        "secondary": "#505f76",
+                        "on-tertiary": "#ffffff",
+                        "inverse-surface": "#2d3133",
+                        "on-tertiary-fixed": "#001e2c",
+                        "surface-bright": "#f7f9fb",
+                        "on-surface": "#191c1e",
+                        "surface-tint": "#565e74",
+                        "background": "#f7f9fb",
+                        "primary-container": "#131b2e",
+                        "tertiary": "#000000",
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-secondary-container": "#54647a",
+                        "primary-fixed": "#dae2fd",
+                        "outline-variant": "#c6c6cd",
+                        "tertiary-fixed": "#c4e7ff",
+                        "on-primary-container": "#7c839b",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed-dim": "#7bd0ff",
+                        "on-tertiary-container": "#008ebf",
+                        "on-secondary": "#ffffff",
+                        "surface-container-highest": "#e0e3e5",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "on-background": "#191c1e",
+                        "tertiary-container": "#001e2c",
+                        "surface-container-low": "#f2f4f6",
+                        "secondary-fixed": "#d3e4fe",
+                        "on-secondary-fixed": "#0b1c30",
+                        "primary": "#000000",
+                        "on-primary": "#ffffff",
+                        "inverse-primary": "#bec6e0",
+                        "on-primary-fixed": "#131b2e",
+                        "error-container": "#ffdad6",
+                        "surface-container-high": "#e6e8ea",
+                        "secondary-container": "#d0e1fb",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface": "#f7f9fb",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "surface-variant": "#e0e3e5",
+                        "surface-container": "#eceef0",
+                        "outline": "#76777d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "32px",
+                        "gutter": "24px",
+                        "base": "4px",
+                        "margin": "32px",
+                        "sm": "8px",
+                        "lg": "24px",
+                        "xs": "4px",
+                        "md": "16px",
+                        "2xl": "48px"
+                    },
+                    "fontFamily": {
+                        "display": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "label-md": ["JetBrains Mono"],
+                        "headline-md": ["Inter"],
+                        "headline-lg": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "display": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #000;
+            border-radius: 10px;
+        }
+
+        .side-panel-transition {
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-surface font-body-md">
+    <%- include("partials/toast") %>
+        <!-- Fixed SideNavBar -->
+        <%- include("partials/adminSidebar") %>
+
+            <%- include("partials/adminNavbar") %>
+                <!-- MAIN CONTENT -->
+                <main class="ml-[260px] pt-16 min-h-screen">
+                    <div class="p-lg max-w-[1440px] mx-auto">
+                        <!-- HEADER SECTION -->
+                        <div class="flex justify-between items-end mb-xl">
+                            <div>
+                                <h2 class="font-headline-lg text-headline-lg text-primary">Offers</h2>
+                                <p class="text-on-surface-variant font-body-md">Manage product and category discounts
+                                    for
+                                    the collection.</p>
+                            </div>
+                            <a href="/admin/addOffer">
+                                <button
+                                    class="bg-primary text-on-primary px-lg py-md rounded-lg font-label-md hover:opacity-90 transition-opacity flex items-center gap-sm shadow-sm">
+                                    <span class="material-symbols-outlined text-[18px]">add</span>
+                                    Create Offer
+                                </button>
+                            </a>
+                        </div>
+                        <!-- STATS ROW -->
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-gutter mb-xl">
+                            <div
+                                class="bg-surface-container-lowest border border-outline-variant p-md flex flex-col justify-between">
+                                <span class="text-outline font-label-md uppercase tracking-widest text-[10px]">Total
+                                    Offers</span>
+                                <span class="text-headline-lg font-bold text-primary mt-2">
+                                    <%= totalOffers %>
+                                </span>
+                            </div>
+                            <div
+                                class="bg-surface-container-lowest border border-outline-variant p-md flex flex-col justify-between">
+                                <div class="flex items-center justify-between">
+                                    <span
+                                        class="text-outline font-label-md uppercase tracking-widest text-[10px]">Active</span>
+                                    <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                                </div>
+                                <span class="text-headline-lg font-bold text-primary mt-2">
+                                    <%= activeOffers %>
+                                </span>
+                            </div>
+                            <div
+                                class="bg-surface-container-lowest border border-outline-variant p-md flex flex-col justify-between">
+                                <div class="flex items-center justify-between">
+                                    <span
+                                        class="text-outline font-label-md uppercase tracking-widest text-[10px]">Scheduled</span>
+                                    <div class="w-2 h-2 rounded-full bg-blue-500"></div>
+                                </div>
+                                <span class="text-headline-lg font-bold text-primary mt-2">
+                                    <%= scheduledOffers %>
+                                </span>
+                            </div>
+                            <div
+                                class="bg-surface-container-lowest border border-outline-variant p-md flex flex-col justify-between">
+                                <div class="flex items-center justify-between">
+                                    <span
+                                        class="text-outline font-label-md uppercase tracking-widest text-[10px]">Expired</span>
+                                    <div class="w-2 h-2 rounded-full bg-on-surface-variant"></div>
+                                </div>
+                                <span class="text-headline-lg font-bold text-primary mt-2">
+                                    <%= expiredOffers %>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- Management Toolbar -->
+                        <div class="mb-10 rounded-lg border border-neutral-200 bg-white">
+
+                            <form action="/admin/offers" method="GET">
+
+                                <div class="flex h-16 items-center px-6">
+
+                                    <!-- Search -->
+                                    <div class="relative flex flex-1 items-center gap-3">
+
+                                        <span class="material-symbols-outlined text-[20px] text-neutral-400">
+                                            search
+                                        </span>
+
+                                        <input id="offerSearch" type="text" name="search"
+                                            value="<%= typeof search !== 'undefined' ? search : '' %>"
+                                            placeholder="Search offers..."
+                                            class="w-full border-none bg-transparent p-0 pr-8 text-sm text-black placeholder:text-neutral-400 focus:outline-none focus:ring-0">
+
+                                        <!-- Clear Button -->
+                                        <button type="button" id="clearSearch"
+                                            class="absolute right-0 hidden p-1 text-neutral-400 transition hover:text-black">
+
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
+                                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M6 6l12 12M18 6L6 18" />
+
+                                            </svg>
+
+                                        </button>
+
+                                    </div>
+
+
+                                    <!-- Divider -->
+                                    <div class="mx-6 h-6 w-px bg-neutral-200"></div>
+
+
+                                    <!-- Status -->
+                                    <select name="status" onchange="this.form.submit()"
+                                        class="border-none bg-transparent text-xs font-semibold uppercase tracking-[0.25em] text-neutral-700 focus:outline-none focus:ring-0">
+
+                                        <option value="ALL" <%=status==="ALL" ? "selected" : "" %>>
+                                            All Status
+                                        </option>
+
+                                        <option value="ACTIVE" <%=status==="ACTIVE" ? "selected" : "" %>>
+                                            Active
+                                        </option>
+
+                                        <option value="DISABLED" <%=status==="DISABLED" ? "selected" : "" %>>
+                                            Disabled
+                                        </option>
+
+                                    </select>
+
+
+                                    <!-- Divider -->
+                                    <div class="mx-6 h-6 w-px bg-neutral-200"></div>
+
+
+                                    <!-- Reset -->
+                                    <a href="/admin/offers"
+                                        class="ml-2 whitespace-nowrap text-xs font-medium uppercase tracking-[0.25em] text-neutral-400 transition hover:text-black">
+
+                                        Reset Filters
+
+                                    </a>
+
+                                </div>
+
+                            </form>
+
+                        </div>
+                        <!-- FILTERS & TABLE -->
+                        <div class="bg-surface-container-lowest border border-outline-variant">
+
+                            <!-- TABLE -->
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left border-collapse">
+                                    <thead>
+                                        <tr class="bg-surface-container-low">
+                                            <th
+                                                class="px-lg py-3 font-label-md text-[10px] uppercase tracking-wider text-outline border-b border-outline-variant">
+                                                Offer Name</th>
+                                            <th
+                                                class="px-lg py-3 font-label-md text-[10px] uppercase tracking-wider text-outline border-b border-outline-variant">
+                                                Type</th>
+                                            <th
+                                                class="px-lg py-3 font-label-md text-[10px] uppercase tracking-wider text-outline border-b border-outline-variant">
+                                                Target</th>
+                                            <th
+                                                class="px-lg py-3 font-label-md text-[10px] uppercase tracking-wider text-outline border-b border-outline-variant">
+                                                Discount</th>
+                                            <th
+                                                class="px-lg py-3 font-label-md text-[10px] uppercase tracking-wider text-outline border-b border-outline-variant">
+                                                Validity</th>
+                                            <th
+                                                class="px-lg py-3 font-label-md text-[10px] uppercase tracking-wider text-outline border-b border-outline-variant">
+                                                Status</th>
+                                            <th
+                                                class="px-lg py-3 font-label-md text-[10px] uppercase tracking-wider text-outline border-b border-outline-variant text-right">
+                                                Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-outline-variant">
+                                        <% if (offers && offers.length> 0) { %>
+
+                                            <% offers.forEach((offer)=> { %>
+
+                                                <tr class="hover:bg-surface-container-low transition-colors group">
+
+                                                    <!-- OFFER NAME -->
+                                                    <td class="px-lg py-4">
+                                                        <p class="font-bold text-primary">
+                                                            <%= offer.name %>
+                                                        </p>
+
+                                                        <p class="text-[10px] text-outline font-mono">
+                                                            ID: <%= offer._id %>
+                                                        </p>
+                                                    </td>
+
+                                                    <!-- TYPE -->
+                                                    <td class="px-lg py-4">
+                                                        <span
+                                                            class="font-label-md text-[11px] bg-surface-container px-2 py-0.5 border border-outline-variant">
+                                                            <%= offer.type %>
+                                                        </span>
+                                                    </td>
+
+                                                    <!-- TARGET -->
+                                                    <td class="px-lg py-4">
+                                                        <p class="text-body-sm text-on-surface">
+                                                            <% if (offer.type==="PRODUCT" ) { %>
+                                                                <%= offer.product?.name || "Product not found" %>
+                                                                    <% } else { %>
+                                                                        <%= offer.category?.name || "Category not found"
+                                                                            %>
+                                                                            <% } %>
+                                                        </p>
+                                                    </td>
+
+                                                    <!-- DISCOUNT -->
+                                                    <td class="px-lg py-4">
+                                                        <span class="font-bold text-primary">
+                                                            <% if (offer.discountType==="PERCENTAGE" ) { %>
+                                                                <%= offer.discountValue %>% OFF
+                                                                    <% } else { %>
+                                                                        ₹<%= offer.discountValue %> FLAT
+                                                                            <% } %>
+                                                        </span>
+                                                    </td>
+
+                                                    <!-- VALIDITY -->
+                                                    <td class="px-lg py-4">
+                                                        <p class="text-body-sm">
+                                                            <%= new Date(offer.startDate).toLocaleDateString("en-IN") %>
+                                                                —
+                                                                <%= new
+                                                                    Date(offer.expiryDate).toLocaleDateString("en-IN")
+                                                                    %>
+                                                        </p>
+                                                    </td>
+
+                                                    <!-- STATUS -->
+                                                    <td class="px-lg py-4">
+
+                                                        <% const now=new Date(); let status="EXPIRED" ; if
+                                                            (!offer.isActive) { status="DISABLED" ; } else if (now < new
+                                                            Date(offer.startDate)) { status="SCHEDULED" ; } else if (now
+                                                            <=new Date(offer.expiryDate)) { status="ACTIVE" ; } %>
+
+                                                            <% if (status==="ACTIVE" ) { %>
+
+                                                                <span
+                                                                    class="flex items-center gap-1.5 font-label-md text-[11px]">
+                                                                    <span
+                                                                        class="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                                                                    ACTIVE
+                                                                </span>
+
+                                                                <% } else if (status==="SCHEDULED" ) { %>
+
+                                                                    <span
+                                                                        class="flex items-center gap-1.5 font-label-md text-[11px] text-blue-600">
+                                                                        <span
+                                                                            class="w-1.5 h-1.5 rounded-full bg-blue-600"></span>
+                                                                        SCHEDULED
+                                                                    </span>
+
+                                                                    <% } else if (status==="DISABLED" ) { %>
+
+                                                                        <span
+                                                                            class="flex items-center gap-1.5 font-label-md text-[11px] text-error">
+                                                                            <span
+                                                                                class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                                                                            DISABLED
+                                                                        </span>
+
+                                                                        <% } else { %>
+
+                                                                            <span
+                                                                                class="flex items-center gap-1.5 font-label-md text-[11px] text-outline">
+                                                                                <span
+                                                                                    class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+                                                                                EXPIRED
+                                                                            </span>
+
+                                                                            <% } %>
+
+                                                    </td>
+
+                                                    <!-- ACTIONS -->
+                                                    <td class="px-lg py-4 text-right">
+                                                        <div
+                                                            class="flex justify-end gap-2  group-hover:opacity-100 transition-opacity">
+
+                                                            <form action="/admin/offers/<%= offer._id %>/toggle"
+                                                                method="POST">
+                                                                <button type="submit"
+                                                                    class="material-symbols-outlined text-md text-on-surface-variant hover:text-primary"
+                                                                    title="<%= offer.isActive ? 'Disable offer' : 'Enable offer' %>">
+                                                                    <%= offer.isActive ? "visibility_off" : "visibility"
+                                                                        %>
+                                                                </button>
+                                                            </form>
+
+                                                            <a href="/admin/offers/<%= offer._id %>/edit"
+                                                                class="material-symbols-outlined text-md text-on-surface-variant hover:text-primary"
+                                                                title="Edit offer">
+                                                                edit
+                                                            </a>
+
+                                                            <form id="deleteOfferForm-<%= offer._id %>"
+                                                                action="/admin/offers/<%= offer._id %>/delete"
+                                                                method="POST">
+                                                                <button type="button"
+                                                                    onclick="openDeleteModal('<%= offer._id %>')"
+                                                                    class="material-symbols-outlined text-md text-red-600 hover:text-red-800"
+                                                                    title="Delete offer">
+                                                                    delete
+                                                                </button>
+                                                            </form>
+
+                                                        </div>
+                                                    </td>
+
+                                                </tr>
+
+                                                <% }) %>
+
+                                                    <% } else { %>
+
+                                                        <tr>
+                                                            <td colspan="7" class="px-lg py-12 text-center">
+                                                                <p class="text-body-md text-outline">
+                                                                    No offers found.
+                                                                </p>
+                                                            </td>
+                                                        </tr>
+
+                                                        <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- PAGINATION -->
+                            <div class="px-lg py-4 border-t border-outline-variant flex items-center justify-between">
+                                <p class="text-[11px] font-label-md text-outline">SHOWING 1-10 OF 128 OFFERS</p>
+                                <div class="flex gap-2">
+                                    <button
+                                        class="w-8 h-8 border border-outline-variant flex items-center justify-center hover:bg-surface-container transition-colors"><span
+                                            class="material-symbols-outlined text-lg">chevron_left</span></button>
+                                    <button
+                                        class="w-8 h-8 bg-primary text-on-primary flex items-center justify-center font-label-md">1</button>
+                                    <button
+                                        class="w-8 h-8 border border-outline-variant flex items-center justify-center hover:bg-surface-container transition-colors font-label-md">2</button>
+                                    <button
+                                        class="w-8 h-8 border border-outline-variant flex items-center justify-center hover:bg-surface-container transition-colors"><span
+                                            class="material-symbols-outlined text-lg">chevron_right</span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </main>
+                <!-- CREATE OFFER SIDE PANEL (MODAL) -->
+                <div class="fixed inset-0 bg-black/40 backdrop-blur-sm z-[100] opacity-0 pointer-events-none transition-opacity duration-300"
+                    id="sidePanelOverlay" onclick="toggleSidePanel(false)"></div>
+                <div class="fixed top-0 right-0 h-full w-full max-w-lg bg-surface-container-lowest border-l border-outline-variant z-[101] translate-x-full side-panel-transition shadow-2xl flex flex-col"
+                    id="sidePanel">
+                    <!-- Header -->
+                    <div class="p-lg border-b border-outline-variant flex items-center justify-between">
+                        <div>
+                            <h3 class="font-headline-md text-primary">Create New Offer</h3>
+                            <p class="text-body-sm text-outline">Set parameters for the promotional discount.</p>
+                        </div>
+                        <button class="material-symbols-outlined p-2 hover:bg-surface-container transition-colors"
+                            onclick="toggleSidePanel(false)">close</button>
+                    </div>
+                    <!-- Form Content -->
+                    <div class="flex-1 overflow-y-auto p-lg space-y-xl">
+                        <!-- Name Section -->
+                        <div class="space-y-base">
+                            <label class="font-label-md text-[10px] uppercase tracking-widest text-outline">Offer
+                                Name</label>
+                            <input
+                                class="w-full border-outline-variant focus:border-primary focus:ring-0 text-body-md py-3 px-md"
+                                placeholder="e.g. Winter Sale 2024" type="text">
+                        </div>
+                        <!-- Target & Type -->
+                        <div class="grid grid-cols-2 gap-lg">
+                            <div class="space-y-base">
+                                <label class="font-label-md text-[10px] uppercase tracking-widest text-outline">Offer
+                                    Type</label>
+                                <select id="offerType" name="type"
+                                    class="w-full border-outline-variant focus:border-primary focus:ring-0 text-body-md py-3">
+                                    <option value="PRODUCT">Product </option>
+                                    <option value="CATEGORY">Category </option>
+                                </select>
+                            </div>
+                            <div class="space-y-base">
+                                <label class="font-label-md text-[10px] uppercase tracking-widest text-outline">Discount
+                                    Type</label>
+                                <select id="discountType" name="discountType"
+                                    class="w-full border-outline-variant focus:border-primary focus:ring-0 text-body-md py-3">
+                                    <option>Percentage (%)</option>
+                                    <option>Flat Amount (₹)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="space-y-base">
+
+                            <label class="font-label-md text-[10px] uppercase tracking-widest text-outline">
+                                Target Selection
+                            </label>
+
+                            <div class="relative">
+
+                                <span id="targetIcon"
+                                    class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline">
+                                    inventory_2
+                                </span>
+
+                                <select id="targetSelection" name="product"
+                                    class="w-full border-outline-variant focus:border-primary focus:ring-0 text-body-md py-3 pl-10">
+
+                                    <option value="">
+                                        Select Product
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+                        </div>
+                        <div class="grid grid-cols-2 gap-lg">
+                            <div class="space-y-base">
+
+                                <label class="font-label-md text-[10px] uppercase tracking-widest text-outline">
+                                    Discount Value
+                                </label>
+
+                                <input id="discountValue" name="discountValue" type="number" min="0" step="0.01"
+                                    placeholder="20"
+                                    class="w-full border-outline-variant focus:border-primary focus:ring-0 text-body-md py-3">
+
+                            </div>
+                        </div>
+                        <!-- Validity -->
+                        <div class="space-y-base">
+
+                            <label class="font-label-md text-[10px] uppercase tracking-widest text-outline">
+                                Active Period
+                            </label>
+
+                            <div class="flex gap-2">
+
+                                <input id="startDate" name="startDate" type="date"
+                                    class="w-full border-outline-variant focus:border-primary focus:ring-0 text-body-md py-3">
+
+                                <input id="expiryDate" name="expiryDate" type="date"
+                                    class="w-full border-outline-variant focus:border-primary focus:ring-0 text-body-md py-3">
+
+                            </div>
+
+                        </div>
+                        <!-- Technical Preview -->
+                        <div class="bg-surface-container-low border border-outline p-md space-y-md">
+                            <div class="flex items-center gap-2">
+                                <span class="material-symbols-outlined text-sm">terminal</span>
+                                <span class="font-label-md text-[10px] uppercase tracking-widest text-outline">Technical
+                                    Preview</span>
+                            </div>
+                            <div class="space-y-sm font-mono text-[12px]">
+                                <div class="flex justify-between">
+                                    <span class="text-on-surface-variant">Original Price (Base)</span>
+                                    <span class="text-primary">₹12,400.00</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-on-surface-variant">Applied Discount (20%)</span>
+                                    <span class="text-error">-₹2,480.00</span>
+                                </div>
+                                <div class="h-[1px] bg-outline-variant my-2"></div>
+                                <div class="flex justify-between font-bold">
+                                    <span class="text-primary uppercase tracking-tighter">Final Calculated Price</span>
+                                    <span class="text-primary">₹9,920.00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Footer -->
+                    <div class="p-lg border-t border-outline-variant bg-surface-container-low flex gap-md">
+                        <button
+                            class="flex-1 py-3 border border-outline text-primary font-label-md hover:bg-surface-container transition-colors"
+                            onclick="toggleSidePanel(false)">CANCEL</button>
+                        <button
+                            class="flex-1 py-3 bg-primary text-on-primary font-label-md hover:bg-on-surface-variant transition-colors">PUBLISH
+                            OFFER</button>
+                    </div>
+                </div>
+
+                <!-- Delete Confirmation Modal -->
+                <div id="deleteOfferModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/40">
+                    <div class="w-full max-w-md bg-white border border-outline-variant p-6">
+                        <!-- Header -->
+                        <div class="flex items-start justify-between">
+                            <div>
+                                <p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">
+                                    Delete Offer
+                                </p>
+
+                                <h3 class="mt-2 text-xl font-semibold text-primary">
+                                    Delete this offer?
+                                </h3>
+                            </div>
+
+                            <button type="button" onclick="closeDeleteModal()"
+                                class="material-symbols-outlined text-on-surface-variant hover:text-primary">
+                                close
+                            </button>
+                        </div>
+
+                        <!-- Message -->
+                        <p class="mt-4 text-sm text-on-surface-variant leading-relaxed">
+                            This action will permanently delete this offer. This cannot be undone.
+                        </p>
+
+                        <!-- Actions -->
+                        <div class="mt-6 flex justify-end gap-3">
+
+                            <button type="button" onclick="closeDeleteModal()"
+                                class="px-5 py-3 border border-outline text-[11px] font-bold uppercase tracking-widest hover:bg-surface-container-low">
+                                Cancel
+                            </button>
+
+                            <button type="button" onclick="confirmDeleteOffer()"
+                                class="px-5 py-3 bg-red-600 text-white text-[11px] font-bold uppercase tracking-widest hover:bg-red-700">
+                                Delete Offer
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    function toggleSidePanel(isOpen) {
+                        const panel = document.getElementById('sidePanel');
+                        const overlay = document.getElementById('sidePanelOverlay');
+
+                        if (isOpen) {
+                            panel.classList.remove('translate-x-full');
+                            overlay.classList.remove('opacity-0', 'pointer-events-none');
+                            document.body.style.overflow = 'hidden';
+                        } else {
+                            panel.classList.add('translate-x-full');
+                            overlay.classList.add('opacity-0', 'pointer-events-none');
+                            document.body.style.overflow = 'auto';
+                        }
+                    }
+
+                    // search clear btn
+
+                    const offerSearch = document.getElementById("offerSearch");
+                    const clearSearch = document.getElementById("clearSearch");
+
+                    function toggleClearButton() {
+                        if (offerSearch.value.trim() !== "") {
+                            clearSearch.classList.remove("hidden");
+                        } else {
+                            clearSearch.classList.add("hidden");
+                        }
+                    }
+
+                    offerSearch.addEventListener("input", toggleClearButton);
+
+                    clearSearch.addEventListener("click", () => {
+                        offerSearch.value = "";
+                        toggleClearButton();
+
+                        window.location.href = "/admin/offers";
+                    });
+
+                    toggleClearButton();
+
+                    const offerType = document.getElementById("offerType");
+                    const targetSelection = document.getElementById("targetSelection");
+                    const targetIcon = document.getElementById("targetIcon");
+
+                    offerType.addEventListener("change", () => {
+
+                        if (offerType.value === "PRODUCT") {
+
+                            targetSelection.name = "product";
+
+                            targetSelection.innerHTML = `
+            <option value="">
+                Select Product
+            </option>
+        `;
+
+                            targetIcon.textContent = "inventory_2";
+
+                        } else if (offerType.value === "CATEGORY") {
+
+                            targetSelection.name = "category";
+
+                            targetSelection.innerHTML = `
+            <option value="">
+                Select Category
+            </option>
+        `;
+
+                            targetIcon.textContent = "category";
+
+                        }
+
+                    });
+
+                    // delete modal 
+
+                    let deleteOfferId = null;
+
+                    function openDeleteModal(offerId) {
+                        deleteOfferId = offerId;
+
+                        const modal = document.getElementById("deleteOfferModal");
+
+                        modal.classList.remove("hidden");
+                        modal.classList.add("flex");
+                    }
+
+                    function closeDeleteModal() {
+                        deleteOfferId = null;
+
+                        const modal = document.getElementById("deleteOfferModal");
+
+                        modal.classList.add("hidden");
+                        modal.classList.remove("flex");
+                    }
+
+                    function confirmDeleteOffer() {
+                        if (!deleteOfferId) {
+                            return;
+                        }
+
+                        const form = document.getElementById(
+                            `deleteOfferForm-${deleteOfferId}`
+                        );
+
+                        if (form) {
+                            form.submit();
+                        }
+                    }
+                </script>
+</body>
+
+</html>

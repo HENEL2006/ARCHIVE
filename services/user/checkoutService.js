@@ -8,6 +8,7 @@ import crypto from "crypto";
 import { debitWalletService } from "./walletService.js";
 import { getAppliedCouponService } from "./couponService.js";
 import Coupon from "../../models/coupon.js";
+import { getBestOfferService } from "./offerService.js";
 
 export const placeOrderService = async (userId, data, appliedCoupon = null) => {
   const { addressId, payment, transactionId } = data;
@@ -83,7 +84,19 @@ export const placeOrderService = async (userId, data, appliedCoupon = null) => {
       );
     }
 
-    const itemTotal = item.price * item.quantity;
+    const image = product.images?.[0]?.url;
+
+    if (!image) {
+      throw new Error(`${product.name} DOES NOT HAVE A PRODUCT IMAGE`);
+    }
+
+    const offer = await getBestOfferService({
+      ...product,
+      category: product.category?._id || product.category,
+    });
+
+    const finalPrice = offer.finalPrice;
+    const itemTotal = finalPrice * item.quantity;
 
     subtotal += itemTotal;
 
@@ -93,7 +106,7 @@ export const placeOrderService = async (userId, data, appliedCoupon = null) => {
       image: product.images[0]?.url || "",
       size: item.size,
       quantity: item.quantity,
-      price: item.price,
+      price: finalPrice,
       itemTotal,
     });
   }
@@ -245,7 +258,12 @@ export const createRazorpayOrderService = async (
       );
     }
 
-    subtotal += item.price * item.quantity;
+    const offer = await getBestOfferService({
+      ...product,
+      category: product.category?._id || product.category,
+    });
+
+    subtotal += offer.finalPrice * item.quantity;
   }
 
   const shipping = subtotal > 0 ? 99 : 0;
@@ -353,7 +371,12 @@ export const verifyRazorpayPaymentService = async (
       );
     }
 
-    subtotal += item.price * item.quantity;
+    const offer = await getBestOfferService({
+      ...product,
+      category: product.category?._id || product.category,
+    });
+
+    subtotal += offer.finalPrice * item.quantity;
   }
 
   const shipping = subtotal > 0 ? 99 : 0;

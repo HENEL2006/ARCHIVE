@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html class="light" lang="en" style="">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>Create Offer | ARCHIVE Admin</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;family=JetBrains+Mono:wght@500&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .mono-label {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Custom Scrollbar for the Minimal Look */
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #e2e8f0;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed-dim": "#b7c8e1",
+                        "on-secondary-container": "#54647a",
+                        "surface-container-lowest": "#ffffff",
+                        "on-background": "#191c1e",
+                        "error-container": "#ffdad6",
+                        "on-surface-variant": "#45464d",
+                        "on-surface": "#191c1e",
+                        "surface-bright": "#f7f9fb",
+                        "on-secondary-fixed-variant": "#38485d",
+                        "on-primary-container": "#7c839b",
+                        "surface-dim": "#d8dadc",
+                        "primary-fixed": "#dae2fd",
+                        "on-tertiary-container": "#008ebf",
+                        "surface-container": "#eceef0",
+                        "inverse-primary": "#bec6e0",
+                        "on-tertiary-fixed-variant": "#004c69",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#131b2e",
+                        "on-error": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "inverse-surface": "#2d3133",
+                        "surface-container-highest": "#e0e3e5",
+                        "tertiary-fixed-dim": "#7bd0ff",
+                        "surface-container-low": "#f2f4f6",
+                        "tertiary": "#000000",
+                        "outline-variant": "#c6c6cd",
+                        "on-secondary-fixed": "#0b1c30",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#e0e3e5",
+                        "primary-container": "#131b2e",
+                        "on-tertiary-fixed": "#001e2c",
+                        "secondary-container": "#d0e1fb",
+                        "surface-container-high": "#e6e8ea",
+                        "primary": "#000000",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "on-primary": "#ffffff",
+                        "secondary-fixed": "#d3e4fe",
+                        "inverse-on-surface": "#eff1f3",
+                        "surface-tint": "#565e74",
+                        "primary-fixed-dim": "#bec6e0",
+                        "tertiary-container": "#001e2c",
+                        "surface": "#f7f9fb",
+                        "outline": "#76777d",
+                        "background": "#f7f9fb",
+                        "secondary": "#505f76",
+                        "tertiary-fixed": "#c4e7ff",
+                        "on-error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "24px",
+                        "2xl": "48px",
+                        "base": "4px",
+                        "sm": "8px",
+                        "md": "16px",
+                        "xs": "4px",
+                        "xl": "32px",
+                        "margin": "32px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "body-md": ["Inter"],
+                        "label-md": ["JetBrains Mono"],
+                        "display": ["Inter"],
+                        "body-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "headline-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "label-md": ["12px", { "lineHeight": "16px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "display": ["36px", { "lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-background text-on-surface">
+    <%- include("partials/toast") %>
+        <!-- Fixed SideNavBar -->
+        <%- include("partials/adminSidebar") %>
+            <!-- Main Content Shell -->
+            <div class="ml-[240px] flex flex-col min-h-screen">
+                <%- include("partials/adminNavbar") %>
+                    <!-- Main Workspace -->
+                    <main class="mt-16 p-xl max-w-6xl w-full mx-auto pb-2xl font-body-md">
+                        <!-- Header Section -->
+                        <div class="flex justify-between items-end mb-xl">
+                            <div>
+
+                                <h2 class="font-headline-lg text-headline-lg text-primary">
+                                    Create Offer
+                                </h2>
+                                <p class="font-body-md text-body-md text-on-surface-variant">
+                                    Create discounts for products or categories.
+                                </p>
+                            </div>
+                            <div class="flex gap-md">
+                                <button
+                                    class="px-md py-2 border border-outline text-body-sm font-bold uppercase tracking-widest hover:bg-surface-container-low transition-colors">Back
+                                    to Offers</button>
+
+                            </div>
+                        </div>
+                        <!-- Form Layout -->
+                        <div class="grid grid-cols-12 gap-lg">
+                            <!-- Left Column: Primary Config -->
+                            <div class="col-span-12 lg:col-span-8 space-y-lg">
+                                <!-- Section 01: Information -->
+                                <section class="bg-surface-container-lowest border border-outline-variant p-lg">
+                                    <div class="flex items-center gap-2 mb-md">
+                                        <span class="font-label-md text-label-md text-primary opacity-40">
+                                            01
+                                        </span>
+
+                                        <h3 class="font-label-md text-label-md text-primary uppercase tracking-widest">
+                                            Offer Information
+                                        </h3>
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+                                        <div class="flex flex-col gap-base">
+                                            <label
+                                                class="font-label-md text-[10px] uppercase tracking-widest text-on-surface-variant">Offer
+                                                Name</label>
+                                            <input id="offerName" name="name"
+                                                class="w-full border-outline-variant focus:border-primary focus:ring-0 p-3 text-body-md"
+                                                placeholder="e.g. Summer Heritage Sale" type="text" maxlength="100">
+                                            <p id="offerNameError" class="hidden text-[11px] text-red-600 mt-1"></p>
+                                        </div>
+                                        <!-- <div class="flex flex-col gap-base">
+                                <label
+                                    class="font-label-md text-[10px] uppercase font-bold text-on-surface-variant">Offer
+                                    Slug</label>
+                                <div class="relative">
+                                    <input
+                                        class="w-full bg-surface-container-low border-outline-variant text-body-md p-3 opacity-60"
+                                        readonly="" type="text" value="summer-heritage-sale">
+                                    <span
+                                        class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-sm">lock</span>
+                                </div>
+                            </div> -->
+                                        <div class="flex flex-col gap-base md:col-span-2 opacity-100">
+
+
+                                        </div>
+                                    </div>
+                                </section>
+                                <!-- Section 02: Offer Target -->
+                                <section class="bg-surface-container-lowest border border-outline-variant p-lg">
+                                    <div class="flex items-center gap-2 mb-md">
+                                        <span class="font-label-md text-label-md text-primary opacity-40">
+                                            02
+                                        </span>
+
+                                        <h3 class="font-label-md text-label-md text-primary uppercase tracking-widest">
+                                            Offer Target
+                                        </h3>
+                                    </div>
+                                    <div class="space-y-md">
+                                        <div class="flex items-center gap-xl">
+
+                                            <label class="flex items-center gap-3 cursor-pointer">
+                                                <input id="productTarget" checked
+                                                    class="w-4 h-4 text-primary focus:ring-0" name="type"
+                                                    value="PRODUCT" type="radio">
+
+                                                <span class="font-body-md text-body-md text-primary">
+                                                    Specific Product
+                                                </span>
+                                            </label>
+
+                                            <label class="flex items-center gap-3 cursor-pointer">
+                                                <input id="categoryTarget" class="w-4 h-4 text-primary focus:ring-0"
+                                                    name="type" value="CATEGORY" type="radio">
+
+                                                <span class="font-body-md text-body-md text-on-surface-variant">
+                                                    Entire Category
+                                                </span>
+                                            </label>
+
+                                        </div>
+                                        <div class="space-y-4">
+
+                                            <!-- Search Input + Results -->
+                                            <div class="relative">
+
+                                                <span
+                                                    class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant">
+                                                    search
+                                                </span>
+
+                                                <input id="targetSearch" name="search"
+                                                    class="w-full pl-10 pr-10 py-3 border-outline-variant focus:border-primary focus:ring-0 text-body-md"
+                                                    type="text" placeholder="Search products..." autocomplete="off">
+
+                                                <button type="button" id="clearTargetSearch"
+                                                    class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-primary"
+                                                    aria-label="Clear search">
+
+                                                    <span class="material-symbols-outlined text-[18px]">
+                                                        close
+                                                    </span>
+
+                                                </button>
+
+                                                <div id="productSearchResults"
+                                                    class="absolute left-0 right-0 top-full z-50 mt-1 hidden border border-outline-variant bg-white shadow-sm">
+                                                </div>
+
+                                            </div>
+
+                                            <!-- Selected Product -->
+                                            <input type="hidden" id="selectedProduct" name="product">
+                                            <input type="hidden" id="selectedCategory" name="category">
+
+                                            <div id="selectedProductContainer" class="hidden">
+
+                                                <div
+                                                    class="flex items-center gap-4 border border-primary p-3 bg-surface-container-low">
+
+                                                    <img id="selectedProductImage" src="" alt=""
+                                                        class="w-16 h-16 object-cover border border-outline-variant">
+
+                                                    <div class="flex-1 min-w-0">
+
+                                                        <p id="selectedProductName"
+                                                            class="text-body-md font-semibold text-primary truncate">
+                                                        </p>
+
+                                                        <p id="selectedProductPrice"
+                                                            class="text-body-sm text-on-surface-variant mt-1">
+                                                        </p>
+
+                                                    </div>
+
+                                                    <button type="button" id="removeSelectedProduct"
+                                                        class="text-[10px] font-bold uppercase tracking-widest text-red-600 hover:underline">
+                                                        Remove
+                                                    </button>
+
+                                                </div>
+
+                                            </div>
+
+                                            <p id="targetError" class="hidden text-[11px] text-red-600 mt-1">
+                                            </p>
+
+                                            <!-- Server-rendered search results - remove this -->
+                                            <!-- We don't need this anymore because AJAX handles the results -->
+
+                                        </div>
+                                        <!-- <p class="font-body-sm text-[11px] text-on-surface-variant italic">Applying
+                                            discount to 1
+                                            item.</p> -->
+                                    </div>
+                                </section>
+                                <!-- Section 03: Discount Configuration -->
+                                <section class="bg-surface-container-lowest border border-outline-variant p-lg">
+                                    <div class="flex items-center gap-2 mb-md">
+                                        <span class="font-label-md text-label-md text-primary opacity-40">
+                                            03
+                                        </span>
+
+                                        <h3 class="font-label-md text-label-md text-primary uppercase tracking-widest">
+                                            Discount Configuration
+                                        </h3>
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-md items-end">
+                                        <div class="flex flex-col gap-base">
+                                            <label
+                                                class="font-label-md text-[10px] uppercase tracking-widest text-on-surface-variant">Discount
+                                                Type</label>
+                                            <select id="discountType" name="discountType"
+                                                class="w-full border-outline-variant focus:border-primary focus:ring-0 p-3 text-body-md">
+                                                <option value="PERCENTAGE">Percentage (%)</option>
+                                                <option value="FIXED">Flat Amount (₹)</option>
+                                            </select>
+
+                                            <p id="discountTypeError" class="hidden text-[11px] text-red-600 mt-1">
+                                            </p>
+                                        </div>
+                                        <div class="flex flex-col gap-base">
+                                            <label
+                                                class="font-label-md text-[10px] uppercase tracking-widest text-on-surface-variant">Discount
+                                                Value</label>
+                                            <div class="relative">
+                                                <input id="discountValue" name="discountValue"
+                                                    class="w-full border-outline-variant focus:border-primary focus:ring-0 p-3 text-body-md"
+                                                    type="number" min="0" step="0.01"
+                                                    placeholder="Enter discount value">
+                                                <span id="discountSymbol"
+                                                    class="absolute right-3 top-1/2 -translate-y-1/2 font-label-md text-label-md font-bold">
+                                                    %
+                                                </span>
+                                            </div>
+                                            <p id="discountValueError" class="hidden text-[11px] text-red-600 mt-1"></p>
+                                        </div>
+                                    </div>
+                                    <!-- <div
+                                        class="mt-md pt-md border-t border-dashed border-outline-variant flex justify-between items-center">
+                                        <span
+                                            class="font-label-md text-[10px] uppercase text-on-surface-variant opacity-60">Live
+                                            Projection</span>
+                                        <p class="font-label-md text-[11px] text-primary">
+                                            Original Price: <span class="line-through opacity-50">₹12,400</span> |
+                                            Discount: <span class="font-bold">20%</span> |
+                                            Final Price: <span class="font-black">₹9,920</span>
+                                        </p>
+                                    </div> -->
+                                </section>
+                                <!-- Section 04: Schedule & Status -->
+                                <section class="bg-surface-container-lowest border border-outline-variant p-lg">
+                                    <div class="flex items-center gap-2 mb-md">
+                                        <span class="font-label-md text-label-md text-primary opacity-40">
+                                            04
+                                        </span>
+
+                                        <h3 class="font-label-md text-label-md text-primary uppercase tracking-widest">
+                                            Offer Schedule
+                                        </h3>
+                                    </div>
+                                    <div class="space-y-md">
+
+                                        <!-- Dates -->
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+
+                                            <!-- Start Date -->
+                                            <div class="flex flex-col gap-base">
+                                                <label
+                                                    class="font-label-md text-[10px] uppercase tracking-widest text-on-surface-variant">
+                                                    Start Date
+                                                </label>
+
+                                                <input id="startDate" name="startDate"
+                                                    class="w-full border-outline-variant focus:border-primary focus:ring-0 p-3 text-body-md"
+                                                    type="date">
+                                                <p id="startDateError" class="hidden text-[11px] text-red-600 mt-1"></p>
+                                            </div>
+
+                                            <!-- End Date -->
+                                            <div class="flex flex-col gap-base">
+                                                <label
+                                                    class="font-label-md text-[10px] uppercase tracking-widest text-on-surface-variant">
+                                                    End Date
+                                                </label>
+
+                                                <input id="expiryDate" name="expiryDate"
+                                                    class="w-full border-outline-variant focus:border-primary focus:ring-0 p-3 text-body-md"
+                                                    type="date">
+                                                <p id="expiryDateError" class="hidden text-[11px] text-red-600 mt-1">
+                                                </p>
+                                            </div>
+
+                                        </div>
+
+
+                                        <!-- Initial Status -->
+                                        <div class="pt-2">
+
+                                            <label
+                                                class="font-label-md text-[10px] uppercase tracking-widest text-on-surface-variant block mb-3">
+                                                Initial Status
+                                            </label>
+
+                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+
+                                                <!-- Active -->
+                                                <label
+                                                    class="flex items-center gap-3 p-3 border border-outline-variant cursor-pointer hover:bg-surface-container-low transition-colors">
+
+                                                    <input id="activeStatus" class="w-4 h-4 text-primary focus:ring-0"
+                                                        name="status" value="ACTIVE" type="radio">
+
+                                                    <span class="font-body-sm text-body-sm uppercase tracking-wider">
+                                                        Active
+                                                    </span>
+
+                                                </label>
+
+
+                                                <!-- Scheduled -->
+                                                <label
+                                                    class="flex items-center gap-3 p-3 border border-primary bg-primary/5 cursor-pointer">
+
+                                                    <input id="disabledStatus" checked
+                                                        class="w-4 h-4 text-primary focus:ring-0" name="status"
+                                                        value="DISABLED" type="radio">
+
+                                                    <span class="font-body-sm text-body-sm uppercase tracking-wider">
+                                                        Disabled
+                                                    </span>
+
+                                                </label>
+
+                                            </div>
+                                            <p id="statusError" class="hidden text-[11px] text-red-600 mt-1"></p>
+
+                                        </div>
+
+                                    </div>
+                                </section>
+                            </div>
+                            <!-- Right Column: Secondary Meta & Preview -->
+                            <!-- Right Column: Offer Preview -->
+                            <div class="col-span-12 lg:col-span-4 space-y-lg">
+
+                                <section class="bg-surface-container-lowest border border-outline-variant p-lg">
+
+                                    <div class="flex items-center gap-2 mb-md">
+
+                                        <span class="font-label-md text-label-md text-primary opacity-40">
+                                            05
+                                        </span>
+
+                                        <h3 class="font-label-md text-label-md text-primary uppercase tracking-widest">
+                                            Live Preview
+                                        </h3>
+
+                                    </div>
+
+
+                                    <div class="border border-outline-variant group overflow-hidden">
+
+                                        <!-- IMAGE -->
+                                        <div class="aspect-square relative overflow-hidden bg-surface-container-low">
+
+                                            <img id="previewImage" src="/images/placeholder.jpg" alt="Offer preview"
+                                                class="w-full h-full object-cover grayscale-0 group-hover:scale-105 transition-transform duration-700">
+
+
+                                            <!-- DISCOUNT BADGE -->
+                                            <div id="previewDiscount"
+                                                class="absolute top-4 right-4 bg-primary text-on-primary px-3 py-1 font-label-md text-[10px] font-black uppercase tracking-widest">
+
+                                                -0%
+
+                                            </div>
+
+                                        </div>
+
+
+                                        <!-- CONTENT -->
+                                        <div class="p-md bg-white">
+
+                                            <!-- TYPE -->
+                                            <p id="previewTargetType"
+                                                class="text-[10px] text-on-surface-variant font-bold uppercase tracking-widest mb-1">
+
+                                                PRODUCT OFFER
+
+                                            </p>
+
+
+                                            <!-- NAME -->
+                                            <h4 id="previewName"
+                                                class="font-headline-md text-headline-md text-primary leading-tight mb-4">
+
+                                                Select a product
+
+                                            </h4>
+
+
+                                            <!-- PRODUCT PRICE -->
+                                            <div id="previewPriceSection">
+
+                                                <div class="flex items-baseline gap-3 mb-2">
+
+                                                    <span id="previewFinalPrice"
+                                                        class="font-label-md text-lg font-black text-primary">
+
+                                                        ₹0.00
+
+                                                    </span>
+
+                                                    <span id="previewOriginalPrice"
+                                                        class="font-label-md text-sm text-on-surface-variant line-through opacity-50">
+
+                                                        ₹0.00
+
+                                                    </span>
+
+                                                </div>
+
+
+                                                <!-- SAVINGS -->
+                                                <div
+                                                    class="bg-surface-container px-3 py-2 flex justify-between items-center border-l-4 border-primary">
+
+                                                    <span
+                                                        class="font-label-md text-[10px] uppercase font-bold text-on-surface-variant">
+
+                                                        Savings
+
+                                                    </span>
+
+                                                    <span id="previewSavings"
+                                                        class="font-label-md text-[10px] font-black text-primary">
+
+                                                        You Save ₹0.00
+
+                                                    </span>
+
+                                                </div>
+
+                                            </div>
+
+
+                                            <!-- CATEGORY MESSAGE -->
+                                            <p id="previewCategoryMessage"
+                                                class="hidden text-body-sm text-on-surface-variant">
+
+                                                Offer applies to the selected category.
+
+                                            </p>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <p class="mt-4 font-body-sm text-[11px] text-on-surface-variant text-center px-4">
+
+                                        This is how the offer will appear to customers on the product page.
+
+                                    </p>
+
+                                </section>
+
+                            </div>
+                        </div>
+                        <!-- Bottom Actions -->
+                        <div class="mt-xl pt-xl border-t border-outline-variant flex justify-end items-center gap-lg">
+
+                            <div class="flex gap-md">
+                                <button
+                                    class="px-xl py-3 border border-outline text-body-sm font-bold uppercase tracking-widest hover:bg-surface-container-low transition-colors">
+                                    Cancel
+                                </button>
+
+                                <button id="publishOffer" type="button"
+                                    class="px-2xl py-3 bg-primary text-on-primary text-body-sm font-bold uppercase tracking-widest hover:opacity-90 transition-opacity">
+                                    Publish Offer
+                                </button>
+                            </div>
+                        </div>
+                    </main>
+            </div>
+            <!-- Micro-interaction Scripts -->
+            <script>
+
+
+                // Simple reactive style simulation for UI elements
+                document.querySelectorAll('input, select, textarea').forEach(el => {
+                    el.addEventListener('focus', () => {
+                        el.parentElement.classList.add('opacity-100');
+                    });
+                    el.addEventListener('blur', () => {
+                        // Return to normal
+                    });
+                });
+
+                // Toggle logic simulation for radio groups (visual only)
+                const radioGroups = document.querySelectorAll('input[type="radio"]');
+                radioGroups.forEach(radio => {
+                    radio.addEventListener('change', (e) => {
+                        const groupName = e.target.name;
+                        const siblings = document.querySelectorAll(`input[name="${groupName}"]`);
+                        siblings.forEach(s => {
+                            const label = s.closest('label');
+                            if (label) {
+                                if (s.checked) {
+                                    label.classList.add('border-primary');
+                                    label.classList.remove('border-outline-variant');
+                                } else {
+                                    label.classList.remove('border-primary');
+                                    label.classList.add('border-outline-variant');
+                                }
+                            }
+                        });
+                    });
+                });
+
+                // ajax for the serach products
+
+                const clearTargetSearch = document.getElementById("clearTargetSearch");
+                const targetSearch = document.getElementById("targetSearch");
+                const productSearchResults = document.getElementById("productSearchResults");
+                const productTarget = document.getElementById("productTarget");
+                const categoryTarget = document.getElementById("categoryTarget");
+                const previewImage =
+                    document.getElementById("previewImage");
+
+                const previewDiscount =
+                    document.getElementById("previewDiscount");
+
+                const previewTargetType =
+                    document.getElementById("previewTargetType");
+
+                const previewName =
+                    document.getElementById("previewName");
+
+                const previewPriceSection =
+                    document.getElementById("previewPriceSection");
+
+                const previewCategoryMessage =
+                    document.getElementById("previewCategoryMessage");
+
+                const previewFinalPrice =
+                    document.getElementById("previewFinalPrice");
+
+                const previewOriginalPrice =
+                    document.getElementById("previewOriginalPrice");
+
+                const previewSavings =
+                    document.getElementById("previewSavings");
+
+                let selectedTargetPrice = 0;
+
+                function updateOfferPreview() {
+
+                    const type = getSearchType();
+
+                    const discount =
+                        Number(discountValue.value) || 0;
+
+
+                    // =====================================
+                    // DISCOUNT BADGE
+                    // =====================================
+
+                    if (discountType.value === "PERCENTAGE") {
+
+                        previewDiscount.textContent =
+                            `-${discount}%`;
+
+                    } else {
+
+                        previewDiscount.textContent =
+                            `-₹${discount.toFixed(2)}`;
+
+                    }
+
+
+                    // =====================================
+                    // PRODUCT
+                    // =====================================
+
+                    if (type === "PRODUCT") {
+
+                        previewTargetType.textContent =
+                            "PRODUCT OFFER";
+
+                        previewPriceSection.classList.remove(
+                            "hidden"
+                        );
+
+                        previewCategoryMessage.classList.add(
+                            "hidden"
+                        );
+
+
+                        if (!selectedProduct.value) {
+
+                            previewImage.src =
+                                "/images/placeholder.jpg";
+
+                            previewName.textContent =
+                                "Select a product";
+
+                            previewFinalPrice.textContent =
+                                "₹0.00";
+
+                            previewOriginalPrice.textContent =
+                                "₹0.00";
+
+                            previewSavings.textContent =
+                                "You Save ₹0.00";
+
+                            return;
+                        }
+
+
+                        const originalPrice =
+                            Number(selectedTargetPrice) || 0;
+
+
+                        let savings = 0;
+
+
+                        if (discountType.value === "PERCENTAGE") {
+
+                            savings =
+                                originalPrice *
+                                (discount / 100);
+
+                        } else {
+
+                            savings =
+                                discount;
+
+                        }
+
+
+                        // Never allow discount above product price
+                        savings =
+                            Math.min(savings, originalPrice);
+
+
+                        const finalPrice =
+                            originalPrice - savings;
+
+
+                        previewFinalPrice.textContent =
+                            `₹${finalPrice.toFixed(2)}`;
+
+                        previewOriginalPrice.textContent =
+                            `₹${originalPrice.toFixed(2)}`;
+
+                        previewSavings.textContent =
+                            `You Save ₹${savings.toFixed(2)}`;
+
+                    }
+
+
+                    // =====================================
+                    // CATEGORY
+                    // =====================================
+
+                    else {
+
+                        previewTargetType.textContent =
+                            "CATEGORY OFFER";
+
+                        previewPriceSection.classList.add(
+                            "hidden"
+                        );
+
+                        previewCategoryMessage.classList.remove(
+                            "hidden"
+                        );
+
+
+                        if (!selectedCategory.value) {
+
+                            previewImage.src =
+                                "/images/placeholder.jpg";
+
+                            previewName.textContent =
+                                "Select a category";
+
+                        }
+
+                    }
+
+                }
+
+                function getSearchType() {
+                    return categoryTarget.checked ? "CATEGORY" : "PRODUCT";
+                }
+
+                function updateSearchPlaceholder() {
+                    if (categoryTarget.checked) {
+                        targetSearch.placeholder = "Search categories...";
+                    } else {
+                        targetSearch.placeholder = "Search products...";
+                    }
+                }
+
+                productTarget.addEventListener("change", () => {
+                    updateSearchPlaceholder();
+
+                    targetSearch.value = "";
+                    clearTargetSearch.classList.add("hidden");
+                    productSearchResults.innerHTML = "";
+                    productSearchResults.classList.add("hidden");
+
+                    document.getElementById("selectedProduct").value = "";
+                    document.getElementById("selectedCategory").value = "";
+                    document.getElementById("selectedProductContainer").classList.add("hidden");
+
+                    updateOfferPreview()
+                });
+
+                categoryTarget.addEventListener("change", () => {
+                    updateSearchPlaceholder();
+
+                    targetSearch.value = "";
+                    clearTargetSearch.classList.add("hidden");
+                    productSearchResults.innerHTML = "";
+                    productSearchResults.classList.add("hidden");
+
+                    document.getElementById("selectedProduct").value = "";
+                    document.getElementById("selectedCategory").value = "";
+                    document.getElementById("selectedProductContainer").classList.add("hidden");
+
+                    updateOfferPreview()
+                });
+
+                updateSearchPlaceholder();
+
+                let searchTimeout;
+
+                targetSearch.addEventListener("input", () => {
+                    const search = targetSearch.value.trim();
+
+                    clearTimeout(searchTimeout);
+
+                    // Show / hide clear button
+                    if (search) {
+                        clearTargetSearch.classList.remove("hidden");
+                    } else {
+                        clearTargetSearch.classList.add("hidden");
+                    }
+
+                    if (!search) {
+                        productSearchResults.innerHTML = "";
+                        productSearchResults.classList.add("hidden");
+                        return;
+                    }
+
+                    searchTimeout = setTimeout(async () => {
+                        try {
+                            const searchType = getSearchType();
+
+                            const endpoint =
+                                searchType === "CATEGORY"
+                                    ? "/admin/offers/search-categories"
+                                    : "/admin/offers/search-products";
+
+                            const response = await fetch(
+                                `${endpoint}?search=${encodeURIComponent(search)}`
+                            );
+
+                            const data = await response.json();
+
+                            const results =
+                                searchType === "CATEGORY"
+                                    ? data.categories || []
+                                    : data.products || [];
+
+
+                            if (!data.success || results.length === 0) {
+
+                                productSearchResults.innerHTML = `
+        <div class="p-4 text-body-sm text-on-surface-variant">
+            No ${searchType === "CATEGORY" ? "categories" : "products"} found.
+        </div>
+    `;
+
+                                productSearchResults.classList.remove("hidden");
+
+                                return;
+                            }
+
+                            productSearchResults.innerHTML = results
+                                .map((item) => {
+                                    const image =
+                                        searchType === "PRODUCT"
+                                            ? item.images && item.images.length > 0
+                                                ? item.images[0]?.url
+                                                : "/images/placeholder.jpg"
+                                            : item.image || "/images/placeholder.jpg";
+
+                                    const name = item.name;
+
+                                    const price =
+                                        searchType === "PRODUCT"
+                                            ? `₹${item.price}`
+                                            : "Category";
+
+                                    return `
+            <div
+                class="product-result flex items-center gap-3 p-3 border-b border-outline-variant last:border-b-0 hover:bg-surface-container-low cursor-pointer"
+                data-id="${item._id}"
+                data-name="${item.name}"
+                data-price="${item.price || ""}"
+                data-image="${image}"
+                data-type="${searchType}"
+            >
+
+                <img
+                    src="${image}"
+                    alt="${name}"
+                    class="w-12 h-12 object-cover border border-outline-variant"
+                >
+
+                <div class="flex-1 min-w-0">
+                    <p class="text-body-sm font-semibold text-primary truncate">
+                        ${name}
+                    </p>
+
+                    <p class="text-[11px] text-on-surface-variant mt-1">
+                        ${price}
+                    </p>
+                </div>
+
+                <span class="text-[10px] font-bold uppercase tracking-widest text-primary">
+                    Select
+                </span>
+
+            </div>
+        `;
+                                })
+                                .join("");
+
+                            document
+                                .querySelectorAll(".product-result")
+                                .forEach((productElement) => {
+
+                                    productElement.addEventListener("click", () => {
+
+                                        const targetId =
+                                            productElement.dataset.id;
+
+                                        const targetName =
+                                            productElement.dataset.name;
+
+                                        const targetPrice =
+                                            productElement.dataset.price;
+
+                                        const targetImage =
+                                            productElement.dataset.image;
+
+                                        const targetType =
+                                            productElement.dataset.type;
+
+
+                                        // Store price for live preview
+                                        selectedTargetPrice =
+                                            Number(targetPrice) || 0;
+
+
+                                        if (targetType === "PRODUCT") {
+
+                                            document.getElementById(
+                                                "selectedProduct"
+                                            ).value = targetId;
+
+                                            document.getElementById(
+                                                "selectedCategory"
+                                            ).value = "";
+
+                                        } else {
+
+                                            document.getElementById(
+                                                "selectedCategory"
+                                            ).value = targetId;
+
+                                            document.getElementById(
+                                                "selectedProduct"
+                                            ).value = "";
+
+                                        }
+
+
+                                        targetError.textContent = "";
+
+                                        targetError.classList.add("hidden");
+
+
+                                        document.getElementById(
+                                            "selectedProductImage"
+                                        ).src =
+                                            targetImage ||
+                                            "/images/placeholder.jpg";
+
+
+                                        document.getElementById(
+                                            "selectedProductImage"
+                                        ).alt =
+                                            targetName;
+
+
+                                        document.getElementById(
+                                            "selectedProductName"
+                                        ).textContent =
+                                            targetName;
+
+
+                                        document.getElementById(
+                                            "selectedProductPrice"
+                                        ).textContent =
+                                            targetType === "PRODUCT"
+                                                ? `₹${targetPrice}`
+                                                : "Entire Category";
+
+
+                                        document
+                                            .getElementById(
+                                                "selectedProductContainer"
+                                            )
+                                            .classList.remove("hidden");
+
+
+                                        productSearchResults.innerHTML = "";
+
+                                        productSearchResults.classList.add(
+                                            "hidden"
+                                        );
+
+
+                                        targetSearch.value =
+                                            targetName;
+
+                                        clearTargetSearch.classList.remove(
+                                            "hidden"
+                                        );
+
+
+                                        // ==============================
+                                        // UPDATE LIVE PREVIEW
+                                        // ==============================
+
+                                        previewImage.src =
+                                            targetImage ||
+                                            "/images/placeholder.jpg";
+
+                                        previewName.textContent =
+                                            targetName;
+
+                                        updateOfferPreview();
+
+                                    });
+
+                                });
+
+                            productSearchResults.classList.remove("hidden");
+
+
+
+                        } catch (error) {
+                            console.error("Product search error:", error);
+                        }
+                    }, 300);
+                });
+
+                clearTargetSearch.addEventListener("click", () => {
+                    targetSearch.value = "";
+
+                    clearTargetSearch.classList.add("hidden");
+
+                    productSearchResults.innerHTML = "";
+                    productSearchResults.classList.add("hidden");
+
+                    targetSearch.focus();
+                });
+
+                document
+                    .getElementById("removeSelectedProduct")
+                    .addEventListener("click", () => {
+                        document.getElementById("selectedProduct").value = "";
+                        document.getElementById("selectedCategory").value = "";
+
+                        document
+                            .getElementById("selectedProductContainer")
+                            .classList.add("hidden");
+
+                        document.getElementById("selectedProductImage").src = "";
+                        document.getElementById("selectedProductName").textContent = "";
+                        document.getElementById("selectedProductPrice").textContent = "";
+
+                        targetSearch.value = "";
+
+                        selectedTargetPrice = 0;
+
+                        updateOfferPreview();
+                    });
+
+                // frontend validations
+
+                const offerName = document.getElementById("offerName");
+                const targetError = document.getElementById("targetError");
+                const discountType = document.getElementById("discountType");
+                const discountSymbol = document.getElementById("discountSymbol");
+                const discountValue = document.getElementById("discountValue");
+                const discountTypeError = document.getElementById("discountTypeError");
+                const discountValueError = document.getElementById("discountValueError");
+                const startDate = document.getElementById("startDate");
+                const expiryDate = document.getElementById("expiryDate");
+                const startDateError = document.getElementById("startDateError");
+                const expiryDateError = document.getElementById("expiryDateError");
+                const statusError = document.getElementById("statusError");
+
+                discountType.addEventListener("change", () => {
+                    if (discountType.value === "FIXED") {
+                        discountSymbol.textContent = "₹";
+                    } else {
+                        discountSymbol.textContent = "%";
+                    }
+
+                    clearError(discountType, discountTypeError);
+
+                    // Revalidate discount value if the user already entered one
+                    if (discountValue.value.trim()) {
+                        const value = Number(discountValue.value);
+
+                        if (
+                            value > 0 &&
+                            (discountType.value !== "PERCENTAGE" || value <= 100)
+                        ) {
+                            clearError(discountValue, discountValueError);
+                        } else {
+                            validateOfferForm();
+                        }
+                    }
+
+                    updateOfferPreview()
+                });
+
+                discountValue.addEventListener("input", () => {
+
+                    updateOfferPreview();
+
+                });
+
+                function showError(input, errorElement, message) {
+                    input.classList.remove("border-outline-variant");
+                    input.classList.add("border-red-500");
+
+                    errorElement.textContent = message;
+                    errorElement.classList.remove("hidden");
+                }
+
+                function clearError(input, errorElement) {
+                    input.classList.remove("border-red-500");
+                    input.classList.add("border-outline-variant");
+
+                    errorElement.textContent = "";
+                    errorElement.classList.add("hidden");
+                }
+
+                function validateOfferForm() {
+                    let isValid = true;
+
+                    // Offer Name
+                    const name = offerName.value.trim();
+
+                    if (!name) {
+                        showError(
+                            offerName,
+                            document.getElementById("offerNameError"),
+                            "Offer name is required."
+                        );
+                        isValid = false;
+                    } else if (name.length > 100) {
+                        showError(
+                            offerName,
+                            document.getElementById("offerNameError"),
+                            "Offer name must be 100 characters or less."
+                        );
+                        isValid = false;
+                    } else {
+                        clearError(
+                            offerName,
+                            document.getElementById("offerNameError")
+                        );
+                    }
+
+                    // Product / Category
+                    const searchType = getSearchType();
+
+                    const selectedProduct =
+                        document.getElementById("selectedProduct").value;
+
+                    const selectedCategory =
+                        document.getElementById("selectedCategory").value;
+
+                    if (searchType === "PRODUCT" && !selectedProduct) {
+                        targetError.textContent = "Please select a product.";
+                        targetError.classList.remove("hidden");
+                        isValid = false;
+                    } else if (searchType === "CATEGORY" && !selectedCategory) {
+                        targetError.textContent = "Please select a category.";
+                        targetError.classList.remove("hidden");
+                        isValid = false;
+                    } else {
+                        targetError.textContent = "";
+                        targetError.classList.add("hidden");
+                    }
+
+                    // Discount Type
+                    if (!discountType.value) {
+                        showError(
+                            discountType,
+                            discountTypeError,
+                            "Please select a discount type."
+                        );
+                        isValid = false;
+                    } else {
+                        clearError(discountType, discountTypeError);
+                    }
+
+                    // Discount Value
+                    const value = Number(discountValue.value);
+
+                    if (!discountValue.value.trim()) {
+                        showError(
+                            discountValue,
+                            discountValueError,
+                            "Discount value is required."
+                        );
+                        isValid = false;
+                    } else if (value <= 0) {
+                        showError(
+                            discountValue,
+                            discountValueError,
+                            "Discount value must be greater than 0."
+                        );
+                        isValid = false;
+                    } else if (
+                        discountType.value === "PERCENTAGE" &&
+                        value > 100
+                    ) {
+                        showError(
+                            discountValue,
+                            discountValueError,
+                            "Percentage discount cannot exceed 100%."
+                        );
+                        isValid = false;
+                    } else {
+                        clearError(discountValue, discountValueError);
+                    }
+
+                    // Start Date
+                    if (!startDate.value) {
+                        showError(
+                            startDate,
+                            startDateError,
+                            "Start date is required."
+                        );
+                        isValid = false;
+                    } else {
+                        clearError(startDate, startDateError);
+                    }
+
+                    // Expiry Date
+                    if (!expiryDate.value) {
+                        showError(
+                            expiryDate,
+                            expiryDateError,
+                            "End date is required."
+                        );
+                        isValid = false;
+                    } else if (
+                        startDate.value &&
+                        expiryDate.value <= startDate.value
+                    ) {
+                        showError(
+                            expiryDate,
+                            expiryDateError,
+                            "End date must be after the start date."
+                        );
+                        isValid = false;
+                    } else {
+                        clearError(expiryDate, expiryDateError);
+                    }
+
+                    // Status
+                    const selectedStatus =
+                        document.querySelector('input[name="status"]:checked');
+
+                    if (!selectedStatus) {
+                        statusError.textContent = "Please select a status.";
+                        statusError.classList.remove("hidden");
+                        isValid = false;
+                    } else {
+                        statusError.textContent = "";
+                        statusError.classList.add("hidden");
+                    }
+
+                    return isValid;
+                }
+
+                const publishOffer = document.getElementById("publishOffer");
+
+                publishOffer.addEventListener("click", async () => {
+                    console.log("PUBLISH CLICKED")
+                    const isValid = validateOfferForm();
+                    console.log("VALIDATION RESULT:", isValid);
+
+                    if (!isValid) {
+                        console.log("FORM INVALID");
+                        return;
+                    }
+
+                    const formData = {
+                        name: offerName.value.trim(),
+                        type: getSearchType(),
+                        product: document.getElementById("selectedProduct").value || null,
+                        category: document.getElementById("selectedCategory").value || null,
+                        discountType: discountType.value,
+                        discountValue: Number(discountValue.value),
+                        startDate: startDate.value,
+                        expiryDate: expiryDate.value,
+                        status: document.querySelector('input[name="status"]:checked').value,
+                    };
+
+                    console.log("OFFER DATA:", formData);
+
+                    try {
+                        const response = await fetch("/admin/addOffer", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify(formData),
+                        });
+
+                        const data = await response.json();
+
+                        console.log("SERVER RESPONSE:", data);
+
+                        if (data.success) {
+                            window.location.href = "/admin/offers";
+                        } else {
+                            console.error(data.message);
+                        }
+                    } catch (error) {
+                        console.error("Create offer error:", error);
+                    }
+                });
+
+                // Remove Offer Name error while typing
+                offerName.addEventListener("input", () => {
+                    const error = document.getElementById("offerNameError");
+
+                    if (offerName.value.trim()) {
+                        clearError(offerName, error);
+                    }
+                });
+
+
+
+
+
+                // Remove discount value error while typing
+                discountValue.addEventListener("input", () => {
+                    const value = Number(discountValue.value);
+
+                    if (
+                        discountValue.value.trim() &&
+                        value > 0 &&
+                        (discountType.value !== "PERCENTAGE" || value <= 100)
+                    ) {
+                        clearError(discountValue, discountValueError);
+                    }
+                });
+
+
+                // Remove start date error when selected
+                startDate.addEventListener("change", () => {
+                    if (startDate.value) {
+                        clearError(startDate, startDateError);
+                    }
+
+                    // If expiry date was previously invalid because of the start date,
+                    // validate it again
+                    if (expiryDate.value && expiryDate.value > startDate.value) {
+                        clearError(expiryDate, expiryDateError);
+                    }
+                });
+
+
+                // Remove expiry date error when corrected
+                expiryDate.addEventListener("change", () => {
+                    if (
+                        expiryDate.value &&
+                        startDate.value &&
+                        expiryDate.value > startDate.value
+                    ) {
+                        clearError(expiryDate, expiryDateError);
+                    }
+                });
+
+
+                // Remove status error when a status is selected
+                document.querySelectorAll('input[name="status"]').forEach((radio) => {
+                    radio.addEventListener("change", () => {
+                        statusError.textContent = "";
+                        statusError.classList.add("hidden");
+                    });
+                });
+
+
+            </script>
+
+
+</body>
+
+</html>

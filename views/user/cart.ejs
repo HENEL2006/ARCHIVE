@@ -224,10 +224,45 @@
 
                                                         </div>
 
-                                                        <p>
-                                                            Price :
-                                                            ₹<%= item.price.toLocaleString() %>
-                                                        </p>
+                                                        <% if (item.offer) { %>
+
+                                                            <div class="space-y-1">
+
+                                                                <div class="flex items-center gap-3">
+                                                                    <span>
+                                                                        Price :
+                                                                        ₹<%= item.price.toLocaleString("en-IN", {
+                                                                            maximumFractionDigits: 0 }) %>
+                                                                    </span>
+
+                                                                    <span
+                                                                        class="line-through text-secondary text-[10px]">
+                                                                        ₹<%= item.originalPrice.toLocaleString("en-IN",
+                                                                            { maximumFractionDigits: 0 }) %>
+                                                                    </span>
+                                                                </div>
+
+                                                                <p class="text-green-700 text-[10px]">
+                                                                    SAVE ₹<%=
+                                                                        item.discountAmount.toLocaleString("en-IN", {
+                                                                        maximumFractionDigits: 0 }) %>
+
+                                                                        <% if (item.offer.discountType==="PERCENTAGE" )
+                                                                            { %>
+                                                                            · <%= item.offer.discountValue %>% OFF
+                                                                                <% } %>
+                                                                </p>
+
+                                                            </div>
+
+                                                            <% } else { %>
+
+                                                                <p>
+                                                                    Price :
+                                                                    ₹<%= item.price.toLocaleString("en-IN") %>
+                                                                </p>
+
+                                                                <% } %>
 
                                                     </div>
 

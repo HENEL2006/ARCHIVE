@@ -25,7 +25,9 @@ export const loadCheckout = async (req, res) => {
       req.session.userId,
     );
 
-    const appliedCoupon = req.session.appliedCoupon || null;
+    delete req.session.appliedCoupon;
+
+    const appliedCoupon = null;
 
     const availableCoupons = await getAvailableCouponsService(
       req.session.userId,

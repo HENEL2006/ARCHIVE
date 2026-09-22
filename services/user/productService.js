@@ -1,6 +1,7 @@
 import Category from "../../models/category.js";
 import Product from "../../models/product.js";
 import Wishlist from "../../models/wishlist.js";
+import { getBestOfferService } from "./offerService.js";
 
 export const getProductService = async (query, userId) => {
   const {
@@ -17,7 +18,6 @@ export const getProductService = async (query, userId) => {
     isListed: true,
     isDeleted: false,
   }).lean();
-
 
   let selectedCategory = null;
   if (query.category) {
@@ -109,6 +109,23 @@ export const getProductService = async (query, userId) => {
     .limit(limit)
     .lean();
 
+  const productsWithOffers = await Promise.all(
+    products.map(async (product) => {
+      const offer = await getBestOfferService({
+        ...product,
+        category: product.category?._id || product.category,
+      });
+
+      return {
+        ...product,
+        originalPrice: product.price,
+        offer: offer.offer,
+        discountAmount: offer.discountAmount,
+        finalPrice: offer.finalPrice,
+      };
+    }),
+  );
+
   let wishlistIds = [];
 
   if (userId) {
@@ -122,7 +139,7 @@ export const getProductService = async (query, userId) => {
   }
 
   return {
-    products,
+    products: productsWithOffers,
     brands,
     categories,
     selectedCategory,
@@ -158,6 +175,19 @@ export const getProductDetailsService = async (slug) => {
     0,
   );
 
+  const offer = await getBestOfferService({
+    ...product,
+    category: product.category?._id || product.category,
+  });
+
+  const productWithOffer = {
+    ...product,
+    originalPrice: product.price,
+    offer: offer.offer,
+    discountAmount: offer.discountAmount,
+    finalPrice: offer.finalPrice,
+  };
+
   const relatedProducts = await Product.find({
     _id: { $ne: product._id },
     isListed: true,
@@ -167,7 +197,29 @@ export const getProductDetailsService = async (slug) => {
     .limit(4)
     .lean();
 
+  const relatedProductsWithOffers = await Promise.all(
+    relatedProducts.map(async (related) => {
+      const relatedOffer = await getBestOfferService({
+        ...related,
+        category: related.category?._id || related.category,
+      });
+
+      return {
+        ...related,
+        originalPrice: related.price,
+        offer: relatedOffer.offer,
+        discountAmount: relatedOffer.discountAmount,
+        finalPrice: relatedOffer.finalPrice,
+      };
+    }),
+  );
+
   const categories = await Category.find({ isListed: true, isDeleted: false });
 
-  return { product, totalStock, relatedProducts, categories };
+  return {
+    product: productWithOffer,
+    totalStock,
+    relatedProducts: relatedProductsWithOffers,
+    categories,
+  };
 };

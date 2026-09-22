@@ -349,9 +349,44 @@
                                                         SIZE: <%= item.size %> / QTY: <%= item.quantity %>
                                                     </p>
 
-                                                    <p class="font-mono-data text-mono-data mt-1">
-                                                        ₹<%= (item.price * item.quantity).toLocaleString("en-IN") %>
-                                                    </p>
+                                                    <% if (item.offer) { %>
+                                                        <div class="mt-1 space-y-1">
+
+                                                            <div class="flex items-center gap-2">
+                                                                <span class="font-mono-data text-mono-data">
+                                                                    ₹<%= (item.price *
+                                                                        item.quantity).toLocaleString("en-IN", {
+                                                                        maximumFractionDigits: 0 }) %>
+                                                                </span>
+
+                                                                <span
+                                                                    class="font-mono-data text-[10px] text-secondary line-through">
+                                                                    ₹<%= (item.originalPrice *
+                                                                        item.quantity).toLocaleString("en-IN", {
+                                                                        maximumFractionDigits: 0 }) %>
+                                                                </span>
+                                                            </div>
+
+                                                            <p class="font-mono-data text-[10px] text-accent-success">
+                                                                SAVE ₹<%= (item.discountAmount *
+                                                                    item.quantity).toLocaleString("en-IN", {
+                                                                    maximumFractionDigits: 0 }) %>
+
+                                                                    <% if (item.offer.discountType==="PERCENTAGE" ) { %>
+                                                                        · <%= item.offer.discountValue %>% OFF
+                                                                            <% } %>
+                                                            </p>
+
+                                                        </div>
+                                                        <% } else { %>
+
+                                                            <p class="font-mono-data text-mono-data mt-1">
+                                                                ₹<%= (item.price *
+                                                                    item.quantity).toLocaleString("en-IN", {
+                                                                    maximumFractionDigits: 0 }) %>
+                                                            </p>
+
+                                                            <% } %>
 
                                                 </div>
 
@@ -1034,6 +1069,7 @@
 
                                 document.getElementById("couponSection").innerHTML = `
     <div class="relative">
+
         <select
             id="availableCouponSelect"
             class="w-full appearance-none bg-transparent border border-primary font-mono-data text-mono-data py-3 px-4 pr-10 focus:ring-0 outline-none"
@@ -1056,6 +1092,7 @@
         >
             expand_more
         </span>
+
     </div>
 
     <button
@@ -1067,6 +1104,7 @@
     </button>
 
     <div class="flex gap-0">
+
         <input
             id="couponCode"
             class="flex-grow bg-transparent border border-primary border-r-0 font-mono-data text-mono-data py-3 px-4 focus:ring-0 uppercase"
@@ -1081,6 +1119,7 @@
         >
             APPLY
         </button>
+
     </div>
 `;
 
@@ -1158,24 +1197,32 @@
 
                                 // Restore coupon input
                                 document.getElementById("couponSection").innerHTML = `
-                <div class="flex gap-0">
+    <div class="border border-primary p-4">
 
-                    <input
-                        id="couponCode"
-                        class="flex-grow bg-transparent border border-primary border-r-0 font-mono-data text-mono-data py-3 px-4 focus:ring-0 uppercase"
-                        placeholder="ENTER CODE"
-                        type="text"
-                    />
+        <div class="flex justify-between items-center gap-4">
 
-                    <button
-                        type="button"
-                        id="applyCouponBtn"
-                        class="bg-primary text-on-primary font-label-caps text-label-caps px-6 py-3">
-                        APPLY
-                    </button>
+            <div>
+                <p class="font-label-caps text-label-caps text-secondary mb-2">
+                    APPLIED COUPON
+                </p>
 
-                </div>
-            `;
+                <p class="font-mono-data text-mono-data font-bold">
+                    ${data.coupon.code}
+                </p>
+            </div>
+
+            <button
+                type="button"
+                id="removeCouponBtn"
+                class="font-label-caps text-label-caps border border-primary px-4 py-2"
+            >
+                REMOVE
+            </button>
+
+        </div>
+
+    </div>
+`;
 
                                 // Reattach Apply event
                                 attachApplyCoupon();
