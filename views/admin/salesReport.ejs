@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en" class="light">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARCHIVE // Sales Reports (Operational Ledger)</title>
+    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;display=swap"
+        rel="stylesheet">
+    <!-- Material Symbols Outlined -->
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        surface: {
+                            DEFAULT: '#fcfcfc',
+                            dim: '#f3f4f6',
+                            border: '#e5e7eb',
+                            card: '#ffffff'
+                        },
+                        brand: {
+                            black: '#0a0a0a',
+                            muted: '#71717a',
+                            subtle: '#a1a1aa',
+                            light: '#f4f4f5'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 350, 'GRAD' 0, 'opsz' 20;
+            vertical-align: middle;
+        }
+
+        /* Subtle custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f4f4f5;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #d4d4d8;
+            border-radius: 2px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a1a1aa;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-[#fafafa] text-[#0a0a0a] font-sans antialiased min-h-screen flex selection:bg-black selection:text-white">
+
+    <%- include("partials/toast") %>
+
+        <!-- Fixed SideNavBar -->
+        <%- include("partials/adminSidebar") %>
+
+            <!-- ========================================== -->
+            <!-- MAIN WORKSPACE CONTAINER (ml-[250px])      -->
+            <!-- ========================================== -->
+            <div class="flex-1 ml-[250px] flex flex-col min-w-0">
+
+                <!-- TopAppBar -->
+                <%- include("partials/adminNavbar") %>
+
+                    <!-- Main Workspace Content -->
+                    <main class="p-8 max-w-[1440px] w-full mx-auto space-y-6">
+
+                        <!-- ========================================== -->
+                        <!-- 2. PAGE HEADER                            -->
+                        <!-- ========================================== -->
+                        <div
+                            class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-2 border-b border-[#e5e7eb]">
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <h2 class="text-2xl font-bold tracking-tight text-black">SALES REPORTS</h2>
+
+                                </div>
+                                <p class="text-xs text-[#71717a] mt-1 font-normal">
+                                    Track sales performance, discounts, orders and revenue across selected periods.
+                                </p>
+                            </div>
+
+                            <div class="flex items-center gap-2.5">
+
+
+                            </div>
+                        </div>
+
+                        <!-- ========================================== -->
+                        <!-- 3. REPORT PERIOD SELECTOR                 -->
+                        <!-- ========================================== -->
+                        <section class="bg-white border border-[#e5e7eb] p-4 rounded-xs">
+                            <div class="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+                                <!-- Left: Period Toggles -->
+                                <div class="flex flex-wrap items-center gap-3">
+                                    <span
+                                        class="font-mono text-[10px] uppercase tracking-[0.2em] text-[#71717a] font-semibold">Report
+                                        Period:</span>
+
+                                    <div class="inline-flex p-0.5 bg-[#f4f4f5] border border-[#e5e7eb] rounded-xs">
+                                        <a href="/admin/salesReport?period=daily" class="px-3.5 py-1.5 text-xs font-mono font-medium rounded-xs
+    <%= period === 'daily' ? 'bg-black text-white' : 'text-[#52525b] hover:text-black' %>">
+                                            DAILY
+                                        </a>
+
+                                        <a href="/admin/salesReport?period=weekly" class="px-3.5 py-1.5 text-xs font-mono font-medium rounded-xs
+    <%= period === 'weekly' ? 'bg-black text-white' : 'text-[#52525b] hover:text-black' %>">
+                                            WEEKLY
+                                        </a>
+
+                                        <a href="/admin/salesReport?period=yearly" class="px-3.5 py-1.5 text-xs font-mono font-medium rounded-xs
+    <%= period === 'yearly' ? 'bg-black text-white' : 'text-[#52525b] hover:text-black' %>">
+                                            YEARLY
+                                        </a>
+
+                                        <a href="/admin/salesReport?period=custom" class="px-3.5 py-1.5 text-xs font-mono font-medium rounded-xs
+    <%= period === 'custom' ? 'bg-black text-white' : 'text-[#52525b] hover:text-black' %>">
+                                            CUSTOM
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <!-- Right: Custom Date Filter Controls (Integrated) -->
+                                <form action="/admin/salesReport" method="GET"
+                                    class="flex flex-wrap items-center gap-3 text-xs">
+                                    <input type="hidden" name="period" value="custom">
+
+                                    <div class="flex items-center gap-2">
+                                        <span class="font-mono text-[10px] uppercase text-[#71717a]">
+                                            FROM
+                                        </span>
+
+                                        <input type="date" name="startDate" value="<%= filterStartDate || '' %>"
+                                            class="font-mono text-xs bg-white border border-[#e5e7eb] rounded-xs px-2.5 py-1.5 w-40 text-black focus:outline-none focus:border-black">
+                                    </div>
+
+                                    <div class="flex items-center gap-2">
+                                        <span class="font-mono text-[10px] uppercase text-[#71717a]">
+                                            TO
+                                        </span>
+
+                                        <input type="date" name="endDate" value="<%= filterEndDate || '' %>"
+                                            class="font-mono text-xs bg-white border border-[#e5e7eb] rounded-xs px-2.5 py-1.5 w-40 text-black focus:outline-none focus:border-black">
+                                    </div>
+
+                                    <div class="flex items-center gap-2 ml-1">
+                                        <button type="submit"
+                                            class="px-3.5 py-1.5 bg-black hover:bg-[#27272a] text-white font-mono text-[11px] uppercase tracking-wider rounded-xs transition-colors font-medium">
+                                            APPLY FILTER
+                                        </button>
+
+                                        <a href="/admin/salesReport?period=daily"
+                                            class="px-3 py-1.5 bg-white hover:bg-[#f4f4f5] text-[#52525b] hover:text-black border border-[#e5e7eb] font-mono text-[11px] uppercase tracking-wider rounded-xs transition-colors">
+                                            RESET
+                                        </a>
+                                    </div>
+                                </form>
+                            </div>
+                        </section>
+
+                        <!-- ========================================== -->
+                        <!-- 4. SALES SUMMARY (4 Horiz Bordered Blocks) -->
+                        <!-- ========================================== -->
+                        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <!-- Card 1: Total Sales -->
+                            <div class="bg-white border border-[#e5e7eb] p-5 rounded-xs flex flex-col justify-between">
+                                <div class="flex items-center justify-between text-[#71717a] mb-2">
+                                    <span
+                                        class="font-mono text-[10px] uppercase tracking-[0.2em] font-semibold text-[#52525b]">Total
+                                        Sales</span>
+                                </div>
+                                <div class="my-1">
+                                    <span class="font-mono text-3xl font-bold tracking-tight text-black">₹<%=
+                                            totalSales.toLocaleString("en-IN") %></span>
+                                </div>
+                                <p class="text-[11px] text-[#71717a] mt-2 border-t border-[#f4f4f5] pt-2">
+                                    Net sales after discounts
+                                </p>
+                            </div>
+
+                            <!-- Card 2: Orders -->
+                            <div class="bg-white border border-[#e5e7eb] p-5 rounded-xs flex flex-col justify-between">
+                                <div class="flex items-center justify-between text-[#71717a] mb-2">
+                                    <span
+                                        class="font-mono text-[10px] uppercase tracking-[0.2em] font-semibold text-[#52525b]">Orders</span>
+                                </div>
+                                <div class="my-1">
+                                    <span class="font-mono text-3xl font-bold tracking-tight text-black">
+                                        <%= totalOrders %>
+                                    </span>
+                                </div>
+                                <p class="text-[11px] text-[#71717a] mt-2 border-t border-[#f4f4f5] pt-2">
+                                    Completed orders
+                                </p>
+                            </div>
+
+                            <!-- Card 3: Items Sold -->
+                            <div class="bg-white border border-[#e5e7eb] p-5 rounded-xs flex flex-col justify-between">
+                                <div class="flex items-center justify-between text-[#71717a] mb-2">
+                                    <span
+                                        class="font-mono text-[10px] uppercase tracking-[0.2em] font-semibold text-[#52525b]">Items
+                                        Sold</span>
+                                </div>
+                                <div class="my-1">
+                                    <span class="font-mono text-3xl font-bold tracking-tight text-black">
+                                        <%= totalItemsSold %>
+                                    </span>
+                                </div>
+                                <p class="text-[11px] text-[#71717a] mt-2 border-t border-[#f4f4f5] pt-2">
+                                    Units sold
+                                </p>
+                            </div>
+
+                            <!-- Card 4: Discounts -->
+                            <div class="bg-white border border-[#e5e7eb] p-5 rounded-xs flex flex-col justify-between">
+                                <div class="flex items-center justify-between text-[#71717a] mb-2">
+                                    <span
+                                        class="font-mono text-[10px] uppercase tracking-[0.2em] font-semibold text-[#52525b]">Discounts</span>
+                                </div>
+                                <div class="my-1">
+                                    <span class="font-mono text-3xl font-bold tracking-tight text-black">
+                                        <%= totalDiscount %>
+                                    </span>
+                                </div>
+                                <p class="text-[11px] text-[#71717a] mt-2 border-t border-[#f4f4f5] pt-2">
+                                    Coupons + offers
+                                </p>
+                            </div>
+                        </section>
+
+                        <!-- ========================================== -->
+                        <!-- 5. SALES OVERVIEW (Chart Section)         -->
+                        <!-- ========================================== -->
+                        <section class="bg-white border border-[#e5e7eb] p-6 rounded-xs">
+                            <div
+                                class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#f4f4f5] gap-3">
+                                <div>
+                                    <h3 class="text-sm font-bold tracking-wider uppercase text-black font-mono">SALES
+                                        OVERVIEW</h3>
+                                    <p class="text-xs text-[#71717a] mt-0.5">Revenue and order performance for the
+                                        selected
+                                        period.</p>
+                                </div>
+                                <div class="flex items-center gap-6">
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-3 h-3 bg-black rounded-xs"></span>
+                                        <span class="font-mono text-[11px] uppercase tracking-wider text-[#52525b]">NET
+                                            SALES (₹)</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <span class="w-3 h-3 bg-[#a1a1aa] rounded-xs"></span>
+                                        <span
+                                            class="font-mono text-[11px] uppercase tracking-wider text-[#52525b]">ORDERS
+                                            (QTY)</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Monochrome Clean Editorial Chart Graphic -->
+                            <div class="pt-6 pb-2">
+                                <div
+                                    class="w-full h-[300px] pl-10 pr-4 flex items-end justify-between z-10 gap-2 sm:gap-6">
+
+                                    <% chartBreakdown.slice(0, 7).reverse().forEach((row)=> { %>
+
+                                        <% const maxSales=Math.max(...breakdown.map(item=> item.netSales), 1);
+                                            const salesHeight = (row.netSales / maxSales) * 100;
+                                            const ordersHeight = (row.orders / Math.max(...breakdown.map(item =>
+                                            item.orders), 1)) * 100;
+                                            %>
+
+                                            <div
+                                                class="flex-1 flex flex-col items-center h-full justify-end group cursor-pointer">
+
+                                                <div
+                                                    class="w-full max-w-[42px] flex items-end justify-center gap-1 h-[85%]">
+                                                    <!-- Net Sales -->
+                                                    <div class="w-1/2 bg-black rounded-xs transition-all relative"
+                                                        style="height: <%= salesHeight %>%;">
+                                                        <span
+                                                            class="opacity-0 group-hover:opacity-100 absolute -top-7 left-1/2 -translate-x-1/2 bg-black text-white font-mono text-[9px] px-1.5 py-0.5 rounded-xs whitespace-nowrap transition-opacity pointer-events-none">
+                                                            ₹<%= row.netSales.toLocaleString("en-IN") %>
+                                                        </span>
+                                                    </div>
+
+                                                    <!-- Orders -->
+                                                    <div class="w-1/2 bg-[#d4d4d8] group-hover:bg-[#a1a1aa] rounded-xs transition-all"
+                                                        style="height: <%= ordersHeight %>%;">
+                                                    </div>
+
+                                                </div>
+
+                                                <span class="font-mono text-[10px] text-[#71717a] mt-3 uppercase">
+                                                    <%= new Date(row.date).toLocaleDateString("en-IN", { day: "2-digit"
+                                                        , month: "short" }) %>
+                                                </span>
+
+                                            </div>
+
+                                            <% }) %>
+
+                                </div>
+                            </div>
+                        </section>
+
+                        <!-- ========================================== -->
+                        <!-- 6. SALES BREAKDOWN (Table Section)        -->
+                        <!-- ========================================== -->
+                        <section class="bg-white border border-[#e5e7eb] rounded-xs overflow-hidden">
+                            <div
+                                class="p-5 border-b border-[#e5e7eb] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                                <div>
+                                    <h3 class="text-sm font-bold tracking-wider uppercase text-black font-mono">SALES
+                                        BREAKDOWN</h3>
+                                    <p class="text-xs text-[#71717a] mt-0.5">Chronological audit ledger of orders,
+                                        volume,
+                                        gross sales and deductions.</p>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <span class="font-mono text-[11px] text-[#71717a]">
+                                        SHOWING <%= breakdown.length %> OF <%= totalRecords %> DATES
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="overflow-x-auto">
+                                <table class="w-full text-left text-xs border-collapse">
+                                    <thead>
+                                        <tr
+                                            class="bg-[#fcfcfc] border-b border-[#e5e7eb] text-[#71717a] font-mono text-[10px] uppercase tracking-wider">
+                                            <th class="py-3 px-5 font-semibold">Date</th>
+                                            <th class="py-3 px-4 font-semibold text-center">Orders</th>
+                                            <th class="py-3 px-4 font-semibold text-center">Items Sold</th>
+                                            <th class="py-3 px-4 font-semibold text-right">Gross Sales</th>
+                                            <th class="py-3 px-4 font-semibold text-right">Discounts</th>
+                                            <th class="py-3 px-5 font-semibold text-right">Net Sales</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-[#f0f0f0] font-mono">
+
+                                        <% if (breakdown.length===0) { %>
+
+                                            <tr>
+                                                <td colspan="6" class="py-10 text-center text-[#71717a] text-xs">
+                                                    NO SALES DATA FOR THIS PERIOD
+                                                </td>
+                                            </tr>
+
+                                            <% } else { %>
+
+                                                <% breakdown.forEach((row)=> { %>
+
+                                                    <tr class="hover:bg-[#fbfbfb] transition-colors">
+
+                                                        <td class="py-3.5 px-5 font-medium text-black">
+                                                            <%= new Date(row.date).toLocaleDateString("en-IN", {
+                                                                day: "2-digit" , month: "short" , year: "numeric"
+                                                                }).toUpperCase() %>
+                                                        </td>
+
+                                                        <td class="py-3.5 px-4 text-center text-[#52525b]">
+                                                            <%= row.orders %>
+                                                        </td>
+
+                                                        <td class="py-3.5 px-4 text-center text-[#52525b]">
+                                                            <%= row.itemsSold %>
+                                                        </td>
+
+                                                        <td class="py-3.5 px-4 text-right text-[#52525b]">
+                                                            ₹<%= row.grossSales.toLocaleString("en-IN") %>
+                                                        </td>
+
+                                                        <td class="py-3.5 px-4 text-right text-[#dc2626] font-medium">
+                                                            -₹<%= row.discounts.toLocaleString("en-IN") %>
+                                                        </td>
+
+                                                        <td class="py-3.5 px-5 text-right font-bold text-black">
+                                                            ₹<%= row.netSales.toLocaleString("en-IN") %>
+                                                        </td>
+
+                                                    </tr>
+
+                                                    <% }) %>
+
+                                                        <% } %>
+
+                                    </tbody>
+                                    <tfoot>
+                                        <tr
+                                            class="bg-[#fcfcfc] border-t border-[#e5e7eb] font-mono text-xs font-semibold">
+
+                                            <td class="py-3 px-5 text-black uppercase">
+                                                Subtotal (Period)
+                                            </td>
+
+                                            <td class="py-3 px-4 text-center text-black">
+                                                <%= totalOrders %>
+                                            </td>
+
+                                            <td class="py-3 px-4 text-center text-black">
+                                                <%= totalItemsSold %>
+                                            </td>
+
+                                            <td class="py-3 px-4 text-right text-black">
+                                                ₹<%= orders.reduce((sum, order)=> sum + (order.subtotal || 0),
+                                                    0).toLocaleString("en-IN") %>
+                                            </td>
+
+                                            <td class="py-3 px-4 text-right text-[#dc2626]">
+                                                -₹<%= totalDiscount.toLocaleString("en-IN") %>
+                                            </td>
+
+                                            <td class="py-3 px-5 text-right text-black">
+                                                ₹<%= totalSales.toLocaleString("en-IN") %>
+                                            </td>
+
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+
+                            <!-- 11. PAGINATION -->
+                            <div class="px-5 py-3.5 bg-white border-t border-[#e5e7eb]
+           flex flex-col sm:flex-row items-center justify-between
+           gap-3 text-xs">
+
+                                <!-- Record count -->
+                                <span class="font-mono text-[11px] text-[#71717a]">
+
+                                    <% const showingFrom=totalRecords===0 ? 0 : ((currentPage - 1) * limit) + 1; const
+                                        showingTo=Math.min( currentPage * limit, totalRecords ); %>
+
+                                        SHOWING <%= showingFrom %>–<%= showingTo %> OF <%= totalRecords %> RECORDS
+
+                                </span>
+
+
+                                <!-- Pagination controls -->
+                                <div class="inline-flex items-center gap-1 font-mono text-[11px]">
+
+                                    <!-- PREV -->
+                                    <% if (currentPage> 1) { %>
+
+                                        <a href="/admin/salesReport?period=<%= period %>&page=<%= currentPage - 1 %>&limit=<%= limit %><%= filterStartDate ? '&startDate=' + filterStartDate : '' %><%= filterEndDate ? '&endDate=' + filterEndDate : '' %>"
+                                            class="px-2.5 py-1 border border-[#e5e7eb] rounded-xs
+                       text-[#71717a] hover:text-black hover:bg-[#f4f4f5]
+                       transition-colors">
+
+                                            PREV
+
+                                        </a>
+
+                                        <% } else { %>
+
+                                            <span class="px-2.5 py-1 border border-[#e5e7eb] rounded-xs
+                       text-[#d4d4d8] cursor-not-allowed">
+
+                                                PREV
+
+                                            </span>
+
+                                            <% } %>
+
+
+                                                <!-- PAGE NUMBERS -->
+
+                                                <% for (let i=1; i <=totalPages; i++) { %>
+
+                                                    <% if (i===currentPage) { %>
+
+                                                        <!-- CURRENT PAGE -->
+
+                                                        <span
+                                                            class="px-2.5 py-1 bg-black text-white rounded-xs font-semibold">
+
+                                                            <%= i %>
+
+                                                        </span>
+
+                                                        <% } else { %>
+
+                                                            <!-- OTHER PAGE -->
+
+                                                            <a href="/admin/salesReport?period=<%= period %>&page=<%= i %>&limit=<%= limit %><%= filterStartDate ? '&startDate=' + filterStartDate : '' %><%= filterEndDate ? '&endDate=' + filterEndDate : '' %>"
+                                                                class="px-2.5 py-1 border border-[#e5e7eb] rounded-xs
+                           text-[#52525b] hover:text-black hover:bg-[#f4f4f5]
+                           transition-colors">
+
+                                                                <%= i %>
+
+                                                            </a>
+
+                                                            <% } %>
+
+                                                                <% } %>
+
+
+                                                                    <!-- NEXT -->
+
+                                                                    <% if (currentPage < totalPages) { %>
+
+                                                                        <a href="/admin/salesReport?period=<%= period %>&page=<%= currentPage + 1 %>&limit=<%= limit %><%= filterStartDate ? '&startDate=' + filterStartDate : '' %><%= filterEndDate ? '&endDate=' + filterEndDate : '' %>"
+                                                                            class="px-2.5 py-1 border border-[#e5e7eb] rounded-xs
+                       text-[#71717a] hover:text-black hover:bg-[#f4f4f5]
+                       transition-colors">
+
+                                                                            NEXT
+
+                                                                        </a>
+
+                                                                        <% } else { %>
+
+                                                                            <span class="px-2.5 py-1 border border-[#e5e7eb] rounded-xs
+                       text-[#d4d4d8] cursor-not-allowed">
+
+                                                                                NEXT
+
+                                                                            </span>
+
+                                                                            <% } %>
+
+                                </div>
+
+                            </div>
+
+                            <!-- ========================================== -->
+                            <!-- 7 & 8: TWO-COLUMN SECTION                 -->
+                            <!-- 7. Discounts/Coupons + 8. Net Calculation -->
+                            <!-- ========================================== -->
+
+
+                            <!-- ========================================== -->
+                            <!-- 9 & 10. REPORT DOWNLOADS & EXPORT BEHAVIOR -->
+                            <!-- ========================================== -->
+                            <section id="download-section" class="bg-white border border-[#e5e7eb] p-6 rounded-xs">
+                                <div
+                                    class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-[#f0f0f0] gap-3">
+                                    <div>
+                                        <h3 class="text-sm font-bold tracking-wider uppercase text-black font-mono">
+                                            DOWNLOAD
+                                            REPORT</h3>
+                                        <p class="text-xs text-[#71717a] mt-0.5">Export the current filtered sales
+                                            report
+                                            for
+                                            external accounting.</p>
+                                    </div>
+
+                                    <!-- 10. EXPORT BEHAVIOR METADATA LINE -->
+
+                                </div>
+
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-5">
+                                    <!-- PDF Report Card -->
+                                    <div
+                                        class="border border-[#e5e7eb] p-5 rounded-xs hover:border-black transition-colors flex flex-col justify-between bg-[#fafafa]">
+                                        <div class="flex items-start gap-3 mb-4">
+                                            <div
+                                                class="w-9 h-9 bg-white border border-[#e5e7eb] rounded-xs flex items-center justify-center shrink-0">
+                                                <span
+                                                    class="material-symbols-outlined text-[20px] text-black">picture_as_pdf</span>
+                                            </div>
+                                            <div>
+                                                <h4
+                                                    class="text-xs font-bold uppercase tracking-wider text-black font-mono">
+                                                    PDF
+                                                    REPORT</h4>
+                                                <p class="text-xs text-[#71717a] mt-1">Download the current sales report
+                                                    as
+                                                    PDF
+                                                    with editorial charts.</p>
+                                            </div>
+                                        </div>
+
+                                        <a href="/admin/salesReport/download/pdf?period=<%= period %>&startDate=<%= filterStartDate %>&endDate=<%= filterEndDate %>"
+                                            class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-white hover:bg-black hover:text-white text-black border border-black rounded-xs font-mono text-[11px] uppercase tracking-wider transition-colors font-medium">
+
+                                            <span class="material-symbols-outlined text-[16px]">download</span>
+                                            DOWNLOAD PDF
+
+                                        </a>
+                                    </div>
+
+                                    <!-- Excel Report Card -->
+
+                                </div>
+                            </section>
+
+                            <!-- ========================================== -->
+                            <!-- 13. IMPORTANT DATA STATES (Collapsible Reference) -->
+                            <!-- ========================================== -->
+
+
+                    </main>
+            </div>
+
+
+
+
+
+</body>
+
+</html>

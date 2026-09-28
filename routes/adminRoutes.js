@@ -64,6 +64,10 @@ import { toggleOffer } from "../controllers/admin/offersController.js";
 import { loadEditOffer } from "../controllers/admin/offersController.js";
 import { updateOffer } from "../controllers/admin/offersController.js";
 import { deleteOffer } from "../controllers/admin/offersController.js";
+import {
+  downloadSalesReportPDF,
+  loadSalesReport,
+} from "../controllers/admin/salesController.js";
 
 router.get("/login", adminGuest, loadLogin);
 router.post("/login", adminGuest, adminLogin);
@@ -134,6 +138,9 @@ router.post("/offers/:id/toggle", adminAuth, toggleOffer);
 router.get("/offers/:id/edit", adminAuth, loadEditOffer);
 router.post("/offers/:id/edit", adminAuth, updateOffer);
 router.post("/offers/:id/delete", adminAuth, deleteOffer);
+
+router.get("/salesReport", adminAuth, loadSalesReport);
+router.get("/salesReport/download/pdf", adminAuth, downloadSalesReportPDF);
 
 router.get("/logout", adminLogout);
 
