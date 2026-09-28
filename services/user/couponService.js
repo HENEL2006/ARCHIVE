@@ -15,6 +15,10 @@ export const applyCouponService = async (userId, code, subtotal) => {
     throw new Error("INVAILD COUPON CODE");
   }
 
+  if (coupon.assignedTo && coupon.assignedTo.toString() !== userId.toString()) {
+    throw new Error("THIS COUPON IS NOT AVAILABE FOR YOU");
+  }
+
   const now = new Date();
 
   if (!coupon.isActive) {
@@ -25,7 +29,7 @@ export const applyCouponService = async (userId, code, subtotal) => {
     throw new Error("COUPON IS NOT ACTIVE YET");
   }
 
-  if (now > coupon.expiryDate) {
+  if (coupon.expiryDate && now > coupon.expiryDate) {
     throw new Error("COUPON HAS EXPIRED");
   }
 
@@ -84,6 +88,10 @@ export const getAppliedCouponService = async (
     throw new Error("COUPON NO LONGER EXISTS");
   }
 
+  if (coupon.assignedTo && coupon.assignedTo.toString() !== userId.toString()) {
+    throw new Error("THIS COUPON IS NOT AVAILABLE FOR YOU");
+  }
+
   const now = new Date();
 
   if (!coupon.isActive) {
@@ -94,7 +102,7 @@ export const getAppliedCouponService = async (
     throw new Error("COUPON IS NOT ACTIVE YET");
   }
 
-  if (now > coupon.expiryDate) {
+  if (coupon.expiryDate && now > coupon.expiryDate) {
     throw new Error("COUPON HAS EXPIRED");
   }
 
@@ -142,8 +150,16 @@ export const getAvailableCouponsService = async (userId, subtotal) => {
   const coupons = await Coupon.find({
     isActive: true,
     startDate: { $lte: now },
-    expiryDate: { $gte: now },
     minimumPurchase: { $lte: subtotal },
+
+    $and: [
+      {
+        $or: [{ expiryDate: { $gte: now } }, { expiryDate: null }],
+      },
+      {
+        $or: [{ assignedTo: null }, { assignedTo: userId }],
+      },
+    ],
   })
     .sort({ createdAt: -1 })
     .lean();
@@ -164,5 +180,5 @@ export const getAvailableCouponsService = async (userId, subtotal) => {
     return true;
   });
 
-  return availableCoupons;  
+  return availableCoupons;
 };

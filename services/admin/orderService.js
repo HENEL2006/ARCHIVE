@@ -2,6 +2,7 @@ import Order from "../../models/order.js";
 import Product from "../../models/product.js";
 import User from "../../models/User.js";
 import { updateOverallOrderStatus } from "../../utils/orderStatus.js";
+import { completeReferralService } from "../user/referralService.js";
 
 export const getOrdersService = async (
   page = 1,
@@ -239,6 +240,10 @@ export const updateOrderStatusService = async (orderId, newStatus) => {
 
   await order.save();
 
+  if (order.orderStatus === "DELIVERED") {
+    await completeReferralService(order.userId);
+  }
+
   return order;
 };
 
@@ -278,6 +283,10 @@ export const updateOrderItemStatusService = async (
   updateOverallOrderStatus(order);
 
   await order.save();
+
+  if (order.orderStatus === "DELIVERED") {
+    await completeReferralService(order.userId);
+  }
 
   return order;
 };

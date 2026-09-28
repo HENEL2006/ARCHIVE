@@ -48,11 +48,13 @@ export const googleAuthCallback = (req, res, next) => {
 };
 
 export const loadSignup = (req, res) => {
+  const referralCode = req.query.ref || "";
+
   res.render("user/signup", {
     error: null,
+    referralCode,
   });
 };
-
 export const signup = async (req, res) => {
   try {
     const user = await signupUser(req.body);
@@ -67,6 +69,7 @@ export const signup = async (req, res) => {
   } catch (error) {
     res.render("user/signup", {
       error: error.message,
+      referralCode: req.body.referralCode || "",
     });
     console.log(error);
   }

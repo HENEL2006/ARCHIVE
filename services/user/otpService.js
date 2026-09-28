@@ -1,9 +1,7 @@
 import User from "../../models/User.js";
 import Otp from "../../models/Otp.js";
 import { sendOtpEmail } from "../../utils/sendOtpEmail.js";
-
-
-
+import Referral from "../../models/referral.js";
 
 export const verifyUserOtp = async (userId, enteredOtp) => {
   const otpDoc = await Otp.findOne({ userId });
@@ -23,7 +21,32 @@ export const verifyUserOtp = async (userId, enteredOtp) => {
     throw new Error("INVALID OTP");
   }
 
-  await User.findByIdAndUpdate(userId, { isVerified: true }, { new: true });
+  const user = await User.findByIdAndUpdate(
+    userId,
+    { isVerified: true },
+    { new: true },
+  );
+
+  if (user.referredBy) {
+    const existingReferral = await Referral.findOne({
+      referredUser: user._id,
+    });
+
+    if (!existingReferral) {
+      const referrer = await User.findById(user.referredBy).select(
+        "referralCode",
+      );
+
+      if (referrer) {
+        await Referral.create({
+          referrer: referrer._id,
+          referredUser: user._id,
+          referralCode: referrer.referralCode,
+          status: "PENDING",
+        });
+      }
+    }
+  }
 
   await Otp.deleteOne({ userId });
 

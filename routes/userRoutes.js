@@ -81,13 +81,17 @@ import {
   requestReturn,
 } from "../controllers/user/orderController.js";
 import { loadWallet } from "../controllers/user/walletController.js";
+import { loadReferAndEarn } from "../controllers/user/referralController.js";
 
-router.get(
-  "/auth/google",
+router.get("/auth/google", (req, res, next) => {
+  if (req.query.ref) {
+    req.session.googleReferralCode = req.query.ref.trim().toUpperCase();
+  }
+
   passport.authenticate("google", {
     scope: ["profile", "email"],
-  }),
-);
+  })(req, res, next);
+});
 router.get("/auth/google/callback", googleAuthCallback, googleCallback);
 
 router.post(
@@ -127,7 +131,7 @@ router.post("/change-email/send-otp", isLoggedIn, sendChangeEmailOtp);
 router.post("/profile/update", isLoggedIn, updateProfile);
 router.post("/account-settings/change-password", isLoggedIn, changePassword);
 
-router.get("/products", isLoggedIn, loadProducts);
+router.get("/products", loadProducts);
 router.get("/product/:slug", loadProductDetails);
 
 router.post("/cart/add", isLoggedIn, addToCart);
@@ -164,6 +168,8 @@ router.patch(
 router.post("/orders/:orderId/items/:itemId/return", isLoggedIn, requestReturn);
 
 router.get("/wallet", isLoggedIn, loadWallet);
+
+router.get("/refer-a-friend", isLoggedIn, loadReferAndEarn);
 
 router.get("/logout", isLoggedIn, logout);
 

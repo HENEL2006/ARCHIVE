@@ -4,6 +4,7 @@ import Otp from "../../models/Otp.js";
 import { sendOtpEmail } from "../../utils/sendOtpEmail.js";
 import { isPasswordValid } from "../../public/JS/passwordValidation.js";
 import passport from "passport";
+import generateReferralCode from "../../utils/generateReferralCode.js";
 
 export const signupUser = async (userData) => {
   const { username, email, password, confirmPassword, referralCode } = userData;
@@ -55,15 +56,28 @@ export const signupUser = async (userData) => {
   const hashedPassword = await bcrypt.hash(password, 10);
   console.log(hashedPassword);
 
+  const generatedReferralCode = await generateReferralCode();
+
   const newUserData = {
     username,
     email,
     password: hashedPassword,
     isVerified: false,
+    referralCode: generatedReferralCode,
   };
 
   if (referralCode) {
-    newUserData.referralCode = referralCode;
+    const referrer = await User.findOne({
+      referralCode: referralCode.trim().toUpperCase(),
+      isDeleted: false,
+      isBlocked: false,
+    });
+
+    if (!referrer) {
+      throw new Error("INVALID REFERRAL CODE");
+    }
+
+    newUserData.referredBy = referrer._id;
   }
 
   const user = await User.create(newUserData);

@@ -419,7 +419,7 @@
                         <div>
                             <% if (currentPage> 1) { %>
 
-                                <a href="/orders?page=<%= page %>&search=<%= encodeURIComponent(search || '') %>&status=<%= encodeURIComponent(currentStatus || '') %>"
+                                <a href="/orders?page=<%= currentPage -1 %>&search=<%= encodeURIComponent(search || '') %>&status=<%= encodeURIComponent(currentStatus || '') %>"
                                     class="font-label-caps text-label-caps flex items-center gap-2 text-secondary hover:text-primary transition-none">
 
                                     <span class="material-symbols-outlined text-[16px]">
