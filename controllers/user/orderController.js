@@ -39,6 +39,7 @@ export const loadOrders = async (req, res) => {
       totalOrders,
       currentStatus,
       search,
+      orderCount,
       activePage: "orders",
     });
   } catch (error) {
@@ -78,7 +79,7 @@ export const cancelOrder = async (req, res) => {
     const { orderId } = req.params;
     const { cancellationReason } = req.body;
 
-    if (!cancellationReason.trim()) {
+    if (!cancellationReason?.trim()) {
       return res.status(400).json({
         success: false,
         message: "CANCELLATION REASON IS REQUIRED",

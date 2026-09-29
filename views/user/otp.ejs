@@ -204,240 +204,252 @@
   </div>
   <!-- TopNavBar (Suppressed for focused transactional flow per UI guidelines) -->
 
-      <%- include("partials/toast") %>
-  <main class="min-h-screen flex flex-col md:flex-row">
-    <!-- Left Side: Editorial Image -->
-    <section
-      class="hidden md:flex w-1/2 bg-primary relative border-r border-primary overflow-hidden items-center justify-center h-screen sticky top-0">
-      <img alt="Vintage Jersey Editorial"
-        class="absolute inset-0 w-full h-full object-cover grayscale brightness-90 contrast-125"
-        src="https://lh3.googleusercontent.com/aida/AP1WRLvAKaGutjjXGTyRSy_GtD5p4uEqv86nVxWWJ8lijlhT4kZv-vjVieMc4pX6D-0Edumtlxrch7FQYbfLeOjBrasg1tDZRFML20gZqF4NPX0GYr-hbP6xqs1J_jfboQ0YvTl4ZVpF8ekJnuqyFStDVfbgd_9aUtFT53mg6C3IhSMXy-uZBVZtDgjnDmLe_NCxjEpMRG7KM9MuRR4XPD1cHuB6rG9wxHhjo7VURFxA5HEtZI-R-hY6itu192g" />
-      <div class="absolute inset-0 bg-black/10 mix-blend-multiply"></div>
-      <!-- Editorial Quote Overlay -->
-      <div class="relative z-10 p-container-padding flex flex-col items-start justify-end h-full w-full">
-        <div class="mb-unit">
-          <p class="font-mono-data text-mono-data text-surface/40 tracking-[0.5em] mb-4">
-            FOOTBALL. CULTURE. MEMORY.
-          </p>
-        </div>
-        <h2 class="font-headline-lg text-headline-lg text-surface leading-none max-w-md italic">
-          "Every collection begins with a story."
-        </h2>
-        <div class="w-24 h-1 bg-surface mt-8"></div>
-      </div>
-    </section>
-    <!-- Right Side: Verification Form -->
-    <section class="w-full md:w-1/2 flex flex-col min-h-screen">
-      <!-- Brand Logo Header -->
-      <header class="p-container-padding pb-0 flex justify-between items-center">
-        <span class="font-display-xl text-headline-md tracking-tighter font-extrabold text-primary">ARCHIVE</span>
-        <a class="font-label-caps text-label-caps border border-primary px-4 py-2 hover:bg-primary hover:text-surface transition-colors"
-          href="/signup">BACK TO SIGN UP</a>
-      </header>
-      <div class="flex-grow flex flex-col justify-center px-container-padding py-24">
-        <div class="max-w-xl">
-          <h1 class="font-headline-lg text-headline-lg mb-4 leading-tight uppercase">
-            VERIFY YOUR EMAIL
-          </h1>
-          <p class="font-body-lg text-body-lg text-secondary mb-12">
-            We've sent a verification code to
-            <span class="text-primary font-bold">
-              <%= email %>
-            </span>. Please
-            enter the 6-digit code below to secure your access.
-          </p>
-          <!-- OTP Input Form -->
-          <form class="space-y-12" id="otp-form" action="/verify-otp" method="post">
-            <div class="flex gap-4 md:gap-6">
-              <input name="otp[]" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code"
-                class="otp-input w-full aspect-square text-center font-headline-md text-headline-md border border-primary bg-transparent focus:outline-none focus:bg-primary focus:text-surface transition-none"
-                maxlength="1" type="text" />
-              <input name="otp[]" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code"
-                class="otp-input w-full aspect-square text-center font-headline-md text-headline-md border border-primary bg-transparent focus:outline-none focus:bg-primary focus:text-surface transition-none"
-                maxlength="1" type="text" />
-              <input name="otp[]" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code"
-                class="otp-input w-full aspect-square text-center font-headline-md text-headline-md border border-primary bg-transparent focus:outline-none focus:bg-primary focus:text-surface transition-none"
-                maxlength="1" type="text" />
-              <input name="otp[]" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code"
-                class="otp-input w-full aspect-square text-center font-headline-md text-headline-md border border-primary bg-transparent focus:outline-none focus:bg-primary focus:text-surface transition-none"
-                maxlength="1" type="text" />
-              <input name="otp[]" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code"
-                class="otp-input w-full aspect-square text-center font-headline-md text-headline-md border border-primary bg-transparent focus:outline-none focus:bg-primary focus:text-surface transition-none"
-                maxlength="1" type="text" />
-              <input name="otp[]" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code"
-                class="otp-input w-full aspect-square text-center font-headline-md text-headline-md border border-primary bg-transparent focus:outline-none focus:bg-primary focus:text-surface transition-none"
-                maxlength="1" type="text" />
-            </div>
-            <div class="flex flex-col gap-4">
-              <p id="otp-error" class="text-center text-[10px] tracking-[0.2em] uppercase text-red-500">
-                <% if(typeof error !=="undefined" && error){ %>
-                  <%= error %>
-                    <% } %>
-              </p>
-              <button
-                class="w-full bg-primary text-surface py-6 font-label-caps text-label-caps tracking-widest hover:bg-secondary transition-none"
-                type="submit">
-                VERIFY ACCOUNT
-              </button>
-            </div>
-          </form>
-          <div class="flex justify-between items-center px-2 py-2">
-            <span id="timer" class="font-mono-data text-mono-data text-secondary uppercase">Code expires in 03:00</span>
-            <form id="resend-form" action="/resend-otp" method="POST">
-              <button id="resend-btn"
-                class="font-label-caps text-label-caps text-primary underline underline-offset-4 hover:no-underline"
-                type="submit">
-                RESEND CODE
-              </button>
-            </form>
+  <%- include("partials/toast") %>
+    <main class="min-h-screen flex flex-col md:flex-row">
+      <!-- Left Side: Editorial Image -->
+      <section
+        class="hidden md:flex w-1/2 bg-primary relative border-r border-primary overflow-hidden items-center justify-center h-screen sticky top-0">
+        <img alt="Vintage Jersey Editorial"
+          class="absolute inset-0 w-full h-full object-cover grayscale brightness-90 contrast-125"
+          src="https://lh3.googleusercontent.com/aida/AP1WRLvAKaGutjjXGTyRSy_GtD5p4uEqv86nVxWWJ8lijlhT4kZv-vjVieMc4pX6D-0Edumtlxrch7FQYbfLeOjBrasg1tDZRFML20gZqF4NPX0GYr-hbP6xqs1J_jfboQ0YvTl4ZVpF8ekJnuqyFStDVfbgd_9aUtFT53mg6C3IhSMXy-uZBVZtDgjnDmLe_NCxjEpMRG7KM9MuRR4XPD1cHuB6rG9wxHhjo7VURFxA5HEtZI-R-hY6itu192g" />
+        <div class="absolute inset-0 bg-black/10 mix-blend-multiply"></div>
+        <!-- Editorial Quote Overlay -->
+        <div class="relative z-10 p-container-padding flex flex-col items-start justify-end h-full w-full">
+          <div class="mb-unit">
+            <p class="font-mono-data text-mono-data text-surface/40 tracking-[0.5em] mb-4">
+              FOOTBALL. CULTURE. MEMORY.
+            </p>
           </div>
-          <!-- Benefits Section (Bento-ish Grid) -->
-          <div class="mt-24 grid grid-cols-2 border border-primary"></div>
+          <h2 class="font-headline-lg text-headline-lg text-surface leading-none max-w-md italic">
+            "Every collection begins with a story."
+          </h2>
+          <div class="w-24 h-1 bg-surface mt-8"></div>
         </div>
-      </div>
-      <!-- Footer (Shared Component Guidance Mapping) -->
-    </section>
-  </main>
-  <script>
+      </section>
+      <!-- Right Side: Verification Form -->
+      <section class="w-full md:w-1/2 flex flex-col min-h-screen">
+        <!-- Brand Logo Header -->
+        <header class="p-container-padding pb-0 flex justify-between items-center">
+          <span class="font-display-xl text-headline-md tracking-tighter font-extrabold text-primary">ARCHIVE</span>
+          <a class="font-label-caps text-label-caps border border-primary px-4 py-2 hover:bg-primary hover:text-surface transition-colors"
+            href="/signup">BACK TO SIGN UP</a>
+        </header>
+        <div class="flex-grow flex flex-col justify-center px-container-padding py-24">
+          <div class="max-w-xl">
+            <h1 class="font-headline-lg text-headline-lg mb-4 leading-tight uppercase">
+              VERIFY YOUR EMAIL
+            </h1>
+            <p class="font-body-lg text-body-lg text-secondary mb-12">
+              We've sent a verification code to
+              <span class="text-primary font-bold">
+                <%= email %>
+              </span>. Please
+              enter the 6-digit code below to secure your access.
+            </p>
+            <!-- OTP Input Form -->
+            <form class="space-y-12" id="otp-form" action="/verify-otp" method="post">
+              <div class="flex gap-4 md:gap-6">
+                <input name="otp[]" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code"
+                  class="otp-input w-full aspect-square text-center font-headline-md text-headline-md border border-primary bg-transparent focus:outline-none focus:bg-primary focus:text-surface transition-none"
+                  maxlength="1" type="text" />
+                <input name="otp[]" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code"
+                  class="otp-input w-full aspect-square text-center font-headline-md text-headline-md border border-primary bg-transparent focus:outline-none focus:bg-primary focus:text-surface transition-none"
+                  maxlength="1" type="text" />
+                <input name="otp[]" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code"
+                  class="otp-input w-full aspect-square text-center font-headline-md text-headline-md border border-primary bg-transparent focus:outline-none focus:bg-primary focus:text-surface transition-none"
+                  maxlength="1" type="text" />
+                <input name="otp[]" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code"
+                  class="otp-input w-full aspect-square text-center font-headline-md text-headline-md border border-primary bg-transparent focus:outline-none focus:bg-primary focus:text-surface transition-none"
+                  maxlength="1" type="text" />
+                <input name="otp[]" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code"
+                  class="otp-input w-full aspect-square text-center font-headline-md text-headline-md border border-primary bg-transparent focus:outline-none focus:bg-primary focus:text-surface transition-none"
+                  maxlength="1" type="text" />
+                <input name="otp[]" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code"
+                  class="otp-input w-full aspect-square text-center font-headline-md text-headline-md border border-primary bg-transparent focus:outline-none focus:bg-primary focus:text-surface transition-none"
+                  maxlength="1" type="text" />
+              </div>
+              <div class="flex flex-col gap-4">
+                <p id="otp-error" class="text-center text-[10px] tracking-[0.2em] uppercase text-red-500">
+                  <% if(typeof error !=="undefined" && error){ %>
+                    <%= error %>
+                      <% } %>
+                </p>
+                <button
+                  class="w-full bg-primary text-surface py-6 font-label-caps text-label-caps tracking-widest hover:bg-secondary transition-none"
+                  type="submit">
+                  VERIFY ACCOUNT
+                </button>
+              </div>
+            </form>
+            <div class="flex justify-between items-center px-2 py-2">
+              <span id="timer" class="font-mono-data text-mono-data text-secondary uppercase">Code expires in
+                03:00</span>
+              <form id="resend-form" action="/resend-otp" method="POST">
+                <button id="resend-btn"
+                  class="font-label-caps text-label-caps text-primary underline underline-offset-4 hover:no-underline"
+                  type="submit">
+                  RESEND CODE
+                </button>
+              </form>
+            </div>
+            <!-- Benefits Section (Bento-ish Grid) -->
+            <div class="mt-24 grid grid-cols-2 border border-primary"></div>
+          </div>
+        </div>
+        <!-- Footer (Shared Component Guidance Mapping) -->
+      </section>
+    </main>
+    <script>
 
-    const inputs = document.querySelectorAll(".otp-input");
+      const inputs = document.querySelectorAll(".otp-input");
 
-    inputs.forEach((input, index) => {
-      inputs[0].addEventListener("paste", (e) => {
-        e.preventDefault();
+      inputs.forEach((input, index) => {
+        inputs[0].addEventListener("paste", (e) => {
+          e.preventDefault();
 
-        const pastedOTP = e.clipboardData
-          .getData("text")
-          .replace(/\D/g, "")
-          .slice(0, inputs.length);
+          const pastedOTP = e.clipboardData
+            .getData("text")
+            .replace(/\D/g, "")
+            .slice(0, inputs.length);
 
-        pastedOTP.split("").forEach((digit, index) => {
-          inputs[index].value = digit;
+          pastedOTP.split("").forEach((digit, index) => {
+            inputs[index].value = digit;
+          });
+
+          if (pastedOTP.length > 0) {
+            inputs[Math.min(pastedOTP.length, inputs.length) - 1].focus();
+          }
         });
 
-        if (pastedOTP.length > 0) {
-          inputs[Math.min(pastedOTP.length, inputs.length) - 1].focus();
-        }
+        input.addEventListener("keypress", (e) => {
+          if (!/[0-9]/.test(e.key)) {
+            e.preventDefault();
+          }
+        });
+
+        input.addEventListener("input", (e) => {
+          if (e.target.value.length > 1) {
+            e.target.value = e.target.value.slice(0, 1);
+          }
+
+          if (e.target.value && index < inputs.length - 1) {
+            inputs[index + 1].focus();
+          }
+        });
+
+        input.addEventListener("keydown", (e) => {
+          if (e.key === "Backspace" && !input.value && index > 0) {
+            inputs[index - 1].focus();
+          }
+        });
       });
 
-      input.addEventListener("keypress", (e) => {
-        if (!/[0-9]/.test(e.key)) {
+      document.getElementById("otp-form").addEventListener("submit", (e) => {
+        const otp = Array.from(inputs)
+          .map((input) => input.value)
+          .join("");
+
+        const error = document.getElementById("otp-error");
+
+        if (otp.length !== 6) {
           e.preventDefault();
+          error.textContent = "PLEASE ENTER ALL 6 DIGITS";
+          return;
         }
+
+        error.textContent = "";
+
+        const btn = e.target.querySelector('button[type="submit"]');
+
+        btn.innerHTML = "VALIDATING...";
+        btn.disabled = true;
       });
 
-      input.addEventListener("input", (e) => {
-        if (e.target.value.length > 1) {
-          e.target.value = e.target.value.slice(0, 1);
+      const timer = document.getElementById("timer");
+      const resendBtn = document.getElementById("resend-btn");
+      const verifyBtn = document.querySelector("#otp-form button[type='submit']");
+
+      const otpExpiry = Number("<%= otpExpiry || 0 %>");
+
+      let timerInterval = null;
+
+      function updateTimer() {
+        const remaining = Math.max(0, otpExpiry - Date.now());
+
+        const totalSeconds = Math.ceil(remaining / 1000);
+
+        if (totalSeconds <= 0) {
+          timer.textContent = "OTP EXPIRED";
+
+          verifyBtn.disabled = true;
+          verifyBtn.innerHTML = "OTP EXPIRED";
+
+          resendBtn.disabled = false;
+          resendBtn.classList.remove("opacity-50");
+
+          if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+          }
+
+          return;
         }
 
-        if (e.target.value && index < inputs.length - 1) {
-          inputs[index + 1].focus();
-        }
-      });
+        resendBtn.disabled = true;
+        resendBtn.classList.add("opacity-50");
 
-      input.addEventListener("keydown", (e) => {
-        if (e.key === "Backspace" && !input.value && index > 0) {
-          inputs[index - 1].focus();
-        }
-      });
-    });
+        verifyBtn.disabled = false;
+        verifyBtn.innerHTML = "VERIFY ACCOUNT";
 
-    document.getElementById("otp-form").addEventListener("submit", (e) => {
-      const otp = Array.from(inputs)
-        .map((input) => input.value)
-        .join("");
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
 
-      const error = document.getElementById("otp-error");
-
-      if (otp.length !== 6) {
-        e.preventDefault();
-        error.textContent = "PLEASE ENTER ALL 6 DIGITS";
-        return;
+        timer.textContent =
+          `Code expires in ${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
       }
 
-      error.textContent = "";
+      updateTimer();
 
-      const btn = e.target.querySelector('button[type="submit"]');
+      timerInterval = setInterval(updateTimer, 250);
 
-      btn.innerHTML = "VALIDATING...";
-      btn.disabled = true;
-    });
+      document.addEventListener("visibilitychange", () => {
+        if (!document.hidden) {
+          updateTimer();
+        }
+      });
 
-    const timer = document.getElementById("timer");
-    const resendBtn = document.getElementById("resend-btn");
-    const verifyBtn = document.querySelector("#otp-form button[type='submit']");
+      function showToast(message, type = "success") {
+        const toast = document.getElementById("toast");
+        const toastMessage = document.getElementById("toast-message");
+        const toastIcon = document.getElementById("toast-icon");
 
-    const otpExpiry = Number("<%= otpExpiry || 0 %>");
+        toastMessage.textContent = message;
 
-    let timeLeft = Math.max(
-      0,
-      Math.floor((otpExpiry - Date.now()) / 1000)
-    );
+        toastIcon.innerHTML =
+          type === "success"
+            ? "✓"
+            : "⚠";
 
-    function updateTimer() {
+        toast.classList.remove("-translate-y-20", "opacity-0");
+        toast.classList.add("translate-y-0", "opacity-100");
 
-      if (timeLeft <= 0) {
-
-        timer.textContent = "OTP EXPIRED";
-
-        verifyBtn.disabled = true;
-        verifyBtn.innerHTML = "OTP EXPIRED";
-
-        resendBtn.disabled = false;
-        resendBtn.classList.remove("opacity-50");
-
-        return;
+        setTimeout(() => {
+          toast.classList.remove("translate-y-0", "opacity-100");
+          toast.classList.add("-translate-y-20", "opacity-0");
+        }, 2500);
       }
 
-      resendBtn.disabled = true;
-      resendBtn.classList.add("opacity-50");
+      const toastMessage = "<%= toast || '' %>";
 
-      const min = Math.floor(timeLeft / 60);
-      const sec = timeLeft % 60;
+      if (toastMessage) {
+        const type = toastMessage.includes("INVALID") ||
+          toastMessage.includes("EXPIRED")
+          ? "error"
+          : "success";
 
-      timer.textContent =
-        `Code expires in ${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
-
-      timeLeft--;
-
-      setTimeout(updateTimer, 1000);
-    }
-
-    updateTimer();
-
-    function showToast(message, type = "success") {
-      const toast = document.getElementById("toast");
-      const toastMessage = document.getElementById("toast-message");
-      const toastIcon = document.getElementById("toast-icon");
-
-      toastMessage.textContent = message;
-
-      toastIcon.innerHTML =
-        type === "success"
-          ? "✓"
-          : "⚠";
-
-      toast.classList.remove("-translate-y-20", "opacity-0");
-      toast.classList.add("translate-y-0", "opacity-100");
-
-      setTimeout(() => {
-        toast.classList.remove("translate-y-0", "opacity-100");
-        toast.classList.add("-translate-y-20", "opacity-0");
-      }, 2500);
-    }
-
-    const toastMessage = "<%= toast || '' %>";
-
-    if (toastMessage) {
-      const type = toastMessage.includes("INVALID") ||
-        toastMessage.includes("EXPIRED")
-        ? "error"
-        : "success";
-
-      showToast(toastMessage, type);
-    }
-  </script>
+        showToast(toastMessage, type);
+      }
+    </script>
 </body>
 
 </html>

@@ -3,6 +3,7 @@ import Product from "../../models/product.js";
 import User from "../../models/User.js";
 import { updateOverallOrderStatus } from "../../utils/orderStatus.js";
 import { completeReferralService } from "../user/referralService.js";
+import { creditWalletService } from "../user/walletService.js";
 
 export const getOrdersService = async (
   page = 1,
@@ -97,12 +98,12 @@ export const getOrdersService = async (
     );
 
     order.activeTotal = activeItems.reduce(
-      (sum, item) => sum + item.itemTotal,
+      (sum, item) => sum + Number(item.finalItemTotal || 0),
       0,
     );
 
     order.cancelledTotal = cancelledItems.reduce(
-      (sum, item) => sum + item.itemTotal,
+      (sum, item) => sum + Number(item.finalItemTotal || 0),
       0,
     );
 
@@ -221,7 +222,44 @@ export const updateOrderStatusService = async (orderId, newStatus) => {
       item.cancellationReason = "Order cancelled by admin";
     }
 
-    updateOverallOrderStatus(order);
+    if (
+      ["RAZORPAY", "WALLET"].includes(order.paymentMethod) &&
+      order.paymentStatus === "PAID"
+    ) {
+      const refundableItems = cancellableItems.filter(
+        (item) => item.refundStatus !== "REFUNDED",
+      );
+
+      if (refundableItems.length > 0) {
+        const itemRefundAmount = refundableItems.reduce(
+          (total, item) => total + item.finalItemTotal,
+          0,
+        );
+
+        const refundAmount = Number(
+          (itemRefundAmount + order.shipping).toFixed(2),
+        );
+
+        await creditWalletService(
+          order.userId,
+          refundAmount,
+          "ORDER_CANCELLATION_REFUND",
+          order.orderId,
+        );
+
+        for (const item of refundableItems) {
+          item.refundStatus = "REFUNDED";
+          item.refundAmount = item.finalItemTotal;
+        }
+
+        order.refundedAmount = Number(
+          ((order.refundedAmount || 0) + refundAmount).toFixed(2),
+        );
+      }
+    }
+
+    order.orderStatus = "CANCELLED";
+    order.cancellationReason = "Order cancelled by admin";
 
     await order.save();
 
@@ -317,12 +355,14 @@ export const cancelOrderItemByAdminService = async (
   }
 
   if (
-    item.itemStatus === "SHIPPED" ||
-    item.itemStatus === "DELIVERED" ||
-    item.itemStatus === "RETURNED"
+    ["SHIPPED", "DELIVERED", "RETURNED", "RETURN_REQUESTED"].includes(
+      item.itemStatus,
+    )
   ) {
     throw new Error("THIS ITEM CANNOT BE CANCELLED AT THIS STAGE");
   }
+
+  const reason = cancellationReason.trim();
 
   await Product.updateOne(
     {
@@ -338,7 +378,44 @@ export const cancelOrderItemByAdminService = async (
 
   item.itemStatus = "CANCELLED";
   item.cancellationSource = "ADMIN";
-  item.cancellationReason = cancellationReason.trim();
+  item.cancellationReason = reason;
+
+  const allItemsCancelled = order.items.every(
+    (orderItem) => orderItem.itemStatus === "CANCELLED",
+  );
+
+  if (
+    ["RAZORPAY", "WALLET"].includes(order.paymentMethod) &&
+    order.paymentStatus === "PAID" &&
+    item.refundStatus !== "REFUNDED"
+  ) {
+    let refundAmount = item.finalItemTotal;
+
+    if (allItemsCancelled) {
+      refundAmount += order.shipping;
+    }
+
+    refundAmount = Number(refundAmount.toFixed(2));
+
+    await creditWalletService(
+      order.userId,
+      refundAmount,
+      "ORDER_CANCELLATION_REFUND",
+      order.orderId,
+    );
+
+    item.refundStatus = "REFUNDED";
+    item.refundAmount = item.finalItemTotal;
+
+    order.refundedAmount = Number(
+      ((order.refundedAmount || 0) + refundAmount).toFixed(2),
+    );
+  }
+
+  if (allItemsCancelled) {
+    order.orderStatus = "CANCELLED";
+    order.cancellationReason = reason;
+  }
 
   updateOverallOrderStatus(order);
 
@@ -365,12 +442,12 @@ export const getAdminOrderDetailsService = async (orderId) => {
   );
 
   const activeTotal = activeItems.reduce(
-    (sum, item) => sum + Number(item.itemTotal || 0),
+    (sum, item) => sum + Number(item.finalItemTotal || 0),
     0,
   );
 
   const cancelledTotal = cancelledItems.reduce(
-    (sum, item) => sum + Number(item.itemTotal || 0),
+    (sum, item) => sum + Number(item.finalItemTotal || 0),
     0,
   );
 
@@ -380,13 +457,7 @@ export const getAdminOrderDetailsService = async (orderId) => {
 
   const payableAmount = isFullyCancelled
     ? 0
-    : Math.max(
-        0,
-        activeTotal +
-          effectiveShipping +
-          Number(order.tax || 0) -
-          Number(order.discount || 0),
-      );
+    : Math.max(0, activeTotal + effectiveShipping + Number(order.tax || 0));
 
   return {
     ...order,
@@ -400,4 +471,92 @@ export const getAdminOrderDetailsService = async (orderId) => {
     effectiveShipping,
     payableAmount,
   };
+};
+
+export const approveReturnService = async (orderId, itemId) => {
+  const order = await Order.findOne({ orderId });
+
+  if (!order) {
+    throw new Error("ORDER NOT FOUND");
+  }
+
+  const item = order.items.id(itemId);
+
+  if (!item) {
+    throw new Error("ORDER ITEM NOT FOUND");
+  }
+
+  if (item.itemStatus !== "RETURN_REQUESTED") {
+    throw new Error("RETURN REQUEST NOT FOUND");
+  }
+
+  if (item.refundStatus === "REFUNDED") {
+    throw new Error("ITEM IS ALREADY REFUNDED");
+  }
+
+  // Return the product quantity to inventory
+  await Product.updateOne(
+    {
+      _id: item.product,
+      "variants.size": item.size,
+    },
+    {
+      $inc: {
+        "variants.$.stock": item.quantity,
+      },
+    },
+  );
+
+  const refundAmount = Number(item.finalItemTotal.toFixed(2));
+
+  await creditWalletService(
+    order.userId,
+    refundAmount,
+    "RETURN_REFUND",
+    order.orderId,
+  );
+
+  item.itemStatus = "RETURNED";
+  item.refundStatus = "REFUNDED";
+  item.refundAmount = refundAmount;
+
+  order.refundedAmount = Number(
+    ((order.refundedAmount || 0) + refundAmount).toFixed(2),
+  );
+
+  updateOverallOrderStatus(order);
+
+  await order.save();
+
+  return order;
+};
+
+export const rejectReturnService = async (orderId, itemId, returnReason) => {
+  const order = await Order.findOne({ orderId });
+
+  if (!order) {
+    throw new Error("ORDER NOT FOUND");
+  }
+
+  const item = order.items.id(itemId);
+
+  if (!item) {
+    throw new Error("ORDER ITEM NOT FOUND");
+  }
+
+  if (item.itemStatus !== "RETURN_REQUESTED") {
+    throw new Error("RETURN REQUEST NOT FOUND");
+  }
+
+  item.itemStatus = "RETURN_REJECTED";
+
+  if (returnReason?.trim()) {
+    item.returnReason = returnReason.trim();
+  }
+
+  updateOverallOrderStatus(order);
+
+  await order.save();
+
+  return order;
 };

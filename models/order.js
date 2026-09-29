@@ -58,6 +58,12 @@ const orderSchema = new mongoose.Schema(
           min: 0,
         },
 
+        finalItemTotal: {
+          type: Number,
+          required: true,
+          min: 0,
+        },
+
         itemStatus: {
           type: String,
           enum: [
@@ -71,6 +77,18 @@ const orderSchema = new mongoose.Schema(
             "RETURN_REJECTED",
           ],
           default: "PLACED",
+        },
+
+        refundStatus: {
+          type: String,
+          enum: ["NOT_REFUNDED", "REFUNDED"],
+          default: "NOT_REFUNDED",
+        },
+
+        refundAmount: {
+          type: Number,
+          default: 0,
+          min: 0,
         },
 
         cancellationSource: {
@@ -159,6 +177,12 @@ const orderSchema = new mongoose.Schema(
     total: {
       type: Number,
       required: true,
+      min: 0,
+    },
+
+    refundedAmount: {
+      type: Number,
+      default: 0,
       min: 0,
     },
 

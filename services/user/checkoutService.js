@@ -120,6 +120,13 @@ export const placeOrderService = async (userId, data, appliedCoupon = null) => {
     subtotal,
   );
 
+  for (const item of orderItems) {
+    const itemDiscount =
+      subtotal > 0 ? (item.itemTotal / subtotal) * discount : 0;
+
+    item.finalItemTotal = Number((item.itemTotal - itemDiscount).toFixed(2));
+  }
+
   const total = subtotal + shipping + tax - discount;
 
   const timestamp = Date.now().toString().slice(4);

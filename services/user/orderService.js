@@ -82,6 +82,10 @@ export const cancelOrderService = async (
     throw new Error("ORDER CANNOT BE CANCELLED");
   }
 
+  if (!cancellationReason || !cancellationReason.trim()) {
+    throw new Error("CANCELLATION REASON IS REQUIRED");
+  }
+
   const reason = cancellationReason.trim();
 
   for (const item of order.items) {
@@ -106,26 +110,47 @@ export const cancelOrderService = async (
     item.cancellationReason = reason;
   }
 
-  if (order.paymentMethod === "RAZORPAY" && order.paymentStatus === "PAID") {
-    await creditWalletService(
-      userId,
-      order.total,
-      "ORDER_CANCELLATION_REFUND",
-      order.orderId,
+  if (
+    ["RAZORPAY", "WALLET"].includes(order.paymentMethod) &&
+    order.paymentStatus === "PAID"
+  ) {
+    const refundableItems = order.items.filter(
+      (item) => item.refundStatus !== "REFUNDED",
     );
+
+    if (refundableItems.length > 0) {
+      const itemRefundAmount = refundableItems.reduce(
+        (total, item) => total + item.finalItemTotal,
+        0,
+      );
+
+      const refundAmount = Number(
+        (itemRefundAmount + order.shipping).toFixed(2),
+      );
+
+      await creditWalletService(
+        userId,
+        refundAmount,
+        "ORDER_CANCELLATION_REFUND",
+        order.orderId,
+      );
+
+      for (const item of refundableItems) {
+        item.refundStatus = "REFUNDED";
+        item.refundAmount = item.finalItemTotal;
+      }
+
+      order.refundedAmount = Number(
+        ((order.refundedAmount || 0) + refundAmount).toFixed(2),
+      );
+    }
   }
 
   order.orderStatus = "CANCELLED";
   order.cancellationReason = reason;
 
-  order.items.forEach((item) => {
-    if (["PLACED", "CONFIRMED"].includes(item.itemStatus)) {
-      item.itemStatus = "CANCELLED";
-      item.cancellationReason = reason;
-    }
-  });
-
   await order.save();
+
   return order;
 };
 
@@ -150,9 +175,15 @@ export const cancelOrderItemService = async (
     throw new Error("ORDER ITEM NOT FOUND");
   }
 
+  if (!cancellationReason || !cancellationReason.trim()) {
+    throw new Error("CANCELLATION REASON IS REQUIRED");
+  }
+
   if (!["PLACED", "CONFIRMED"].includes(item.itemStatus)) {
     throw new Error("ITEM CANNOT BE CANCELLED");
   }
+
+  const reason = cancellationReason.trim();
 
   await Product.updateOne(
     {
@@ -166,28 +197,45 @@ export const cancelOrderItemService = async (
     },
   );
 
-  const refundAmount = item.itemTotal;
-
   item.itemStatus = "CANCELLED";
   item.cancellationSource = "CUSTOMER";
-  item.cancellationReason = cancellationReason.trim();
+  item.cancellationReason = reason;
 
-  if (order.paymentMethod === "RAZORPAY" && order.paymentStatus === "PAID") {
+  const allItemsCancelled = order.items.every(
+    (orderItem) => orderItem.itemStatus === "CANCELLED",
+  );
+
+  if (
+    ["RAZORPAY", "WALLET"].includes(order.paymentMethod) &&
+    order.paymentStatus === "PAID" &&
+    item.refundStatus !== "REFUNDED"
+  ) {
+    let refundAmount = item.finalItemTotal;
+
+    if (allItemsCancelled) {
+      refundAmount += order.shipping;
+    }
+
+    refundAmount = Number(refundAmount.toFixed(2));
+
     await creditWalletService(
       userId,
       refundAmount,
       "ORDER_CANCELLATION_REFUND",
       order.orderId,
     );
-  }
 
-  const allItemsCancelled = order.items.every(
-    (item) => item.itemStatus === "CANCELLED",
-  );
+    item.refundStatus = "REFUNDED";
+    item.refundAmount = refundAmount;
+
+    order.refundedAmount = Number(
+      ((order.refundedAmount || 0) + refundAmount).toFixed(2),
+    );
+  }
 
   if (allItemsCancelled) {
     order.orderStatus = "CANCELLED";
-    order.cancellationReason = cancellationReason;
+    order.cancellationReason = reason;
   }
 
   await order.save();

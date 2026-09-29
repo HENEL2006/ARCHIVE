@@ -12,7 +12,7 @@ export const verifyUserOtp = async (userId, enteredOtp) => {
 
   const otpAge = Date.now() - otpDoc.createdAt.getTime();
 
-  if (otpAge > 5 * 60 * 1000) {
+  if (otpAge > 3 * 60 * 1000) {
     await Otp.deleteOne({ userId });
     throw new Error("OTP EXPIRED, PLEASE REQUEST A NEW OTP");
   }
@@ -121,7 +121,7 @@ export const verifyEmailChangeOtp = async (userId, newEmail, enteredOtp) => {
 
   const otpAge = Date.now() - otpDoc.createdAt.getTime();
 
-  if (otpAge > 5 * 60 * 1000) {
+  if (otpAge > 3 * 60 * 1000) {
     await Otp.deleteOne({ userId });
     throw new Error("OTP EXPIRED");
   }
