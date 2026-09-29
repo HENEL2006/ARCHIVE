@@ -3,7 +3,7 @@
 
 <head></head>
 
-<body class="font-body-md text-body-md overflow-x-hidden">```html
+<body class="font-body-md text-body-md overflow-x-hidden">
 
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -246,85 +246,194 @@
                 </div>
                 <!-- Top Metric Cards -->
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-lg mb-xl">
+
+                    <!-- Total Revenue -->
                     <div class="bg-surface-container-lowest p-lg sharp-border rounded-lg">
-                        <p class="text-on-surface-variant font-label-md uppercase tracking-wider mb-sm">Total Revenue
+                        <p class="text-on-surface-variant font-label-md uppercase tracking-wider mb-sm">
+                            Total Revenue
                         </p>
+
                         <div class="flex items-baseline gap-sm mb-xs">
-                            <h3 class="font-display text-[28px] font-bold">₹1,25,000</h3>
-                            <span class="text-success text-body-sm font-semibold">+12.5%</span>
+                            <h3 class="font-display text-[28px] font-bold">
+                                ₹<%= Number(statistics.totalRevenue || 0).toLocaleString("en-IN") %>
+                            </h3>
                         </div>
-                        <p class="text-on-surface-variant text-body-sm">vs last period</p>
+
+                        <p class="text-on-surface-variant text-body-sm">
+                            Net revenue
+                        </p>
                     </div>
+
+
+                    <!-- Total Orders -->
                     <div class="bg-surface-container-lowest p-lg sharp-border rounded-lg">
-                        <p class="text-on-surface-variant font-label-md uppercase tracking-wider mb-sm">Total Orders</p>
+                        <p class="text-on-surface-variant font-label-md uppercase tracking-wider mb-sm">
+                            Total Orders
+                        </p>
+
                         <div class="flex items-baseline gap-sm mb-xs">
-                            <h3 class="font-display text-[28px] font-bold">1,254</h3>
-                            <span class="text-success text-body-sm font-semibold">+8.2%</span>
+                            <h3 class="font-display text-[28px] font-bold">
+                                <%= Number(statistics.totalOrders || 0).toLocaleString("en-IN") %>
+                            </h3>
                         </div>
-                        <p class="text-on-surface-variant text-body-sm">vs last period</p>
+
+                        <p class="text-on-surface-variant text-body-sm">
+                            All orders
+                        </p>
                     </div>
+
+
+                    <!-- Customers -->
                     <div class="bg-surface-container-lowest p-lg sharp-border rounded-lg">
-                        <p class="text-on-surface-variant font-label-md uppercase tracking-wider mb-sm">Customers</p>
+                        <p class="text-on-surface-variant font-label-md uppercase tracking-wider mb-sm">
+                            Customers
+                        </p>
+
                         <div class="flex items-baseline gap-sm mb-xs">
-                            <h3 class="font-display text-[28px] font-bold">3,420</h3>
-                            <span class="text-error text-body-sm font-semibold">-4.2%</span>
+                            <h3 class="font-display text-[28px] font-bold">
+                                <%= Number(statistics.totalCustomers || 0).toLocaleString("en-IN") %>
+                            </h3>
                         </div>
-                        <p class="text-on-surface-variant text-body-sm">vs last period</p>
+
+                        <p class="text-on-surface-variant text-body-sm">
+                            Registered customers
+                        </p>
                     </div>
+
+
+                    <!-- Products -->
                     <div class="bg-surface-container-lowest p-lg sharp-border rounded-lg">
-                        <p class="text-on-surface-variant font-label-md uppercase tracking-wider mb-sm">Products</p>
+                        <p class="text-on-surface-variant font-label-md uppercase tracking-wider mb-sm">
+                            Products
+                        </p>
+
                         <div class="flex items-baseline gap-sm mb-xs">
-                            <h3 class="font-display text-[28px] font-bold">128</h3>
-                            <span class="text-on-surface-variant text-body-sm font-semibold">0%</span>
+                            <h3 class="font-display text-[28px] font-bold">
+                                <%= Number(statistics.totalProducts || 0).toLocaleString("en-IN") %>
+                            </h3>
                         </div>
-                        <p class="text-on-surface-variant text-body-sm">vs last period</p>
+
+                        <p class="text-on-surface-variant text-body-sm">
+                            Active products
+                        </p>
                     </div>
+
                 </div>
                 <!-- Revenue Analytics -->
                 <div class="bg-surface-container-lowest p-xl sharp-border rounded-lg mb-xl">
+
                     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-md mb-xl">
+
                         <div>
-                            <h4 class="font-headline-md text-headline-md">Revenue Analytics</h4>
-                            <p class="text-body-sm text-on-surface-variant">Performance trend across selected timeframe
+                            <h4 class="font-headline-md text-headline-md">
+                                Revenue Analytics
+                            </h4>
+
+                            <p class="text-body-sm text-on-surface-variant">
+                                Performance trend across selected timeframe
                             </p>
                         </div>
+
+
+                        <!-- RANGE BUTTONS -->
+
                         <div class="flex bg-surface-container-low p-1 rounded-lg border border-outline-variant">
-                            <button
-                                class="px-md py-1 text-label-md rounded hover:bg-surface-container transition-colors">Today</button>
-                            <button class="px-md py-1 text-label-md rounded bg-surface-container-lowest shadow-sm">This
-                                Week</button>
-                            <button
-                                class="px-md py-1 text-label-md rounded hover:bg-surface-container transition-colors">Last
-                                Week</button>
-                            <button
-                                class="px-md py-1 text-label-md rounded hover:bg-surface-container transition-colors">This
-                                Month</button>
-                            <button
-                                class="px-md py-1 text-label-md rounded hover:bg-surface-container transition-colors">Last
-                                Month</button>
-                            <button
-                                class="px-md py-1 text-label-md rounded hover:bg-surface-container transition-colors">This
-                                Year</button>
+
+                            <a href="/admin/dashboard?range=today" class="px-md py-1 text-label-md rounded transition-colors
+                <%= selectedRange === 'today'
+                    ? 'bg-surface-container-lowest shadow-sm'
+                    : 'hover:bg-surface-container'
+                %>">
+                                Today
+                            </a>
+
+
+                            <a href="/admin/dashboard?range=thisWeek" class="px-md py-1 text-label-md rounded transition-colors
+                <%= selectedRange === 'thisWeek'
+                    ? 'bg-surface-container-lowest shadow-sm'
+                    : 'hover:bg-surface-container'
+                %>">
+                                This Week
+                            </a>
+
+
+                            <a href="/admin/dashboard?range=lastWeek" class="px-md py-1 text-label-md rounded transition-colors
+                <%= selectedRange === 'lastWeek'
+                    ? 'bg-surface-container-lowest shadow-sm'
+                    : 'hover:bg-surface-container'
+                %>">
+                                Last Week
+                            </a>
+
+
+                            <a href="/admin/dashboard?range=thisMonth" class="px-md py-1 text-label-md rounded transition-colors
+                <%= selectedRange === 'thisMonth'
+                    ? 'bg-surface-container-lowest shadow-sm'
+                    : 'hover:bg-surface-container'
+                %>">
+                                This Month
+                            </a>
+
+
+                            <a href="/admin/dashboard?range=lastMonth" class="px-md py-1 text-label-md rounded transition-colors
+                <%= selectedRange === 'lastMonth'
+                    ? 'bg-surface-container-lowest shadow-sm'
+                    : 'hover:bg-surface-container'
+                %>">
+                                Last Month
+                            </a>
+
+
+                            <a href="/admin/dashboard?range=thisYear" class="px-md py-1 text-label-md rounded transition-colors
+                <%= selectedRange === 'thisYear'
+                    ? 'bg-surface-container-lowest shadow-sm'
+                    : 'hover:bg-surface-container'
+                %>">
+                                This Year
+                            </a>
+
                         </div>
+
                     </div>
-                    <div class="chart-container flex items-end">
-                        <svg class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 1000 320">
-                            <!-- Simple Monochrome Line Chart -->
-                            <polyline fill="none"
-                                points="0,280 100,240 200,260 300,180 400,190 500,120 600,160 700,100 800,140 900,60 1000,40"
-                                stroke="#000000" stroke-width="2"></polyline>
-                            <!-- Reference Lines -->
-                            <line opacity="0.1" stroke="#000000" x1="0" x2="1000" y1="80" y2="80"></line>
-                            <line opacity="0.1" stroke="#000000" x1="0" x2="1000" y1="160" y2="160"></line>
-                            <line opacity="0.1" stroke="#000000" x1="0" x2="1000" y1="240" y2="240"></line>
+
+
+                    <!-- CHART -->
+
+                    <div class="chart-container">
+
+                        <svg id="revenueChart" class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 1000 320">
+
+                            <!-- Horizontal grid lines -->
+
+                            <line opacity="0.1" stroke="#000000" x1="0" x2="1000" y1="80" y2="80" />
+
+                            <line opacity="0.1" stroke="#000000" x1="0" x2="1000" y1="160" y2="160" />
+
+                            <line opacity="0.1" stroke="#000000" x1="0" x2="1000" y1="240" y2="240" />
+
+
+                            <!-- Revenue line -->
+
+                            <polyline id="revenueLine" fill="none" stroke="#000000" stroke-width="3"
+                                stroke-linejoin="round" stroke-linecap="round">
+                            </polyline>
+
+
+                            <!-- Revenue points -->
+
+                            <g id="revenuePoints"></g>
+
                         </svg>
+
                     </div>
-                    <div
+
+
+                    <!-- Dynamic labels -->
+
+                    <div id="chartLabels"
                         class="flex justify-between mt-md font-label-md text-on-surface-variant border-t border-outline-variant pt-md">
-                        <span class="">Mon</span><span class="">Tue</span><span class="">Wed</span><span
-                            class="">Thu</span><span class="">Fri</span><span class="">Sat</span><span
-                            class="">Sun</span>
                     </div>
+
                 </div>
                 <!-- Secondary Grid -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-lg">
@@ -333,7 +442,7 @@
                         class="lg:col-span-2 bg-surface-container-lowest sharp-border rounded-lg overflow-hidden flex flex-col">
                         <div class="p-lg border-b border-outline-variant flex justify-between items-center">
                             <h4 class="font-headline-md text-headline-md">Recent Orders</h4>
-                            <a class="text-primary font-label-md hover:underline" href="#">View All</a>
+                            <a class="text-primary font-label-md hover:underline" href="/admin/orders">View All</a>
                         </div>
                         <div class="overflow-x-auto flex-1">
                             <table class="w-full text-left">
@@ -360,61 +469,68 @@
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-outline-variant">
-                                    <tr class="hover:bg-surface-container-low transition-colors group">
-                                        <td class="px-lg py-lg font-label-md">#ARC-9402</td>
-                                        <td class="px-lg py-lg text-body-sm font-semibold">Rahul S.</td>
-                                        <td class="px-lg py-lg text-body-sm">Man Utd 1994 Home</td>
-                                        <td class="px-lg py-lg text-body-sm text-on-surface-variant">Oct 24, 2023</td>
-                                        <td class="px-lg py-lg">
-                                            <span
-                                                class="px-md py-1 border border-secondary text-secondary text-[10px] font-label-md uppercase rounded">Processing</span>
-                                        </td>
-                                        <td class="px-lg py-lg font-label-md text-right">₹4,999</td>
-                                    </tr>
-                                    <tr class="hover:bg-surface-container-low transition-colors group">
-                                        <td class="px-lg py-lg font-label-md">#ARC-9401</td>
-                                        <td class="px-lg py-lg text-body-sm font-semibold">Arjun M.</td>
-                                        <td class="px-lg py-lg text-body-sm">Arsenal 2004 Away</td>
-                                        <td class="px-lg py-lg text-body-sm text-on-surface-variant">Oct 23, 2023</td>
-                                        <td class="px-lg py-lg">
-                                            <span
-                                                class="px-md py-1 border border-primary text-primary text-[10px] font-label-md uppercase rounded">Shipped</span>
-                                        </td>
-                                        <td class="px-lg py-lg font-label-md text-right">₹6,250</td>
-                                    </tr>
-                                    <tr class="hover:bg-surface-container-low transition-colors group">
-                                        <td class="px-lg py-lg font-label-md">#ARC-9400</td>
-                                        <td class="px-lg py-lg text-body-sm font-semibold">Priya K.</td>
-                                        <td class="px-lg py-lg text-body-sm">Brazil 2002 Home</td>
-                                        <td class="px-lg py-lg text-body-sm text-on-surface-variant">Oct 23, 2023</td>
-                                        <td class="px-lg py-lg">
-                                            <span
-                                                class="px-md py-1 border border-outline text-on-surface-variant text-[10px] font-label-md uppercase rounded">Delivered</span>
-                                        </td>
-                                        <td class="px-lg py-lg font-label-md text-right">₹5,500</td>
-                                    </tr>
-                                    <tr class="hover:bg-surface-container-low transition-colors group">
-                                        <td class="px-lg py-lg font-label-md">#ARC-9399</td>
-                                        <td class="px-lg py-lg text-body-sm font-semibold">Karan V.</td>
-                                        <td class="px-lg py-lg text-body-sm">AC Milan 1996 Home</td>
-                                        <td class="px-lg py-lg text-body-sm text-on-surface-variant">Oct 22, 2023</td>
-                                        <td class="px-lg py-lg">
-                                            <span
-                                                class="px-md py-1 border border-outline text-on-surface-variant text-[10px] font-label-md uppercase rounded">Delivered</span>
-                                        </td>
-                                        <td class="px-lg py-lg font-label-md text-right">₹5,999</td>
-                                    </tr>
-                                    <tr class="hover:bg-surface-container-low transition-colors group">
-                                        <td class="px-lg py-lg font-label-md">#ARC-9398</td>
-                                        <td class="px-lg py-lg text-body-sm font-semibold">Anita R.</td>
-                                        <td class="px-lg py-lg text-body-sm">Inter 2002 Home</td>
-                                        <td class="px-lg py-lg text-body-sm text-on-surface-variant">Oct 22, 2023</td>
-                                        <td class="px-lg py-lg">
-                                            <span
-                                                class="px-md py-1 border border-secondary text-secondary text-[10px] font-label-md uppercase rounded">Processing</span>
-                                        </td>
-                                        <td class="px-lg py-lg font-label-md text-right">₹5,200</td>
-                                    </tr>
+
+                                    <% if (recentOrders && recentOrders.length> 0) { %>
+
+                                        <% recentOrders.forEach(order=> { %>
+
+                                            <tr class="hover:bg-surface-container-low transition-colors group">
+
+                                                <!-- Order ID -->
+                                                <td class="px-lg py-lg font-label-md">
+                                                    #<%= order.orderId %>
+                                                </td>
+
+                                                <!-- Customer -->
+                                                <td class="px-lg py-lg text-body-sm font-semibold">
+                                                    <%= order.userId?.username || "Unknown" %>
+                                                </td>
+
+                                                <!-- Product -->
+                                                <td class="px-lg py-lg text-body-sm">
+                                                    <%= order.items?.[0]?.name || "Product" %>
+
+                                                        <% if (order.items?.length> 1) { %>
+                                                            <span class="text-on-surface-variant">
+                                                                +<%= order.items.length - 1 %> more
+                                                            </span>
+                                                            <% } %>
+                                                </td>
+
+                                                <!-- Date -->
+                                                <td class="px-lg py-lg text-body-sm text-on-surface-variant">
+                                                    <%= new Date(order.createdAt).toLocaleDateString("en-IN", {
+                                                        day: "2-digit" , month: "short" , year: "numeric" }) %>
+                                                </td>
+
+                                                <!-- Status -->
+                                                <td class="px-lg py-lg">
+                                                    <span
+                                                        class="px-md py-1 border border-secondary text-secondary text-[10px] font-label-md uppercase rounded">
+                                                        <%= order.orderStatus %>
+                                                    </span>
+                                                </td>
+
+                                                <!-- Amount -->
+                                                <td class="px-lg py-lg font-label-md text-right">
+                                                    ₹<%= Number(order.total || 0).toLocaleString("en-IN") %>
+                                                </td>
+
+                                            </tr>
+
+                                            <% }) %>
+
+                                                <% } else { %>
+
+                                                    <tr>
+                                                        <td colspan="6"
+                                                            class="px-lg py-xl text-center text-on-surface-variant">
+                                                            No orders found
+                                                        </td>
+                                                    </tr>
+
+                                                    <% } %>
+
                                 </tbody>
                             </table>
                         </div>
@@ -425,38 +541,40 @@
                         <div class="bg-surface-container-lowest p-lg sharp-border rounded-lg">
                             <h4 class="font-headline-md text-headline-md mb-lg">Low Stock Alerts</h4>
                             <div class="space-y-md">
-                                <div class="flex justify-between items-center border-b border-outline-variant pb-md">
-                                    <div>
-                                        <p class="font-label-md text-on-surface">MUFC 1994 Home</p>
-                                        <p class="text-body-sm text-on-surface-variant">Size: XL</p>
-                                    </div>
-                                    <span class="text-error font-label-md">2 Left</span>
-                                </div>
-                                <div class="flex justify-between items-center border-b border-outline-variant pb-md">
-                                    <div>
-                                        <p class="font-label-md text-on-surface">AC Milan 1996 Home</p>
-                                        <p class="text-body-sm text-on-surface-variant">Size: L</p>
-                                    </div>
-                                    <span class="text-error font-label-md">1 Left</span>
-                                </div>
-                                <div class="flex justify-between items-center border-b border-outline-variant pb-md">
-                                    <div>
-                                        <p class="font-label-md text-on-surface">Brazil 1998 Training</p>
-                                        <p class="text-body-sm text-on-surface-variant">Size: M</p>
-                                    </div><span class="text-error font-label-md">3 Left</span>
-                                </div>
-                                <div class="flex justify-between items-center border-b border-outline-variant pb-md">
-                                    <div>
-                                        <p class="font-label-md text-on-surface">Arsenal 2004 Away</p>
-                                        <p class="text-body-sm text-on-surface-variant">Size: S</p>
-                                    </div><span class="text-error font-label-md">2 Left</span>
-                                </div>
-                                <div class="flex justify-between items-center border-b border-outline-variant pb-md">
-                                    <div>
-                                        <p class="font-label-md text-on-surface">France 1998 World Cup</p>
-                                        <p class="text-body-sm text-on-surface-variant">Size: L</p>
-                                    </div><span class="text-error font-label-md">1 Left</span>
-                                </div>
+
+                                <% if (lowStockItems && lowStockItems.length> 0) { %>
+
+                                    <% lowStockItems.forEach(item=> { %>
+
+                                        <div
+                                            class="flex justify-between items-center border-b border-outline-variant pb-md">
+
+                                            <div>
+                                                <p class="font-label-md text-on-surface">
+                                                    <%= item.productName %>
+                                                </p>
+
+                                                <p class="text-body-sm text-on-surface-variant">
+                                                    Size: <%= item.size %>
+                                                </p>
+                                            </div>
+
+                                            <span class="text-error font-label-md">
+                                                <%= item.stock %> Left
+                                            </span>
+
+                                        </div>
+
+                                        <% }) %>
+
+                                            <% } else { %>
+
+                                                <div class="py-md text-body-sm text-on-surface-variant">
+                                                    No low stock items
+                                                </div>
+
+                                                <% } %>
+
                             </div>
                         </div>
                         <!-- Return Requests -->
@@ -478,12 +596,282 @@
                     link.style.transform = 'translateX(0)';
                 });
             });
+
+
+
+
+            /*
+             * Revenue chart data from dashboardService.js
+             */
+
+            const revenueData = <%- JSON.stringify(revenueChart || []) %>;
+
+            const chartWidth = 1000;
+            const chartHeight = 320;
+
+            const paddingX = 20;
+            const paddingY = 30;
+
+
+            function renderRevenueChart(data) {
+
+                const revenueLine =
+                    document.getElementById("revenueLine");
+
+                const revenuePoints =
+                    document.getElementById("revenuePoints");
+
+                const revenueLabels =
+                    document.getElementById("chartLabels");
+
+
+                /*
+                 * Clear previous chart
+                 */
+
+                revenuePoints.innerHTML = "";
+                revenueLabels.innerHTML = "";
+
+
+                /*
+                 * No data
+                 */
+
+                if (!data || data.length === 0) {
+
+                    revenueLine.setAttribute(
+                        "points",
+                        ""
+                    );
+
+                    revenueLabels.innerHTML = `
+                <span class="w-full text-center">
+                    No revenue data available
+                </span>
+            `;
+
+                    return;
+                }
+
+
+                /*
+                 * Find maximum revenue
+                 */
+
+                const maxRevenue = Math.max(
+                    ...data.map(
+                        item => Number(item.revenue) || 0
+                    ),
+                    1
+                );
+
+
+                /*
+                 * Create chart points
+                 */
+
+                const points = data.map(
+                    (item, index) => {
+
+                        let x;
+
+
+                        /*
+                         * If there is only one point,
+                         * keep it in the center.
+                         */
+
+                        if (data.length === 1) {
+
+                            x =
+                                chartWidth / 2;
+
+                        } else {
+
+                            x =
+                                paddingX +
+                                (
+                                    index *
+                                    (
+                                        chartWidth -
+                                        paddingX * 2
+                                    )
+                                ) /
+                                (data.length - 1);
+
+                        }
+
+
+                        const revenue =
+                            Number(item.revenue) || 0;
+
+
+                        /*
+                         * Convert revenue
+                         * into SVG Y coordinate.
+                         */
+
+                        const y =
+                            chartHeight -
+                            paddingY -
+                            (
+                                revenue /
+                                maxRevenue
+                            ) *
+                            (
+                                chartHeight -
+                                paddingY * 2
+                            );
+
+
+                        return {
+                            x,
+                            y,
+                            revenue,
+                            label: item.label
+                        };
+
+                    }
+                );
+
+
+                /*
+                 * Draw line
+                 */
+
+                revenueLine.setAttribute(
+                    "points",
+                    points
+                        .map(
+                            point =>
+                                `${point.x},${point.y}`
+                        )
+                        .join(" ")
+                );
+
+
+                /*
+                 * Draw points
+                 */
+
+                points.forEach(
+                    (point) => {
+
+                        const circle =
+                            document.createElementNS(
+                                "http://www.w3.org/2000/svg",
+                                "circle"
+                            );
+
+
+                        circle.setAttribute(
+                            "cx",
+                            point.x
+                        );
+
+                        circle.setAttribute(
+                            "cy",
+                            point.y
+                        );
+
+                        circle.setAttribute(
+                            "r",
+                            "4"
+                        );
+
+                        circle.setAttribute(
+                            "fill",
+                            "#000000"
+                        );
+
+
+                        /*
+                         * Hover effect
+                         */
+
+                        circle.addEventListener(
+                            "mouseenter",
+                            () => {
+
+                                circle.setAttribute(
+                                    "r",
+                                    "6"
+                                );
+
+                            }
+                        );
+
+
+                        circle.addEventListener(
+                            "mouseleave",
+                            () => {
+
+                                circle.setAttribute(
+                                    "r",
+                                    "4"
+                                );
+
+                            }
+                        );
+
+
+                        revenuePoints.appendChild(
+                            circle
+                        );
+
+                    }
+                );
+
+
+                /*
+                 * Bottom labels
+                 */
+
+                points.forEach((point, index) => {
+
+                    let showLabel = true;
+
+                    if (data.length === 24) {
+                        // Today → every 3 hours
+                        showLabel = index % 3 === 0;
+                    }
+                    else if (data.length === 7) {
+                        // Week → every day
+                        showLabel = true;
+                    }
+                    else if (data.length > 20) {
+                        // Month → every 5 days approximately
+                        showLabel = index % 5 === 0;
+                    }
+                    else if (data.length === 12) {
+                        // Year → every month
+                        showLabel = true;
+                    }
+
+                    if (!showLabel) {
+                        return;
+                    }
+
+                    const label = document.createElement("span");
+
+                    label.textContent = point.label;
+
+                    revenueLabels.appendChild(label);
+                });
+
+            }
+
+
+            /*
+             * Render chart
+             */
+
+            renderRevenueChart(
+                revenueData
+            );
+
+
         </script>
-
-
-        ```
-
-
 
 
 
