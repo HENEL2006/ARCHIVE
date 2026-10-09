@@ -107,8 +107,11 @@ export const addCategoryService = async (data, file) => {
     throw new Error("ALL FIELDS REQUIRED");
   }
 
+  const trimmedName = name.trim();
+  const escapedName = trimmedName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
   const existingCategory = await Category.findOne({
-    name: name.trim(),
+    name: { $regex: new RegExp(`^${escapedName}$`, "i") },
     isDeleted: false,
   });
 
@@ -122,7 +125,7 @@ export const addCategoryService = async (data, file) => {
   );
 
   const category = await Category.create({
-    name: name.trim(),
+    name: trimmedName,
     description: description.trim(),
     image: uploadedImage.secure_url,
     imagePublicId: uploadedImage.public_id,
@@ -153,18 +156,20 @@ export const editCategoryService = async (id, data, file) => {
     throw new Error("CATEGORY NOT FOUND");
   }
 
-  const categoryName = data.name.trim().toLowerCase();
+  const trimmedName = data.name.trim();
+  const escapedName = trimmedName.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
   const existingCategory = await Category.findOne({
-    name: { $regex: new RegExp(`^${categoryName}$`, "i") },
+    name: { $regex: new RegExp(`^${escapedName}$`, "i") },
     _id: { $ne: id },
+    isDeleted: false,
   });
 
   if (existingCategory) {
     throw new Error("CATEGORY ALREADY EXISTS");
   }
 
-  category.name = data.name.trim();
+  category.name = trimmedName;
   category.description = data.description.trim();
   category.isListed = data.status === "listed";
 

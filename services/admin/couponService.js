@@ -6,7 +6,9 @@ export const getCouponsService = async (
   search = "",
   status = "ALL",
 ) => {
-  const query = {};
+  const query = {
+    isReferralCoupon: { $ne: true },
+  };
 
   if (search.trim()) {
     query.code = {

@@ -13,7 +13,9 @@ export const getUserOrdersService = async (
   const skip = (page - 1) * limit;
   const query = { userId };
 
-  if (status !== "ALL") {
+  if (status === "FAILED") {
+    query.paymentStatus = "FAILED";
+  } else if (status !== "ALL") {
     query.orderStatus = status;
   }
 

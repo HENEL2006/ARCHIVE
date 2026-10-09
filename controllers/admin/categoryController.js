@@ -57,7 +57,7 @@ export const addCategory = async (req, res) => {
     res.redirect("/admin/category");
   } catch (error) {
     console.log(error);
-    req.session.toast = "error.message";
+    req.session.toast = error.message;
     res.redirect("/admin/addCategory");
   }
 };

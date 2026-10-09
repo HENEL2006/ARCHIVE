@@ -3,13 +3,28 @@ import Offer from "../../models/offer.js";
 export const getBestOfferService = async (product) => {
   const now = new Date();
 
+  const categoryId = product.category?._id || product.category;
+
   const offers = await Offer.find({
     isActive: true,
-    startDate: { $lte: now },
-    expiryDate: { $gte: now },
+
+    startDate: {
+      $lte: now,
+    },
+
+    expiryDate: {
+      $gte: now,
+    },
+
     $or: [
-      { type: "PRODUCT", product: product._id },
-      { type: "CATEGORY", category: product.category },
+      {
+        type: "PRODUCT",
+        product: product._id,
+      },
+      {
+        type: "CATEGORY",
+        category: categoryId,
+      },
     ],
   }).lean();
 
@@ -17,6 +32,7 @@ export const getBestOfferService = async (product) => {
     return {
       offer: null,
       discountAmount: 0,
+      discountPercentage: 0,
       finalPrice: product.price,
     };
   }
@@ -38,9 +54,15 @@ export const getBestOfferService = async (product) => {
     }
   }
 
+  const finalPrice = product.price - bestDiscount;
+
+  const discountPercentage =
+    product.price > 0 ? Math.round((bestDiscount / product.price) * 100) : 0;
+
   return {
     offer: bestOffer,
     discountAmount: bestDiscount,
-    finalPrice: product.price - bestDiscount,
+    discountPercentage,
+    finalPrice,
   };
 };

@@ -888,6 +888,7 @@
                                     key: data.key,
                                     amount: data.amount,
                                     currency: data.currency,
+
                                     name: "ARCHIVE",
                                     description: "ARCHIVE Jersey Store",
                                     order_id: data.razorpayOrderId,
@@ -909,13 +910,10 @@
                                                     body: JSON.stringify({
                                                         razorpay_payment_id:
                                                             paymentResponse.razorpay_payment_id,
-
                                                         razorpay_order_id:
                                                             paymentResponse.razorpay_order_id,
-
                                                         razorpay_signature:
                                                             paymentResponse.razorpay_signature,
-
                                                         addressId:
                                                             document.getElementById(
                                                                 "selectedAddressId"
@@ -928,28 +926,17 @@
 
                                             if (!response.ok || !data.success) {
                                                 throw new Error(
-                                                    data.message || "PAYMENT VERIFICATION FAILED"
+                                                    data.message ||
+                                                    "PAYMENT VERIFICATION FAILED"
                                                 );
                                             }
 
                                             window.location.href =
                                                 `/order-success/${data.orderId}`;
+
                                         } catch (error) {
                                             console.log(error);
-
-                                            placeOrderBtn.disabled = false;
-                                            placeOrderBtn.textContent = "PLACE ORDER";
-
-                                            showToast(
-                                                error.message || "PAYMENT VERIFICATION FAILED",
-                                                "error"
-                                            );
-                                        }
-                                    },
-
-                                    modal: {
-                                        ondismiss: function () {
-                                            window.location.href = "/payment-failed";
+                                            await handlePaymentFailure(error.message || "PAYMENT VERIFICATION FAILED");
                                         }
                                     },
 
@@ -963,17 +950,30 @@
                                     },
 
                                     modal: {
-                                        ondismiss: function () {
-                                            placeOrderBtn.disabled = false;
-                                            placeOrderBtn.textContent = "PLACE ORDER";
-
-                                            showToast(
-                                                "PAYMENT CANCELLED",
-                                                "error"
-                                            );
+                                        ondismiss: async function () {
+                                            await handlePaymentFailure("PAYMENT CANCELLED BY USER");
                                         },
                                     },
                                 };
+
+                                async function handlePaymentFailure(reason) {
+                                    try {
+                                        const addressId = document.getElementById("selectedAddressId").value;
+                                        const response = await fetch("/checkout/create-failed-order", {
+                                            method: "POST",
+                                            headers: { "Content-Type": "application/json" },
+                                            body: JSON.stringify({ addressId, failureReason: reason })
+                                        });
+                                        const data = await response.json();
+                                        if (response.ok && data.success) {
+                                            window.location.href = `/payment-failed?orderId=${data.orderId}&reason=${encodeURIComponent(reason)}`;
+                                            return;
+                                        }
+                                    } catch (e) {
+                                        console.error("Failed to create failed order record:", e);
+                                    }
+                                    window.location.href = `/payment-failed?reason=${encodeURIComponent(reason)}`;
+                                }
 
                                 const razorpay = new Razorpay(options);
 

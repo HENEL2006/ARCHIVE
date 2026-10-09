@@ -7,7 +7,8 @@ import {
 export const loadCustomers = async (req, res) => {
   try {
     const search = req.query.search || "";
-    const status = req.query.status || "";6
+    const status = req.query.status || "";
+    6;
     const sort = req.query.sort || "newest";
     const fromDate = req.query.fromDate || "";
     const toDate = req.query.toDate || "";
@@ -45,6 +46,7 @@ export const loadCustomers = async (req, res) => {
       activeCustomers: result.activeCustomers,
       newCustomers: result.newCustomers,
       activePage: "customers",
+      cancelledCount: result.cancelledCount,
     });
   } catch (error) {
     console.log(error);

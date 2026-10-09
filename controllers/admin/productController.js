@@ -29,7 +29,7 @@ export const loadProducts = async (req, res) => {
 };
 
 export const loadaddProduct = async (req, res) => {
-  const categories = await Category.find({ isListed: true });
+  const categories = await Category.find({ isListed: true, isDeleted: false });
 
   res.render("admin/addProduct", {
     activePage: "products",
@@ -40,8 +40,8 @@ export const loadaddProduct = async (req, res) => {
 };
 
 export const addProduct = async (req, res) => {
-  console.log(req.body)
-  console.log(req.files)
+  console.log(req.body);
+  console.log(req.files);
   try {
     await addProductService(req.body, req.files);
     req.session.toast = {
@@ -51,7 +51,10 @@ export const addProduct = async (req, res) => {
     res.redirect("/admin/products");
   } catch (error) {
     console.log(error);
-    const categories = await Category.find({ isListed: true });
+    const categories = await Category.find({
+      isListed: true,
+      isDeleted: false,
+    });
     res.render("admin/addProduct", {
       activePage: "products",
       categories,
@@ -92,7 +95,10 @@ export const loadEditProduct = async (req, res) => {
   try {
     const product = await getProductByIdService(req.params.id);
 
-    const categories = await Category.find({ isListed: true });
+    const categories = await Category.find({
+      isListed: true,
+      isDeleted: false,
+    });
 
     res.render("admin/editProduct", {
       activePage: "products",

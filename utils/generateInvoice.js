@@ -2,172 +2,232 @@ import PDFDocument from "pdfkit";
 
 export const generateInvoice = (order, res) => {
   const doc = new PDFDocument({
-    margin: 50,
+    size: "A4",
+    margin: 40,
   });
 
   res.setHeader("Content-Type", "application/pdf");
-
   res.setHeader(
     "Content-Disposition",
-    `attachment; filename="invoice-${order.orderId}.pdf"`,
+    `inline; filename="invoice-${order.orderId}.pdf"`,
   );
 
   doc.pipe(res);
 
-  // =========================
-  // HEADER
-  // =========================
-
-  doc.fontSize(24).font("Helvetica-Bold").text("ARCHIVE");
-
-  doc.fontSize(10).font("Helvetica").text("Football Jersey Archive");
-
-  doc.moveDown(2);
-
-  doc.fontSize(18).font("Helvetica-Bold").text("INVOICE");
-
-  doc.moveDown();
+  const startX = 40;
+  const pageWidth = 515; // 595 - 80
 
   // =========================
-  // ORDER INFORMATION
+  // BRAND HEADER
   // =========================
-
   doc
-    .fontSize(10)
-    .font("Helvetica")
-    .text(`Order ID: ${order.orderId}`)
-    .text(
-      `Order Date: ${new Date(order.createdAt).toLocaleDateString("en-IN")}`,
-    )
-    .text(`Payment Method: ${order.paymentMethod || "-"}`)
-    .text(`Payment Status: ${order.paymentStatus || "-"}`)
-    .text(`Order Status: ${order.orderStatus || "-"}`);
-
-  doc.moveDown(2);
-
-  // =========================
-  // CUSTOMER INFORMATION
-  // =========================
-
-  doc.fontSize(12).font("Helvetica-Bold").text("Customer");
-
-  doc.moveDown(0.5);
-
-  doc
-    .fontSize(10)
-    .font("Helvetica")
-    .text(order.deliveryAddress?.fullName || order.userId?.username || "")
-    .text(order.userId?.email || "")
-    .text(order.deliveryAddress?.phone || "");
-
-  doc.moveDown();
-
-  // =========================
-  // DELIVERY ADDRESS
-  // =========================
-
-  doc.fontSize(12).font("Helvetica-Bold").text("Delivery Address");
-
-  doc.moveDown(0.5);
-
-  const address = order.deliveryAddress;
-
-  if (address) {
-    doc
-      .fontSize(10)
-      .font("Helvetica")
-      .text(address.addressLine1 || "")
-      .text(address.addressLine2 || "")
-      .text(
-        `${address.city || ""}, ${address.state || ""} - ${
-          address.postalCode || ""
-        }`,
-      )
-      .text(address.country || "");
-  }
-
-  doc.moveDown(2);
-
-  // =========================
-  // PRODUCTS
-  // =========================
-
-  doc.fontSize(12).font("Helvetica-Bold").text("Products");
-
-  doc.moveDown();
-
-  order.items.forEach((item, index) => {
-    doc
-      .fontSize(10)
-      .font("Helvetica-Bold")
-      .text(`${index + 1}. ${item.name}`);
-
-    doc
-      .font("Helvetica")
-      .text(`Size: ${item.size || "-"}`)
-      .text(`Quantity: ${item.quantity}`)
-      .text(`Price: ₹${Number(item.price || 0).toLocaleString("en-IN")}`)
-      .text(
-        `Subtotal: ₹${Number(item.itemTotal || 0).toLocaleString("en-IN")}`,
-      );
-
-    if (item.itemStatus === "CANCELLED") {
-      doc.font("Helvetica").text("Status: CANCELLED");
-    } else if (item.itemStatus === "RETURN_REQUESTED") {
-      doc.font("Helvetica").text("Status: RETURN REQUESTED");
-    } else {
-      doc.font("Helvetica").text(`Status: ${item.itemStatus || "-"}`);
-    }
-
-    doc.moveDown();
-  });
-
-  // =========================
-  // ORDER SUMMARY
-  // =========================
-
-  doc.moveDown();
-
-  doc.fontSize(12).font("Helvetica-Bold").text("Order Summary");
-
-  doc.moveDown(0.5);
-
-  doc
-    .fontSize(10)
-    .font("Helvetica")
-    .text(`Subtotal: ₹${Number(order.subtotal || 0).toLocaleString("en-IN")}`, {
-      align: "right",
-    })
-    .text(`Shipping: ₹${Number(order.shipping || 0).toLocaleString("en-IN")}`, {
-      align: "right",
-    })
-    .text(`Tax: ₹${Number(order.tax || 0).toLocaleString("en-IN")}`, {
-      align: "right",
-    })
-    .text(
-      `Discount: -₹${Number(order.discount || 0).toLocaleString("en-IN")}`,
-      { align: "right" },
-    );
-
-  doc.moveDown();
-
-  doc
-    .fontSize(14)
+    .fontSize(22)
     .font("Helvetica-Bold")
-    .text(`TOTAL: ₹${Number(order.total || 0).toLocaleString("en-IN")}`, {
-      align: "right",
-    });
-
-  // =========================
-  // FOOTER
-  // =========================
-
-  doc.moveDown(3);
+    .text("ARCHIVE", startX, 40);
 
   doc
     .fontSize(9)
     .font("Helvetica")
-    .text("Thank you for shopping with ARCHIVE.", { align: "center" });
+    .fillColor("#555555")
+    .text("FOOTBALL JERSEY ARCHIVE", startX, 66);
+
+  doc
+    .fontSize(16)
+    .font("Helvetica-Bold")
+    .fillColor("#000000")
+    .text("TAX INVOICE", startX + 300, 40, { align: "right" });
+
+  doc
+    .fontSize(9)
+    .font("Helvetica")
+    .fillColor("#555555")
+    .text(`INVOICE #: ${order.orderId}`, startX + 300, 62, { align: "right" })
+    .text(`DATE: ${new Date(order.createdAt).toLocaleDateString("en-IN")}`, startX + 300, 74, { align: "right" });
+
+  // Divider Line
+  doc
+    .moveTo(startX, 90)
+    .lineTo(startX + pageWidth, 90)
+    .lineWidth(1)
+    .strokeColor("#000000")
+    .stroke();
+
+  // =========================
+  // CUSTOMER & ORDER INFO GRID
+  // =========================
+  const colWidth = pageWidth / 2 - 10;
+  let y = 105;
+
+  // Left Column: Customer & Delivery Address
+  doc
+    .fontSize(10)
+    .font("Helvetica-Bold")
+    .fillColor("#000000")
+    .text("DELIVERY ADDRESS", startX, y);
+
+  y += 15;
+  const address = order.deliveryAddress;
+  doc
+    .fontSize(9)
+    .font("Helvetica")
+    .fillColor("#333333")
+    .text(address?.fullName || order.userId?.username || "", startX, y)
+    .text(address?.phone ? `Phone: ${address.phone}` : "", startX, y + 12)
+    .text(`${address?.addressLine1 || ""}${address?.addressLine2 ? ", " + address.addressLine2 : ""}`, startX, y + 24, { width: colWidth })
+    .text(`${address?.city || ""}, ${address?.state || ""} - ${address?.postalCode || ""}`, startX, y + 36)
+    .text(address?.country || "", startX, y + 48);
+
+  // Right Column: Order Details
+  const rightX = startX + colWidth + 20;
+  y = 105;
+
+  doc
+    .fontSize(10)
+    .font("Helvetica-Bold")
+    .fillColor("#000000")
+    .text("ORDER SUMMARY", rightX, y);
+
+  y += 15;
+  doc
+    .fontSize(9)
+    .font("Helvetica")
+    .fillColor("#333333")
+    .text(`Payment Method: ${order.paymentMethod || "COD"}`, rightX, y)
+    .text(`Payment Status: ${order.paymentStatus || "PENDING"}`, rightX, y + 12)
+    .text(`Order Status: ${order.orderStatus || "PLACED"}`, rightX, y + 24)
+    .text(`Transaction ID: ${order.transactionId || "N/A"}`, rightX, y + 36);
+
+  // Section Divider Line
+  y = 180;
+  doc
+    .moveTo(startX, y)
+    .lineTo(startX + pageWidth, y)
+    .lineWidth(0.5)
+    .strokeColor("#000000")
+    .stroke();
+
+  // =========================
+  // PRODUCTS TABLE
+  // =========================
+  y += 15;
+
+  // Table Headers
+  const colX = {
+    num: startX,
+    name: startX + 25,
+    size: startX + 260,
+    qty: startX + 310,
+    price: startX + 360,
+    total: startX + 430,
+  };
+
+  doc
+    .fontSize(9)
+    .font("Helvetica-Bold")
+    .fillColor("#000000")
+    .text("#", colX.num, y)
+    .text("PRODUCT DESCRIPTION", colX.name, y)
+    .text("SIZE", colX.size, y)
+    .text("QTY", colX.qty, y)
+    .text("PRICE", colX.price, y)
+    .text("TOTAL", colX.total, y, { width: 85, align: "right" });
+
+  y += 15;
+  doc
+    .moveTo(startX, y)
+    .lineTo(startX + pageWidth, y)
+    .lineWidth(1)
+    .strokeColor("#000000")
+    .stroke();
+
+  // Table Items
+  y += 10;
+
+  order.items.forEach((item, index) => {
+    doc
+      .fontSize(9)
+      .font("Helvetica")
+      .fillColor("#222222")
+      .text(`${index + 1}`, colX.num, y)
+      .text(item.name || "-", colX.name, y, { width: 225 })
+      .text(item.size || "-", colX.size, y)
+      .text(`${item.quantity}`, colX.qty, y)
+      .text(`₹${Number(item.price || 0).toLocaleString("en-IN")}`, colX.price, y)
+      .text(`₹${Number(item.itemTotal || 0).toLocaleString("en-IN")}`, colX.total, y, { width: 85, align: "right" });
+
+    y += 20;
+
+    doc
+      .moveTo(startX, y)
+      .lineTo(startX + pageWidth, y)
+      .lineWidth(0.25)
+      .strokeColor("#cccccc")
+      .stroke();
+
+    y += 8;
+  });
+
+  // =========================
+  // TOTALS CALCULATION
+  // =========================
+  y += 10;
+  const summaryX = startX + 300;
+  const summaryWidth = pageWidth - 300;
+
+  doc
+    .fontSize(9)
+    .font("Helvetica")
+    .fillColor("#444444")
+    .text("Subtotal:", summaryX, y)
+    .text(`₹${Number(order.subtotal || 0).toLocaleString("en-IN")}`, summaryX, y, { width: summaryWidth, align: "right" });
+
+  y += 14;
+  doc
+    .text("Shipping Fee:", summaryX, y)
+    .text(`₹${Number(order.shipping || 0).toLocaleString("en-IN")}`, summaryX, y, { width: summaryWidth, align: "right" });
+
+  if (order.discount > 0) {
+    y += 14;
+    doc
+      .text("Coupon Discount:", summaryX, y)
+      .text(`-₹${Number(order.discount || 0).toLocaleString("en-IN")}`, summaryX, y, { width: summaryWidth, align: "right" });
+  }
+
+  y += 18;
+  doc
+    .moveTo(summaryX, y)
+    .lineTo(startX + pageWidth, y)
+    .lineWidth(1)
+    .strokeColor("#000000")
+    .stroke();
+
+  y += 8;
+  doc
+    .fontSize(11)
+    .font("Helvetica-Bold")
+    .fillColor("#000000")
+    .text("TOTAL PAID:", summaryX, y)
+    .text(`₹${Number(order.total || 0).toLocaleString("en-IN")}`, summaryX, y, { width: summaryWidth, align: "right" });
+
+  // =========================
+  // FOOTER
+  // =========================
+  const footerY = doc.page.height - 70;
+
+  doc
+    .moveTo(startX, footerY)
+    .lineTo(startX + pageWidth, footerY)
+    .lineWidth(0.5)
+    .strokeColor("#000000")
+    .stroke();
+
+  doc
+    .fontSize(8)
+    .font("Helvetica")
+    .fillColor("#666666")
+    .text("Thank you for your purchase with ARCHIVE.", startX, footerY + 12, { align: "center" })
+    .text("For support, inquiries, or return requests, please visit support@archivejerseys.com", startX, footerY + 24, { align: "center" });
 
   doc.end();
 };
+

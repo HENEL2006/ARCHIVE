@@ -245,301 +245,585 @@
                         </div>
                     </div>
                 </section>
-                <!-- New Arrivals Section -->
+                <!-- ========================================================= -->
+                <!-- NEW ARRIVALS -->
+                <!-- ========================================================= -->
+
                 <section class="border-b border-primary">
+
+                    <!-- Section Header -->
                     <div
                         class="px-mobile-margin md:px-container-padding py-20 border-b border-primary flex justify-between items-baseline">
-                        <h2 class="font-elegant text-4xl md:text-5xl font-light uppercase tracking-tight">New Arrivals
+
+                        <h2 class="font-elegant text-4xl md:text-5xl font-light uppercase tracking-tight">
+                            New Arrivals
                         </h2>
-                        <a href="/collections/new-arrivals"
+
+                        <a href="/products"
                             class="font-technical text-[11px] font-bold flex items-center gap-4 uppercase group">
+
                             VIEW ALL
-                            <span
-                                class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform duration-300">
+
+                            <span class="material-symbols-outlined text-[18px]
+                group-hover:translate-x-1
+                transition-transform duration-300">
                                 arrow_forward
                             </span>
+
                         </a>
+
                     </div>
+
+
+                    <!-- Product Grid -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-                        <!-- Product 1 -->
-                        <div class="border-r border-b border-primary group cursor-pointer transition-all">
-                            <div class="aspect-[4/5] overflow-hidden bg-surface-container border-b border-primary">
-                                <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
-                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBKJvFLrl1a7pYi7iU4F6vL7jNuuBaE7RaIJm_ul3-gSMYplusUhbkd7V515mlauYF5OiIjIhOo086NRX580qziHtqUkLXBpoO3ZsXTRlDLJTlftSndczFs4v9IzgN-23tcpy2DKrOHhFzniYrskD6M73CKnzp_1lfSUFH7QE9G-xLrCqgagYDrzu1wGznpLam6ZYGq9vf_ZwOJC9jfbGL47QQI6zPWfV1Dpb45Y-DDBkV-g3UWF_pSpkkxBqOEMJgDkRP78OQ-Ke8">
-                            </div>
-                            <div
-                                class="p-8 space-y-3 group-hover:bg-primary group-hover:text-on-primary transition-colors">
-                                <p class="font-elegant text-sm font-semibold uppercase">AC Milan 1996 Home</p>
-                                <div class="space-y-2">
-                                    <div class="flex items-center gap-2 font-elegant">
-                                        <span class="text-sm font-bold">
-                                            ₹2,499
-                                        </span>
 
-                                        <span class="text-[12px] line-through opacity-40">
-                                            ₹3,999
-                                        </span>
+                        <% if (newArrivals && newArrivals.length> 0) { %>
 
-                                        <span
-                                            class="text-[9px] border border-primary px-2 py-1 uppercase font-technical">
-                                            38% OFF
-                                        </span>
+                            <% newArrivals.forEach((product)=> { %>
+
+                                <div class="border-r border-b border-primary group">
+
+                                    <!-- Product Image -->
+                                    <div class="aspect-[4/5]
+                                overflow-hidden
+                                bg-surface-container-low
+                                border-b border-primary
+                                relative">
+
+                                        <a href="/product/<%= product.slug %>" class="block w-full h-full">
+
+                                            <% if (product.images && product.images.length> 0) { %>
+
+                                                <img src="<%= product.images[0].url %>" alt="<%= product.name %>" class="w-full h-full
+                                           object-cover
+                                           
+                                           group-hover:grayscale-0
+                                           group-hover:scale-105
+                                           transition-all
+                                           duration-700
+                                           ease-out">
+
+                                                <% } else { %>
+
+                                                    <div class="w-full h-full
+                                           flex items-center justify-center
+                                           font-technical text-xs">
+
+                                                        NO IMAGE
+
+                                                    </div>
+
+                                                    <% } %>
+
+                                        </a>
+
                                     </div>
 
-                                    <div class="flex items-center gap-2 font-technical text-[10px] opacity-70">
-                                        <span>★ 4.9</span>
-                                        <span>//</span>
-                                        <span>124 REVIEWS</span>
-                                    </div>
+
+                                    <!-- Product Information -->
+                                    <a href="/product/<%= product.slug %>" class="block">
+
+                                        <div class="p-6
+                                   bg-background
+                                   text-primary
+                                   transition-colors
+                                   duration-300
+                                   group-hover:bg-primary
+                                   group-hover:text-on-primary">
+
+                                            <!-- Category -->
+                                            <% if (product.category) { %>
+
+                                                <p class="font-mono-data
+                                           text-[10px]
+                                           text-secondary
+                                           mb-1
+                                           uppercase
+                                           transition-colors
+                                           duration-300
+                                           group-hover:text-on-primary">
+
+                                                    <%= product.category.name %>
+
+                                                </p>
+
+                                                <% } %>
+
+
+                                                    <!-- Product Name -->
+                                                    <h4 class="font-label-caps
+                                       text-label-caps
+                                       mb-4
+                                       uppercase
+                                       transition-colors
+                                       duration-300
+                                       group-hover:text-on-primary">
+
+                                                        <%= product.name %>
+
+                                                    </h4>
+
+
+                                                    <!-- Offer -->
+                                                    <% if (product.offer) { %>
+
+                                                        <div class="flex items-center gap-3 flex-wrap">
+
+                                                            <!-- Final Price -->
+                                                            <span class="font-body-md
+                                               text-body-md
+                                               font-bold">
+
+                                                                ₹<%= product.finalPrice.toLocaleString("en-IN", {
+                                                                    maximumFractionDigits: 0 }) %>
+
+                                                            </span>
+
+
+                                                            <!-- Original Price -->
+                                                            <span class="font-mono-data
+                                               text-[11px]
+                                               line-through
+                                               text-secondary
+                                               group-hover:text-on-primary/60">
+
+                                                                ₹<%= product.originalPrice.toLocaleString("en-IN", {
+                                                                    maximumFractionDigits: 0 }) %>
+
+                                                            </span>
+
+
+                                                            <!-- Discount -->
+                                                            <span class="text-[9px]
+                                               border
+                                               border-primary
+                                               px-2
+                                               py-1
+                                               uppercase
+                                               font-technical
+                                               group-hover:border-on-primary">
+
+                                                                <% if (product.offer.discountType==="PERCENTAGE" ) { %>
+
+                                                                    <%= product.offer.discountValue %>% OFF
+
+                                                                        <% } else { %>
+
+                                                                            OFFER
+
+                                                                            <% } %>
+
+                                                            </span>
+
+                                                        </div>
+
+
+                                                        <!-- Saving -->
+                                                        <p class="font-mono-data
+                                           text-[10px]
+                                           mt-2
+                                           text-green-700
+                                           group-hover:text-on-primary">
+
+                                                            SAVE ₹<%= product.discountAmount.toLocaleString("en-IN", {
+                                                                maximumFractionDigits: 0 }) %>
+
+                                                        </p>
+
+
+                                                        <% } else { %>
+
+                                                            <!-- Normal Price -->
+                                                            <p class="font-body-md
+                                           text-body-md
+                                           font-bold">
+
+                                                                ₹<%= product.price.toLocaleString("en-IN") %>
+
+                                                            </p>
+
+                                                            <% } %>
+
+                                        </div>
+
+                                    </a>
+
                                 </div>
-                            </div>
-                        </div>
-                        <!-- Product 2 -->
-                        <div class="border-r border-b border-primary group cursor-pointer transition-all">
-                            <div class="aspect-[4/5] overflow-hidden bg-surface-container border-b border-primary">
-                                <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
-                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOl_kCTltZFUAQ7ZGbn-LQGYhIPj-MOT0DDlxUWT1STxYPnxrkTubQUlZofW24bF2gwnbSDBsePf2p7sC6LKTFtezkjuAW0MaxBWiGi1o2_HSM_yxcG8C25DDYG-ELfylDs2r8RFD3ydBlcOonT2x92HfSeykDv58KXrtuLGlp4ml-s1KKpUu0MSW2CyKgrzOd_kC2xHrJPf8YrrapSDLz05c5Z30JejSlMkWMYoFc4bFp-FmJKSB_Hof_ga8yXy3aUo5tGOGSk_w">
-                            </div>
-                            <div
-                                class="p-8 space-y-3 group-hover:bg-primary group-hover:text-on-primary transition-colors">
-                                <p class="font-elegant text-sm font-semibold uppercase">Brazil 1998 Training</p>
-                                <div class="space-y-2">
-                                    <div class="flex items-center gap-2 font-elegant">
-                                        <span class="text-sm font-bold">
-                                            ₹2,499
-                                        </span>
 
-                                        <span class="text-[12px] line-through opacity-40">
-                                            ₹3,999
-                                        </span>
+                                <% }) %>
 
-                                        <span
-                                            class="text-[9px] border border-primary px-2 py-1 uppercase font-technical">
-                                            38% OFF
-                                        </span>
-                                    </div>
 
-                                    <div class="flex items-center gap-2 font-technical text-[10px] opacity-70">
-                                        <span>★ 4.9</span>
-                                        <span>//</span>
-                                        <span>124 REVIEWS</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Product 3 -->
-                        <div class="border-r border-b border-primary group cursor-pointer transition-all">
-                            <div class="aspect-[4/5] overflow-hidden bg-surface-container border-b border-primary">
-                                <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
-                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvRGX5vpFeucKvfZWHIauye5qukX-rAAwPY29foIhKDr1qWbft8kTZz9D2D7n01KKl6KeglOIr4L7H3CFdybAleLrMa0NWbgfWub6HZtDX3dEcfrj1Y7-NTYQ5EEjQc8n_tvk_5_eegEJ6BohhQQVGuIUZ8eNeJlGSOp3QxrofAWbq0KE4hutMtLBO0e0WzokfxnMYjv1kINBtPinE2WURKQMczlUUSnVsC2TGXDDkgCtdP56KX9mN8v9nkwc5j0zNth4guCTnHY4">
-                            </div>
-                            <div
-                                class="p-8 space-y-3 group-hover:bg-primary group-hover:text-on-primary transition-colors">
-                                <p class="font-elegant text-sm font-semibold uppercase">Arsenal 2004 Away</p>
-                                <div class="space-y-2">
-                                    <div class="flex items-center gap-2 font-elegant">
-                                        <span class="text-sm font-bold">
-                                            ₹2,499
-                                        </span>
+                                    <% } else { %>
 
-                                        <span class="text-[12px] line-through opacity-40">
-                                            ₹3,999
-                                        </span>
+                                        <div class="col-span-full py-20 text-center">
 
-                                        <span
-                                            class="text-[9px] border border-primary px-2 py-1 uppercase font-technical">
-                                            38% OFF
-                                        </span>
-                                    </div>
+                                            <p class="font-technical text-xs uppercase">
+                                                NO NEW ARRIVALS AVAILABLE
+                                            </p>
 
-                                    <div class="flex items-center gap-2 font-technical text-[10px] opacity-70">
-                                        <span>★ 4.9</span>
-                                        <span>//</span>
-                                        <span>124 REVIEWS</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Product 4 -->
-                        <div class="border-b border-primary group cursor-pointer transition-all">
-                            <div class="aspect-[4/5] overflow-hidden bg-surface-container border-b border-primary">
-                                <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
-                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYYgAtalznlkwPxboW-8YljJnta0e4TmOYk6_vrVkGBO-JHjSu4atFGdvlE47l5120tUh-1jssU-mTeKtNZhwYaf963Kq3f0UBuiUZngABe8hSAyhqeqymiz-U7dD4Bq5vZtZaVT1r0Ie4c8U9SaF25VagLBHImNH2QiuYoc2Kyjbu-ZIcrgXqirUSysGMDoIftH4L2sH3HCenMrFgc-qx8EsKamnDSAJpuTnS_kIvd8tPemYq3hRViMLhyhaQMm7ZyEgvPER-QhY">
-                            </div>
-                            <div
-                                class="p-8 space-y-3 group-hover:bg-primary group-hover:text-on-primary transition-colors">
-                                <p class="font-elegant text-sm font-semibold uppercase">Inter Milan 2002 Home</p>
-                                <div class="space-y-2">
-                                    <div class="flex items-center gap-2 font-elegant">
-                                        <span class="text-sm font-bold">
-                                            ₹2,499
-                                        </span>
+                                        </div>
 
-                                        <span class="text-[12px] line-through opacity-40">
-                                            ₹3,999
-                                        </span>
+                                        <% } %>
 
-                                        <span
-                                            class="text-[9px] border border-primary px-2 py-1 uppercase font-technical">
-                                            38% OFF
-                                        </span>
-                                    </div>
-
-                                    <div class="flex items-center gap-2 font-technical text-[10px] opacity-70">
-                                        <span>★ 4.9</span>
-                                        <span>//</span>
-                                        <span>124 REVIEWS</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
+
                 </section>
-                <!-- Top Selling Section -->
+
+
+
+                <!-- ========================================================= -->
+                <!-- TOP SELLING -->
+                <!-- ========================================================= -->
+
                 <section class="border-b border-primary bg-surface-container-low">
+
+                    <!-- Section Header -->
                     <div
                         class="px-mobile-margin md:px-container-padding py-20 border-b border-primary flex justify-between items-baseline">
-                        <h2 class="font-elegant text-4xl md:text-5xl font-light uppercase tracking-tight">Top Selling
+
+                        <h2 class="font-elegant text-4xl md:text-5xl font-light uppercase tracking-tight">
+                            Top Selling
                         </h2>
-                        <a href="/collections/top-selling"
+
+                        <a href="/products"
                             class="font-technical text-[11px] font-bold flex items-center gap-4 uppercase group">
+
                             VIEW ALL
-                            <span
-                                class="material-symbols-outlined text-[18px] group-hover:translate-x-1 transition-transform duration-300">
+
+                            <span class="material-symbols-outlined text-[18px]
+                group-hover:translate-x-1
+                transition-transform duration-300">
+
                                 arrow_forward
+
                             </span>
+
                         </a>
+
                     </div>
+
+
+                    <!-- Product Grid -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
-                        <!-- Item 1 -->
-                        <div class="border-r border-b border-primary group cursor-pointer bg-background transition-all">
-                            <div class="aspect-square overflow-hidden border-b border-primary">
-                                <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
-                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLPd_zWJfCg8z5KsCg1xDGaLr_BptA-4FHVpPynxBqbPQWou10pWKASyCMhToD3z5dLEl-c0qQS0QRMCHta--31bxyHAhLFj7NLVhzTo8umU4L2ty6GOZVzGSNSSfLC21qcxLgU3ZnrJm6m-4FtjCSWNKE0Yj3DmbtdxdCy7skLrdhmJwTK47Ev51izrXLn5NVSKietWRPWDtlWVsqNvBm2hSzmX3M2W1UP5XIj3jGtO3FkgDakts1Dc65r3KCeWco-i19K0ApOyY">
-                            </div>
-                            <div
-                                class="p-8 space-y-2 group-hover:bg-primary group-hover:text-on-primary transition-colors">
-                                <p class="font-elegant text-sm font-semibold uppercase">France 98 World Cup</p>
-                                <div class="space-y-1 font-technical text-[10px] opacity-70">
-                                    <div class="flex items-center gap-2">
-                                        <span class="font-bold text-primary">
-                                            ₹5,999
-                                        </span>
 
-                                        <span class="line-through opacity-50">
-                                            ₹7,999
-                                        </span>
+                        <% if (topSellingProducts && topSellingProducts.length> 0) { %>
 
-                                        <span class="text-[8px] uppercase border border-primary px-1">
-                                            25% OFF
-                                        </span>
+                            <% topSellingProducts.forEach((product)=> { %>
+
+                                <div class="border-r border-b border-primary group">
+
+                                    <!-- Product Image -->
+                                    <div class="aspect-[4/5]
+                               overflow-hidden
+                               bg-surface-container-low
+                               border-b border-primary
+                               relative">
+
+                                        <a href="/product/<%= product.slug %>" class="block w-full h-full">
+
+                                            <% if (product.images && product.images.length> 0) { %>
+
+                                                <img src="<%= product.images[0].url %>" alt="<%= product.name %>" class="w-full h-full
+                                           object-cover
+                                           
+                                           group-hover:grayscale-0
+                                           group-hover:scale-105
+                                           transition-all
+                                           duration-700
+                                           ease-out">
+
+                                                <% } else { %>
+
+                                                    <div class="w-full h-full
+                                           flex items-center justify-center
+                                           font-technical text-xs">
+
+                                                        NO IMAGE
+
+                                                    </div>
+
+                                                    <% } %>
+
+                                        </a>
+
                                     </div>
 
-                                    <div class="flex items-center gap-2 font-technical text-[10px] opacity-70">
-                                        <span>★ 4.9</span>
-                                        <span>//</span>
-                                        <span>124 REVIEWS</span>
-                                    </div>
+
+                                    <!-- Product Information -->
+                                    <a href="/product/<%= product.slug %>" class="block">
+
+                                        <div class="p-6
+                                   bg-background
+                                   text-primary
+                                   transition-colors
+                                   duration-300
+                                   group-hover:bg-primary
+                                   group-hover:text-on-primary">
+
+                                            <!-- Category -->
+                                            <% if (product.category) { %>
+
+                                                <p class="font-mono-data
+                                           text-[10px]
+                                           text-secondary
+                                           mb-1
+                                           uppercase
+                                           group-hover:text-on-primary">
+
+                                                    <%= product.category.name %>
+
+                                                </p>
+
+                                                <% } %>
+
+
+                                                    <!-- Product Name -->
+                                                    <h4 class="font-label-caps
+                                       text-label-caps
+                                       mb-4
+                                       uppercase">
+
+                                                        <%= product.name %>
+
+                                                    </h4>
+
+
+                                                    <!-- Price -->
+                                                    <% if (product.discountAmount> 0) { %>
+
+                                                        <div class="flex items-center gap-3 flex-wrap">
+
+                                                            <!-- Final Price -->
+                                                            <span class="font-body-md
+                                               text-body-md
+                                               font-bold">
+
+                                                                ₹<%= product.finalPrice.toLocaleString("en-IN", {
+                                                                    maximumFractionDigits: 0 }) %>
+
+                                                            </span>
+
+
+                                                            <!-- Original Price -->
+                                                            <span class="font-mono-data
+                                               text-[11px]
+                                               line-through
+                                               text-secondary
+                                               group-hover:text-on-primary/60">
+
+                                                                ₹<%= product.originalPrice.toLocaleString("en-IN", {
+                                                                    maximumFractionDigits: 0 }) %>
+
+                                                            </span>
+
+
+                                                            <!-- Discount -->
+                                                            <span class="text-[9px]
+                                               border
+                                               border-primary
+                                               px-2
+                                               py-1
+                                               uppercase
+                                               font-technical
+                                               group-hover:border-on-primary">
+
+                                                                <%= product.discountPercentage %>% OFF
+
+                                                            </span>
+
+                                                        </div>
+
+
+                                                        <!-- Saving -->
+                                                        <p class="font-mono-data
+                                           text-[10px]
+                                           mt-2
+                                           text-green-700
+                                           group-hover:text-on-primary">
+
+                                                            SAVE ₹<%= product.discountAmount.toLocaleString("en-IN", {
+                                                                maximumFractionDigits: 0 }) %>
+
+                                                        </p>
+
+
+                                                        <% } else { %>
+
+                                                            <p class="font-body-md
+                                           text-body-md
+                                           font-bold">
+
+                                                                ₹<%= product.price.toLocaleString("en-IN") %>
+
+                                                            </p>
+
+                                                            <% } %>
+
+
+                                                                <!-- Sold Count -->
+                                                                <div class="mt-3
+                                       font-mono-data
+                                       text-[10px]
+                                       opacity-70">
+
+                                                                    <%= product.totalSold %> SOLD
+
+                                                                </div>
+
+                                        </div>
+
+                                    </a>
+
                                 </div>
-                            </div>
-                        </div>
-                        <!-- Item 2 -->
-                        <div class="border-r border-b border-primary group cursor-pointer bg-background transition-all">
-                            <div class="aspect-square overflow-hidden border-b border-primary">
-                                <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
-                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuC6qLYeh_6NNP0XNXQoZ2Px-B2hQ_M0XC8jDwjoYiMxr7F-Cj_ixzTFurhbprmp5s7eOf_6CViLtRGpy0z_9e4zSY3l5vbwhJLSB-EBbEAdsXs_HciNoeb-sZt0sT7dmjIw_7Hxc-2u8P9rOuwlD_tErnLrnZXMQiBk9v4fhLLBv0k-uJYIcAYg2u9nPTLFBHMdq7LqFz442XjKqqbDO2-zUkMx9p0JwyhmyjU5ORLUssrKjIaysa9HCRXcNx22dD_t0T3w4y2VEIU">
-                            </div>
-                            <div
-                                class="p-8 space-y-2 group-hover:bg-primary group-hover:text-on-primary transition-colors">
-                                <p class="font-elegant text-sm font-semibold uppercase">Madrid 2002 Centenary</p>
-                                <div class="space-y-1 font-technical text-[10px] opacity-70">
-                                    <div class="flex items-center gap-2">
-                                        <span class="font-bold text-primary">
-                                            ₹5,999
-                                        </span>
 
-                                        <span class="line-through opacity-50">
-                                            ₹7,999
-                                        </span>
+                                <% }) %>
 
-                                        <span class="text-[8px] uppercase border border-primary px-1">
-                                            25% OFF
-                                        </span>
-                                    </div>
 
-                                    <div class="flex items-center gap-2 font-technical text-[10px] opacity-70">
-                                        <span>★ 4.9</span>
-                                        <span>//</span>
-                                        <span>124 REVIEWS</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Item 3 -->
-                        <div class="border-r border-b border-primary group cursor-pointer bg-background transition-all">
-                            <div class="aspect-square overflow-hidden border-b border-primary">
-                                <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
-                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCbRBW8kX98fbTuNVUiJZnFLAFa9MMxGvxmYzYqma2KVxEOSD_nX1XOgug8j7SaoWczx33N8QzfoguHUG61MYJXJI-kkHv6dWtZFmw44qfp7cbC90Sy3VbRaxXAcacgbf80Z8vwNCMHCHsF8beLXQq3rOAXhm9CkmSZw8m1Iq1UAO-pF8wZ8G9pk16Jv8dskjyigIR68ZaSbMurY_rWNkOyttKy0uCKobm9IzccuxiBGSyDXn4DkgBLYDI69k2LbeFE_ZWPAozOV4U">
-                            </div>
-                            <div
-                                class="p-8 space-y-2 group-hover:bg-primary group-hover:text-on-primary transition-colors">
-                                <p class="font-elegant text-sm font-semibold uppercase">MUFC 1994 Sharp Home</p>
-                                <div class="space-y-1 font-technical text-[10px] opacity-70">
-                                    <div class="flex items-center gap-2">
-                                        <span class="font-bold text-primary">
-                                            ₹5,999
-                                        </span>
+                                    <% } else { %>
 
-                                        <span class="line-through opacity-50">
-                                            ₹7,999
-                                        </span>
+                                        <div class="col-span-full py-20 text-center">
 
-                                        <span class="text-[8px] uppercase border border-primary px-1">
-                                            25% OFF
-                                        </span>
-                                    </div>
+                                            <p class="font-technical text-xs uppercase">
+                                                NO TOP SELLING PRODUCTS YET
+                                            </p>
 
-                                    <div class="flex items-center gap-2 font-technical text-[10px] opacity-70">
-                                        <span>★ 4.9</span>
-                                        <span>//</span>
-                                        <span>124 REVIEWS</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Item 4 -->
-                        <div class="border-b border-primary group cursor-pointer bg-background transition-all">
-                            <div class="aspect-square overflow-hidden border-b border-primary">
-                                <img class="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700"
-                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuNWF_i-AV2UbIYiss4W_mYHzNKOUYjn0YEQk58bI01esC_aOcjuNLZafj8UnbikqV2IMgpSxHnQw1y8LcYtBiDjlGy5k9TN2xn6QyvN4yZTpu_nszGcoqBjbdV3Nn1ajovA2LAnlwNYkYQydfcV3Op2IIAdnjhBWH3zwwrlatfP5LaDYGUdlPG43FhrPSJHQc6nlFWuM2gn-j8-s9AXQF6rdnAfO30QhaPfjZuSh98FaHyxOqGhHtjoWyVTrtfZQJtNkezBBPv1U">
-                            </div>
-                            <div
-                                class="p-8 space-y-2 group-hover:bg-primary group-hover:text-on-primary transition-colors">
-                                <p class="font-elegant text-sm font-semibold uppercase">Juve 1997 Pink Century</p>
-                                <div class="space-y-1 font-technical text-[10px] opacity-70">
-                                    <div class="flex items-center gap-2">
-                                        <span class="font-bold text-primary">
-                                            ₹5,999
-                                        </span>
+                                        </div>
 
-                                        <span class="line-through opacity-50">
-                                            ₹7,999
-                                        </span>
+                                        <% } %>
 
-                                        <span class="text-[8px] uppercase border border-primary px-1">
-                                            25% OFF
-                                        </span>
-                                    </div>
-
-                                    <div class="flex items-center gap-2 font-technical text-[10px] opacity-70">
-                                        <span>★ 4.9</span>
-                                        <span>//</span>
-                                        <span>124 REVIEWS</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
+
+                </section>
+
+
+
+                <!-- ========================================================= -->
+                <!-- EXPLORE CATEGORIES -->
+                <!-- ========================================================= -->
+
+                <section class="border-b border-primary">
+
+                    <!-- Section Header -->
+                    <div
+                        class="px-mobile-margin md:px-container-padding py-20 border-b border-primary flex justify-between items-baseline">
+
+                        <h2 class="font-elegant text-4xl md:text-5xl font-light uppercase tracking-tight">
+                            Explore Categories
+                        </h2>
+
+                        <a href="/products"
+                            class="font-technical text-[11px] font-bold flex items-center gap-4 uppercase group">
+
+                            SHOP ALL
+
+                            <span class="material-symbols-outlined text-[18px]
+                group-hover:translate-x-1
+                transition-transform duration-300">
+
+                                arrow_forward
+
+                            </span>
+
+                        </a>
+
+                    </div>
+
+
+                    <!-- Category Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
+
+                        <% if (categories && categories.length> 0) { %>
+
+                            <% categories.forEach((category)=> { %>
+
+                                <a href="/products?category=<%= category._id %>"
+                                    class="border-r border-b border-primary group block">
+
+
+                                    <!-- Category Image -->
+                                    <div class="aspect-[4/5]
+                               overflow-hidden
+                               bg-surface-container
+                               border-b border-primary">
+
+                                        <% if (category.image) { %>
+
+                                            <img src="<%= category.image %>" alt="<%= category.name %>" class="w-full h-full
+                                       object-cover
+                                       
+                                       group-hover:grayscale-0
+                                       group-hover:scale-105
+                                       transition-all
+                                       duration-700
+                                       ease-out">
+
+                                            <% } else { %>
+
+                                                <div class="w-full h-full
+                                       flex items-center justify-center
+                                       font-technical text-xs">
+
+                                                    NO IMAGE
+
+                                                </div>
+
+                                                <% } %>
+
+                                    </div>
+
+
+                                    <!-- Category Information -->
+                                    <div class="p-8
+                               flex items-center justify-between
+                               bg-background
+                               text-primary
+                               transition-colors
+                               duration-300
+                               group-hover:bg-primary
+                               group-hover:text-on-primary">
+
+                                        <span class="font-elegant
+                                   text-sm
+                                   font-semibold
+                                   uppercase">
+
+                                            <%= category.name %>
+
+                                        </span>
+
+
+                                        <span class="material-symbols-outlined
+                                   text-[18px]
+                                   group-hover:translate-x-1
+                                   transition-transform
+                                   duration-300">
+
+                                            arrow_forward
+
+                                        </span>
+
+                                    </div>
+
+                                </a>
+
+                                <% }) %>
+
+
+                                    <% } else { %>
+
+                                        <div class="col-span-full py-20 text-center">
+
+                                            <p class="font-technical text-xs uppercase">
+                                                NO CATEGORIES AVAILABLE
+                                            </p>
+
+                                        </div>
+
+                                        <% } %>
+
+                    </div>
+
                 </section>
                 <!-- Footer CTA -->
                 <section class="grid grid-cols-1 md:grid-cols-2 border-b border-primary">
@@ -583,6 +867,88 @@
                             el.style.transform = 'translateY(0)';
                         });
                     });
+
+
+                    // automatic scroll for the cards
+
+
+
+                    document.querySelectorAll(".home-product-card").forEach(card => {
+
+                        const images = card.querySelectorAll(".product-hover-image");
+
+                        let currentIndex = 0;
+                        let interval = null;
+
+
+                        function showImage(index) {
+
+                            images.forEach((image, i) => {
+
+                                image.classList.toggle(
+                                    "opacity-100",
+                                    i === index
+                                );
+
+                                image.classList.toggle(
+                                    "opacity-0",
+                                    i !== index
+                                );
+
+                            });
+
+                        }
+
+
+                        function startImageSlider() {
+
+                            // Don't start if there is only one image
+                            if (images.length <= 1) {
+                                return;
+                            }
+
+
+                            // Start from first image
+                            currentIndex = 0;
+                            showImage(currentIndex);
+
+
+                            interval = setInterval(() => {
+
+                                currentIndex++;
+
+                                if (currentIndex >= images.length) {
+                                    currentIndex = 0;
+                                }
+
+                                showImage(currentIndex);
+
+                            }, 1200);
+
+                        }
+
+
+                        function stopImageSlider() {
+
+                            clearInterval(interval);
+
+                            interval = null;
+
+                            // Return to first image
+                            currentIndex = 0;
+
+                            showImage(0);
+
+                        }
+
+
+                        card.addEventListener("mouseenter", startImageSlider);
+
+                        card.addEventListener("mouseleave", stopImageSlider);
+
+                    });
+
+
                 </script>
 </body>
 

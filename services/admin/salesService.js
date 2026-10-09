@@ -1,4 +1,4 @@
-import Order from "../../models/Order.js";
+import Order from "../../models/order.js";
 
 export const getSalesReportService = async (query) => {
   const { period = "daily", startDate, endDate, page = 1, limit = 10 } = query;

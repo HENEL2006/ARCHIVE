@@ -36,6 +36,7 @@ import {
 import {
   loadAccountSettings,
   sendChangeEmailOtp,
+  verifyPassword,
   updateProfile,
   changePassword,
 } from "../controllers/user/accountController.js";
@@ -71,6 +72,9 @@ import {
   placeOrder,
   removeCoupon,
   verifyRazorpayPayment,
+  createFailedOrder,
+  createRetryRazorpayOrder,
+  verifyRetryRazorpayPayment,
 } from "../controllers/user/checkoutController.js";
 import {
   cancelOrder,
@@ -127,6 +131,7 @@ router.get("/address/default/:id", isLoggedIn, setAsDefault);
 router.get("/address/delete/:id", isLoggedIn, deleteAddress);
 
 router.get("/account-settings", isLoggedIn, loadAccountSettings);
+router.post("/account-settings/verify-password", isLoggedIn, verifyPassword);
 router.post("/change-email/send-otp", isLoggedIn, sendChangeEmailOtp);
 router.post("/profile/update", isLoggedIn, updateProfile);
 router.post("/account-settings/change-password", isLoggedIn, changePassword);
@@ -153,8 +158,21 @@ router.post(
   isLoggedIn,
   verifyRazorpayPayment,
 );
+router.post("/checkout/create-failed-order", isLoggedIn, createFailedOrder);
+router.post(
+  "/checkout/retry-payment/:orderId",
+  isLoggedIn,
+  createRetryRazorpayOrder,
+);
+router.post(
+  "/checkout/verify-retry-payment",
+  isLoggedIn,
+  verifyRetryRazorpayPayment,
+);
 router.get("/order-success/:orderId", isLoggedIn, loadOrderSuccess);
 router.get("/payment-failed", isLoggedIn, loadPaymentFailed);
+
+router.get("/payment-failed/:orderId", isLoggedIn, loadPaymentFailed);
 
 router.get("/orders", isLoggedIn, loadOrders);
 router.get("/order/:orderId", isLoggedIn, loadOrderDetails);

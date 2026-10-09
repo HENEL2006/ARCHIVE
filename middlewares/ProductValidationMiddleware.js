@@ -57,7 +57,10 @@ export const productValidationMiddleware = async (req, res, next) => {
 
   // If any errors exist, render the form again
   if (Object.keys(errors).length > 0) {
-    const categories = await Category.find({ isListed: true });
+    const categories = await Category.find({
+      isListed: true,
+      isDeleted: false,
+    });
 
     return res.render("admin/addProduct", {
       errors,

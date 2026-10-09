@@ -19,6 +19,7 @@ export const loadOrders = async (req, res) => {
       "DELIVERED",
       "CANCELLED",
       "RETURNED",
+      "FAILED",
     ];
 
     const status = allowedStatuses.includes(req.query.status)

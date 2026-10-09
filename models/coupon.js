@@ -87,6 +87,10 @@ const couponSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    isReferralCoupon: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,

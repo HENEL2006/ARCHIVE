@@ -74,6 +74,7 @@ export const getOrdersService = async (
     query.orderStatus = status;
   }
 
+
   if (paymentStatus !== "ALL") {
     query.paymentStatus = paymentStatus;
   }
@@ -275,6 +276,10 @@ export const updateOrderStatusService = async (orderId, newStatus) => {
   });
 
   updateOverallOrderStatus(order);
+
+  if (order.orderStatus === "DELIVERED" && order.paymentMethod === "COD") {
+    order.paymentStatus = "PAID";
+  }
 
   await order.save();
 

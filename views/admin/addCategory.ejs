@@ -158,7 +158,7 @@
                                     Name *</label>
                                 <input name="name"
                                     class="w-full px-md py-sm bg-surface-bright border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all font-body-md"
-                                    placeholder="e.g. 90s Vintage Jerseys" required="" type="text">
+                                    placeholder="e.g. 90s Vintage Jerseys" required minlength="2" maxlength="50" type="text">
                             </div>
                             <div class="flex flex-col gap-xs">
                                 <label
@@ -173,8 +173,8 @@
                         <!-- Section: Description -->
                         <div class="flex flex-col gap-xs">
                             <label
-                                class="font-label-md text-on-surface-variant uppercase tracking-wider">Description</label>
-                            <textarea name="description"
+                                class="font-label-md text-on-surface-variant uppercase tracking-wider">Description *</label>
+                            <textarea name="description" required minlength="5" maxlength="500"
                                 class="w-full px-md py-sm bg-surface-bright border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all font-body-md resize-none"
                                 placeholder="Briefly describe the collection and its historical significance..."
                                 rows="4"></textarea>

@@ -1,9 +1,18 @@
+import { getHomeService } from "../../services/user/homeService.js";
 
+export const loadHomePage = async (req, res) => {
+  try {
+    const { newArrivals, topSellingProducts, categories } =
+      await getHomeService();
 
-export const loadHomePage = (req, res) => {
-  res.render("user/home", {
-    error: null,
-    activePage: "home"
-  });
+    res.render("user/home", {
+      newArrivals,
+      topSellingProducts,
+      categories,
+    });
+  } catch (error) {
+    console.error("Home page error:", error);
+
+    res.redirect("/products?error=Unable%20to%20load%20home%20page");
+  }
 };
-

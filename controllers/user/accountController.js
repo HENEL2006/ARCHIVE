@@ -1,3 +1,4 @@
+import bcrypt from "bcrypt";
 import User from "../../models/User.js";
 
 import { sendEmailChangeOtp } from "../../services/user/otpService.js";
@@ -15,6 +16,30 @@ export const loadAccountSettings = async (req, res) => {
     oldData: {},
     activePage: "account",
   });
+};
+
+export const verifyPassword = async (req, res) => {
+  try {
+    const { password } = req.body;
+    if (!password) {
+      return res.status(400).json({ success: false, message: "Password is required" });
+    }
+
+    const user = await User.findById(req.session.userId);
+    if (!user || !user.password) {
+      return res.status(400).json({ success: false, message: "User not found or using OAuth" });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ success: false, message: "Incorrect password" });
+    }
+
+    return res.json({ success: true });
+  } catch (error) {
+    console.error("Error verifying password:", error);
+    return res.status(500).json({ success: false, message: "Internal server error" });
+  }
 };
 
 export const sendChangeEmailOtp = async (req, res) => {

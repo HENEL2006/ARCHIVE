@@ -1,4 +1,5 @@
 import Order from "../../models/order.js";
+import Product from "../../models/product.js";
 import { updateOverallOrderStatus } from "../../utils/orderStatus.js";
 import { creditWalletService } from "../user/walletService.js";
 
@@ -103,17 +104,46 @@ export const approveReturnService = async (orderId, itemId) => {
     throw new Error("RETURN REQUEST IS NOT PENDING");
   }
 
-  const itemDiscount =
-    order.subtotal > 0 ? (item.itemTotal / order.subtotal) * order.discount : 0;
+  if (item.refundStatus === "REFUNDED") {
+    throw new Error("ITEM IS ALREADY REFUNDED");
+  }
 
-  const refundAmount = item.itemTotal - itemDiscount;
-  
-  await creditWalletService(
-    order.userId,
-    item.itemTotal,
-    "RETURN_REFUND",
-    order.orderId,
+  await Product.updateOne(
+    {
+      _id: item.product,
+      "variants.size": item.size,
+    },
+    {
+      $inc: {
+        "variants.$.stock": item.quantity,
+      },
+    },
   );
+
+  const refundAmount = Number(
+    (
+      item.finalItemTotal ||
+      (item.itemTotal -
+        (order.subtotal > 0
+          ? (item.itemTotal / order.subtotal) * order.discount
+          : 0))
+    ).toFixed(2),
+  );
+
+  if (order.paymentStatus === "PAID") {
+    await creditWalletService(
+      order.userId,
+      refundAmount,
+      "RETURN_REFUND",
+      order.orderId,
+    );
+
+    item.refundStatus = "REFUNDED";
+    item.refundAmount = refundAmount;
+    order.refundedAmount = Number(
+      ((order.refundedAmount || 0) + refundAmount).toFixed(2),
+    );
+  }
 
   item.itemStatus = "RETURNED";
 

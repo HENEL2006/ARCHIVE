@@ -1,3 +1,4 @@
+import Order from "../../models/order.js";
 import User from "../../models/User.js";
 
 export const getCustomersService = async (
@@ -67,7 +68,7 @@ export const getCustomersService = async (
     }
   }
 
-  let sortOption = {};
+  let sortOption;
 
   switch (sort) {
     case "oldest":
@@ -91,6 +92,16 @@ export const getCustomersService = async (
     .skip((page - 1) * limit)
     .limit(limit);
 
+  let cancelledCount = 0;
+
+  for(const user of users){
+    const order = await Order.find({_id:user._id})
+
+    if(order.orderStatus === "CANCELLED"){
+      cancelledCount++;
+    }
+  }
+
   const totalCustomers = await User.countDocuments({ role: "user" });
 
   const activeCustomers = await User.countDocuments({
@@ -111,6 +122,7 @@ export const getCustomersService = async (
     totalCustomers,
     activeCustomers,
     newCustomers,
+    cancelledCount,
   };
 };
 

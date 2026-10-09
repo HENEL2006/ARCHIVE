@@ -69,6 +69,8 @@ import {
   loadSalesReport,
 } from "../controllers/admin/salesController.js";
 
+import { validateCategory } from "../middlewares/categoryValidationMiddleware.js";
+
 router.get("/login", adminGuest, loadLogin);
 router.post("/login", adminGuest, adminLogin);
 router.get("/dashboard", adminAuth, loadDashboard);
@@ -77,12 +79,13 @@ router.post("/customers/:id/status", adminAuth, updateUserStatus);
 router.post("/customers/:id/delete", adminAuth, deleteUser);
 router.get("/category", adminAuth, loadCategory);
 router.get("/addCategory", adminAuth, loadAddCategory);
-router.post("/addCategory", adminAuth, upload.single("image"), addCategory);
+router.post("/addCategory", adminAuth, upload.single("image"), validateCategory(false), addCategory);
 router.get("/editCategory/:id", adminAuth, loadEditCategory);
 router.post(
   "/editCategory/:id",
   adminAuth,
   upload.single("image"),
+  validateCategory(true),
   editCategory,
 );
 router.post("/toggleCategory/:id", adminAuth, toggleCategoryStatus);
@@ -119,7 +122,7 @@ router.post(
   cancelOrderItemByAdmin,
 );
 router.get("/return", adminAuth, loadReturn);
-router.post("/return/:orderId/:itemId/approve", approveReturn);
+router.post("/return/:orderId/:itemId/approve",adminAuth, approveReturn);
 router.post("/return/:orderId/:itemId/reject", adminAuth, rejectReturn);
 
 router.get("/coupons", adminAuth, loadCoupon);

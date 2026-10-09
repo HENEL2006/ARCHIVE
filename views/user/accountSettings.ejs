@@ -120,20 +120,23 @@
     </script>
     <style>
         /* Overlay */
-        #changeEmailModal {
+        #changeEmailModal,
+        #verifyPasswordModal {
             opacity: 0;
             visibility: hidden;
             transition: opacity 200ms ease, visibility 200ms ease;
         }
 
         /* Show Overlay */
-        #changeEmailModal.show {
+        #changeEmailModal.show,
+        #verifyPasswordModal.show {
             opacity: 1;
             visibility: visible;
         }
 
         /* Modal Box */
-        #changeEmailModal .modal-content {
+        #changeEmailModal .modal-content,
+        #verifyPasswordModal .modal-content {
             transform: translateY(-12px);
             opacity: 0;
             transition:
@@ -142,7 +145,8 @@
         }
 
         /* Show Modal */
-        #changeEmailModal.show .modal-content {
+        #changeEmailModal.show .modal-content,
+        #verifyPasswordModal.show .modal-content {
             transform: translateY(0);
             opacity: 1;
         }
@@ -499,6 +503,84 @@
         </div>
 
 
+        <!-- VERIFY PASSWORD MODAL -->
+        <div id="verifyPasswordModal"
+            class="fixed flex inset-0 z-50 hidden items-center justify-center bg-black/25 backdrop-blur-sm">
+
+            <!-- Modal -->
+            <div class="modal-content w-full max-w-[460px] bg-background border border-primary">
+
+                <!-- Header -->
+                <div class="flex items-center justify-between px-8 pt-8">
+
+                    <h2 class="text-xl font-semibold tracking-[0.08em] uppercase">
+                        SECURITY VERIFICATION
+                    </h2>
+
+                    <button id="closeVerifyPasswordModal" type="button" class="text-xl leading-none hover:opacity-60 transition">
+                        &times;
+                    </button>
+
+                </div>
+
+                <!-- Body -->
+                <form id="verifyPasswordForm">
+
+                    <div class="px-8 pt-6 pb-10">
+
+                        <p class="text-sm text-secondary leading-6 max-w-sm">
+                            Please enter your current password to verify your identity before changing your email address.
+                        </p>
+
+                        <div class="mt-8">
+
+                            <label class="block text-[11px] uppercase tracking-[0.18em] font-medium mb-4">
+
+                                CURRENT PASSWORD
+
+                            </label>
+
+                            <div class="relative">
+                                <input type="password" id="verify_password_input" name="password" required autocomplete="off" placeholder="ENTER CURRENT PASSWORD"
+                                    class="w-full bg-transparent border-b border-primary pb-3 pr-10 text-[15px] font-mono-data placeholder:text-secondary/50 focus:outline-none focus:border-black transition">
+                                <button onclick="togglePassword('verify_password_input',this)"
+                                    class="absolute right-2 bottom-3 material-symbols-outlined text-secondary"
+                                    type="button">visibility
+                                </button>
+                            </div>
+
+                        </div>
+
+                        <div id="verify-password-error" class="hidden mt-4 text-xs font-mono-data uppercase text-error">
+                        </div>
+
+                    </div>
+
+                    <!-- Footer -->
+                    <div class="flex items-center justify-end gap-3 px-8 py-6 border-t border-primary">
+
+                        <button id="cancelVerifyPasswordModal" type="button"
+                            class="px-5 py-3 text-[11px] uppercase tracking-[0.15em] border border-primary hover:bg-primary hover:text-white transition">
+
+                            Cancel
+
+                        </button>
+
+                        <button type="submit" id="submitVerifyPasswordBtn"
+                            class="px-5 py-3 text-[11px] uppercase tracking-[0.15em] bg-primary text-white hover:opacity-90 transition">
+
+                            VERIFY & CONTINUE
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+        </div>
+
         <!-- Change Email Modal -->
         <!-- CHANGE EMAIL MODAL -->
         <div id="changeEmailModal"
@@ -656,56 +738,53 @@
     const passwordInput = document.getElementById("new_password");
     const form = document.getElementById("password-form");
 
+    if (passwordInput && form) {
+        const rules = {
+            "length-rule": () => passwordInput.value.length >= 6,
+            "uppercase-rule": () => /[A-Z]/.test(passwordInput.value),
+            "number-rule": () => /[0-9]/.test(passwordInput.value),
+            "special-rule": () =>
+                /[!@#$%^&*(),.?":{}|<>]/.test(passwordInput.value),
+        };
 
-    console.log(passwordInput);
-    console.log(form);
+        passwordInput.addEventListener("input", () => {
 
+            Object.keys(rules).forEach((ruleId) => {
+                updateRule(
+                    ruleId,
+                    rules[ruleId](),
+                    false
+                );
+            });
 
-    const rules = {
-        "length-rule": () => passwordInput.value.length >= 6,
-        "uppercase-rule": () => /[A-Z]/.test(passwordInput.value),
-        "number-rule": () => /[0-9]/.test(passwordInput.value),
-        "special-rule": () =>
-            /[!@#$%^&*(),.?":{}|<>]/.test(passwordInput.value),
-    };
-
-    passwordInput.addEventListener("input", () => {
-
-        Object.keys(rules).forEach((ruleId) => {
-            updateRule(
-                ruleId,
-                rules[ruleId](),
-                false
-            );
         });
 
-    });
+        form.addEventListener("submit", (e) => {
 
-    form.addEventListener("submit", (e) => {
+            let allValid = true;
 
-        let allValid = true;
+            Object.keys(rules).forEach((ruleId) => {
 
-        Object.keys(rules).forEach((ruleId) => {
+                const valid = rules[ruleId]();
 
-            const valid = rules[ruleId]();
+                updateRule(
+                    ruleId,
+                    valid,
+                    true
+                );
 
-            updateRule(
-                ruleId,
-                valid,
-                true
-            );
+                if (!valid) {
+                    allValid = false;
+                }
 
-            if (!valid) {
-                allValid = false;
+            });
+
+            if (!allValid) {
+                e.preventDefault();
             }
 
         });
-
-        if (!allValid) {
-            e.preventDefault();
-        }
-
-    });
+    }
 
     function updateRule(
         ruleId,
@@ -715,6 +794,8 @@
 
         const rule =
             document.getElementById(ruleId);
+
+        if (!rule) return;
 
         const icon =
             rule.querySelector(
@@ -760,51 +841,124 @@
         }
     }
 
-    const modal = document.getElementById("changeEmailModal");
+    // Modal elements
+    const verifyModal = document.getElementById("verifyPasswordModal");
+    const emailModal = document.getElementById("changeEmailModal");
 
-    const openBtn = document.getElementById("change-email-btn");
-    const closeBtn = document.getElementById("closeEmailModal");
-    const cancelBtn = document.getElementById("cancelEmailModal");
+    const changeEmailTriggerBtn = document.getElementById("change-email-btn");
 
-    function openModal() {
+    const closeVerifyBtn = document.getElementById("closeVerifyPasswordModal");
+    const cancelVerifyBtn = document.getElementById("cancelVerifyPasswordModal");
+    const verifyForm = document.getElementById("verifyPasswordForm");
+    const verifyInput = document.getElementById("verify_password_input");
+    const verifyError = document.getElementById("verify-password-error");
 
-        modal.classList.remove("hidden");
+    const closeEmailBtn = document.getElementById("closeEmailModal");
+    const cancelEmailBtn = document.getElementById("cancelEmailModal");
 
-        modal.classList.add("flex");
-
+    function openVerifyModal() {
+        if (!verifyModal) return;
+        verifyInput.value = "";
+        verifyError.classList.add("hidden");
+        verifyModal.classList.remove("hidden");
+        verifyModal.classList.add("flex");
         requestAnimationFrame(() => {
-            modal.classList.add("show");
+            verifyModal.classList.add("show");
         });
-
     }
 
-    function closeModal() {
-
-        modal.classList.remove("show");
-
+    function closeVerifyModal() {
+        if (!verifyModal) return;
+        verifyModal.classList.remove("show");
         setTimeout(() => {
-
-            modal.classList.remove("flex");
-
-            modal.classList.add("hidden");
-
+            verifyModal.classList.remove("flex");
+            verifyModal.classList.add("hidden");
         }, 220);
-
     }
 
-    openBtn.addEventListener("click", openModal);
-    closeBtn.addEventListener("click", closeModal);
-    cancelBtn.addEventListener("click", closeModal);
+    function openEmailModal() {
+        if (!emailModal) return;
+        emailModal.classList.remove("hidden");
+        emailModal.classList.add("flex");
+        requestAnimationFrame(() => {
+            emailModal.classList.add("show");
+        });
+    }
 
-    modal.addEventListener("click", (e) => {
-        if (e.target === modal) {
-            closeModal();
-        }
+    function closeEmailModal() {
+        if (!emailModal) return;
+        emailModal.classList.remove("show");
+        setTimeout(() => {
+            emailModal.classList.remove("flex");
+            emailModal.classList.add("hidden");
+        }, 220);
+    }
+
+    if (changeEmailTriggerBtn) {
+        changeEmailTriggerBtn.addEventListener("click", () => {
+            openVerifyModal();
+        });
+    }
+
+    if (closeVerifyBtn) closeVerifyBtn.addEventListener("click", closeVerifyModal);
+    if (cancelVerifyBtn) cancelVerifyBtn.addEventListener("click", closeVerifyModal);
+    if (closeEmailBtn) closeEmailBtn.addEventListener("click", closeEmailModal);
+    if (cancelEmailBtn) cancelEmailBtn.addEventListener("click", closeEmailModal);
+
+    if (verifyForm) {
+        verifyForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            verifyError.classList.add("hidden");
+
+            const password = verifyInput.value;
+            if (!password) {
+                verifyError.textContent = "PASSWORD IS REQUIRED";
+                verifyError.classList.remove("hidden");
+                return;
+            }
+
+            try {
+                const response = await fetch("/account-settings/verify-password", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ password }),
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    closeVerifyModal();
+                    setTimeout(() => {
+                        openEmailModal();
+                    }, 250);
+                } else {
+                    verifyError.textContent = (data.message || "VERIFICATION FAILED").toUpperCase();
+                    verifyError.classList.remove("hidden");
+                }
+            } catch (err) {
+                console.error("Password verification error:", err);
+                verifyError.textContent = "SERVER ERROR. PLEASE TRY AGAIN.";
+                verifyError.classList.remove("hidden");
+            }
+        });
+    }
+
+    [verifyModal, emailModal].forEach(m => {
+        if (!m) return;
+        m.addEventListener("click", (e) => {
+            if (e.target === m) {
+                if (m === verifyModal) closeVerifyModal();
+                if (m === emailModal) closeEmailModal();
+            }
+        });
     });
 
     document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {
-            closeModal();
+            closeVerifyModal();
+            closeEmailModal();
         }
     });
 

@@ -56,6 +56,7 @@ const createReferralCoupon = async (userId, amount, prefix) => {
     startDate: new Date(),
     expiryDate: null,
     isActive: true,
+    isReferralCoupon:true
   });
 };
 

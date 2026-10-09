@@ -98,13 +98,25 @@ const currentPage = typeof activePage !== "undefined"
             <span class="material-symbols-outlined text-[20px] text-primary group-hover:scale-110 transition-none"
                 data-icon="search">search</span>
         </button>
-        <a href="/wishlist" class="hidden md:flex items-center group">
+        <% const cartBadgeCount = typeof cartCount !== "undefined" ? cartCount : 0; %>
+        <% const wishlistBadgeCount = typeof wishlistCount !== "undefined" ? wishlistCount : 0; %>
+        <a href="/wishlist" class="hidden md:flex items-center group relative">
             <span class="material-symbols-outlined text-[20px] text-primary group-hover:scale-110 transition-none"
                 data-icon="favorite">favorite</span>
+            <% if (wishlistBadgeCount > 0) { %>
+                <span class="absolute -top-2 -right-2 bg-primary text-on-primary text-[10px] font-mono-data font-bold min-w-[16px] h-4 px-1 rounded-full flex items-center justify-center leading-none">
+                    <%= wishlistBadgeCount %>
+                </span>
+            <% } %>
         </a>
-        <a href="/cart" class="flex items-center group">
+        <a href="/cart" class="flex items-center group relative">
             <span class="material-symbols-outlined text-[20px] text-primary group-hover:scale-110 transition-none"
                 data-icon="shopping_bag">shopping_bag</span>
+            <% if (cartBadgeCount > 0) { %>
+                <span class="absolute -top-2 -right-2 bg-primary text-on-primary text-[10px] font-mono-data font-bold min-w-[16px] h-4 px-1 rounded-full flex items-center justify-center leading-none">
+                    <%= cartBadgeCount %>
+                </span>
+            <% } %>
         </a>
         <a href="/profile" class="hidden md:flex items-center group">
             <span class="material-symbols-outlined text-[20px] text-primary group-hover:scale-110">

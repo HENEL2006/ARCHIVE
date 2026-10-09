@@ -432,3 +432,209 @@ export const getOrderByIdService = async (userId, orderId) => {
 
   return order;
 };
+
+export const createFailedOrderService = async (
+  userId,
+  data,
+  appliedCoupon = null,
+) => {
+  const { addressId } = data;
+
+  if (!addressId) {
+    throw new Error("ADDRESS IS REQUIRED");
+  }
+
+  const address = await Address.findOne({ _id: addressId, userId }).lean();
+  if (!address) {
+    throw new Error("ADDRESS NOT FOUND");
+  }
+
+  const cart = await Cart.findOne({ user: userId }).lean();
+  if (!cart || cart.items.length === 0) {
+    throw new Error("YOUR CART IS EMPTY");
+  }
+
+  const orderItems = [];
+  let subtotal = 0;
+
+  for (const item of cart.items) {
+    const product = await Product.findById(item.product)
+      .populate("category")
+      .lean();
+
+    if (!product) continue;
+
+    const offer = await getBestOfferService({
+      ...product,
+      category: product.category?._id || product.category,
+    });
+
+    const finalPrice = offer.finalPrice;
+    const itemTotal = finalPrice * item.quantity;
+    subtotal += itemTotal;
+
+    orderItems.push({
+      product: product._id,
+      name: product.name,
+      image: product.images?.[0]?.url || "",
+      size: item.size,
+      quantity: item.quantity,
+      price: finalPrice,
+      itemTotal,
+    });
+  }
+
+  if (orderItems.length === 0) {
+    throw new Error("NO VALID ITEMS IN CART");
+  }
+
+  const shipping = subtotal > 0 ? 99 : 0;
+  const tax = 0;
+  const { coupon, discount } = await getAppliedCouponService(
+    userId,
+    appliedCoupon,
+    subtotal,
+  );
+
+  for (const item of orderItems) {
+    const itemDiscount = subtotal > 0 ? (item.itemTotal / subtotal) * discount : 0;
+    item.finalItemTotal = Number((item.itemTotal - itemDiscount).toFixed(2));
+  }
+
+  const total = subtotal + shipping + tax - discount;
+  const timestamp = Date.now().toString().slice(4);
+  const orderId = `ARC-${timestamp}-${Math.floor(1000 + Math.random() * 9000)}`;
+
+  const order = await Order.create({
+    orderId,
+    userId,
+    items: orderItems,
+    deliveryAddress: {
+      fullName: address.fullName,
+      phone: address.phone,
+      addressLine1: address.addressLine1,
+      addressLine2: address.addressLine2,
+      city: address.city,
+      state: address.state,
+      postalCode: address.postalCode,
+      country: address.country,
+    },
+    subtotal,
+    shipping,
+    discount,
+    tax,
+    total,
+    paymentMethod: "RAZORPAY",
+    paymentStatus: "FAILED",
+    orderStatus: "PLACED",
+  });
+
+  return order;
+};
+
+export const createRetryRazorpayOrderService = async (userId, orderId) => {
+  const order = await Order.findOne({ orderId, userId });
+
+  if (!order) {
+    throw new Error("ORDER NOT FOUND");
+  }
+
+  if (order.paymentStatus === "PAID") {
+    throw new Error("THIS ORDER IS ALREADY PAID");
+  }
+
+  if (order.orderStatus === "CANCELLED") {
+    throw new Error("THIS ORDER HAS BEEN CANCELLED");
+  }
+
+  for (const item of order.items) {
+    const product = await Product.findById(item.product).lean();
+    if (!product || product.isDeleted || !product.isListed) {
+      throw new Error(`PRODUCT ${item.name} IS NO LONGER AVAILABLE`);
+    }
+    const variant = product.variants.find((v) => v.size === item.size);
+    if (!variant || variant.stock < item.quantity) {
+      throw new Error(`INSUFFICIENT STOCK FOR ${item.name} (${item.size})`);
+    }
+  }
+
+  const razorpayOrder = await razorpay.orders.create({
+    amount: Math.round(order.total * 100),
+    currency: "INR",
+    receipt: order.orderId,
+  });
+
+  return {
+    razorpayOrderId: razorpayOrder.id,
+    amount: razorpayOrder.amount,
+    currency: razorpayOrder.currency,
+  };
+};
+
+export const verifyRetryRazorpayPaymentService = async (userId, data) => {
+  const { razorpay_payment_id, razorpay_order_id, razorpay_signature, orderId } = data;
+
+  if (!razorpay_payment_id || !razorpay_order_id || !razorpay_signature || !orderId) {
+    throw new Error("INVALID PAYMENT DETAILS");
+  }
+
+  const generatedSignature = crypto
+    .createHmac("sha256", process.env.RAZORPAY_KEY_SECRET)
+    .update(`${razorpay_order_id}|${razorpay_payment_id}`)
+    .digest("hex");
+
+  if (generatedSignature !== razorpay_signature) {
+    throw new Error("PAYMENT SIGNATURE VERIFICATION FAILED");
+  }
+
+  const order = await Order.findOne({ orderId, userId });
+  if (!order) {
+    throw new Error("ORDER NOT FOUND");
+  }
+
+  for (const item of order.items) {
+    const product = await Product.findById(item.product).lean();
+    if (!product || product.isDeleted || !product.isListed) {
+      throw new Error(`PRODUCT ${item.name} IS NO LONGER AVAILABLE`);
+    }
+    const variant = product.variants.find((v) => v.size === item.size);
+    if (!variant || variant.stock < item.quantity) {
+      throw new Error(`INSUFFICIENT STOCK FOR ${item.name} (${item.size})`);
+    }
+  }
+
+  for (const item of order.items) {
+    await Product.updateOne(
+      { _id: item.product, "variants.size": item.size },
+      { $inc: { "variants.$.stock": -item.quantity } },
+    );
+  }
+
+  order.paymentStatus = "PAID";
+  order.transactionId = razorpay_payment_id;
+  await order.save();
+
+  // Selective Cart Item Removal: Remove purchased items from active cart if present
+  const cart = await Cart.findOne({ user: userId });
+  if (cart && cart.items.length > 0) {
+    for (const orderItem of order.items) {
+      const cartItemIndex = cart.items.findIndex(
+        (item) =>
+          item.product.toString() === orderItem.product.toString() &&
+          item.size === orderItem.size,
+      );
+
+      if (cartItemIndex !== -1) {
+        if (cart.items[cartItemIndex].quantity <= orderItem.quantity) {
+          cart.items.splice(cartItemIndex, 1);
+        } else {
+          cart.items[cartItemIndex].quantity -= orderItem.quantity;
+        }
+      }
+    }
+    await cart.save();
+  }
+
+  return order;
+};
+
