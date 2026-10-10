@@ -34,5 +34,42 @@ app.use(attachCategories);
 app.use("/", userRoutes);
 app.use("/admin", adminRoutes);
 
+// 404 Catch-All Handler
+app.use((req, res) => {
+  res.status(404);
+
+  // If request expects JSON (API or AJAX)
+  if (req.xhr || (req.headers.accept && req.headers.accept.includes("application/json"))) {
+    return res.json({
+      success: false,
+      message: "Resource not found (404)",
+    });
+  }
+
+  // Render EJS 404 page
+  return res.render("user/404", {
+    requestedUrl: req.originalUrl,
+    activePage: "",
+  });
+});
+
+// Centralized 500 Error Handler
+app.use((err, req, res, _next) => {
+  console.error("Internal Error:", err);
+  const status = err.status || 500;
+  res.status(status);
+
+  if (req.xhr || (req.headers.accept && req.headers.accept.includes("application/json"))) {
+    return res.json({
+      success: false,
+      message: process.env.NODE_ENV === "production" ? "Internal Server Error" : err.message,
+    });
+  }
+
+  return res.render("user/404", {
+    requestedUrl: req.originalUrl,
+    activePage: "",
+  });
+});
 
 export default app;

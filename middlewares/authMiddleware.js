@@ -16,10 +16,10 @@ export const isLoggedIn = async (req, res, next) => {
       req.session.destroy(() => {});
       return res.redirect("/login");
     }
-    if(user.isDeleted){
-      req.session.destroy(()=>{
+    if (user.isDeleted) {
+      return req.session.destroy(() => {
         return res.redirect("/login");
-      })
+      });
     }
 
     next();

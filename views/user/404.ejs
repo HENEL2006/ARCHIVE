@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <title>404 - PAGE NOT FOUND | ARCHIVE</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&amp;family=Syne:wght@400;700;800&amp;display=swap"
+        rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet">
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#fcf9f8",
+                        "on-background": "#1c1b1b",
+                        "primary": "#000000",
+                        "on-primary": "#ffffff",
+                        "secondary": "#5d5f5f",
+                        "surface-container-low": "#f6f3f2",
+                        "surface": "#fcf9f8",
+                    },
+                    "spacing": {
+                        "container-padding": "64px",
+                        "mobile-margin": "20px"
+                    },
+                    "fontFamily": {
+                        "label-caps": ["Space Mono"],
+                        "headline-lg": ["Syne"],
+                        "display-xl": ["Syne"],
+                        "mono-data": ["Space Mono"],
+                        "body-lg": ["Space Mono"],
+                        "headline-md": ["Syne"],
+                        "body-md": ["Space Mono"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .border-grid {
+            border: 1px solid #000000;
+        }
+
+        .btn-hover-invert:hover {
+            background-color: #000000;
+            color: #ffffff;
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-background font-body-md selection:bg-primary selection:text-on-primary">
+    <%- include("partials/userHeader") %>
+    <%- include("partials/toast") %>
+
+    <main class="pt-32 pb-20 px-mobile-margin md:px-container-padding max-w-[1440px] mx-auto min-h-screen flex flex-col justify-center">
+        <section class="border-grid p-8 md:p-16 relative overflow-hidden bg-white">
+            <div class="relative z-10 max-w-3xl">
+                <div class="mb-8 w-16 h-16 border-grid flex items-center justify-center bg-background">
+                    <span class="material-symbols-outlined text-4xl opacity-70">sports_soccer</span>
+                </div>
+
+                <span class="font-label-caps text-xs tracking-widest text-secondary uppercase block mb-4">
+                    ERROR STATUS 404 · OUT OF BOUNDS
+                </span>
+
+                <h1 class="font-display-xl text-6xl md:text-8xl mb-6 leading-none tracking-tight uppercase">
+                    THIS PAGE IS OUT OF PLAY.
+                </h1>
+
+                <p class="font-body-lg text-lg text-secondary mb-10 max-w-xl leading-relaxed">
+                    The requested URL (<code class="bg-surface-container-low px-2 py-1 border border-primary text-sm font-mono-data"><%= requestedUrl %></code>) does not exist in our archive or has been transferred to another collection.
+                </p>
+
+                <div class="flex flex-col sm:flex-row gap-4 pt-6 border-t border-primary">
+                    <a href="/"
+                        class="border-grid bg-primary text-on-primary px-8 py-4 font-label-caps text-xs tracking-wider uppercase transition-all hover:bg-secondary text-center">
+                        RETURN TO HOMEPAGE
+                    </a>
+                    <a href="/products"
+                        class="border-grid text-primary px-8 py-4 font-label-caps text-xs tracking-wider uppercase btn-hover-invert transition-all text-center">
+                        BROWSE THE ARCHIVE SHOP
+                    </a>
+                </div>
+            </div>
+
+            <!-- Subtle Football Brutalist Watermark Background -->
+            <div class="absolute top-1/2 right-8 -translate-y-1/2 hidden lg:block pointer-events-none opacity-5">
+                <span class="font-display-xl text-[280px] leading-none select-none">404</span>
+            </div>
+        </section>
+
+        <!-- Footer Notice -->
+        <footer class="mt-[-1px] border-grid p-6 text-center bg-surface-container-low">
+            <p class="font-mono-data text-xs text-secondary uppercase tracking-wider">
+                JERSEY ARCHIVE · CULTURAL PRESERVATION & VINTAGE FOOTBALL GRAILS
+            </p>
+        </footer>
+    </main>
+
+    <%- include("partials/userFooter") %>
+</body>
+
+</html>

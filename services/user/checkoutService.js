@@ -178,10 +178,15 @@ export const placeOrderService = async (userId, data, appliedCoupon = null) => {
   }
 
   for (const item of cart.items) {
-    await Product.updateOne(
+    const updateResult = await Product.updateOne(
       {
         _id: item.product,
-        "variants.size": item.size,
+        variants: {
+          $elemMatch: {
+            size: item.size,
+            stock: { $gte: item.quantity },
+          },
+        },
       },
       {
         $inc: {
@@ -189,6 +194,10 @@ export const placeOrderService = async (userId, data, appliedCoupon = null) => {
         },
       },
     );
+
+    if (updateResult.modifiedCount === 0) {
+      throw new Error("STOCK WAS MODIFIED BY ANOTHER TRANSACTION. PLEASE TRY AGAIN.");
+    }
   }
 
   await Cart.updateOne({ user: userId }, { $set: { items: [] } });
@@ -604,10 +613,22 @@ export const verifyRetryRazorpayPaymentService = async (userId, data) => {
   }
 
   for (const item of order.items) {
-    await Product.updateOne(
-      { _id: item.product, "variants.size": item.size },
+    const updateResult = await Product.updateOne(
+      {
+        _id: item.product,
+        variants: {
+          $elemMatch: {
+            size: item.size,
+            stock: { $gte: item.quantity },
+          },
+        },
+      },
       { $inc: { "variants.$.stock": -item.quantity } },
     );
+
+    if (updateResult.modifiedCount === 0) {
+      throw new Error(`INSUFFICIENT STOCK FOR ${item.name} (${item.size})`);
+    }
   }
 
   order.paymentStatus = "PAID";

@@ -596,44 +596,73 @@
 
             </div>
 
-            <div id="returnModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50">
+            <div id="returnModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/50 px-4">
 
-                <div class="w-full max-w-md bg-white border border-black p-6">
+                <div class="w-full max-w-md bg-white border border-neutral-300 rounded-lg shadow-xl">
 
-                    <div class="flex items-center justify-between mb-6">
-                        <h2 class="text-xl font-bold">
-                            RETURN PRODUCT
-                        </h2>
+                    <!-- Header -->
+                    <div class="flex items-center justify-between px-6 py-5 border-b border-neutral-200">
 
-                        <button type="button" onclick="closeReturnModal()" class="text-2xl">
-                            ×
+                        <div>
+                            <p class="text-[10px] uppercase tracking-[0.25em] text-neutral-400 font-semibold">
+                                RETURN REQUEST
+                            </p>
+
+                            <h2 class="mt-1 text-xl font-semibold text-black">
+                                Request Product Return
+                            </h2>
+                        </div>
+
+                        <button type="button" onclick="closeReturnModal()"
+                            class="flex items-center justify-center w-9 h-9 border border-neutral-300 text-neutral-500 hover:text-black hover:border-black transition">
+
+                            <span class="material-symbols-outlined text-[20px]">
+                                close
+                            </span>
+
                         </button>
+
                     </div>
 
+
+                    <!-- Form -->
                     <form id="returnForm" method="POST">
 
-                        <label class="block mb-2 font-medium">
-                            Reason for return
-                        </label>
+                        <div class="px-6 py-6">
 
-                        <textarea id="returnReason" name="returnReason" required
-                            placeholder="Enter your reason for returning this product..."
-                            class="w-full border border-outline-variant rounded p-3">
-</textarea>
+                            <label for="returnReason"
+                                class="block text-xs font-bold uppercase tracking-wider text-neutral-700 mb-2">
+                                Return Reason
+                            </label>
 
-                        <div class="flex justify-end gap-3 mt-6">
+                            <textarea id="returnReason" name="returnReason" rows="5" required minlength="5"
+                                placeholder="Please explain why you want to return this product..."
+                                class="w-full border border-neutral-300 rounded-md px-3 py-3 text-sm resize-none focus:outline-none focus:ring-1 focus:ring-black"></textarea>
 
-                            <button type="button" onclick="closeReturnModal()" class="border border-black px-5 py-3">
-                                CANCEL
+                            <p class="mt-2 text-[10px] uppercase tracking-wider text-neutral-400">
+                                Please provide a valid reason for the return.
+                            </p>
+
+                        </div>
+
+
+                        <!-- Footer -->
+                        <div class="flex justify-end gap-3 px-6 py-4 bg-neutral-50 border-t border-neutral-200">
+
+                            <button type="button" onclick="closeReturnModal()"
+                                class="px-5 py-2.5 border border-neutral-300 text-xs font-bold uppercase tracking-wider hover:border-black transition">
+                                Cancel
                             </button>
 
-                            <button type="submit" class="bg-black text-white px-5 py-3">
-                                SUBMIT REQUEST
+                            <button type="submit"
+                                class="px-5 py-2.5 bg-black text-white text-xs font-bold uppercase tracking-wider hover:bg-neutral-800 transition">
+                                Submit Request
                             </button>
 
                         </div>
 
                     </form>
+
                 </div>
             </div>
 
@@ -665,6 +694,15 @@
 
                         modal.classList.add("hidden");
                         modal.classList.remove("flex");
+                    }
+
+                    const returnModal = document.getElementById("returnModal");
+                    if (returnModal) {
+                        returnModal.addEventListener("click", (event) => {
+                            if (event.target === returnModal) {
+                                closeReturnModal();
+                            }
+                        });
                     }
 
                     // ==========================================
