@@ -168,9 +168,12 @@
                     <!-- Left Column: Imagery -->
                     <div class="grid-line-r p-6 md:p-container-padding flex flex-col gap-unit">
                         <div id="imageContainer"
-                            class="w-full h-[90vh] overflow-hidden bg-surface-container cursor-crosshair">
+                            class="w-full aspect-[4/5] md:aspect-auto md:h-[80vh] lg:h-[90vh] overflow-hidden bg-surface-container cursor-crosshair relative">
 
-                            <img id="mainImage" src="<%= product.images[0].url %>" alt="<%= product.name %>"
+                            <img id="mainImage" src="<%= optimizeImage(product.images[0].url, { width: 1200 }) %>"
+                                data-full-url="<%= optimizeImage(product.images[0].url, { width: 1600 }) %>"
+                                alt="<%= product.name %>"
+                                fetchpriority="high"
                                 class="w-full h-full object-cover transition-transform duration-150 ease-out">
 
                         </div>
@@ -178,7 +181,11 @@
                             <% product.images.forEach((image,index)=>{ %>
                                 <div
                                     class="aspect-square bg-surface-container <%= index !== product.images.length-1 ? 'grid-line-r' : '' %>">
-                                    <img src="<%= image.url %>" alt="<%= product.name %>" class="thumbnail w-full h-full object-cover cursor-pointer transition-all duration-200 hover:scale-[1.03]
+                                    <img src="<%= optimizeImage(image.url, { width: 300 }) %>"
+                                        data-full-url="<%= optimizeImage(image.url, { width: 1200 }) %>"
+                                        alt="<%= product.name %>"
+                                        loading="lazy"
+                                        class="thumbnail w-full h-full object-cover cursor-pointer transition-all duration-200 hover:scale-[1.03]
 <%= index === 0
     ? 'opacity-100 border-2 border-primary'
     : 'opacity-50 hover:opacity-100 border-2 border-transparent' %>">
@@ -301,7 +308,7 @@
                                 <input type="hidden" id="selectedQuantity" name="quantity" value="1">
                                 <div>
                                     <span class="font-label-caps text-label-caps mb-4 block">SELECT SIZE</span>
-                                    <div class="flex gap-2">
+                                    <div class="flex flex-wrap gap-2">
 
                                         <% product.variants.forEach((variant)=> { %>
 
@@ -327,16 +334,16 @@
                                 </div>
                                 <div>
                                     <span class="font-label-caps text-label-caps mb-4 block">QUANTITY</span>
-                                    <div class="flex items-center gap-6 font-label-caps">
-                                        <button id="decreaseQty" type="button" class="text-xl">
+                                    <div class="flex items-center border border-primary w-fit font-mono-data">
+                                        <button id="decreaseQty" type="button" aria-label="Decrease quantity" class="w-11 h-11 flex items-center justify-center text-lg hover:bg-primary hover:text-on-primary transition-colors">
                                             -
                                         </button>
 
-                                        <span id="quantityValue" class="text-xl">
+                                        <span id="quantityValue" class="w-10 text-center text-base font-bold">
                                             1
                                         </span>
 
-                                        <button id="increaseQty" type="button" class="text-xl">
+                                        <button id="increaseQty" type="button" aria-label="Increase quantity" class="w-11 h-11 flex items-center justify-center text-lg hover:bg-primary hover:text-on-primary transition-colors">
                                             +
                                         </button>
                                     </div>
@@ -475,7 +482,8 @@
 
                                         <% related.images.forEach((image, imageIndex)=> { %>
 
-                                            <img src="<%= image.url %>" alt="<%= related.name %>"
+                                            <img src="<%= optimizeImage(image.url, { width: 600 }) %>" alt="<%= related.name %>"
+                                                loading="lazy"
                                                 class="product-hover-image absolute inset-0 w-full h-full object-cover transition-opacity duration-700"
                                                 style="opacity: <%= imageIndex === 0 ? '1' : '0' %>;">
 
@@ -721,7 +729,7 @@
 
                         thumbnail.addEventListener("click", () => {
 
-                            mainImage.src = thumbnail.src;
+                            mainImage.src = thumbnail.dataset.fullUrl || thumbnail.src;
 
                             thumbnails.forEach((img) => {
 
@@ -830,24 +838,22 @@
 
                     });
 
-                    imageContainer.addEventListener("mousemove", (e) => {
+                    const isHoverSupported = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
 
-                        const rect = imageContainer.getBoundingClientRect();
+                    if (isHoverSupported) {
+                        imageContainer.addEventListener("mousemove", (e) => {
+                            const rect = imageContainer.getBoundingClientRect();
+                            const x = ((e.clientX - rect.left) / rect.width) * 100;
+                            const y = ((e.clientY - rect.top) / rect.height) * 100;
+                            mainImage.style.transformOrigin = `${x}% ${y}%`;
+                            mainImage.style.transform = "scale(1.8)";
+                        });
 
-                        const x = ((e.clientX - rect.left) / rect.width) * 100;
-                        const y = ((e.clientY - rect.top) / rect.height) * 100;
-
-                        mainImage.style.transformOrigin = `${x}% ${y}%`;
-                        mainImage.style.transform = "scale(1.8)";
-
-                    });
-
-                    imageContainer.addEventListener("mouseleave", () => {
-
-                        mainImage.style.transform = "scale(1)";
-                        mainImage.style.transformOrigin = "center center";
-
-                    });
+                        imageContainer.addEventListener("mouseleave", () => {
+                            mainImage.style.transform = "scale(1)";
+                            mainImage.style.transformOrigin = "center center";
+                        });
+                    }
 
                     const cartForm = document.querySelector('form[action="/cart/add"]');
 

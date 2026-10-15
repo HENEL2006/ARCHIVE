@@ -135,13 +135,13 @@
         <%- include("partials/toast") %>
             <main class="pt-16 min-h-screen">
                 <!-- Hero Section -->
-                <header class="px-container-padding pt-24 pb-12 border-b border-primary">
-                    <h1 class="font-display-xl text-display-xl mb-4">MY ORDERS</h1>
+                <header class="px-mobile-margin md:px-container-padding pt-16 md:pt-24 pb-8 md:pb-12 border-b border-primary">
+                    <h1 class="font-display-xl text-headline-lg md:text-display-xl mb-4">MY ORDERS</h1>
                     <p>Total orders: <%= totalOrders %></p>
                     <p class="font-body-lg text-body-lg text-secondary max-w-xl">Track and manage your archive
                         acquisitions.</p>
                 </header>
-                <section class="px-container-padding py-8 border-b border-primary bg-background">
+                <section class="px-mobile-margin md:px-container-padding py-6 md:py-8 border-b border-primary bg-background">
                     <div class="max-w-7xl mx-auto relative">
 
                         <div class="flex items-stretch border border-primary bg-background">
@@ -220,7 +220,7 @@
                     </div>
                 </section>
                 <!-- Order List -->
-                <section class="px-container-padding py-12">
+                <section class="px-mobile-margin md:px-container-padding py-8 md:py-12">
                     <div class="max-w-7xl mx-auto flex flex-col gap-4">
 
                         <% orders.forEach(order=> { %>
@@ -228,22 +228,32 @@
                             <% const firstItem=order.items[0]; const remainingItems=order.items.length - 1; %>
 
                                 <div
-                                    class="border border-primary bg-white flex items-center p-4 gap-6 hover:bg-surface-container-low transition-all duration-75">
+                                    class="border border-primary bg-white flex flex-col md:flex-row md:items-center p-4 gap-4 md:gap-6 hover:bg-surface-container-low transition-all duration-75">
 
-                                    <!-- PRODUCT IMAGE -->
-                                    <div class="w-20 h-20 border border-primary flex-shrink-0 overflow-hidden">
-
-                                        <img src="<%= firstItem.image %>" alt="<%= firstItem.name %>"
-                                            class="w-full h-full object-cover">
-
+                                    <!-- PRODUCT IMAGE & MOBILE TITLE -->
+                                    <div class="flex items-center gap-4 md:contents">
+                                        <div class="w-16 h-16 sm:w-20 sm:h-20 border border-primary flex-shrink-0 overflow-hidden">
+                                            <img src="<%= optimizeImage(firstItem.image, { width: 200 }) %>" alt="<%= firstItem.name %>"
+                                                loading="lazy"
+                                                class="w-full h-full object-cover">
+                                        </div>
+                                        <div class="md:hidden flex flex-col min-w-0">
+                                            <span class="font-mono-data text-[10px] text-secondary uppercase opacity-50">Product</span>
+                                            <span class="font-mono-data text-xs font-bold truncate">
+                                                <%= firstItem.name %>
+                                                <% if (remainingItems > 0) { %>
+                                                    <span class="text-secondary font-normal">+<%= remainingItems %> more</span>
+                                                <% } %>
+                                            </span>
+                                            <span class="font-mono-data text-[10px] text-secondary mt-0.5">#<%= order.orderId %></span>
+                                        </div>
                                     </div>
 
-
                                     <!-- ORDER INFORMATION -->
-                                    <div class="flex-grow grid grid-cols-6 items-center gap-4">
+                                    <div class="flex-grow grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 items-center gap-3 md:gap-4">
 
-                                        <!-- PRODUCT -->
-                                        <div class="flex flex-col min-w-0">
+                                        <!-- PRODUCT (Desktop only) -->
+                                        <div class="hidden md:flex flex-col min-w-0">
 
                                             <span
                                                 class="font-mono-data text-[10px] text-secondary uppercase opacity-50">
@@ -265,8 +275,8 @@
                                         </div>
 
 
-                                        <!-- ORDER NUMBER -->
-                                        <div class="flex flex-col">
+                                        <!-- ORDER NUMBER (Desktop only) -->
+                                        <div class="hidden md:flex flex-col">
 
                                             <span
                                                 class="font-mono-data text-[10px] text-secondary uppercase opacity-50">
@@ -351,7 +361,7 @@
 
 
                                     <!-- ACTIONS -->
-                                    <div class="flex items-center gap-2 flex-shrink-0">
+                                    <div class="flex flex-wrap items-center gap-2 flex-shrink-0">
 
                                         <% if (order.paymentStatus === "FAILED" && order.orderStatus !== "CANCELLED") { %>
                                             <button type="button" onclick="retryPayment('<%= order.orderId %>')"
@@ -375,7 +385,7 @@
                                             <button type="button"
                                                 onclick="openReturnModal('<%= order.orderId %>', '<%= order.items[0]._id %>')"
                                                 class="border border-primary bg-transparent text-primary px-5 py-2.5 text-sm font-medium
-           hover:bg-primary hover:text-white transition-colors duration-200">
+            hover:bg-primary hover:text-white transition-colors duration-200">
                                                 RETURN
                                             </button>
 
@@ -422,7 +432,7 @@
 
                     </div>
                 </section>
-                <section class="px-container-padding py-12 border-t border-primary">
+                <section class="px-mobile-margin md:px-container-padding py-8 md:py-12 border-t border-primary">
                     <div class="max-w-7xl mx-auto flex justify-between items-center">
 
                         <!-- PREVIOUS -->

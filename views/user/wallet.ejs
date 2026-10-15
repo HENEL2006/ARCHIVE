@@ -130,10 +130,10 @@
     <!-- TopNavBar -->
     <%- include("partials/userHeader") %>
         <%- include("partials/toast") %>
-            <main class="min-h-screen border-x border-primary mx-container-padding">
+            <main class="min-h-screen border-x-0 md:border-x border-primary mx-0 md:mx-container-padding pt-16">
                 <!-- Hero Section -->
                 <header
-                    class="py-section-gap border-b border-primary px-container-padding flex flex-col md:flex-row justify-between items-end gap-12">
+                    class="py-12 md:py-section-gap border-b border-primary px-mobile-margin md:px-container-padding flex flex-col md:flex-row justify-between items-start md:items-end gap-8 md:gap-12">
                     <div class="max-w-4xl">
                         <h2 class="font-display-xl text-headline-lg md:text-display-xl uppercase leading-none mb-6">MY
                             WALLET
@@ -156,15 +156,15 @@
                 </header>
                 <!-- Balance Section -->
                 <section class="grid grid-cols-1 md:grid-cols-12 border-b border-primary">
-                    <div class="md:col-span-8 border-r border-primary px-container-padding py-16">
+                    <div class="md:col-span-8 md:border-r border-b md:border-b-0 border-primary px-mobile-margin md:px-container-padding py-10 md:py-16">
                         <p class="font-label-caps text-label-caps text-on-surface-variant mb-4">AVAILABLE BALANCE</p>
-                        <h3 class="font-display-xl text-display-xl leading-none"
+                        <h3 class="font-display-xl text-headline-lg md:text-display-xl leading-none"
                             style="transition: 0.1s; transform: skewX(0deg);">₹<%= Number(wallet.balance ||
                                 0).toLocaleString("en-IN") %>
                         </h3>
                     </div>
                     <div
-                        class="md:col-span-4 flex flex-col justify-center px-container-padding py-16 bg-surface-container-low">
+                        class="md:col-span-4 flex flex-col justify-center px-mobile-margin md:px-container-padding py-10 md:py-16 bg-surface-container-low">
                         <p class="font-mono-data text-mono-data uppercase mb-4 opacity-70">Wallet Information</p>
                         <div class="space-y-4">
                             <p class="font-body-md text-body-md italic text-on-surface-variant">Refunds are
@@ -243,7 +243,7 @@
                         </div>
                     </div>
                 </section> -->
-                <section class="px-container-padding py-section-gap">
+                <section class="px-mobile-margin md:px-container-padding py-12 md:py-section-gap">
                     <h4 class="font-label-caps text-label-caps text-on-surface-variant mb-12 tracking-widest">WALLET
                         ACTIVITY
                     </h4>

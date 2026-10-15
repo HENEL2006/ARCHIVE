@@ -232,6 +232,10 @@ const orderSchema = new mongoose.Schema(
   },
 );
 
+orderSchema.index({ userId: 1, createdAt: -1 });
+orderSchema.index({ orderStatus: 1, createdAt: -1 });
+orderSchema.index({ "items.product": 1 });
+
 const Order = mongoose.models.Order || mongoose.model("Order", orderSchema);
 
 export default Order;

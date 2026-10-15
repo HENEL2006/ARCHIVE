@@ -60,12 +60,15 @@
       </p>
     </section>
 
-    <section class="grid grid-cols-2 ">
+    <section class="grid grid-cols-1 md:grid-cols-2">
       <!-- editorial-image -->
-      <div class="relative min-h-[900px] overflow-hidden border-r border-black/80">
-        <img src="/images/signup-img.jpg" alt="Archive editorial"
-          class="h-full w-full object-cover grayscale contrast-125 brightness-95 transition-transform duration-700 hover:scale-[1.02]"
-          width="800" height="1024" />
+      <div class="relative hidden md:block min-h-[900px] overflow-hidden border-r border-black/80">
+        <picture>
+          <source srcset="/images/signup-img.webp" type="image/webp">
+          <img src="/images/signup-img.jpg" alt="Archive editorial"
+            class="h-full w-full object-cover grayscale contrast-125 brightness-95 transition-transform duration-700 hover:scale-[1.02]"
+            width="800" height="1024" fetchpriority="high" />
+        </picture>
 
         <div
           class="pointer-events-none absolute bottom-10 right-10 text-right font-display text-2xl tracking-wider text-white/30 mix-blend-overlay">
@@ -74,7 +77,7 @@
       </div>
 
       <!-- signup-form -->
-      <div id="signup-form-section" class="flex items-center justify-center px-20 py-20">
+      <div id="signup-form-section" class="flex items-center justify-center px-6 sm:px-12 md:px-20 py-12 md:py-20">
         <form id="signup-form" class="w-full max-w-md space-y-10" action="/signup" method="POST">
           <div>
             <label class="block text-[10px] uppercase tracking-[0.25em] text-black/60 mb-3">FULL NAME</label>

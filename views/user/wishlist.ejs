@@ -138,9 +138,9 @@
             <!-- Main Content Canvas -->
             <main class="mt-20">
                 <!-- Hero Section -->
-                <header class="border-b border-primary px-container-padding py-24 grid grid-cols-12 gap-0">
+                <header class="border-b border-primary px-mobile-margin md:px-container-padding py-12 md:py-24 grid grid-cols-12 gap-0">
                     <div class="col-span-12 md:col-span-8">
-                        <h1 class="font-display-xl text-display-xl uppercase mb-4">
+                        <h1 class="font-display-xl text-headline-lg md:text-display-xl uppercase mb-4">
                             MY WISHLIST
                         </h1>
                         <p class="font-body-lg text-body-lg opacity-70 max-w-lg">Saved pieces from football history. A
@@ -155,12 +155,12 @@
 
                 </section>
                 <!-- Archive Grid -->
-                <section class="grid grid-cols-1 md:grid-cols-4 border-b border-primary">
+                <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-b border-primary">
 
                     <% if (products.length===0) { %>
 
                         <div
-                            class="col-span-1 md:col-span-4 min-h-[400px] flex flex-col items-center justify-center border-b border-primary">
+                            class="col-span-1 sm:col-span-2 lg:col-span-4 min-h-[400px] flex flex-col items-center justify-center border-b border-primary">
                             <span class="material-symbols-outlined text-[48px] mb-6">
                                 favorite_border
                             </span>
@@ -183,12 +183,13 @@
 
                             <% products.forEach((product)=> { %>
 
-                                <article class="border-r border-primary flex flex-col group">
+                                <article class="border-r border-b border-primary flex flex-col group">
 
                                     <div
-                                        class="aspect-square bg-white flex items-center justify-center p-12 border-b border-primary overflow-hidden relative">
+                                        class="aspect-square bg-white flex items-center justify-center p-6 md:p-8 border-b border-primary overflow-hidden relative">
 
-                                        <img src="<%= product.images?.[0]?.url %>" alt="<%= product.name %>"
+                                        <img src="<%= optimizeImage(product.images?.[0]?.url, { width: 500 }) %>" alt="<%= product.name %>"
+                                            loading="lazy"
                                             class="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500">
 
                                         <button type="button"

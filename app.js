@@ -5,11 +5,24 @@ import adminRoutes from "./routes/adminRoutes.js";
 import { attachToast } from "./middlewares/toastMiddleware.js";
 import passport from "./config/passport.js";
 import { attachCategories } from "./middlewares/headerMiddleware.js";
+import { optimizeImage } from "./utils/imageHelper.js";
+import compression from "compression";
+
 const app = express();
+
+app.use(compression());
+
 app.set("view engine", "ejs");
 app.set("views", "./views");
+
 app.use(express.json());
-app.use(express.static("public"));
+app.use(
+  express.static("public", {
+    maxAge: "7d",
+    etag: true,
+    lastModified: true,
+  }),
+);
 app.use(express.urlencoded({ extended: true }));
 app.use(
   session({
@@ -27,6 +40,7 @@ app.use(passport.initialize());
 
 app.use((req, res, next) => {
   res.header("Cache-Control", "no-store, no-cache, must-revalidate, private");
+  res.locals.optimizeImage = optimizeImage;
   next();
 });
 app.use(attachToast);
@@ -54,6 +68,7 @@ app.use((req, res) => {
 });
 
 // Centralized 500 Error Handler
+// eslint-disable-next-line no-unused-vars
 app.use((err, req, res, _next) => {
   console.error("Internal Error:", err);
   const status = err.status || 500;

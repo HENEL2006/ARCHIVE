@@ -58,6 +58,10 @@ const offerSchema = new mongoose.Schema(
   },
 );
 
+offerSchema.index({ isActive: 1, startDate: 1, expiryDate: 1 });
+offerSchema.index({ product: 1, isActive: 1 });
+offerSchema.index({ category: 1, isActive: 1 });
+
 const Offer = mongoose.model("Offer", offerSchema);
 
 export default Offer;

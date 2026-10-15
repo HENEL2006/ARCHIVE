@@ -1,7 +1,7 @@
 import Cart from "../../models/cart.js";
 import Product from "../../models/product.js";
 import Wishlist from "../../models/wishlist.js";
-import { getBestOfferService } from "./offerService.js";
+import { getBatchBestOffersService } from "./offerService.js";
 
 export const addToCartService = async (userId, data) => {
   const { productId, size, quantity } = data;
@@ -101,30 +101,31 @@ export const getCartService = async (userId) => {
 
   let subtotal = 0;
 
-  const cartItemsWithOffers = await Promise.all(
-    cart.items.map(async (item) => {
-      const product = item.product;
+  const productsToEvaluate = cart.items.map((item) => ({
+    ...item.product,
+    category: item.product?.category?._id || item.product?.category,
+    price: item.product?.price,
+  }));
 
-      const offer = await getBestOfferService({
-        ...product,
-        category: product.category?._id || product.category,
-      });
+  const offerDataList = await getBatchBestOffersService(productsToEvaluate);
 
-      const finalPrice = offer.finalPrice;
-      const itemTotal = finalPrice * item.quantity;
+  const cartItemsWithOffers = cart.items.map((item, index) => {
+    const product = item.product;
+    const offer = offerDataList[index];
+    const finalPrice = offer.finalPrice;
+    const itemTotal = finalPrice * item.quantity;
 
-      subtotal += itemTotal;
+    subtotal += itemTotal;
 
-      return {
-        ...item,
-        originalPrice: product.price,
-        price: finalPrice,
-        discountAmount: offer.discountAmount,
-        offer: offer.offer,
-        itemTotal,
-      };
-    }),
-  );
+    return {
+      ...item,
+      originalPrice: product.price,
+      price: finalPrice,
+      discountAmount: offer.discountAmount,
+      offer: offer.offer,
+      itemTotal,
+    };
+  });
 
   cart.items = cartItemsWithOffers;
 

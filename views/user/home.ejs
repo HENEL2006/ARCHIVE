@@ -206,10 +206,17 @@
             <main class="pt-16">
                 <!-- Hero Section -->
                 <section class="grid grid-cols-1 md:grid-cols-2 h-[80vh] border-b border-primary pt-6">
-                    <div class="border-r border-primary overflow-hidden relative"><img
-                            alt="High-fashion archival sports editorial"
-                            class="w-full h-full object-cover object-[center_20%] grayscale hover:grayscale-0 transition-all duration-1000"
-                            src="images/Home.jpg"></div>
+                    <div class="border-r border-primary overflow-hidden relative">
+                        <picture>
+                            <source srcset="/images/Home.webp" type="image/webp">
+                            <img alt="High-fashion archival sports editorial"
+                                class="w-full h-full object-cover object-[center_20%] grayscale hover:grayscale-0 transition-all duration-1000"
+                                src="/images/Home.jpg"
+                                width="1376"
+                                height="768"
+                                fetchpriority="high">
+                        </picture>
+                    </div>
                     <div
                         class="flex flex-col justify-center items-center p-mobile-margin md:p-container-padding space-y-12 bg-background text-center">
                         <h2
@@ -295,7 +302,7 @@
 
                                             <% if (product.images && product.images.length> 0) { %>
 
-                                                <img src="<%= product.images[0].url %>" alt="<%= product.name %>" class="w-full h-full
+                                                <img src="<%= optimizeImage(product.images[0].url, { width: 600 }) %>" alt="<%= product.name %>" loading="lazy" class="w-full h-full
                                            object-cover
                                            
                                            group-hover:grayscale-0
@@ -524,7 +531,7 @@
 
                                             <% if (product.images && product.images.length> 0) { %>
 
-                                                <img src="<%= product.images[0].url %>" alt="<%= product.name %>" class="w-full h-full
+                                                <img src="<%= optimizeImage(product.images[0].url, { width: 600 }) %>" alt="<%= product.name %>" loading="lazy" class="w-full h-full
                                            object-cover
                                            
                                            group-hover:grayscale-0
@@ -749,7 +756,7 @@
 
                                         <% if (category.image) { %>
 
-                                            <img src="<%= category.image %>" alt="<%= category.name %>" class="w-full h-full
+                                            <img src="<%= optimizeImage(category.image, { width: 600 }) %>" alt="<%= category.name %>" loading="lazy" class="w-full h-full
                                        object-cover
                                        
                                        group-hover:grayscale-0

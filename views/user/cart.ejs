@@ -136,11 +136,11 @@
                 <!-- Hero Section -->
                 <% if (cart && cart.items.length> 0) { %>
 
-                    <header class="px-container-padding pt-16 pb-12 border-b border-primary">
+                    <header class="px-mobile-margin md:px-container-padding pt-12 md:pt-16 pb-8 md:pb-12 border-b border-primary">
 
                         <div class="max-w-4xl">
 
-                            <h1 class="font-display-xl text-display-xl uppercase mb-4">
+                            <h1 class="font-display-xl text-headline-lg md:text-display-xl uppercase mb-4">
                                 YOUR ARCHIVE
                             </h1>
 
@@ -166,19 +166,19 @@
 
                                     <% cart.items.forEach((item)=> { %>
 
-                                        <div class="cart-item grid grid-cols-[180px_1fr] border-b border-primary"
+                                        <div class="cart-item grid grid-cols-1 sm:grid-cols-[140px_1fr] md:grid-cols-[180px_1fr] border-b border-primary"
                                             data-product-id="<%= item.product._id %>" data-size="<%= item.size %>">
 
                                             <!-- Image -->
-                                            <div class="aspect-[4/5] overflow-hidden border-r border-primary">
+                                            <div class="aspect-[4/5] overflow-hidden border-b sm:border-b-0 sm:border-r border-primary">
 
-                                                <img src="<%= item.product.images[0].url %>"
-                                                    alt="<%= item.product.name %>" class="w-full h-full object-cover">
+                                                <img src="<%= optimizeImage(item.product.images[0].url, { width: 400 }) %>"
+                                                    alt="<%= item.product.name %>" loading="lazy" class="w-full h-full object-cover">
 
                                             </div>
 
                                             <!-- Details -->
-                                            <div class="p-6 flex flex-col justify-between">
+                                            <div class="p-4 sm:p-6 flex flex-col justify-between">
 
                                                 <div>
 
@@ -198,27 +198,25 @@
                                                             <%= item.size %>
                                                         </p>
 
-                                                        <div class="quantity-control flex items-center gap-6 mt-8"
+                                                        <div class="quantity-control flex items-center border border-primary w-fit mt-6 font-mono-data"
                                                             data-product-id="<%= item.product._id %>"
                                                             data-size="<%= item.size %>" data-price="<%= item.price %>">
 
                                                             <!-- Decrease -->
-                                                            <button type="button"
-                                                                class="decrease-btn text-[26px] font-light leading-none hover:opacity-50 transition">
+                                                            <button type="button" aria-label="Decrease quantity"
+                                                                class="decrease-btn w-9 h-9 flex items-center justify-center text-xl font-light leading-none hover:bg-primary hover:text-on-primary transition">
                                                                 −
                                                             </button>
 
-
                                                             <!-- Quantity -->
                                                             <span
-                                                                class="quantity-value font-mono-data text-base w-6 text-center">
+                                                                class="quantity-value font-mono-data text-sm w-8 text-center font-bold">
                                                                 <%= item.quantity %>
                                                             </span>
 
-
                                                             <!-- Increase -->
-                                                            <button type="button"
-                                                                class="increase-btn text-[24px] font-light leading-none hover:opacity-50 transition">
+                                                            <button type="button" aria-label="Increase quantity"
+                                                                class="increase-btn w-9 h-9 flex items-center justify-center text-xl font-light leading-none hover:bg-primary hover:text-on-primary transition">
                                                                 +
                                                             </button>
 

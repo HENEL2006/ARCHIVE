@@ -94,27 +94,16 @@
 
     <main class=" flex min-h-[calc(100vh)]">
       <!-- Left Side: Editorial Image -->
-      <section class="relative w-1/2 min-h-[calc(100vh-88px)] overflow-hidden border-r border-black">
-        <img src="/images/login-img.jpg" alt="Archive editorial"
-          class="absolute inset-0 h-full w-full object-cover grayscale contrast-125 brightness-95 transition-transform duration-700 ease-out group-hover:scale-[1.03]" />
-        <!-- Atmospheric Faded Typography -->
-        <!-- <div
-          class="absolute inset-0 h-full w-full object-cover grayscale contrast-125 brightness-95 transition-transform duration-700 ease-out"
-        >
-          <div
-            class="font-display text-[10rem] uppercase leading-none opacity-10 mb-8 break-words tracking-[-0.08em]"
-          >
-            FOOTBALL.<br />CULTURE.<br />MEMORY.
-          </div>
-          <div class="border-l-4 border-primary pl-6 py-2">
-            <p class="font-display text-3xl italic tracking-[-0.03em]">
-              "Every jersey tells a story."
-            </p>
-          </div>
-        </div> -->
+      <section class="relative hidden md:block w-1/2 min-h-[calc(100vh-88px)] overflow-hidden border-r border-black">
+        <picture>
+          <source srcset="/images/login-img.webp" type="image/webp">
+          <img src="/images/login-img.jpg" alt="Archive editorial"
+            width="1109" height="1419" fetchpriority="high"
+            class="absolute inset-0 h-full w-full object-cover grayscale contrast-125 brightness-95 transition-transform duration-700 ease-out group-hover:scale-[1.03]" />
+        </picture>
       </section>
       <!-- Right Side: Sign In Form -->
-      <section id="login-form-section" class="w-1/2 flex items-center justify-center px-20 py-12 overflow-y-auto">
+      <section id="login-form-section" class="w-full md:w-1/2 flex items-center justify-center px-6 sm:px-12 md:px-20 py-12 overflow-y-auto">
         <div class="max-w-md w-full mx-auto space-y-12">
           <!-- Headline -->
           <div class="space-y-4">

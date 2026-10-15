@@ -135,8 +135,8 @@
         <%- include("partials/toast") %>
             <main class="pt-20">
                 <!-- Hero Section -->
-                <header class="pt-section-gap px-container-padding border-b border-primary pb-16">
-                    <h1 class="font-display-xl text-display-xl mb-8 uppercase leading-none">
+                <header class="pt-12 md:pt-section-gap px-mobile-margin md:px-container-padding border-b border-primary pb-10 md:pb-16">
+                    <h1 class="font-display-xl text-headline-lg md:text-display-xl mb-6 md:mb-8 uppercase leading-none">
 
                         <% if (selectedCategory) { %>
 
@@ -589,7 +589,8 @@
 
                                             <% product.images.forEach((image, index)=> { %>
 
-                                                <img src="<%= image.url %>" alt="<%= product.name %>"
+                                                <img src="<%= optimizeImage(image.url, { width: 600 }) %>" alt="<%= product.name %>"
+                                                    loading="lazy"
                                                     class="product-hover-image absolute inset-0 w-full h-full object-cover transition-opacity duration-700 <%= index === 0 ? 'opacity-100' : 'opacity-0' %>">
 
                                                 <% }) %>
@@ -780,7 +781,7 @@
 
                 </section>
                 <!-- Newsletter Section -->
-                <section class="px-container-padding py-section-gap text-center max-w-4xl mx-auto">
+                <section class="px-mobile-margin md:px-container-padding py-16 md:py-section-gap text-center max-w-4xl mx-auto">
                     <h3 class="font-headline-md text-headline-md uppercase mb-4 tracking-tight">STAY IN THE ARCHIVE
                     </h3>
                     <p class="font-body-md text-body-md text-secondary mb-12">Receive weekly notifications on new

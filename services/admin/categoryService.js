@@ -2,6 +2,7 @@ import Category from "../../models/category.js";
 import { uploadToCloudinary } from "../../utils/cloudinaryUpload.js";
 import cloudinary from "../../config/cloudinary.js";
 import Product from "../../models/product.js";
+import { invalidateCategoryCache } from "../../middlewares/headerMiddleware.js";
 
 export const getCategoryService = async (
   search = "",
@@ -132,6 +133,7 @@ export const addCategoryService = async (data, file) => {
     isListed: status === "listed",
   });
 
+  invalidateCategoryCache();
   return category;
 };
 
@@ -188,6 +190,7 @@ export const editCategoryService = async (id, data, file) => {
   }
 
   await category.save();
+  invalidateCategoryCache();
   return category;
 };
 
@@ -201,6 +204,7 @@ export const toggleCategoryStatusService = async (id) => {
   category.isListed = !category.isListed;
 
   await category.save();
+  invalidateCategoryCache();
   return category;
 };
 
@@ -214,5 +218,6 @@ export const deleteCategoryService = async (id) => {
   category.isDeleted = !category.isDeleted;
 
   await category.save();
+  invalidateCategoryCache();
   return category;
 };

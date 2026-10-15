@@ -1,7 +1,7 @@
 import Product from "../../models/product.js";
 import Order from "../../models/order.js";
 import Category from "../../models/category.js";
-import { getBestOfferService } from "./offerService.js";
+import { getBatchBestOffersService } from "./offerService.js";
 
 const getNewArrivals = async () => {
   const products = await Product.find({
@@ -21,26 +21,19 @@ const getNewArrivals = async () => {
     .lean();
 
   const validProducts = products.filter((product) => product.category);
+  const offerDataList = await getBatchBestOffersService(validProducts);
 
-  return Promise.all(
-    validProducts.map(async (product) => {
-      const offerData = await getBestOfferService(product);
-
-      return {
-        ...product,
-
-        originalPrice: product.price,
-
-        finalPrice: offerData.finalPrice,
-
-        discountAmount: offerData.discountAmount,
-
-        discountPercentage: offerData.discountPercentage,
-
-        offer: offerData.offer,
-      };
-    }),
-  );
+  return validProducts.map((product, index) => {
+    const offerData = offerDataList[index];
+    return {
+      ...product,
+      originalPrice: product.price,
+      finalPrice: offerData.finalPrice,
+      discountAmount: offerData.discountAmount,
+      discountPercentage: offerData.discountPercentage,
+      offer: offerData.offer,
+    };
+  });
 };
 
 const getTopSellingProducts = async () => {
@@ -125,33 +118,25 @@ const getTopSellingProducts = async () => {
     },
   ]);
 
-  return Promise.all(
-    topSelling.map(async (item) => {
-      const product = {
-        ...item.product,
+  const mappedProducts = topSelling.map((item) => ({
+    ...item.product,
+    category: item.category,
+    totalSold: item.totalSold,
+  }));
 
-        category: item.category,
+  const offerDataList = await getBatchBestOffersService(mappedProducts);
 
-        totalSold: item.totalSold,
-      };
-
-      const offerData = await getBestOfferService(product);
-
-      return {
-        ...product,
-
-        originalPrice: product.price,
-
-        finalPrice: offerData.finalPrice,
-
-        discountAmount: offerData.discountAmount,
-
-        discountPercentage: offerData.discountPercentage,
-
-        offer: offerData.offer,
-      };
-    }),
-  );
+  return mappedProducts.map((product, index) => {
+    const offerData = offerDataList[index];
+    return {
+      ...product,
+      originalPrice: product.price,
+      finalPrice: offerData.finalPrice,
+      discountAmount: offerData.discountAmount,
+      discountPercentage: offerData.discountPercentage,
+      offer: offerData.offer,
+    };
+  });
 };
 
 const getFeaturedCategories = async () => {

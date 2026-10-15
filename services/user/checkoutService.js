@@ -8,7 +8,7 @@ import crypto from "crypto";
 import { debitWalletService } from "./walletService.js";
 import { getAppliedCouponService } from "./couponService.js";
 import Coupon from "../../models/coupon.js";
-import { getBestOfferService } from "./offerService.js";
+import { getBatchBestOffersService } from "./offerService.js";
 
 export const placeOrderService = async (userId, data, appliedCoupon = null) => {
   const { addressId, payment, transactionId } = data;
@@ -46,13 +46,23 @@ export const placeOrderService = async (userId, data, appliedCoupon = null) => {
     throw new Error("YOUR CART IS EMPTY");
   }
 
+  const productIds = cart.items.map((item) => item.product);
+  const products = await Product.find({ _id: { $in: productIds } })
+    .populate("category")
+    .lean();
+  const productMap = new Map(products.map((p) => [p._id.toString(), p]));
+
+  const offerList = await getBatchBestOffersService(products);
+  const offerMap = new Map();
+  products.forEach((p, index) => {
+    offerMap.set(p._id.toString(), offerList[index]);
+  });
+
   const orderItems = [];
   let subtotal = 0;
 
   for (const item of cart.items) {
-    const product = await Product.findById(item.product)
-      .populate("category")
-      .lean();
+    const product = productMap.get(item.product.toString());
 
     if (!product) {
       throw new Error("A PRODUCT NO LONGER EXISTS");
@@ -90,11 +100,7 @@ export const placeOrderService = async (userId, data, appliedCoupon = null) => {
       throw new Error(`${product.name} DOES NOT HAVE A PRODUCT IMAGE`);
     }
 
-    const offer = await getBestOfferService({
-      ...product,
-      category: product.category?._id || product.category,
-    });
-
+    const offer = offerMap.get(product._id.toString()) || { finalPrice: product.price };
     const finalPrice = offer.finalPrice;
     const itemTotal = finalPrice * item.quantity;
 
@@ -237,12 +243,22 @@ export const createRazorpayOrderService = async (
     throw new Error("YOUR CART IS EMPTY");
   }
 
+  const productIds = cart.items.map((item) => item.product);
+  const products = await Product.find({ _id: { $in: productIds } })
+    .populate("category")
+    .lean();
+  const productMap = new Map(products.map((p) => [p._id.toString(), p]));
+
+  const offerList = await getBatchBestOffersService(products);
+  const offerMap = new Map();
+  products.forEach((p, index) => {
+    offerMap.set(p._id.toString(), offerList[index]);
+  });
+
   let subtotal = 0;
 
   for (const item of cart.items) {
-    const product = await Product.findById(item.product)
-      .populate("category")
-      .lean();
+    const product = productMap.get(item.product.toString());
 
     if (!product) {
       throw new Error("A PRODUCT NO LONGER EXISTS");
@@ -274,10 +290,7 @@ export const createRazorpayOrderService = async (
       );
     }
 
-    const offer = await getBestOfferService({
-      ...product,
-      category: product.category?._id || product.category,
-    });
+    const offer = offerMap.get(product._id.toString()) || { finalPrice: product.price };
 
     subtotal += offer.finalPrice * item.quantity;
   }
@@ -350,12 +363,22 @@ export const verifyRazorpayPaymentService = async (
     throw new Error("YOUR CART IS EMPTY");
   }
 
+  const productIds = cart.items.map((item) => item.product);
+  const products = await Product.find({ _id: { $in: productIds } })
+    .populate("category")
+    .lean();
+  const productMap = new Map(products.map((p) => [p._id.toString(), p]));
+
+  const offerList = await getBatchBestOffersService(products);
+  const offerMap = new Map();
+  products.forEach((p, index) => {
+    offerMap.set(p._id.toString(), offerList[index]);
+  });
+
   let subtotal = 0;
 
   for (const item of cart.items) {
-    const product = await Product.findById(item.product)
-      .populate("category")
-      .lean();
+    const product = productMap.get(item.product.toString());
 
     if (!product) {
       throw new Error("A PRODUCT NO LONGER EXISTS");
@@ -387,10 +410,7 @@ export const verifyRazorpayPaymentService = async (
       );
     }
 
-    const offer = await getBestOfferService({
-      ...product,
-      category: product.category?._id || product.category,
-    });
+    const offer = offerMap.get(product._id.toString()) || { finalPrice: product.price };
 
     subtotal += offer.finalPrice * item.quantity;
   }
@@ -463,20 +483,27 @@ export const createFailedOrderService = async (
     throw new Error("YOUR CART IS EMPTY");
   }
 
+  const productIds = cart.items.map((item) => item.product);
+  const products = await Product.find({ _id: { $in: productIds } })
+    .populate("category")
+    .lean();
+  const productMap = new Map(products.map((p) => [p._id.toString(), p]));
+
+  const offerList = await getBatchBestOffersService(products);
+  const offerMap = new Map();
+  products.forEach((p, index) => {
+    offerMap.set(p._id.toString(), offerList[index]);
+  });
+
   const orderItems = [];
   let subtotal = 0;
 
   for (const item of cart.items) {
-    const product = await Product.findById(item.product)
-      .populate("category")
-      .lean();
+    const product = productMap.get(item.product.toString());
 
     if (!product) continue;
 
-    const offer = await getBestOfferService({
-      ...product,
-      category: product.category?._id || product.category,
-    });
+    const offer = offerMap.get(product._id.toString()) || { finalPrice: product.price };
 
     const finalPrice = offer.finalPrice;
     const itemTotal = finalPrice * item.quantity;
@@ -499,7 +526,7 @@ export const createFailedOrderService = async (
 
   const shipping = subtotal > 0 ? 99 : 0;
   const tax = 0;
-  const { coupon, discount } = await getAppliedCouponService(
+  const { discount } = await getAppliedCouponService(
     userId,
     appliedCoupon,
     subtotal,

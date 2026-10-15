@@ -1,7 +1,7 @@
 import Category from "../../models/category.js";
 import Product from "../../models/product.js";
 import Wishlist from "../../models/wishlist.js";
-import { getBestOfferService } from "./offerService.js";
+import { getBatchBestOffersService, getBestOfferService } from "./offerService.js";
 
 export const getProductService = async (query, userId) => {
   const {
@@ -11,7 +11,6 @@ export const getProductService = async (query, userId) => {
     price = "",
     brand = "",
     size = "",
-    page = 1,
   } = query;
 
   const categories = await Category.find({
@@ -22,7 +21,7 @@ export const getProductService = async (query, userId) => {
   let selectedCategory = null;
   if (query.category) {
     selectedCategory = categories.find(
-      (category) => category._id.toString() === query.category,
+      (cat) => cat._id.toString() === query.category,
     );
   }
 
@@ -32,16 +31,13 @@ export const getProductService = async (query, userId) => {
 
   const skip = (currentPage - 1) * limit;
 
-  const listedCategories = await Category.find({
-    isListed: true,
-    isDeleted: false,
-  }).select("_id");
+  const listedCategoryIds = categories.map((cat) => cat._id);
 
   const filter = {
     isListed: true,
     isDeleted: false,
     category: {
-      $in: listedCategories,
+      $in: listedCategoryIds,
     },
   };
 
@@ -109,22 +105,19 @@ export const getProductService = async (query, userId) => {
     .limit(limit)
     .lean();
 
-  const productsWithOffers = await Promise.all(
-    products.map(async (product) => {
-      const offer = await getBestOfferService({
-        ...product,
-        category: product.category?._id || product.category,
-      });
+  const offerDataList = await getBatchBestOffersService(products);
 
-      return {
-        ...product,
-        originalPrice: product.price,
-        offer: offer.offer,
-        discountAmount: offer.discountAmount,
-        finalPrice: offer.finalPrice,
-      };
-    }),
-  );
+  const productsWithOffers = products.map((product, index) => {
+    const offer = offerDataList[index];
+
+    return {
+      ...product,
+      originalPrice: product.price,
+      offer: offer.offer,
+      discountAmount: offer.discountAmount,
+      finalPrice: offer.finalPrice,
+    };
+  });
 
   let wishlistIds = [];
 
@@ -197,24 +190,24 @@ export const getProductDetailsService = async (slug) => {
     .limit(4)
     .lean();
 
-  const relatedProductsWithOffers = await Promise.all(
-    relatedProducts.map(async (related) => {
-      const relatedOffer = await getBestOfferService({
-        ...related,
-        category: related.category?._id || related.category,
-      });
+  const relatedOfferList = await getBatchBestOffersService(relatedProducts);
 
-      return {
-        ...related,
-        originalPrice: related.price,
-        offer: relatedOffer.offer,
-        discountAmount: relatedOffer.discountAmount,
-        finalPrice: relatedOffer.finalPrice,
-      };
-    }),
-  );
+  const relatedProductsWithOffers = relatedProducts.map((related, index) => {
+    const relatedOffer = relatedOfferList[index];
 
-  const categories = await Category.find({ isListed: true, isDeleted: false });
+    return {
+      ...related,
+      originalPrice: related.price,
+      offer: relatedOffer.offer,
+      discountAmount: relatedOffer.discountAmount,
+      finalPrice: relatedOffer.finalPrice,
+    };
+  });
+
+  const categories = await Category.find({
+    isListed: true,
+    isDeleted: false,
+  }).lean();
 
   return {
     product: productWithOffer,

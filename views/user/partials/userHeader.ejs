@@ -21,7 +21,7 @@ const currentPage = typeof activePage !== "undefined"
 %>
 <!-- Navigation Shell -->
 <header
-    class="fixed top-0 left-0 w-full z-50 bg-surface border-b border-primary px-12 py-6 flex items-center justify-between">
+    class="fixed top-0 left-0 w-full z-50 bg-surface border-b border-primary px-4 sm:px-8 md:px-12 py-4 md:py-6 flex items-center justify-between">
     <!-- Brand Identity -->
     <div class="flex-1 flex items-center">
         <a href="/home" class="font-display font-bold text-2xl tracking-[-0.03em] text-primary">
@@ -100,7 +100,7 @@ const currentPage = typeof activePage !== "undefined"
         </button>
         <% const cartBadgeCount = typeof cartCount !== "undefined" ? cartCount : 0; %>
         <% const wishlistBadgeCount = typeof wishlistCount !== "undefined" ? wishlistCount : 0; %>
-        <a href="/wishlist" class="hidden md:flex items-center group relative">
+        <a href="/wishlist" class="flex items-center group relative">
             <span class="material-symbols-outlined text-[20px] text-primary group-hover:scale-110 transition-none"
                 data-icon="favorite">favorite</span>
             <% if (wishlistBadgeCount > 0) { %>
@@ -124,36 +124,85 @@ const currentPage = typeof activePage !== "undefined"
             </span>
         </a>
         <!-- Mobile Hamburger -->
-        <button aria-label="Menu" class="md:hidden flex items-center" id="mobile-menu-btn">
-            <span class="material-symbols-outlined text-[20px] text-primary" data-icon="menu">menu</span>
+        <button aria-label="Menu" class="md:hidden flex items-center p-1" id="mobile-menu-btn">
+            <span class="material-symbols-outlined text-[22px] text-primary" data-icon="menu">menu</span>
         </button>
     </div>
 </header>
 
 <!-- Mobile Navigation Drawer (Hidden by default) -->
-<div class="fixed inset-0 z-[100] bg-background translate-x-full transition-transform duration-300 md:hidden"
+<div class="fixed inset-0 z-[100] bg-background translate-x-full transition-transform duration-300 md:hidden flex flex-col"
     id="mobile-menu">
     <div class="flex flex-col h-full">
-        <div class="h-20 border-b border-primary px-mobile-margin flex items-center justify-between">
-            <span class="font-headline-md text-headline-md font-bold tracking-tighter text-primary">ARCHIVE</span>
-            <button id="close-menu-btn">
-                <span class="material-symbols-outlined text-[20px] text-primary" data-icon="close">close</span>
+        <div class="h-16 border-b border-primary px-mobile-margin flex items-center justify-between">
+            <a href="/home" class="font-headline-md text-headline-md font-bold tracking-tighter text-primary">ARCHIVE</a>
+            <button id="close-menu-btn" aria-label="Close menu" class="p-2 flex items-center justify-center">
+                <span class="material-symbols-outlined text-[22px] text-primary" data-icon="close">close</span>
             </button>
         </div>
-        <div class="p-mobile-margin flex flex-col space-y-8 mt-12">
-            <a class="font-headline-lg-mobile text-headline-lg-mobile text-primary border-b border-outline-variant pb-4"
-                href="#">SHOP</a>
-            <a class="font-headline-lg-mobile text-headline-lg-mobile text-primary border-b border-outline-variant pb-4"
-                href="#">COLLECTIONS</a>
-            <a class="font-headline-lg-mobile text-headline-lg-mobile text-primary border-b border-outline-variant pb-4"
-                href="#">ABOUT</a>
+        <div class="p-mobile-margin flex flex-col space-y-5 mt-6 flex-grow overflow-y-auto">
+            <a class="font-headline-lg-mobile text-xl uppercase text-primary border-b border-outline-variant pb-3 <%= currentPage === 'home' ? 'font-bold' : '' %>"
+                href="/home">HOME</a>
+            <a class="font-headline-lg-mobile text-xl uppercase text-primary border-b border-outline-variant pb-3 <%= currentPage === 'shop' ? 'font-bold' : '' %>"
+                href="/products">SHOP ALL</a>
+
+            <% if (typeof categories !== "undefined" && categories && categories.length > 0) { %>
+                <div class="border-b border-outline-variant pb-3">
+                    <div class="font-headline-lg-mobile text-xl uppercase text-primary mb-2">COLLECTIONS</div>
+                    <div class="flex flex-col space-y-2 pl-3">
+                        <% categories.forEach(cat => { %>
+                            <a href="/products?category=<%= cat._id %>" class="font-label-caps text-[11px] uppercase tracking-wider text-secondary hover:text-primary py-1">
+                                <%= cat.name %>
+                            </a>
+                        <% }) %>
+                    </div>
+                </div>
+            <% } %>
+
+            <a class="font-headline-lg-mobile text-xl uppercase text-primary border-b border-outline-variant pb-3 <%= currentPage === 'about' ? 'font-bold' : '' %>"
+                href="/about">ABOUT</a>
+            <a class="font-headline-lg-mobile text-xl uppercase text-primary border-b border-outline-variant pb-3 flex justify-between items-center"
+                href="/wishlist">
+                <span>WISHLIST</span>
+                <% if (wishlistBadgeCount > 0) { %>
+                    <span class="bg-primary text-on-primary text-[10px] font-mono-data font-bold px-2 py-0.5 rounded-full">
+                        <%= wishlistBadgeCount %>
+                    </span>
+                <% } %>
+            </a>
+            <a class="font-headline-lg-mobile text-xl uppercase text-primary border-b border-outline-variant pb-3 flex justify-between items-center"
+                href="/cart">
+                <span>CART</span>
+                <% if (cartBadgeCount > 0) { %>
+                    <span class="bg-primary text-on-primary text-[10px] font-mono-data font-bold px-2 py-0.5 rounded-full">
+                        <%= cartBadgeCount %>
+                    </span>
+                <% } %>
+            </a>
+            <% if (typeof isLoggedIn !== "undefined" && isLoggedIn) { %>
+                <a class="font-headline-lg-mobile text-xl uppercase text-primary border-b border-outline-variant pb-3"
+                    href="/orders">MY ORDERS</a>
+                <a class="font-headline-lg-mobile text-xl uppercase text-primary border-b border-outline-variant pb-3"
+                    href="/profile">ACCOUNT SETTINGS</a>
+            <% } %>
         </div>
-        <div class="mt-auto p-mobile-margin border-t border-primary flex justify-between items-center py-8">
-            <div class="flex space-x-6">
-                <span class="material-symbols-outlined" data-icon="favorite">favorite</span>
-                <span class="material-symbols-outlined" data-icon="person">person</span>
-            </div>
-            <button class="font-label-caps px-6 py-3 bg-primary text-on-primary">LOG IN</button>
+        <div class="mt-auto p-mobile-margin border-t border-primary flex justify-between items-center py-6 bg-surface">
+            <% if (typeof isLoggedIn !== "undefined" && isLoggedIn) { %>
+                <a href="/profile" class="flex items-center gap-2 font-label-caps text-xs uppercase text-primary">
+                    <span class="material-symbols-outlined text-[20px]" data-icon="person">person</span>
+                    <span>ACCOUNT</span>
+                </a>
+                <a href="/logout" class="font-label-caps px-5 py-2.5 bg-primary text-on-primary text-xs uppercase tracking-wider">
+                    LOG OUT
+                </a>
+            <% } else { %>
+                <a href="/signup" class="font-label-caps text-xs uppercase tracking-wider text-primary hover:underline">
+                    CREATE ACCOUNT
+                </a>
+                <a href="/login" class="font-label-caps px-5 py-2.5 bg-primary text-on-primary text-xs uppercase tracking-wider">
+                    LOG IN
+                </a>
+            <% } %>
         </div>
     </div>
 </div>
