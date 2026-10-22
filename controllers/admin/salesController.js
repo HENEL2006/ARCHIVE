@@ -4,6 +4,7 @@ import {
 } from "../../services/admin/salesService.js";
 
 import PDFDocument from "pdfkit";
+import ExcelJS from "exceljs";
 
 export const loadSalesReport = async (req, res) => {
   try {
@@ -373,3 +374,153 @@ export const downloadSalesReportPDF = async (req, res) => {
     }
   }
 };
+
+export const downloadSalesReportExcel = async (req, res) => {
+  try {
+    const report = await getSalesReportForPDFService(req.query);
+
+    const { orders, totalSales, totalOrders, totalItemsSold, period } = report;
+
+    const workbook = new ExcelJS.Workbook();
+    workbook.creator = "ARCHIVE E-Commerce";
+    workbook.created = new Date();
+
+    const worksheet = workbook.addWorksheet("Sales Report", {
+      views: [{ showGridLines: true }],
+    });
+
+    // Title & Metadata
+    worksheet.mergeCells("A1:F1");
+    const titleCell = worksheet.getCell("A1");
+    titleCell.value = "ARCHIVE // SALES REPORT";
+    titleCell.font = { name: "Arial", size: 16, bold: true, color: { argb: "000000" } };
+    titleCell.alignment = { horizontal: "left", vertical: "middle" };
+    worksheet.getRow(1).height = 30;
+
+    worksheet.mergeCells("A2:F2");
+    const periodCell = worksheet.getCell("A2");
+    periodCell.value = `Period: ${period ? period.toUpperCase() : "ALL"} | Generated: ${new Date().toLocaleDateString("en-IN")}`;
+    periodCell.font = { name: "Arial", size: 10, italic: true, color: { argb: "555555" } };
+    worksheet.getRow(2).height = 20;
+
+    worksheet.addRow([]);
+
+    // Summary Cards Row
+    worksheet.addRow(["Total Orders", totalOrders, "Total Items Sold", totalItemsSold, "Total Net Sales", `₹${totalSales.toLocaleString("en-IN")}`]);
+    const summaryRow = worksheet.getRow(4);
+    summaryRow.font = { bold: true };
+    summaryRow.height = 22;
+
+    worksheet.addRow([]);
+
+    // Table Columns
+    worksheet.columns = [
+      { header: "Date", key: "date", width: 16 },
+      { header: "Order ID", key: "orderId", width: 26 },
+      { header: "Payment Method", key: "paymentMethod", width: 18 },
+      { header: "Status", key: "status", width: 16 },
+      { header: "Items Count", key: "itemsCount", width: 14 },
+      { header: "Net Total (₹)", key: "total", width: 18 },
+    ];
+
+    // Style Header Row (Row 6)
+    const headerRow = worksheet.getRow(6);
+    headerRow.values = ["Date", "Order ID", "Payment Method", "Status", "Items", "Net Sales (₹)"];
+    headerRow.height = 26;
+    headerRow.eachCell((cell) => {
+      cell.fill = {
+        type: "pattern",
+        pattern: "solid",
+        fgColor: { argb: "000000" },
+      };
+      cell.font = {
+        name: "Arial",
+        size: 11,
+        bold: true,
+        color: { argb: "FFFFFF" },
+      };
+      cell.alignment = { horizontal: "center", vertical: "middle" };
+    });
+
+    // Populate Order Rows
+    orders.forEach((order) => {
+      const itemsCount = (order.items || []).reduce(
+        (sum, item) => sum + (item.quantity || 0),
+        0,
+      );
+
+      const row = worksheet.addRow([
+        new Date(order.createdAt).toLocaleDateString("en-IN", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+        }).toUpperCase(),
+        order.orderId,
+        order.paymentMethod,
+        order.orderStatus,
+        itemsCount,
+        order.total || 0,
+      ]);
+
+      row.height = 20;
+      row.getCell(1).alignment = { horizontal: "center" };
+      row.getCell(2).alignment = { horizontal: "left" };
+      row.getCell(3).alignment = { horizontal: "center" };
+      row.getCell(4).alignment = { horizontal: "center" };
+      row.getCell(5).alignment = { horizontal: "center" };
+      row.getCell(6).alignment = { horizontal: "right" };
+      row.getCell(6).numFmt = "₹#,##0.00";
+    });
+
+    // Summary Total Row
+    const totalRow = worksheet.addRow([
+      "TOTAL",
+      "",
+      "",
+      "",
+      totalItemsSold,
+      totalSales,
+    ]);
+    totalRow.height = 24;
+    totalRow.font = { bold: true };
+    totalRow.getCell(1).alignment = { horizontal: "left" };
+    totalRow.getCell(5).alignment = { horizontal: "center" };
+    totalRow.getCell(6).alignment = { horizontal: "right" };
+    totalRow.getCell(6).numFmt = "₹#,##0.00";
+    totalRow.eachCell((cell) => {
+      cell.fill = {
+        type: "pattern",
+        pattern: "solid",
+        fgColor: { argb: "F4F4F5" },
+      };
+      cell.border = {
+        top: { style: "thin", color: { argb: "CCCCCC" } },
+        bottom: { style: "double", color: { argb: "000000" } },
+      };
+    });
+
+    const dateStr = new Date().toISOString().split("T")[0];
+    const filename = `ARCHIVE-Sales-Report-${period}-${dateStr}.xlsx`;
+
+    res.setHeader(
+      "Content-Type",
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    );
+    res.setHeader(
+      "Content-Disposition",
+      `attachment; filename="${filename}"`,
+    );
+
+    await workbook.xlsx.write(res);
+    res.end();
+  } catch (error) {
+    console.error("DOWNLOAD SALES REPORT EXCEL ERROR:", error);
+
+    if (!res.headersSent) {
+      res.status(500).json({
+        message: error.message || "Failed to generate sales report Excel",
+      });
+    }
+  }
+};
+

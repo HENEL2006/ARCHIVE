@@ -112,11 +112,15 @@ export const getSalesReportService = async (query) => {
     totalPages === 0 ? 1 : Math.min(requestedPage, totalPages);
 
   const startIndex = (currentPage - 1) * perPage;
-
   const paginatedBreakdown = breakdown.slice(startIndex, startIndex + perPage);
+
+  const orderStartIndex = (currentPage - 1) * perPage;
+  const paginatedOrders = orders.slice(orderStartIndex, orderStartIndex + perPage);
+  const totalOrderPages = Math.ceil(totalOrders / perPage);
 
   return {
     orders,
+    paginatedOrders,
     totalSales,
     totalDiscount,
     totalOrders,
@@ -126,6 +130,7 @@ export const getSalesReportService = async (query) => {
     currentPage,
     totalPages,
     totalRecords,
+    totalOrderPages,
     limit: perPage,
     period,
     startDate: start,

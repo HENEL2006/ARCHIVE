@@ -66,6 +66,7 @@ import { updateOffer } from "../controllers/admin/offersController.js";
 import { deleteOffer } from "../controllers/admin/offersController.js";
 import {
   downloadSalesReportPDF,
+  downloadSalesReportExcel,
   loadSalesReport,
 } from "../controllers/admin/salesController.js";
 
@@ -144,6 +145,7 @@ router.post("/offers/:id/delete", adminAuth, deleteOffer);
 
 router.get("/salesReport", adminAuth, loadSalesReport);
 router.get("/salesReport/download/pdf", adminAuth, downloadSalesReportPDF);
+router.get("/salesReport/download/excel", adminAuth, downloadSalesReportExcel);
 
 router.get("/logout", adminLogout);
 

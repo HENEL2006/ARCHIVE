@@ -291,6 +291,29 @@
 
                     if (!file) return;
 
+                    const allowedTypes = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
+                    if (!allowedTypes.includes(file.type)) {
+                        if (typeof showToast === "function") {
+                            showToast("Only JPG, PNG and WEBP images are allowed.", "error");
+                        } else {
+                            alert("Only JPG, PNG and WEBP images are allowed.");
+                        }
+                        this.value = "";
+                        return;
+                    }
+
+                    // Max 10MB
+                    const maxSize = 10 * 1024 * 1024;
+                    if (file.size > maxSize) {
+                        if (typeof showToast === "function") {
+                            showToast("File is too large! Maximum image size is 10MB.", "error");
+                        } else {
+                            alert("File is too large! Maximum image size is 10MB.");
+                        }
+                        this.value = "";
+                        return;
+                    }
+
                     preview.src = URL.createObjectURL(file);
                     preview.classList.remove("hidden");
                     placeholder.classList.add("hidden");

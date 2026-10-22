@@ -82,7 +82,7 @@ export const addToCartService = async (userId, data) => {
 export const getCartService = async (userId) => {
   const cart = await Cart.findOne({ user: userId })
     .populate({
-      path: "items.product",
+      path: "items.product ",
       populate: { path: "category" },
     })
     .lean();
@@ -98,6 +98,9 @@ export const getCartService = async (userId) => {
       total: 0,
     };
   }
+
+  const avilableStock = cart.items.quantity;
+  
 
   let subtotal = 0;
 
@@ -117,6 +120,8 @@ export const getCartService = async (userId) => {
 
     subtotal += itemTotal;
 
+    
+
     return {
       ...item,
       originalPrice: product.price,
@@ -124,6 +129,7 @@ export const getCartService = async (userId) => {
       discountAmount: offer.discountAmount,
       offer: offer.offer,
       itemTotal,
+      
     };
   });
 
@@ -140,6 +146,7 @@ export const getCartService = async (userId) => {
     shipping,
     discount,
     total,
+    avilableStock,
   };
 };
 

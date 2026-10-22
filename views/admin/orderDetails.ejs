@@ -445,8 +445,7 @@
                                                                             </span>
 
 
-                                                                            <% if (item.itemStatus !=="RETURN_REQUESTED"
-                                                                                ) { %>
+                                                                            <% if (item.itemStatus !=="RETURN_REQUESTED" && item.itemStatus !== "DELIVERED" && item.itemStatus !== "RETURNED") { %>
 
                                                                                 <!-- Status change -->
                                                                                 <form

@@ -341,7 +341,7 @@
                                 </div>
                                 <div class="flex items-center gap-2">
                                     <span class="font-mono text-[11px] text-[#71717a]">
-                                        SHOWING <%= breakdown.length %> OF <%= totalRecords %> DATES
+                                        SHOWING <%= (paginatedOrders || []).length %> OF <%= totalOrders %> ORDERS
                                     </span>
                                 </div>
                             </div>
@@ -352,16 +352,18 @@
                                         <tr
                                             class="bg-[#fcfcfc] border-b border-[#e5e7eb] text-[#71717a] font-mono text-[10px] uppercase tracking-wider">
                                             <th class="py-3 px-5 font-semibold">Date</th>
-                                            <th class="py-3 px-4 font-semibold text-center">Orders</th>
-                                            <th class="py-3 px-4 font-semibold text-center">Items Sold</th>
-                                            <th class="py-3 px-4 font-semibold text-right">Gross Sales</th>
-                                            <th class="py-3 px-4 font-semibold text-right">Discounts</th>
+                                            <th class="py-3 px-4 font-semibold">Order ID</th>
+                                            <th class="py-3 px-4 font-semibold">Payment Method</th>
+                                            <th class="py-3 px-4 font-semibold text-center">Status</th>
+                                            <th class="py-3 px-4 font-semibold text-center">Items</th>
                                             <th class="py-3 px-5 font-semibold text-right">Net Sales</th>
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-[#f0f0f0] font-mono">
 
-                                        <% if (breakdown.length===0) { %>
+                                        <% const displayOrders = (typeof paginatedOrders !== "undefined" && paginatedOrders.length > 0) ? paginatedOrders : (orders || []); %>
+
+                                        <% if (displayOrders.length === 0) { %>
 
                                             <tr>
                                                 <td colspan="6" class="py-10 text-center text-[#71717a] text-xs">
@@ -371,34 +373,39 @@
 
                                             <% } else { %>
 
-                                                <% breakdown.forEach((row)=> { %>
+                                                <% displayOrders.forEach((order)=> { %>
 
                                                     <tr class="hover:bg-[#fbfbfb] transition-colors">
 
                                                         <td class="py-3.5 px-5 font-medium text-black">
-                                                            <%= new Date(row.date).toLocaleDateString("en-IN", {
+                                                            <%= new Date(order.createdAt).toLocaleDateString("en-IN", {
                                                                 day: "2-digit" , month: "short" , year: "numeric"
                                                                 }).toUpperCase() %>
                                                         </td>
 
-                                                        <td class="py-3.5 px-4 text-center text-[#52525b]">
-                                                            <%= row.orders %>
+                                                        <td class="py-3.5 px-4 font-medium text-black">
+                                                            <a href="/admin/orders/<%= order.orderId %>" class="hover:underline">
+                                                                #<%= order.orderId %>
+                                                            </a>
+                                                        </td>
+
+                                                        <td class="py-3.5 px-4 text-[#52525b] uppercase font-mono">
+                                                            <%= order.paymentMethod %>
+                                                        </td>
+
+                                                        <td class="py-3.5 px-4 text-center">
+                                                            <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider
+                                                                <%= order.orderStatus === 'DELIVERED' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' %>">
+                                                                <%= order.orderStatus %>
+                                                            </span>
                                                         </td>
 
                                                         <td class="py-3.5 px-4 text-center text-[#52525b]">
-                                                            <%= row.itemsSold %>
-                                                        </td>
-
-                                                        <td class="py-3.5 px-4 text-right text-[#52525b]">
-                                                            ₹<%= row.grossSales.toLocaleString("en-IN") %>
-                                                        </td>
-
-                                                        <td class="py-3.5 px-4 text-right text-[#dc2626] font-medium">
-                                                            -₹<%= row.discounts.toLocaleString("en-IN") %>
+                                                            <%= (order.items || []).reduce((sum, item) => sum + (item.quantity || 0), 0) %>
                                                         </td>
 
                                                         <td class="py-3.5 px-5 text-right font-bold text-black">
-                                                            ₹<%= row.netSales.toLocaleString("en-IN") %>
+                                                            ₹<%= (order.total || 0).toLocaleString("en-IN") %>
                                                         </td>
 
                                                     </tr>
@@ -412,25 +419,12 @@
                                         <tr
                                             class="bg-[#fcfcfc] border-t border-[#e5e7eb] font-mono text-xs font-semibold">
 
-                                            <td class="py-3 px-5 text-black uppercase">
-                                                Subtotal (Period)
-                                            </td>
-
-                                            <td class="py-3 px-4 text-center text-black">
-                                                <%= totalOrders %>
+                                            <td colspan="4" class="py-3 px-5 text-black uppercase">
+                                                Total (Filtered Period)
                                             </td>
 
                                             <td class="py-3 px-4 text-center text-black">
                                                 <%= totalItemsSold %>
-                                            </td>
-
-                                            <td class="py-3 px-4 text-right text-black">
-                                                ₹<%= orders.reduce((sum, order)=> sum + (order.subtotal || 0),
-                                                    0).toLocaleString("en-IN") %>
-                                            </td>
-
-                                            <td class="py-3 px-4 text-right text-[#dc2626]">
-                                                -₹<%= totalDiscount.toLocaleString("en-IN") %>
                                             </td>
 
                                             <td class="py-3 px-5 text-right text-black">
@@ -450,10 +444,12 @@
                                 <!-- Record count -->
                                 <span class="font-mono text-[11px] text-[#71717a]">
 
-                                    <% const showingFrom=totalRecords===0 ? 0 : ((currentPage - 1) * limit) + 1; const
-                                        showingTo=Math.min( currentPage * limit, totalRecords ); %>
+                                    <% const activeTotalPages = (typeof totalOrderPages !== "undefined" && totalOrderPages > 0) ? totalOrderPages : (totalPages || 1); %>
+                                    <% const activeTotalRecords = totalOrders; %>
+                                    <% const showingFrom = activeTotalRecords === 0 ? 0 : ((currentPage - 1) * limit) + 1; %>
+                                    <% const showingTo = Math.min( currentPage * limit, activeTotalRecords ); %>
 
-                                        SHOWING <%= showingFrom %>–<%= showingTo %> OF <%= totalRecords %> RECORDS
+                                        SHOWING <%= showingFrom %>–<%= showingTo %> OF <%= activeTotalRecords %> ORDERS
 
                                 </span>
 
@@ -487,7 +483,7 @@
 
                                                 <!-- PAGE NUMBERS -->
 
-                                                <% for (let i=1; i <=totalPages; i++) { %>
+                                                <% for (let i=1; i <= activeTotalPages; i++) { %>
 
                                                     <% if (i===currentPage) { %>
 
@@ -520,7 +516,7 @@
 
                                                                     <!-- NEXT -->
 
-                                                                    <% if (currentPage < totalPages) { %>
+                                                                    <% if (currentPage < activeTotalPages) { %>
 
                                                                         <a href="/admin/salesReport?period=<%= period %>&page=<%= currentPage + 1 %>&limit=<%= limit %><%= filterStartDate ? '&startDate=' + filterStartDate : '' %><%= filterEndDate ? '&endDate=' + filterEndDate : '' %>"
                                                                             class="px-2.5 py-1 border border-[#e5e7eb] rounded-xs
@@ -604,6 +600,33 @@
                                     </div>
 
                                     <!-- Excel Report Card -->
+                                    <div
+                                        class="border border-[#e5e7eb] p-5 rounded-xs hover:border-black transition-colors flex flex-col justify-between bg-[#fafafa]">
+                                        <div class="flex items-start gap-3 mb-4">
+                                            <div
+                                                class="w-9 h-9 bg-white border border-[#e5e7eb] rounded-xs flex items-center justify-center shrink-0">
+                                                <span
+                                                    class="material-symbols-outlined text-[20px] text-emerald-600">table_view</span>
+                                            </div>
+                                            <div>
+                                                <h4
+                                                    class="text-xs font-bold uppercase tracking-wider text-black font-mono">
+                                                    EXCEL
+                                                    SPREADSHEET</h4>
+                                                <p class="text-xs text-[#71717a] mt-1">Download the full sales ledger
+                                                    as
+                                                    an Excel (.xlsx) spreadsheet.</p>
+                                            </div>
+                                        </div>
+
+                                        <a href="/admin/salesReport/download/excel?period=<%= period %>&startDate=<%= filterStartDate %>&endDate=<%= filterEndDate %>"
+                                            class="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-white hover:bg-black hover:text-white text-black border border-black rounded-xs font-mono text-[11px] uppercase tracking-wider transition-colors font-medium">
+
+                                            <span class="material-symbols-outlined text-[16px]">download</span>
+                                            DOWNLOAD EXCEL
+
+                                        </a>
+                                    </div>
 
                                 </div>
                             </section>

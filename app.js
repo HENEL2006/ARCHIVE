@@ -7,6 +7,7 @@ import passport from "./config/passport.js";
 import { attachCategories } from "./middlewares/headerMiddleware.js";
 import { optimizeImage } from "./utils/imageHelper.js";
 import compression from "compression";
+import multer from "multer";
 
 const app = express();
 
@@ -48,43 +49,68 @@ app.use(attachCategories);
 app.use("/", userRoutes);
 app.use("/admin", adminRoutes);
 
-// 404 Catch-All Handler
 app.use((req, res) => {
   res.status(404);
 
-  // If request expects JSON (API or AJAX)
-  if (req.xhr || (req.headers.accept && req.headers.accept.includes("application/json"))) {
+  if (
+    req.xhr ||
+    (req.headers.accept && req.headers.accept.includes("application/json"))
+  ) {
     return res.json({
       success: false,
       message: "Resource not found (404)",
     });
   }
 
-  // Render EJS 404 page
   return res.render("user/404", {
     requestedUrl: req.originalUrl,
     activePage: "",
   });
 });
 
-// Centralized 500 Error Handler
 // eslint-disable-next-line no-unused-vars
-app.use((err, req, res, _next) => {
+app.use((err, req, res, next) => {
+  if (err instanceof multer.MulterError || err.code === "LIMIT_FILE_SIZE") {
+    const message =
+      err.code === "LIMIT_FILE_SIZE"
+        ? "File is too large. Maximum allowed size is 10MB."
+        : `Upload error: ${err.message}`;
+
+    if (req.xhr || req.headers.accept?.includes("application/json")) {
+      return res.status(400).json({ success: false, message });
+    }
+
+    if (req.session) {
+      req.session.toast = { type: "error", message };
+      const referer = req.get("Referrer") || req.originalUrl || "/admin/category";
+      return res.redirect(referer);
+    }
+
+    return res.status(400).send(message);
+  }
+
   console.error("Internal Error:", err);
+
   const status = err.status || 500;
   res.status(status);
 
-  if (req.xhr || (req.headers.accept && req.headers.accept.includes("application/json"))) {
+  if (req.xhr || req.headers.accept?.includes("application/json")) {
     return res.json({
       success: false,
-      message: process.env.NODE_ENV === "production" ? "Internal Server Error" : err.message,
+      message:
+        process.env.NODE_ENV === "production"
+          ? "Internal Server Error"
+          : err.message,
     });
   }
 
-  return res.render("user/404", {
-    requestedUrl: req.originalUrl,
-    activePage: "",
-  });
+  return res
+    .status(status)
+    .send(
+      process.env.NODE_ENV === "production"
+        ? "Something went wrong. Please try again later."
+        : err.message,
+    );
 });
 
 export default app;

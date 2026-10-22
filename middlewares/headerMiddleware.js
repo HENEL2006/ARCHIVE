@@ -32,25 +32,35 @@ export const getCachedCategories = async () => {
 
 export const attachCategories = async (req, res, next) => {
   try {
-    // Skip overhead entirely for admin routes
-    if (req.originalUrl?.startsWith("/admin") || req.path?.startsWith("/admin")) {
+    if (
+      req.originalUrl?.startsWith("/admin") ||
+      req.path?.startsWith("/admin")
+    ) {
       return next();
     }
 
     const categories = await getCachedCategories();
     res.locals.categories = categories;
 
+    console.log("Header categories:", res.locals.categories?.length);
+
     let cartCount = 0;
     let wishlistCount = 0;
 
     if (req.session && req.session.userId) {
       const [cart, wishlist] = await Promise.all([
-        Cart.findOne({ user: req.session.userId }, { "items.quantity": 1 }).lean(),
+        Cart.findOne(
+          { user: req.session.userId },
+          { "items.quantity": 1 },
+        ).lean(),
         Wishlist.findOne({ user: req.session.userId }, { products: 1 }).lean(),
       ]);
 
       if (cart && cart.items) {
-        cartCount = cart.items.reduce((sum, item) => sum + (item.quantity || 1), 0);
+        cartCount = cart.items.reduce(
+          (sum, item) => sum + (item.quantity || 1),
+          0,
+        );
       }
       if (wishlist && wishlist.products) {
         wishlistCount = wishlist.products.length;

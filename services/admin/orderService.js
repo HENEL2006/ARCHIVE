@@ -179,6 +179,10 @@ export const updateOrderStatusService = async (orderId, newStatus) => {
     throw new Error("ORDER NOT FOUND");
   }
 
+  if (order.orderStatus === "DELIVERED") {
+    throw new Error("ORDER IS ALREADY DELIVERED. CANNOT ROLL BACK TO A PREVIOUS STATE.");
+  }
+
   const activeItems = order.items.filter(
     (item) =>
       item.itemStatus !== "CANCELLED" && item.itemStatus !== "RETURN_REQUESTED",
@@ -313,12 +317,20 @@ export const updateOrderItemStatusService = async (
     throw new Error("ORDER ITEM NOT FOUND");
   }
 
+  if (item.itemStatus === "DELIVERED") {
+    throw new Error("PRODUCT IS ALREADY DELIVERED. CANNOT ROLL BACK TO A PREVIOUS STATE.");
+  }
+
   if (item.itemStatus === "CANCELLED") {
     throw new Error("CANCELLED PRODUCT STATUS CANNOT BE CHANGED");
   }
 
   if (item.itemStatus === "RETURN_REQUESTED") {
     throw new Error("RETURN REQUESTED PRODUCT STATUS CANNOT BE CHANGED");
+  }
+
+  if (item.itemStatus === "RETURNED") {
+    throw new Error("RETURNED PRODUCT STATUS CANNOT BE CHANGED");
   }
 
   item.itemStatus = newStatus;
