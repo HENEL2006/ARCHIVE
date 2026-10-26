@@ -1,7 +1,9 @@
+import { lineTo } from "pdfkit/js/mixins/vector";
 import Order from "../../models/order.js";
 import Product from "../../models/product.js";
 import { updateOverallOrderStatus } from "../../utils/orderStatus.js";
 import { creditWalletService } from "./walletService.js";
+import Offer from "../../models/offer.js";
 
 export const getUserOrdersService = async (
   userId,
@@ -126,9 +128,15 @@ export const cancelOrderService = async (
         0,
       );
 
-      const refundAmount = Number(
+      let refundAmount = Number(
         (itemRefundAmount + order.shipping).toFixed(2),
       );
+
+      const isOffer = await Offer.findOne({userId,orderId})
+
+      if(isOffer && order.items.quantity<5){
+        refundAmount = Number(itemRefundAmount*100/25)
+      }
 
       await creditWalletService(
         userId,
@@ -147,6 +155,8 @@ export const cancelOrderService = async (
       );
     }
   }
+
+  
 
   order.orderStatus = "CANCELLED";
   order.cancellationReason = reason;
