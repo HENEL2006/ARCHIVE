@@ -132,25 +132,23 @@
     <!-- TopNavBar -->
     <%- include("./partials/userHeader") %>
         <%- include("partials/toast") %>
-            <main class="min-h-screen pt-[80px]">
+            <main class="min-h-screen pt-[72px] sm:pt-[80px]">
                 <!-- Hero Section -->
                 <% if (cart && cart.items.length> 0) { %>
 
-                    <header class="px-mobile-margin md:px-container-padding pt-12 md:pt-16 pb-8 md:pb-12 border-b border-primary">
+                    <header class="px-4 sm:px-8 md:px-container-padding pt-8 sm:pt-12 md:pt-16 pb-6 sm:pb-8 md:pb-12 border-b border-primary">
 
                         <div class="max-w-4xl">
 
-                            <h1 class="font-display-xl text-headline-lg md:text-display-xl uppercase mb-4">
+                            <h1 class="font-display font-extrabold text-3xl sm:text-5xl md:text-display-xl uppercase mb-2 sm:mb-4 tracking-tight">
                                 YOUR ARCHIVE
                             </h1>
 
-                            <p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg">
+                            <p class="font-body-lg text-xs sm:text-sm md:text-body-lg text-on-surface-variant max-w-lg leading-relaxed">
                                 Selected pieces from football history. Curated for the modern collector.
                             </p>
 
-                            <p>
-                                <%= availableStock %>
-                            </p>
+
 
                         </div>
 
@@ -160,7 +158,7 @@
                         <!-- Cart Content Layout -->
                         <section class=" <%= cart && cart.items.length > 0
                         ? 'grid grid-cols-1 lg:grid-cols-12 items-start'
-                        : 'flex items-center justify-center min-h-[83vh]'
+                        : 'flex items-center justify-center min-h-[70vh] sm:min-h-[83vh] py-12'
                     %>">
                             <!-- Left Side: Items List -->
                             <div
@@ -169,14 +167,15 @@
                                 <% if (cart && cart.items.length> 0) { %>
 
                                     <% cart.items.forEach((item)=> { %>
+                                        <% if (item && item.product) { %>
 
                                         <div class="cart-item grid grid-cols-1 sm:grid-cols-[140px_1fr] md:grid-cols-[180px_1fr] border-b border-primary"
                                             data-product-id="<%= item.product._id %>" data-size="<%= item.size %>">
 
                                             <!-- Image -->
-                                            <div class="aspect-[4/5] overflow-hidden border-b sm:border-b-0 sm:border-r border-primary">
+                                            <div class="aspect-[4/5] sm:aspect-auto overflow-hidden border-b sm:border-b-0 sm:border-r border-primary bg-white flex items-center justify-center max-h-[260px] sm:max-h-none">
 
-                                                <img src="<%= optimizeImage(item.product.images[0].url, { width: 400 }) %>"
+                                                <img src="<%= (item.product.images && item.product.images.length > 0) ? optimizeImage(item.product.images[0].url, { width: 400 }) : '/images/club-Jersey.png' %>"
                                                     alt="<%= item.product.name %>" loading="lazy" class="w-full h-full object-cover">
 
                                             </div>
@@ -187,11 +186,11 @@
                                                 <div>
 
                                                     <p
-                                                        class="font-mono-data text-[10px] uppercase tracking-[0.18em] mb-2">
-                                                        <%= item.product.category.name %>
+                                                        class="font-mono-data text-[10px] uppercase tracking-[0.18em] mb-1.5 sm:mb-2">
+                                                        <%= item.product.category ? (item.product.category.name || item.product.category) : 'VINTAGE' %>
                                                     </p>
 
-                                                    <h2 class="font-display text-3xl uppercase leading-none mb-6">
+                                                    <h2 class="font-display text-2xl sm:text-3xl uppercase leading-tight sm:leading-none mb-4 sm:mb-6">
                                                         <%= item.product.name %>
                                                     </h2>
 
@@ -202,25 +201,25 @@
                                                             <%= item.size %>
                                                         </p>
 
-                                                        <div class="quantity-control flex items-center border border-primary w-fit mt-6 font-mono-data"
+                                                        <div class="quantity-control flex items-center border border-primary w-fit mt-4 sm:mt-6 font-mono-data"
                                                             data-product-id="<%= item.product._id %>"
                                                             data-size="<%= item.size %>" data-price="<%= item.price %>">
 
                                                             <!-- Decrease -->
                                                             <button type="button" aria-label="Decrease quantity"
-                                                                class="decrease-btn w-9 h-9 flex items-center justify-center text-xl font-light leading-none hover:bg-primary hover:text-on-primary transition">
+                                                                class="decrease-btn w-8 sm:w-9 h-8 sm:h-9 flex items-center justify-center text-lg sm:text-xl font-light leading-none hover:bg-primary hover:text-on-primary transition">
                                                                 −
                                                             </button>
 
                                                             <!-- Quantity -->
                                                             <span
-                                                                class="quantity-value font-mono-data text-sm w-8 text-center font-bold">
+                                                                class="quantity-value font-mono-data text-xs sm:text-sm w-7 sm:w-8 text-center font-bold">
                                                                 <%= item.quantity %>
                                                             </span>
 
                                                             <!-- Increase -->
                                                             <button type="button" aria-label="Increase quantity"
-                                                                class="increase-btn w-9 h-9 flex items-center justify-center text-xl font-light leading-none hover:bg-primary hover:text-on-primary transition">
+                                                                class="increase-btn w-8 sm:w-9 h-8 sm:h-9 flex items-center justify-center text-lg sm:text-xl font-light leading-none hover:bg-primary hover:text-on-primary transition">
                                                                 +
                                                             </button>
 
@@ -271,7 +270,7 @@
                                                 </div>
 
                                                 <button type="button"
-                                                    class="remove-cart-btn mt-6 text-[11px] uppercase tracking-[0.18em] hover:underline"
+                                                    class="remove-cart-btn mt-4 sm:mt-6 text-[10px] sm:text-[11px] uppercase tracking-[0.18em] hover:underline text-left"
                                                     data-product-id="<%= item.product._id %>"
                                                     data-size="<%= item.size %>">
                                                     REMOVE
@@ -281,30 +280,31 @@
 
                                         </div>
 
+                                        <% } %>
                                         <% }) %>
 
                                             <% } else { %>
 
-                                                <div class="max-w-2xl text-center px-8">
+                                                <div class="max-w-2xl text-center px-4 sm:px-8 py-8 sm:py-16">
 
                                                     <p
-                                                        class="font-mono-data text-[11px] uppercase tracking-[0.28em] text-neutral-500 mb-6">
+                                                        class="font-mono-data text-[10px] sm:text-[11px] uppercase tracking-[0.28em] text-neutral-500 mb-4 sm:mb-6">
                                                         Cart
                                                     </p>
 
-                                                    <h2 class="font-display text-6xl leading-none uppercase mb-8">
+                                                    <h2 class="font-display text-4xl sm:text-6xl leading-tight sm:leading-none uppercase mb-6 sm:mb-8">
                                                         Your Archive<br>Is Empty
                                                     </h2>
 
                                                     <p
-                                                        class="font-body-md text-[15px] leading-8 text-neutral-600 max-w-xl mx-auto mb-14">
+                                                        class="font-body-md text-xs sm:text-[15px] leading-6 sm:leading-8 text-neutral-600 max-w-xl mx-auto mb-8 sm:mb-14">
                                                         Every archive begins with a single acquisition.
                                                         Explore iconic football shirts curated across generations
                                                         and start building your collection.
                                                     </p>
 
                                                     <a href="/products"
-                                                        class="inline-flex items-center justify-center border border-black px-12 py-5 font-mono-data text-[11px] uppercase tracking-[0.25em] hover:bg-black hover:text-white transition-all duration-300">
+                                                        class="inline-flex items-center justify-center border border-black px-8 sm:px-12 py-3.5 sm:py-5 font-mono-data text-[10px] sm:text-[11px] uppercase tracking-[0.25em] hover:bg-black hover:text-white transition-all duration-300">
 
                                                         Explore Collection
 
@@ -317,11 +317,11 @@
                             <!-- Right Side: Order Summary -->
                             <% if (cart && cart.items.length> 0) { %>
                                 <aside
-                                    class="lg:col-span-4 p-8 lg:p-12 sticky top-16 bg-surface-container-low border-b lg:border-b-0 border-primary h-fit">
-                                    <div class="mb-8 pb-4 border-b border-primary">
-                                        <h2 class="font-headline-md text-headline-md uppercase">ORDER SUMMARY</h2>
+                                    class="lg:col-span-4 p-5 sm:p-8 lg:p-12 sticky top-16 bg-surface-container-low border-b lg:border-b-0 border-primary h-fit">
+                                    <div class="mb-6 sm:mb-8 pb-3 sm:pb-4 border-b border-primary">
+                                        <h2 class="font-headline-md text-xl sm:text-headline-md uppercase">ORDER SUMMARY</h2>
                                     </div>
-                                    <div class="space-y-4 font-mono-data text-sm">
+                                    <div class="space-y-3 sm:space-y-4 font-mono-data text-xs sm:text-sm">
                                         <div class="flex justify-between">
                                             <span class="uppercase">SUBTOTAL</span>
                                             <span id="cart-subtotal">₹<%= subtotal.toLocaleString() %></span>
@@ -339,22 +339,22 @@
                                             </span>
                                         </div>
                                         <div
-                                            class="flex justify-between pt-6 mt-6 border-t border-primary font-headline-md text-2xl">
+                                            class="flex justify-between pt-4 sm:pt-6 mt-4 sm:mt-6 border-t border-primary font-headline-md text-xl sm:text-2xl">
                                             <span class="uppercase">TOTAL</span>
                                             <span id="cart-total">
                                                 ₹<%= total.toLocaleString() %>
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="mt-12 space-y-4">
+                                    <div class="mt-8 sm:mt-12 space-y-3 sm:space-y-4">
                                         <a href="/checkout"
-                                            class="block w-full bg-primary text-on-primary py-5 text-center font-label-caps text-label-caps hover:bg-on-surface-variant transition-none active:translate-y-[1px]">
+                                            class="block w-full bg-primary text-on-primary py-4 sm:py-5 text-center font-label-caps text-xs sm:text-label-caps hover:bg-on-surface-variant transition-none active:translate-y-[1px]">
 
                                             PROCEED TO CHECKOUT
 
                                         </a>
                                         <a href="/products"
-                                            class="block w-full border border-primary text-primary py-5 text-center font-label-caps text-label-caps hover:bg-primary hover:text-on-primary transition-none active:translate-y-[1px]">
+                                            class="block w-full border border-primary text-primary py-4 sm:py-5 text-center font-label-caps text-xs sm:text-label-caps hover:bg-primary hover:text-on-primary transition-none active:translate-y-[1px]">
 
                                             CONTINUE BROWSING
 

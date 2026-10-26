@@ -229,17 +229,17 @@
       <!-- Right Side: Verification Form -->
       <section class="w-full md:w-1/2 flex flex-col min-h-screen">
         <!-- Brand Logo Header -->
-        <header class="p-container-padding pb-0 flex justify-between items-center">
-          <span class="font-display-xl text-headline-md tracking-tighter font-extrabold text-primary">ARCHIVE</span>
-          <a class="font-label-caps text-label-caps border border-primary px-4 py-2 hover:bg-primary hover:text-surface transition-colors"
+        <header class="p-4 sm:p-8 md:p-container-padding pb-0 flex justify-between items-center">
+          <span class="font-display-xl text-xl sm:text-headline-md tracking-tighter font-extrabold text-primary">ARCHIVE</span>
+          <a class="font-label-caps text-[10px] sm:text-label-caps border border-primary px-3 sm:px-4 py-1.5 sm:py-2 hover:bg-primary hover:text-surface transition-colors"
             href="/signup">BACK TO SIGN UP</a>
         </header>
-        <div class="flex-grow flex flex-col justify-center px-mobile-margin md:px-container-padding py-12 md:py-24">
+        <div class="flex-grow flex flex-col justify-center px-4 sm:px-8 md:px-container-padding py-8 sm:py-12 md:py-24">
           <div class="max-w-xl">
-            <h1 class="font-headline-lg text-headline-lg mb-4 leading-tight uppercase">
+            <h1 class="font-headline-lg text-2xl sm:text-3xl md:text-headline-lg mb-3 sm:mb-4 leading-tight uppercase">
               VERIFY YOUR EMAIL
             </h1>
-            <p class="font-body-lg text-body-lg text-secondary mb-12">
+            <p class="font-body-lg text-xs sm:text-sm md:text-body-lg text-secondary mb-6 sm:mb-12">
               We've sent a verification code to
               <span class="text-primary font-bold">
                 <%= email %>
@@ -247,25 +247,25 @@
               enter the 6-digit code below to secure your access.
             </p>
             <!-- OTP Input Form -->
-            <form class="space-y-12" id="otp-form" action="/verify-otp" method="post">
-              <div class="flex gap-4 md:gap-6">
+            <form class="space-y-6 sm:space-y-12" id="otp-form" action="/verify-otp" method="post">
+              <div class="flex gap-2 sm:gap-4 md:gap-6 justify-between">
                 <input name="otp[]" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code"
-                  class="otp-input w-full aspect-square text-center font-headline-md text-headline-md border border-primary bg-transparent focus:outline-none focus:bg-primary focus:text-surface transition-none"
+                  class="otp-input w-full max-w-[48px] sm:max-w-none aspect-square text-center font-headline-md text-lg sm:text-headline-md border border-primary bg-transparent focus:outline-none focus:bg-primary focus:text-surface transition-none"
                   maxlength="1" type="text" />
                 <input name="otp[]" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code"
-                  class="otp-input w-full aspect-square text-center font-headline-md text-headline-md border border-primary bg-transparent focus:outline-none focus:bg-primary focus:text-surface transition-none"
+                  class="otp-input w-full max-w-[48px] sm:max-w-none aspect-square text-center font-headline-md text-lg sm:text-headline-md border border-primary bg-transparent focus:outline-none focus:bg-primary focus:text-surface transition-none"
                   maxlength="1" type="text" />
                 <input name="otp[]" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code"
-                  class="otp-input w-full aspect-square text-center font-headline-md text-headline-md border border-primary bg-transparent focus:outline-none focus:bg-primary focus:text-surface transition-none"
+                  class="otp-input w-full max-w-[48px] sm:max-w-none aspect-square text-center font-headline-md text-lg sm:text-headline-md border border-primary bg-transparent focus:outline-none focus:bg-primary focus:text-surface transition-none"
                   maxlength="1" type="text" />
                 <input name="otp[]" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code"
-                  class="otp-input w-full aspect-square text-center font-headline-md text-headline-md border border-primary bg-transparent focus:outline-none focus:bg-primary focus:text-surface transition-none"
+                  class="otp-input w-full max-w-[48px] sm:max-w-none aspect-square text-center font-headline-md text-lg sm:text-headline-md border border-primary bg-transparent focus:outline-none focus:bg-primary focus:text-surface transition-none"
                   maxlength="1" type="text" />
                 <input name="otp[]" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code"
-                  class="otp-input w-full aspect-square text-center font-headline-md text-headline-md border border-primary bg-transparent focus:outline-none focus:bg-primary focus:text-surface transition-none"
+                  class="otp-input w-full max-w-[48px] sm:max-w-none aspect-square text-center font-headline-md text-lg sm:text-headline-md border border-primary bg-transparent focus:outline-none focus:bg-primary focus:text-surface transition-none"
                   maxlength="1" type="text" />
                 <input name="otp[]" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code"
-                  class="otp-input w-full aspect-square text-center font-headline-md text-headline-md border border-primary bg-transparent focus:outline-none focus:bg-primary focus:text-surface transition-none"
+                  class="otp-input w-full max-w-[48px] sm:max-w-none aspect-square text-center font-headline-md text-lg sm:text-headline-md border border-primary bg-transparent focus:outline-none focus:bg-primary focus:text-surface transition-none"
                   maxlength="1" type="text" />
               </div>
               <div class="flex flex-col gap-4">
@@ -275,7 +275,7 @@
                       <% } %>
                 </p>
                 <button
-                  class="w-full bg-primary text-surface py-6 font-label-caps text-label-caps tracking-widest hover:bg-secondary transition-none"
+                  class="w-full bg-primary text-surface py-4 sm:py-6 font-label-caps text-xs sm:text-label-caps tracking-widest hover:bg-secondary transition-none"
                   type="submit">
                   VERIFY ACCOUNT
                 </button>

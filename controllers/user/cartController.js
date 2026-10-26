@@ -28,7 +28,7 @@ export const addToCart = async (req, res) => {
 
 export const loadCart = async (req, res) => {
   try {
-    const { cart, subtotal, shipping, discount, total, availableStock } = await getCartService(
+    const { cart, subtotal, shipping, discount, total } = await getCartService(
       req.session.userId,
     );
 
@@ -38,7 +38,6 @@ export const loadCart = async (req, res) => {
       shipping,
       discount,
       total,
-      availableStock,
       activePage: "cart",
     });
   } catch (error) {
@@ -47,6 +46,7 @@ export const loadCart = async (req, res) => {
       type: "error",
       message: error.message,
     };
+    return res.redirect("/products");
   }
 };
 

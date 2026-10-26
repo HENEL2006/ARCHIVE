@@ -42,8 +42,6 @@ export const attachCategories = async (req, res, next) => {
     const categories = await getCachedCategories();
     res.locals.categories = categories;
 
-    console.log("Header categories:", res.locals.categories?.length);
-
     let cartCount = 0;
     let wishlistCount = 0;
 

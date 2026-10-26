@@ -182,8 +182,17 @@
                 </header>
                 <!-- Main Content Area -->
                 <section class="grid grid-cols-12">
+                    <!-- Mobile Filter Toggle Button -->
+                    <div class="col-span-12 md:hidden border-b border-primary p-4 bg-surface flex justify-between items-center">
+                        <button id="mobileFilterToggle" type="button" class="flex items-center gap-2 font-label-caps text-xs tracking-wider uppercase">
+                            <span class="material-symbols-outlined text-[18px]">tune</span>
+                            <span id="mobileFilterToggleText">FILTERS</span>
+                        </button>
+                        <span class="font-mono-data text-xs text-secondary"><%= products ? products.length : 0 %> ITEMS</span>
+                    </div>
+
                     <!-- Left Sidebar: Filters -->
-                    <aside class="col-span-12 md:col-span-3 border-r border-primary p-container-padding">
+                    <aside id="filterSidebar" class="col-span-12 md:col-span-3 border-r border-b md:border-b-0 border-primary p-mobile-margin md:p-container-padding hidden md:block">
                         <div class="sticky top-32 space-y-12">
                             <form id="filterForm" action="/products" method="GET">
 
@@ -476,10 +485,10 @@
                     <div class="col-span-12 md:col-span-9">
                         <!-- Sorting Bar -->
 
-                        <div class="flex justify-between items-center border-b border-primary px-8 py-6">
+                        <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-4 border-b border-primary px-4 sm:px-8 py-4 sm:py-6">
 
                             <form id="searchForm" action="/products" method="GET"
-                                class="flex items-center w-[420px] border-b border-primary pb-2">
+                                class="flex items-center w-full sm:w-[320px] md:w-[420px] border-b border-primary pb-2">
 
                                 <input type="hidden" name="category" value="<%= query.category || '' %>">
                                 <input type="hidden" name="price" value="<%= query.price || '' %>">
@@ -508,7 +517,7 @@
 
                             </form>
 
-                            <div class="relative">
+                            <div class="relative self-end sm:self-auto">
 
                                 <button id="sortToggle" type="button"
                                     class="flex items-center gap-2 font-label-caps text-label-caps cursor-pointer group">
@@ -1108,6 +1117,24 @@
                         });
 
                     });
+
+                    // Mobile Filter Toggle
+                    const mobileFilterBtn = document.getElementById("mobileFilterToggle");
+                    const filterSidebar = document.getElementById("filterSidebar");
+                    const mobileFilterText = document.getElementById("mobileFilterToggleText");
+
+                    if (mobileFilterBtn && filterSidebar) {
+                        mobileFilterBtn.addEventListener("click", () => {
+                            const isHidden = filterSidebar.classList.contains("hidden");
+                            if (isHidden) {
+                                filterSidebar.classList.remove("hidden");
+                                mobileFilterText.textContent = "HIDE FILTERS";
+                            } else {
+                                filterSidebar.classList.add("hidden");
+                                mobileFilterText.textContent = "FILTERS";
+                            }
+                        });
+                    }
                 </script>
 
 
