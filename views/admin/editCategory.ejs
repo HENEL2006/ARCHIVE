@@ -149,15 +149,16 @@
                 <div
                     class="max-full bg-surface-container-lowest border border-outline-variant rounded-lg overflow-hidden">
                     <form id="editCategoryForm" class="p-xl space-y-xl" action="/admin/editCategory/<%= category._id %>"
-                        method="post" enctype="multipart/form-data">
+                        method="post" enctype="multipart/form-data" novalidate>
                         <!-- Section: Basic Info -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-xl">
                             <div class="flex flex-col gap-xs">
                                 <label class="font-label-md text-on-surface-variant uppercase tracking-wider">Category
                                     Name *</label>
-                                <input name="name"
+                                <input id="categoryName" name="name"
                                     class="w-full px-md py-sm bg-surface-bright border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all font-body-md"
                                     placeholder="e.g. 90s Vintage Jerseys" required minlength="2" maxlength="50" type="text" value="<%= category.name %>">
+                                <p id="nameError" class="text-xs text-red-500 mt-1 hidden"></p>
                             </div>
                             <div class="flex flex-col gap-xs">
                                 <label
@@ -178,12 +179,12 @@
                         <div class="flex flex-col gap-xs">
                             <label
                                 class="font-label-md text-on-surface-variant uppercase tracking-wider">Description *</label>
-                            <textarea name="description" required minlength="5" maxlength="500"
+                            <textarea id="categoryDescription" name="description" required minlength="5" maxlength="500"
                                 class="w-full px-md py-sm bg-surface-bright border border-outline-variant rounded focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all font-body-md resize-none"
                                 placeholder="Briefly describe the collection and its historical significance..."
                                 rows="4"><%= category.description %></textarea>
+                            <p id="descError" class="text-xs text-red-500 mt-1 hidden"></p>
                         </div>
-                        <!-- Section: Image Upload -->
                         <!-- Section: Image Upload -->
                         <div class="flex flex-col gap-xs">
                             <label class="font-label-md text-on-surface-variant uppercase tracking-wider">
@@ -215,7 +216,7 @@
                                 </div>
 
                                 <!-- Hidden File Input -->
-                                <input id="categoryImage" name="image" type="file" accept="image/*" class="hidden">
+                                <input id="categoryImage" name="image" type="file" accept="image/jpeg,image/png,image/webp,image/jpg" class="hidden">
 
                                 <!-- Buttons -->
                                 <div class="flex items-center gap-md">
@@ -227,18 +228,12 @@
 
                                     </button>
 
-                                    <!-- <button type="button" id="removeImageBtn"
-                                        class="px-lg py-sm border border-error text-error rounded font-body-md hover:bg-error/10 transition">
-
-                                        Remove
-
-                                    </button> -->
-
                                 </div>
 
                                 <p class="font-body-sm text-on-surface-variant">
-                                    PNG, JPG or WEBP (Maximum 5MB)
+                                    PNG, JPG or WEBP (Maximum 10MB)
                                 </p>
+                                <p id="imageError" class="text-xs text-red-500 mt-1 hidden"></p>
 
                             </div>
                         </div>
@@ -248,7 +243,7 @@
                                 class="px-xl py-sm border border-outline text-primary font-body-md font-bold rounded hover:bg-surface-container-low transition-colors">
                                 Cancel
                             </a>
-                            <button
+                            <button id="submitBtn"
                                 class="px-xl py-sm bg-primary text-on-primary font-body-md font-bold rounded hover:bg-primary/90 transition-colors active:scale-[0.98] duration-150 shadow-sm"
                                 type="submit">
                                 Save Changes
@@ -273,12 +268,46 @@
                     });
                 });
 
+                const form = document.getElementById("editCategoryForm");
+                const nameInput = document.getElementById("categoryName");
+                const descInput = document.getElementById("categoryDescription");
                 const imageInput = document.getElementById("categoryImage");
                 const preview = document.getElementById("imagePreview");
                 const placeholder = document.getElementById("uploadPlaceholder");
-
                 const changeImageBtn = document.getElementById("changeImageBtn");
-                const removeImageBtn = document.getElementById("removeImageBtn");
+                const submitBtn = document.getElementById("submitBtn");
+
+                const nameError = document.getElementById("nameError");
+                const descError = document.getElementById("descError");
+                const imageError = document.getElementById("imageError");
+
+                function showError(element, errorElement, message) {
+                    element.classList.add("border-red-500", "focus:ring-red-500");
+                    element.classList.remove("border-outline-variant", "focus:ring-primary");
+                    errorElement.textContent = message;
+                    errorElement.classList.remove("hidden");
+                }
+
+                function clearError(element, errorElement) {
+                    element.classList.remove("border-red-500", "focus:ring-red-500");
+                    element.classList.add("border-outline-variant", "focus:ring-primary");
+                    errorElement.textContent = "";
+                    errorElement.classList.add("hidden");
+                }
+
+                nameInput.addEventListener("input", () => {
+                    const val = nameInput.value.trim();
+                    if (val.length >= 2 && val.length <= 50 && /^[a-zA-Z0-9\s/&-]+$/.test(val)) {
+                        clearError(nameInput, nameError);
+                    }
+                });
+
+                descInput.addEventListener("input", () => {
+                    const val = descInput.value.trim();
+                    if (val.length >= 5 && val.length <= 500) {
+                        clearError(descInput, descError);
+                    }
+                });
 
                 // Open file picker
                 changeImageBtn.addEventListener("click", () => {
@@ -288,15 +317,13 @@
                 // Preview selected image
                 imageInput.addEventListener("change", function () {
                     const file = this.files[0];
-
                     if (!file) return;
 
                     const allowedTypes = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
-                    if (!allowedTypes.includes(file.type)) {
+                    if (!allowedTypes.includes(file.type.toLowerCase())) {
+                        showError(changeImageBtn, imageError, "Only JPG, PNG and WEBP images are allowed.");
                         if (typeof showToast === "function") {
                             showToast("Only JPG, PNG and WEBP images are allowed.", "error");
-                        } else {
-                            alert("Only JPG, PNG and WEBP images are allowed.");
                         }
                         this.value = "";
                         return;
@@ -305,20 +332,77 @@
                     // Max 10MB
                     const maxSize = 10 * 1024 * 1024;
                     if (file.size > maxSize) {
+                        showError(changeImageBtn, imageError, "File is too large! Maximum image size is 10MB.");
                         if (typeof showToast === "function") {
                             showToast("File is too large! Maximum image size is 10MB.", "error");
-                        } else {
-                            alert("File is too large! Maximum image size is 10MB.");
                         }
                         this.value = "";
                         return;
                     }
 
+                    clearError(changeImageBtn, imageError);
                     preview.src = URL.createObjectURL(file);
                     preview.classList.remove("hidden");
                     placeholder.classList.add("hidden");
                 });
 
+                form.addEventListener("submit", function (e) {
+                    let isValid = true;
+
+                    // Validate Name
+                    const nameVal = nameInput.value.trim();
+                    if (!nameVal) {
+                        showError(nameInput, nameError, "Category name is required.");
+                        isValid = false;
+                    } else if (nameVal.length < 2 || nameVal.length > 50) {
+                        showError(nameInput, nameError, "Category name must be between 2 and 50 characters.");
+                        isValid = false;
+                    } else if (!/^[a-zA-Z0-9\s/&-]+$/.test(nameVal)) {
+                        showError(nameInput, nameError, "Category name can only contain letters, numbers, spaces, and / & -");
+                        isValid = false;
+                    } else {
+                        clearError(nameInput, nameError);
+                    }
+
+                    // Validate Description
+                    const descVal = descInput.value.trim();
+                    if (!descVal) {
+                        showError(descInput, descError, "Category description is required.");
+                        isValid = false;
+                    } else if (descVal.length < 5 || descVal.length > 500) {
+                        showError(descInput, descError, "Category description must be between 5 and 500 characters.");
+                        isValid = false;
+                    } else {
+                        clearError(descInput, descError);
+                    }
+
+                    // Validate Image (if new file selected)
+                    if (imageInput.files && imageInput.files.length > 0) {
+                        const file = imageInput.files[0];
+                        const allowedTypes = ["image/jpeg", "image/png", "image/webp", "image/jpg"];
+                        if (!allowedTypes.includes(file.type.toLowerCase())) {
+                            showError(changeImageBtn, imageError, "Only JPG, PNG and WEBP images are allowed.");
+                            isValid = false;
+                        } else if (file.size > 10 * 1024 * 1024) {
+                            showError(changeImageBtn, imageError, "File is too large! Maximum image size is 10MB.");
+                            isValid = false;
+                        } else {
+                            clearError(changeImageBtn, imageError);
+                        }
+                    }
+
+                    if (!isValid) {
+                        e.preventDefault();
+                        if (typeof showToast === "function") {
+                            showToast("Please fix the highlighted errors before submitting.", "error");
+                        }
+                        return false;
+                    }
+
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = "Saving Changes...";
+                    submitBtn.classList.add("opacity-70", "cursor-not-allowed");
+                });
             </script>
 
 

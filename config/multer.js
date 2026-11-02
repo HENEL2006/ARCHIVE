@@ -6,22 +6,22 @@ const upload = multer({
     storage,
 
     limits:{
-        fileSize:10*1024*1024
+        fileSize: 15 * 1024 * 1024
     },
 
-    fileFilter(req,file,cb){
-
-        const allowed=[
+    fileFilter(req, file, cb){
+        const allowed = [
             "image/jpeg",
+            "image/jpg",
             "image/png",
             "image/webp"
         ];
 
-        if(!allowed.includes(file.mimetype)){
-            return cb(new Error("ONLY JPG PNG WEBP"));
+        if(!allowed.includes(file.mimetype.toLowerCase())){
+            return cb(new Error("ONLY JPG, JPEG, PNG, WEBP ARE ALLOWED"));
         }
 
-        cb(null,true);
+        cb(null, true);
     }
 });
 

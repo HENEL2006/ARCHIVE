@@ -1,10 +1,5 @@
 import Offer from "../../models/offer.js";
 
-/**
- * Calculates the best active offer for a batch of products in a single database query.
- * @param {Array<Object>} products - Array of product objects with _id, category, price
- * @returns {Promise<Array<Object>>} Array of offer calculation results
- */
 export const getBatchBestOffersService = async (products) => {
   if (!Array.isArray(products) || products.length === 0) {
     return [];
@@ -104,11 +99,7 @@ export const getBatchBestOffersService = async (products) => {
   });
 };
 
-/**
- * Calculates the best active offer for a single product (delegates to batch service).
- * @param {Object} product
- * @returns {Promise<Object>}
- */
+
 export const getBestOfferService = async (product) => {
   if (!product) {
     return {

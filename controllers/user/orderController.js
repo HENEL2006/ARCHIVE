@@ -28,10 +28,15 @@ export const loadOrders = async (req, res) => {
 
     const search = req.query.search || "";
 
-    const { orders, currentPage, totalPages, totalOrders, currentStatus, orderCount } =
-      await getUserOrdersService(req.session.userId, page, status, search);
-
-
+    const {
+      orders,
+      currentPage,
+      totalPages,
+      totalOrders,
+      currentStatus,
+      orderCount,
+      deliveredOrderCount,
+    } = await getUserOrdersService(req.session.userId, page, status, search);
 
     res.render("user/orders", {
       orders,
@@ -41,6 +46,7 @@ export const loadOrders = async (req, res) => {
       currentStatus,
       search,
       orderCount,
+      deliveredOrderCount,
       activePage: "orders",
     });
   } catch (error) {
@@ -171,10 +177,7 @@ export const downloadInvoice = async (req, res) => {
   try {
     const { orderId } = req.params;
 
-    const order = await getOrderDetailsService(
-      req.session.userId,
-      orderId,
-    );
+    const order = await getOrderDetailsService(req.session.userId, orderId);
 
     return generateInvoice(order, res);
   } catch (error) {

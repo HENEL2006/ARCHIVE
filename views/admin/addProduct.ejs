@@ -166,7 +166,7 @@
             <!-- TopAppBar -->
             <%- include("partials/adminNavbar") %>
                 <!-- Main Content Canvas -->
-                <form action="/admin/addProducts" method="post" enctype="multipart/form-data">
+                <form id="addProductForm" action="/admin/addProducts" method="post" enctype="multipart/form-data" novalidate>
                     <main class="ml-[240px] mt-16 pb-32">
                         <!-- Page Header -->
                         <div class="px-gutter py-xl bg-surface-bright border-b border-outline-variant">
@@ -216,89 +216,97 @@
                                             <div class="md:col-span-2">
                                                 <label
                                                     class="font-label-md text-label-md text-on-surface-variant block mb-1">Product
-                                                    Name</label>
+                                                    Name *</label>
                                                 <input id="name" name="name" type="text"
                                                     value="<%= formData?.name || '' %>"
-                                                    placeholder="<%= errors?.name || 'Enter product name' %>" class="w-full rounded-lg px-3 py-2 text-body-md border
+                                                    placeholder="e.g. Manchester United 1999 Home Jersey" class="w-full rounded-lg px-3 py-2 text-body-md border
                                                 <%= errors?.name
                                                     ? 'border-red-500 placeholder-red-500 focus:ring-red-500 focus:border-red-500'
                                                     : 'border-outline-variant focus:ring-primary focus:border-primary'
                                                 %>">
+                                                <p id="nameError" class="text-xs text-red-500 mt-1 <%= errors?.name ? '' : 'hidden' %>"><%= errors?.name || '' %></p>
                                             </div>
                                             <div class="md:col-span-2">
                                                 <label
                                                     class="block font-label-md text-label-md text-on-surface-variant uppercase tracking-widest mb-2">Product
-                                                    Slug</label>
+                                                    Slug *</label>
                                                 <input id="slug" name="slug" type="text"
                                                     value="<%= formData?.slug || '' %>"
-                                                    placeholder="<%= errors?.slug || 'Enter product slug' %>" class="w-full bg-white rounded-lg px-4 py-3 text-body-md outline-none transition-all border
+                                                    placeholder="e.g. manchester-united-1999-home-jersey" class="w-full bg-white rounded-lg px-4 py-3 text-body-md outline-none transition-all border
                                                 <%= errors?.slug
                                                     ? 'border-red-500 placeholder-red-500 focus:ring-red-500 focus:border-red-500'
                                                     : 'border-outline-variant focus:ring-primary focus:border-primary'
                                                 %>">
+                                                <p id="slugError" class="text-xs text-red-500 mt-1 <%= errors?.slug ? '' : 'hidden' %>"><%= errors?.slug || '' %></p>
                                             </div>
                                             <div>
                                                 <label
-                                                    class="font-label-md text-label-md text-on-surface-variant block mb-1">Category</label>
-                                                <select name="category" class="w-full rounded-lg px-3 py-2 text-body-md border
+                                                    class="font-label-md text-label-md text-on-surface-variant block mb-1">Category *</label>
+                                                <select id="category" name="category" class="w-full rounded-lg px-3 py-2 text-body-md border
                                             <%= errors?.category
                                                 ? 'border-red-500 focus:ring-red-500 focus:border-red-500'
                                                 : 'border-outline-variant focus:ring-primary focus:border-primary'
                                             %>">
+                                                    <option value="" disabled <%= !formData?.category ? 'selected' : '' %>>-- SELECT CATEGORY --</option>
                                                     <% categories.forEach(category=> { %>
-                                                        <option value="<%= category._id %>">
+                                                        <option value="<%= category._id %>" <%= formData?.category == category._id.toString() ? 'selected' : '' %>>
                                                             <%= category.name %>
                                                         </option>
                                                         <% }) %>
                                                 </select>
+                                                <p id="categoryError" class="text-xs text-red-500 mt-1 <%= errors?.category ? '' : 'hidden' %>"><%= errors?.category || '' %></p>
                                             </div>
                                             <div>
                                                 <label
-                                                    class="font-label-md text-label-md text-on-surface-variant block mb-1">Status</label>
-                                                <select name="status" class="w-full rounded-lg px-3 py-2 text-body-md border
+                                                    class="font-label-md text-label-md text-on-surface-variant block mb-1">Status *</label>
+                                                <select id="status" name="status" class="w-full rounded-lg px-3 py-2 text-body-md border
                                             <%= errors?.status
                                                 ? 'border-red-500 focus:ring-red-500 focus:border-red-500'
                                                 : 'border-outline-variant focus:ring-primary focus:border-primary'
                                             %>">
-                                                    <option>Listed</option>
-                                                    <option>Unlisted</option>
+                                                    <option value="Listed" <%= formData?.status === 'Listed' || !formData?.status ? 'selected' : '' %>>Listed</option>
+                                                    <option value="Unlisted" <%= formData?.status === 'Unlisted' ? 'selected' : '' %>>Unlisted</option>
                                                 </select>
+                                                <p id="statusError" class="text-xs text-red-500 mt-1 <%= errors?.status ? '' : 'hidden' %>"><%= errors?.status || '' %></p>
                                             </div>
                                             <div>
                                                 <label
                                                     class="font-label-md text-label-md text-on-surface-variant block mb-1">Price
-                                                    (₹)</label>
+                                                    (₹) *</label>
                                                 <input name="price" type="number" min="1" step="0.01" id="price"
                                                     value="<%= formData?.price || '' %>"
-                                                    placeholder="<%= errors?.price || '12000' %>" class="w-full rounded-lg px-3 py-2 text-body-md border
+                                                    placeholder="e.g. 4999" class="w-full rounded-lg px-3 py-2 text-body-md border
                                                 <%= errors?.price
                                                     ? 'border-red-500 placeholder-red-500 focus:ring-red-500 focus:border-red-500'
                                                     : 'border-outline-variant focus:ring-primary focus:border-primary'
                                                 %>">
+                                                <p id="priceError" class="text-xs text-red-500 mt-1 <%= errors?.price ? '' : 'hidden' %>"><%= errors?.price || '' %></p>
                                             </div>
                                             <div>
                                                 <label
-                                                    class="font-label-md text-label-md text-on-surface-variant block mb-1">Brand</label>
+                                                    class="font-label-md text-label-md text-on-surface-variant block mb-1">Brand *</label>
                                                 <input id="brand" name="brand" type="text"
                                                     value="<%= formData?.brand || '' %>"
-                                                    placeholder="<%= errors?.brand || 'Nike' %>" class="w-full rounded-lg px-3 py-2 text-body-md border
+                                                    placeholder="e.g. Nike, Umbro, Adidas" class="w-full rounded-lg px-3 py-2 text-body-md border
                                                 <%= errors?.brand
                                                     ? 'border-red-500 placeholder-red-500 focus:ring-red-500 focus:border-red-500'
                                                     : 'border-outline-variant focus:ring-primary focus:border-primary'
                                                 %>">
+                                                <p id="brandError" class="text-xs text-red-500 mt-1 <%= errors?.brand ? '' : 'hidden' %>"><%= errors?.brand || '' %></p>
                                             </div>
                                             <div class="md:col-span-2">
                                                 <label
                                                     class="font-label-md text-label-md text-on-surface-variant block mb-1">Short
-                                                    Description</label>
+                                                    Description *</label>
                                                 <input name="shortDescription" type="text" id="shortDescription"
                                                     value="<%= formData?.shortDescription || '' %>"
-                                                    placeholder="<%= errors?.shortDescription || 'Authentic 1994/95 home kit as worn during the double-winning era.' %>"
+                                                    placeholder="Authentic 1998/99 treble season home shirt."
                                                     class="w-full rounded-lg px-3 py-2 text-body-md border
                                                 <%= errors?.shortDescription
                                                     ? 'border-red-500 placeholder-red-500 focus:ring-red-500 focus:border-red-500'
                                                     : 'border-outline-variant focus:ring-primary focus:border-primary'
                                                 %>">
+                                                <p id="shortDescError" class="text-xs text-red-500 mt-1 <%= errors?.shortDescription ? '' : 'hidden' %>"><%= errors?.shortDescription || '' %></p>
                                             </div>
                                         </div>
                                     </section>
@@ -440,15 +448,11 @@
                                         <div class="grid grid-cols-6 gap-md">
 
                                             <!-- Hidden Input -->
-                                            <input type="file" id="images" name="images" multiple accept="image/*"
+                                            <input type="file" id="images" name="images" multiple accept="image/jpeg,image/png,image/webp,image/jpg"
                                                 class="hidden">
 
                                             <!-- Upload Card -->
-                                            <label id="uploadCard" for="images" class="aspect-square border border-dashed rounded-lg flex flex-col items-center justify-center gap-2 cursor-pointer transition-colors
-                                        <%= errors?.images
-                                            ? 'border-red-500'
-                                            : 'border-outline-variant hover:bg-surface-container'
-                                        %>">
+                                            <label id="uploadCard" for="images" class="aspect-square border border-dashed rounded-lg flex flex-col items-center justify-center gap-2 cursor-pointer transition-colors border-outline-variant hover:bg-surface-container">
                                                 <span class="material-symbols-outlined text-[32px] text-outline">
                                                     add
                                                 </span>
@@ -464,11 +468,9 @@
                                             <div id="previewContainer" class="contents"></div>
 
                                         </div>
-                                        <% if (errors?.images) { %>
-                                            <p class="mt-3 text-xs font-medium uppercase tracking-wider text-red-500">
-                                                <%= errors.images %>
-                                            </p>
-                                            <% } %>
+                                        <p id="imageError" class="mt-3 text-xs font-medium uppercase tracking-wider text-red-500 <%= errors?.images ? '' : 'hidden' %>">
+                                            <%= errors?.images || '' %>
+                                        </p>
 
                                     </section>
                                     <!-- 04 DESCRIPTION -->
@@ -482,12 +484,9 @@
                                                 Description</h3>
                                         </div>
                                         <textarea name="description" rows="6" id="description"
-                                            placeholder="<%= errors?.description || 'Write product description...' %>"
-                                            class="w-full rounded-lg px-3 py-2 text-body-md border
-                                        <%= errors?.description
-                                            ? 'border-red-500 placeholder-red-500 focus:ring-red-500 focus:border-red-500'
-                                            : 'border-outline-variant focus:ring-primary focus:border-primary'
-                                        %>"><%= formData?.description || '' %></textarea>
+                                            placeholder="Write comprehensive product description..."
+                                            class="w-full rounded-lg px-3 py-2 text-body-md border border-outline-variant focus:ring-primary focus:border-primary outline-none transition-all"><%= formData?.description || '' %></textarea>
+                                        <p id="descError" class="text-xs text-red-500 mt-1 <%= errors?.description ? '' : 'hidden' %>"><%= errors?.description || '' %></p>
                                     </section>
                                 </div>
                             </div>
@@ -502,7 +501,7 @@
                                     class="px-lg py-2.5 text-body-sm font-bold text-on-surface-variant hover:text-primary transition-colors">
                                     Cancel
                                 </a>
-                                <button type="submit"
+                                <button id="submitProductBtn" type="submit"
                                     class="px-xl py-2.5 text-body-sm font-bold bg-primary text-on-primary rounded-lg shadow-lg hover:bg-primary/90 transition-transform active:scale-95">Add
                                     Product</button>
                             </div>
@@ -593,32 +592,31 @@
                     imageInput.addEventListener("change", async function () {
 
                         const selectedFiles = Array.from(this.files);
+                        this.value = ""; // Reset so the same file can be selected again if needed
 
                         for (const file of selectedFiles) {
 
                             // Allow only images
                             if (!file.type.startsWith("image/")) {
-                                showToast("Only image files are allowed", "error");
+                                showToast(`"${file.name}" is not an image file.`, "error");
                                 continue;
                             }
 
-                            // // Max file size: 5MB
-                            // if (file.size > 5 * 1024 * 1024) {
-                            //     showToast("Image must be less than 5MB", "error");
-                            //     continue;
-                            // }
+                            // Max file size: 10MB
+                            if (file.size > 10 * 1024 * 1024) {
+                                showToast(`"${file.name}" is too large! Maximum image size is 10MB.`, "error");
+                                continue;
+                            }
 
                             // Max 5 images
                             if (uploadedFiles.length >= 5) {
-                                showToast("Maximum 5 images allowed", "error");
+                                showToast("Maximum 5 images allowed", "warning");
                                 break;
                             }
 
                             await openCropper(file);
 
                         }
-
-                        // this.value = "";
 
                     });
 
@@ -662,11 +660,12 @@
 
                                 }).toBlob(blob => {
 
+                                    const cleanName = (currentFile.name || "image").replace(/\.[^/.]+$/, "") + ".jpg";
                                     const croppedFile = new File(
 
                                         [blob],
 
-                                        currentFile.name,
+                                        cleanName,
 
                                         {
 
@@ -677,24 +676,26 @@
                                     );
 
                                     uploadedFiles.push(croppedFile);
-                                    console.log("Uploaded files:", uploadedFiles.length);
-
                                     renderPreviews();
 
                                     cropper.destroy();
+                                    cropper = null;
 
                                     cropModal.classList.add("hidden");
                                     cropModal.classList.remove("flex");
 
                                     resolve();
 
-                                });
+                                }, "image/jpeg", 0.9);
 
                             };
 
                             cancelCrop.onclick = () => {
 
-                                cropper.destroy();
+                                if (cropper) {
+                                    cropper.destroy();
+                                    cropper = null;
+                                }
 
                                 cropModal.classList.add("hidden");
                                 cropModal.classList.remove("flex");
@@ -1000,20 +1001,228 @@
                     let cropper;
                     let currentFile = null;
 
-                    // document.querySelector("form").addEventListener("submit", function (e) {
+                    // Form client-side validation
+                    const form = document.getElementById("addProductForm");
+                    const submitBtn = document.getElementById("submitProductBtn");
 
-                    //     console.log("uploadedFiles:", uploadedFiles.length);
-                    //     console.log("input files:", imageInput.files.length);
+                    function markInvalid(inputEl, errorEl, msg) {
+                        inputEl.classList.add("border-red-500", "focus:ring-red-500");
+                        inputEl.classList.remove("border-outline-variant", "focus:ring-primary");
+                        if (errorEl) {
+                            errorEl.textContent = msg;
+                            errorEl.classList.remove("hidden");
+                        }
+                    }
 
-                    //     if (uploadedFiles.length < 3) {
-                    //         e.preventDefault();
+                    function markValid(inputEl, errorEl) {
+                        inputEl.classList.remove("border-red-500", "focus:ring-red-500");
+                        inputEl.classList.add("border-outline-variant", "focus:ring-primary");
+                        if (errorEl) {
+                            errorEl.textContent = "";
+                            errorEl.classList.add("hidden");
+                        }
+                    }
 
-                    //         showToast("Upload at least 3 product images.", "error");
+                    // Live clearance on inputs
+                    nameInput.addEventListener("input", () => {
+                        if (nameInput.value.trim().length >= 3 && nameInput.value.trim().length <= 100) {
+                            markValid(nameInput, document.getElementById("nameError"));
+                        }
+                    });
 
-                    //         return;
-                    //     }
+                    slugInput.addEventListener("input", () => {
+                        const val = slugInput.value.trim().toLowerCase();
+                        if (val && /^[a-z0-9-]+$/.test(val)) {
+                            markValid(slugInput, document.getElementById("slugError"));
+                        }
+                    });
 
-                    // });
+                    document.getElementById("category").addEventListener("change", (e) => {
+                        if (e.target.value) {
+                            markValid(e.target, document.getElementById("categoryError"));
+                        }
+                    });
+
+                    document.getElementById("price").addEventListener("input", (e) => {
+                        const num = Number(e.target.value);
+                        if (!isNaN(num) && num > 0) {
+                            markValid(e.target, document.getElementById("priceError"));
+                        }
+                    });
+
+                    document.getElementById("brand").addEventListener("input", (e) => {
+                        if (e.target.value.trim().length >= 2) {
+                            markValid(e.target, document.getElementById("brandError"));
+                        }
+                    });
+
+                    document.getElementById("shortDescription").addEventListener("input", (e) => {
+                        if (e.target.value.trim().length >= 10 && e.target.value.trim().length <= 200) {
+                            markValid(e.target, document.getElementById("shortDescError"));
+                        }
+                    });
+
+                    document.getElementById("description").addEventListener("input", (e) => {
+                        if (e.target.value.trim().length >= 20 && e.target.value.trim().length <= 2000) {
+                            markValid(e.target, document.getElementById("descError"));
+                        }
+                    });
+
+                    form.addEventListener("submit", function (e) {
+                        let isValid = true;
+                        let firstInvalidEl = null;
+
+                        function validateField(condition, inputEl, errorEl, msg) {
+                            if (!condition) {
+                                markInvalid(inputEl, errorEl, msg);
+                                isValid = false;
+                                if (!firstInvalidEl) firstInvalidEl = inputEl;
+                            } else {
+                                markValid(inputEl, errorEl);
+                            }
+                        }
+
+                        // 1. Name
+                        const nameVal = nameInput.value.trim();
+                        validateField(
+                            nameVal && nameVal.length >= 3 && nameVal.length <= 100,
+                            nameInput,
+                            document.getElementById("nameError"),
+                            "Product name must be between 3 and 100 characters."
+                        );
+
+                        // 2. Slug
+                        const slugVal = slugInput.value.trim().toLowerCase();
+                        validateField(
+                            slugVal && /^[a-z0-9-]+$/.test(slugVal),
+                            slugInput,
+                            document.getElementById("slugError"),
+                            "Slug can only contain lowercase letters, numbers, and hyphens."
+                        );
+
+                        // 3. Category
+                        const categorySelect = document.getElementById("category");
+                        validateField(
+                            Boolean(categorySelect.value),
+                            categorySelect,
+                            document.getElementById("categoryError"),
+                            "Please select a category."
+                        );
+
+                        // 4. Status
+                        const statusSelect = document.getElementById("status");
+                        validateField(
+                            Boolean(statusSelect.value),
+                            statusSelect,
+                            document.getElementById("statusError"),
+                            "Please select status."
+                        );
+
+                        // 5. Price
+                        const priceInput = document.getElementById("price");
+                        const priceVal = Number(priceInput.value);
+                        validateField(
+                            priceInput.value !== "" && !isNaN(priceVal) && priceVal > 0,
+                            priceInput,
+                            document.getElementById("priceError"),
+                            "Please enter a valid price greater than 0."
+                        );
+
+                        // 6. Brand
+                        const brandInput = document.getElementById("brand");
+                        const brandVal = brandInput.value.trim();
+                        validateField(
+                            brandVal && brandVal.length >= 2 && brandVal.length <= 50,
+                            brandInput,
+                            document.getElementById("brandError"),
+                            "Brand must be between 2 and 50 characters."
+                        );
+
+                        // 7. Short Description
+                        const shortDescInput = document.getElementById("shortDescription");
+                        const shortDescVal = shortDescInput.value.trim();
+                        validateField(
+                            shortDescVal && shortDescVal.length >= 10 && shortDescVal.length <= 200,
+                            shortDescInput,
+                            document.getElementById("shortDescError"),
+                            "Short description must be between 10 and 200 characters."
+                        );
+
+                        // 8. Size Variants & Stocks
+                        const sizeSelects = Array.from(document.querySelectorAll('select[name="sizes[]"]'));
+                        const stockInputs = Array.from(document.querySelectorAll('.stock-input'));
+                        const variantError = document.getElementById("variantError") || document.createElement("p");
+                        const selectedSizes = sizeSelects.map(s => s.value);
+                        const uniqueSizes = new Set(selectedSizes);
+
+                        if (sizeSelects.length === 0) {
+                            variantError.textContent = "At least one size variant is required.";
+                            variantError.classList.remove("hidden");
+                            isValid = false;
+                            if (!firstInvalidEl) firstInvalidEl = document.getElementById("variantContainer");
+                        } else if (uniqueSizes.size !== selectedSizes.length) {
+                            variantError.textContent = "Each size variant must be unique.";
+                            variantError.classList.remove("hidden");
+                            isValid = false;
+                            if (!firstInvalidEl) firstInvalidEl = document.getElementById("variantContainer");
+                        } else if (stockInputs.some(input => Number(input.value) < 1)) {
+                            variantError.textContent = "Quantity for each size must be at least 1.";
+                            variantError.classList.remove("hidden");
+                            isValid = false;
+                            if (!firstInvalidEl) firstInvalidEl = document.getElementById("variantContainer");
+                        } else {
+                            variantError.textContent = "";
+                            variantError.classList.add("hidden");
+                        }
+
+                        // 9. Images (minimum 3, max 5)
+                        const imageError = document.getElementById("imageError");
+                        if (uploadedFiles.length < 3) {
+                            imageError.textContent = `Upload at least 3 cropped product images (currently ${uploadedFiles.length}).`;
+                            imageError.classList.remove("hidden");
+                            isValid = false;
+                            if (!firstInvalidEl) firstInvalidEl = uploadCard;
+                        } else if (uploadedFiles.length > 5) {
+                            imageError.textContent = "Maximum 5 product images allowed.";
+                            imageError.classList.remove("hidden");
+                            isValid = false;
+                            if (!firstInvalidEl) firstInvalidEl = uploadCard;
+                        } else {
+                            imageError.textContent = "";
+                            imageError.classList.add("hidden");
+                        }
+
+                        // 10. Description
+                        const descTextarea = document.getElementById("description");
+                        const descVal = descTextarea.value.trim();
+                        validateField(
+                            descVal && descVal.length >= 20 && descVal.length <= 2000,
+                            descTextarea,
+                            document.getElementById("descError"),
+                            "Description must be between 20 and 2000 characters."
+                        );
+
+                        if (!isValid) {
+                            e.preventDefault();
+                            if (typeof showToast === "function") {
+                                showToast("Please fix the highlighted errors before submitting.", "error");
+                            }
+                            if (firstInvalidEl) {
+                                firstInvalidEl.scrollIntoView({ behavior: "smooth", block: "center" });
+                            }
+                            return false;
+                        }
+
+                        // Synchronize cropped files to input
+                        const dt = new DataTransfer();
+                        uploadedFiles.forEach(f => dt.items.add(f));
+                        imageInput.files = dt.files;
+
+                        // Prevent double-submit / page reload issue
+                        submitBtn.disabled = true;
+                        submitBtn.textContent = "Saving Product...";
+                        submitBtn.classList.add("opacity-70", "cursor-not-allowed");
+                    });
                 </script>
 </body>
 

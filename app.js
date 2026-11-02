@@ -16,7 +16,7 @@ app.use(compression());
 app.set("view engine", "ejs");
 app.set("views", "./views");
 
-app.use(express.json());
+app.use(express.json({ limit: "15mb" }));
 app.use(
   express.static("public", {
     maxAge: "7d",
@@ -24,7 +24,7 @@ app.use(
     lastModified: true,
   }),
 );
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true, limit: "15mb" }));
 app.use(
   session({
     secret: process.env.SESSION_SECRET,

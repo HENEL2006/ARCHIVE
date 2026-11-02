@@ -1,4 +1,3 @@
-import { lineTo } from "pdfkit/js/mixins/vector";
 import Order from "../../models/order.js";
 import Product from "../../models/product.js";
 import { updateOverallOrderStatus } from "../../utils/orderStatus.js";
@@ -43,6 +42,8 @@ export const getUserOrdersService = async (
     Order.countDocuments(query),
   ]);
 
+  const deliveredOrderCount  = await Order.countDocuments({userId,orderStatus:"DELIVERED"});
+
   const totalPages = Math.ceil(totalOrders / limit);
 
   const orderCount = await Order.countDocuments({ userId });
@@ -55,6 +56,7 @@ export const getUserOrdersService = async (
     currentStatus: status,
     search: search.trim(),
     orderCount,
+    deliveredOrderCount
   };
 };
 

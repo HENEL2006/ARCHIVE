@@ -730,9 +730,10 @@
                                     })
                                     .toBlob(blob => {
 
+                                        const cleanName = (currentFile.name || "image").replace(/\.[^/.]+$/, "") + ".jpg";
                                         const croppedFile = new File(
                                             [blob],
-                                            currentFile.name,
+                                            cleanName,
                                             {
                                                 type: "image/jpeg"
                                             }
@@ -743,19 +744,23 @@
                                         renderPreviews();
 
                                         cropper.destroy();
+                                        cropper = null;
 
                                         cropModal.classList.add("hidden");
                                         cropModal.classList.remove("flex");
 
                                         resolve();
 
-                                    });
+                                    }, "image/jpeg", 0.9);
 
                             };
 
                             cancelCrop.onclick = () => {
 
-                                cropper.destroy();
+                                if (cropper) {
+                                    cropper.destroy();
+                                    cropper = null;
+                                }
 
                                 cropModal.classList.add("hidden");
                                 cropModal.classList.remove("flex");
@@ -803,6 +808,7 @@
                     imageInput.addEventListener("change", async function () {
 
                         const selectedFiles = Array.from(this.files);
+                        this.value = "";
 
                         for (const file of selectedFiles) {
 
@@ -814,16 +820,18 @@
                             }
 
                             if (!file.type.startsWith("image/")) {
-                                showToast("Only image files are allowed.", "error");
+                                showToast(`"${file.name}" is not an image file.`, "error");
+                                continue;
+                            }
+
+                            if (file.size > 10 * 1024 * 1024) {
+                                showToast(`"${file.name}" is too large! Maximum image size is 10MB.`, "error");
                                 continue;
                             }
 
                             await openCropper(file);
 
                         }
-
-                        // DO NOT CLEAR THE INPUT
-                        // this.value = "";
 
                     });
 
@@ -1125,6 +1133,16 @@
                             showToast("Upload at least 3 product images.", "error");
                             return;
                         }
+
+                        if (totalImages > 5) {
+                            e.preventDefault();
+                            showToast("Maximum 5 product images allowed.", "error");
+                            return;
+                        }
+
+                        const dt = new DataTransfer();
+                        uploadedFiles.forEach(f => dt.items.add(f));
+                        imageInput.files = dt.files;
                     });
 
                 </script>

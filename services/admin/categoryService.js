@@ -215,6 +215,7 @@ export const deleteCategoryService = async (id) => {
     throw new Error("CATEGORY NOT FOUND");
   }
 
+
   category.isDeleted = !category.isDeleted;
 
   await category.save();

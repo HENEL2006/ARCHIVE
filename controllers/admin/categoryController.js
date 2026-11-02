@@ -38,7 +38,10 @@ export const loadCategory = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    req.session.toast = error.message;
+    req.session.toast = {
+      type: "error",
+      message: error.message,
+    };
     res.redirect("/admin/dashboard");
   }
 };
@@ -53,11 +56,17 @@ export const loadAddCategory = async (req, res) => {
 export const addCategory = async (req, res) => {
   try {
     await addCategoryService(req.body, req.file);
-    req.session.toast = "CATEGORY ADDED SUCCESSFULLY";
+    req.session.toast = {
+      type: "success",
+      message: "CATEGORY ADDED SUCCESSFULLY",
+    };
     res.redirect("/admin/category");
   } catch (error) {
     console.log(error);
-    req.session.toast = error.message;
+    req.session.toast = {
+      type: "error",
+      message: error.message,
+    };
     res.redirect("/admin/addCategory");
   }
 };
