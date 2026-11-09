@@ -50,7 +50,9 @@ export const getSalesReportService = async (query) => {
   }
 
   const rawOrders = await Order.find({
-    orderStatus: ORDER_STATUS.DELIVERED,
+    orderStatus: {
+      $in: [ORDER_STATUS.DELIVERED, ORDER_STATUS.RETURN_REQUESTED, ORDER_STATUS.RETURNED],
+    },
     createdAt: {
       $gte: start,
       $lte: end,

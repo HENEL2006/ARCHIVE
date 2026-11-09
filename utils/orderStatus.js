@@ -13,6 +13,7 @@ export const updateOverallOrderStatus = (order) => {
   const activeItems = order.items.filter(
     (item) =>
       item.itemStatus !== ITEM_STATUS.CANCELLED &&
+      item.itemStatus !== ITEM_STATUS.RETURNED &&
       item.itemStatus !== ITEM_STATUS.RETURN_REJECTED,
   );
 
