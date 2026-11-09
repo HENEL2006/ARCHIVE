@@ -401,11 +401,11 @@
                                                         </td>
 
                                                         <td class="py-3.5 px-4 text-center text-[#52525b]">
-                                                            <%= (order.items || []).reduce((sum, item) => sum + (item.quantity || 0), 0) %>
+                                                            <%= order.activeItemsCount !== undefined ? order.activeItemsCount : (order.items || []).reduce((sum, item) => sum + (item.quantity || 0), 0) %>
                                                         </td>
 
                                                         <td class="py-3.5 px-5 text-right font-bold text-black">
-                                                            ₹<%= (order.total || 0).toLocaleString("en-IN") %>
+                                                            ₹<%= (order.activeNetSales !== undefined ? order.activeNetSales : (order.total || 0)).toLocaleString("en-IN") %>
                                                         </td>
 
                                                     </tr>

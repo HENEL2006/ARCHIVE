@@ -1,4 +1,5 @@
 
+import { HTTP_STATUS } from "../../constants/httpStatusCodes.js";
 import {
   addToCartService,
   getCartService,
@@ -58,7 +59,7 @@ export const updateCartQuantity = async (req, res) => {
       req.session.userId,
     );
 
-    return res.status(200).json({
+    return res.status(HTTP_STATUS.OK).json({
       success: true,
       message: "CART UPDATED",
       subtotal,
@@ -69,7 +70,7 @@ export const updateCartQuantity = async (req, res) => {
   } catch (error) {
     console.log(error);
 
-    return res.status(400).json({
+    return res.status(HTTP_STATUS.BAD_REQUEST).json({
       success: false,
       message: error.message,
     });
@@ -84,7 +85,7 @@ export const removeCartItem = async (req, res) => {
       req.session.userId,
     );
 
-    return res.status(200).json({
+    return res.status(HTTP_STATUS.OK).json({
       success: true,
       message: "ITEM REMOVED",
       subtotal,
@@ -95,7 +96,7 @@ export const removeCartItem = async (req, res) => {
   } catch (error) {
     console.log(error);
 
-    return res.status(400).json({
+    return res.status(HTTP_STATUS.BAD_REQUEST).json({
       success: false,
       message: error.message,
     });

@@ -5,6 +5,7 @@ import {
 
 import PDFDocument from "pdfkit";
 import ExcelJS from "exceljs";
+import { HTTP_STATUS } from "../../constants/httpStatusCodes.js";
 
 export const loadSalesReport = async (req, res) => {
   try {
@@ -368,7 +369,7 @@ export const downloadSalesReportPDF = async (req, res) => {
     console.error("DOWNLOAD SALES REPORT PDF ERROR:", error);
 
     if (!res.headersSent) {
-      res.status(500).json({
+      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
         message: error.message || "Failed to generate sales report PDF",
       });
     }
@@ -444,10 +445,16 @@ export const downloadSalesReportExcel = async (req, res) => {
 
     // Populate Order Rows
     orders.forEach((order) => {
-      const itemsCount = (order.items || []).reduce(
-        (sum, item) => sum + (item.quantity || 0),
-        0,
-      );
+      const itemsCount =
+        order.activeItemsCount !== undefined
+          ? order.activeItemsCount
+          : (order.items || []).reduce(
+              (sum, item) => sum + (item.quantity || 0),
+              0,
+            );
+
+      const netSales =
+        order.activeNetSales !== undefined ? order.activeNetSales : (order.total || 0);
 
       const row = worksheet.addRow([
         new Date(order.createdAt).toLocaleDateString("en-IN", {
@@ -459,7 +466,7 @@ export const downloadSalesReportExcel = async (req, res) => {
         order.paymentMethod,
         order.orderStatus,
         itemsCount,
-        order.total || 0,
+        netSales,
       ]);
 
       row.height = 20;
@@ -517,7 +524,7 @@ export const downloadSalesReportExcel = async (req, res) => {
     console.error("DOWNLOAD SALES REPORT EXCEL ERROR:", error);
 
     if (!res.headersSent) {
-      res.status(500).json({
+      res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
         message: error.message || "Failed to generate sales report Excel",
       });
     }

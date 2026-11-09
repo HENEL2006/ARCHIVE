@@ -3,6 +3,7 @@ import {
   getWishlistService,
   removeFromWishlistService,
 } from "../../services/user/wishlistService.js";
+import { HTTP_STATUS } from "../../constants/httpStatusCodes.js";
 
 export const loadWishlist = async (req, res) => {
   try {
@@ -34,7 +35,7 @@ export const addToWishlist = async (req, res) => {
       productId,
     );
 
-    return res.status(200).json({
+    return res.status(HTTP_STATUS.OK).json({
       success: true,
       message: "ADDED TO WISHLIST",
     });
@@ -42,7 +43,7 @@ export const addToWishlist = async (req, res) => {
   } catch (error) {
     console.log(error);
 
-    return res.status(400).json({
+    return res.status(HTTP_STATUS.BAD_REQUEST).json({
       success: false,
       message: error.message,
     });
@@ -64,7 +65,7 @@ export const removeFromWishlist = async (req, res) => {
       message: "REMOVED FROM WISHLIST",
     };
 
-    return res.status(200).json({
+    return res.status(HTTP_STATUS.OK).json({
       success: true,
       message: "REMOVED FROM WISHLIST",
     });
@@ -77,7 +78,7 @@ export const removeFromWishlist = async (req, res) => {
       message: error.message,
     };
 
-    return res.status(400).json({
+    return res.status(HTTP_STATUS.BAD_REQUEST).json({
       success: false,
       message: error.message,
     });

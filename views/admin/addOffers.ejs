@@ -1383,9 +1383,19 @@
                             window.location.href = "/admin/offers";
                         } else {
                             console.error(data.message);
+                            if (typeof showToast === "function") {
+                                showToast(data.message || "Failed to create offer", "error");
+                            }
+                            const discountError = document.getElementById("discountValueError");
+                            if (discountError && data.message) {
+                                showError(discountValue, discountError, data.message);
+                            }
                         }
                     } catch (error) {
                         console.error("Create offer error:", error);
+                        if (typeof showToast === "function") {
+                            showToast("Something went wrong while creating offer", "error");
+                        }
                     }
                 });
 

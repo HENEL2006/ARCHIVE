@@ -1,3 +1,4 @@
+import { HTTP_STATUS } from "../../constants/httpStatusCodes.js";
 import {
   createOfferService,
   deleteOfferService,
@@ -62,7 +63,7 @@ export const searchProducts = async (req, res) => {
   } catch (error) {
     console.log(error);
 
-    return res.status(500).json({
+    return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
       success: false,
       message: error.message,
     });
@@ -82,7 +83,7 @@ export const searchCategories = async (req, res) => {
   } catch (error) {
     console.log(error);
 
-    return res.status(500).json({
+    return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
       success: false,
       message: error.message,
     });
@@ -93,7 +94,12 @@ export const createOffer = async (req, res) => {
   try {
     const offer = await createOfferService(req.body);
 
-    return res.status(201).json({
+    req.session.toast = {
+      type: "success",
+      message: "Offer created successfully",
+    };
+
+    return res.status(HTTP_STATUS.CREATED).json({
       success: true,
       message: "Offer created successfully",
       offer,
@@ -101,7 +107,7 @@ export const createOffer = async (req, res) => {
   } catch (error) {
     console.log("Create offer error:", error);
 
-    return res.status(400).json({
+    return res.status(HTTP_STATUS.BAD_REQUEST).json({
       success: false,
       message: error.message,
     });

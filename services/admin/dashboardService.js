@@ -1,6 +1,7 @@
 import Order from "../../models/order.js";
 import Product from "../../models/product.js";
 import User from "../../models/User.js";
+import { ITEM_STATUS, PAYMENT_STATUS } from "../../constants/orderStatus.js";
 
 const startOfDay = (date) => {
   const result = new Date(date);
@@ -157,7 +158,7 @@ const calculateOrderRevenue = (order) => {
 
   const activeItems = (order.items || []).filter(
     (item) =>
-      !["CANCELLED", "RETURNED"].includes(item.itemStatus),
+      ![ITEM_STATUS.CANCELLED, ITEM_STATUS.RETURNED].includes(item.itemStatus),
   );
 
   if (activeItems.length === 0) {
@@ -319,7 +320,7 @@ export const getDashboardService = async (
     }),
 
     Order.find({
-      paymentStatus: "PAID",
+      paymentStatus: PAYMENT_STATUS.PAID,
     })
       .select("items shipping createdAt")
       .lean(),

@@ -8,6 +8,7 @@ import { attachCategories } from "./middlewares/headerMiddleware.js";
 import { optimizeImage } from "./utils/imageHelper.js";
 import compression from "compression";
 import multer from "multer";
+import { HTTP_STATUS } from "./constants/httpStatusCodes.js";
 
 const app = express();
 
@@ -50,7 +51,7 @@ app.use("/", userRoutes);
 app.use("/admin", adminRoutes);
 
 app.use((req, res) => {
-  res.status(404);
+  res.status(HTTP_STATUS.NOT_FOUND);
 
   if (
     req.xhr ||
@@ -77,7 +78,7 @@ app.use((err, req, res, next) => {
         : `Upload error: ${err.message}`;
 
     if (req.xhr || req.headers.accept?.includes("application/json")) {
-      return res.status(400).json({ success: false, message });
+      return res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message });
     }
 
     if (req.session) {
@@ -86,12 +87,12 @@ app.use((err, req, res, next) => {
       return res.redirect(referer);
     }
 
-    return res.status(400).send(message);
+    return res.status(HTTP_STATUS.BAD_REQUEST).send(message);
   }
 
   console.error("Internal Error:", err);
 
-  const status = err.status || 500;
+  const status = err.status || HTTP_STATUS.INTERNAL_SERVER_ERROR;
   res.status(status);
 
   if (req.xhr || req.headers.accept?.includes("application/json")) {

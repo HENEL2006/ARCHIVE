@@ -10,20 +10,22 @@ export const getCategoryService = async (
   sort = "newest",
   page = 1,
 ) => {
-  const query = {
-    isDeleted: false,
-  };
+  const query = {};
 
   if (search.trim()) {
+    const escapedSearch = search.trim().replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
     query.name = {
-      $regex: search,
+      $regex: escapedSearch,
       $options: "i",
     };
   }
 
   if (status === "listed") {
+    query.isDeleted = false;
     query.isListed = true;
   } else if (status === "unlisted") {
+    query.isDeleted = false;
     query.isListed = false;
   } else if (status === "deleted") {
     query.isDeleted = true;
@@ -31,20 +33,19 @@ export const getCategoryService = async (
     query.isDeleted = false;
   }
 
-  let sortQuery = {};
+  const sortOptions = {
+    newest: { createdAt: -1, _id: -1 },
+    oldest: { createdAt: 1, _id: 1 },
+    az: { name: 1, _id: 1 },
+    za: { name: -1, _id: -1 },
+  };
 
-  if (sort === "newest") {
-    sortQuery = { createdAt: -1 };
-  } else if (sort === "oldest") {
-    sortQuery = { createdAt: 1 };
-  } else if (sort === "az") {
-    sortQuery = { name: 1 };
-  } else if (sort === "za") {
-    sortQuery = { name: -1 };
-  }
+  const sortQuery = sortOptions[sort] || sortOptions.newest;
 
   const limit = 6;
-  const skip = (page - 1) * limit;
+  const currentPage = Math.max(1, Number(page) || 1);
+  const skip = (currentPage - 1) * limit;
+
   const filteredCount = await Category.countDocuments(query);
 
   const categories = await Category.find(query)
@@ -57,9 +58,7 @@ export const getCategoryService = async (
     {
       $group: {
         _id: "$category",
-        productCount: {
-          $sum: 1,
-        },
+        productCount: { $sum: 1 },
       },
     },
   ]);
@@ -75,24 +74,28 @@ export const getCategoryService = async (
 
   const totalPages = Math.ceil(filteredCount / limit);
 
-  const totalCategories = await Category.countDocuments();
-
-  const listedCategories = await Category.countDocuments({
-    isListed: true,
-    isDeleted: false,
-  });
-
-  const unlistedCategories = await Category.countDocuments({
-    isDeleted: false,
-    isListed: false,
-  });
-
-  const deletedCategories = await Category.countDocuments({
-    isDeleted: true,
-  });
+  const [
+    totalCategories,
+    listedCategories,
+    unlistedCategories,
+    deletedCategories,
+  ] = await Promise.all([
+    Category.countDocuments(),
+    Category.countDocuments({
+      isListed: true,
+      isDeleted: false,
+    }),
+    Category.countDocuments({
+      isListed: false,
+      isDeleted: false,
+    }),
+    Category.countDocuments({
+      isDeleted: true,
+    }),
+  ]);
 
   return {
-    categories : categoriesWithCounts,
+    categories: categoriesWithCounts,
     totalCategories,
     listedCategories,
     unlistedCategories,
@@ -214,7 +217,6 @@ export const deleteCategoryService = async (id) => {
   if (!category) {
     throw new Error("CATEGORY NOT FOUND");
   }
-
 
   category.isDeleted = !category.isDeleted;
 

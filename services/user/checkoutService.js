@@ -1,3 +1,4 @@
+import { ORDER_STATUS, PAYMENT_STATUS } from "../../constants/orderStatus.js";
 import mongoose from "mongoose";
 import Address from "../../models/address.js";
 import Cart from "../../models/cart.js";
@@ -166,7 +167,7 @@ export const placeOrderService = async (userId, data, appliedCoupon = null) => {
     paymentStatus:
       payment === "RAZORPAY" || payment === "WALLET" ? "PAID" : "PENDING",
     transactionId: payment === "RAZORPAY" ? transactionId : null,
-    orderStatus: "PLACED",
+    orderStatus: ORDER_STATUS.PLACED,
   });
 
   if (coupon) {
@@ -561,8 +562,8 @@ export const createFailedOrderService = async (
     tax,
     total,
     paymentMethod: "RAZORPAY",
-    paymentStatus: "FAILED",
-    orderStatus: "PLACED",
+    paymentStatus: PAYMENT_STATUS.FAILED,
+    orderStatus: ORDER_STATUS.PLACED,
   });
 
   return order;
@@ -579,7 +580,7 @@ export const createRetryRazorpayOrderService = async (userId, orderId) => {
     throw new Error("THIS ORDER IS ALREADY PAID");
   }
 
-  if (order.orderStatus === "CANCELLED") {
+  if (order.orderStatus === ORDER_STATUS.CANCELLED) {
     throw new Error("THIS ORDER HAS BEEN CANCELLED");
   }
 
@@ -658,7 +659,7 @@ export const verifyRetryRazorpayPaymentService = async (userId, data) => {
     }
   }
 
-  order.paymentStatus = "PAID";
+  order.paymentStatus = PAYMENT_STATUS.PAID;
   order.transactionId = razorpay_payment_id;
   await order.save();
 

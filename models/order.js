@@ -1,4 +1,9 @@
 import mongoose from "mongoose";
+import {
+  ITEM_STATUS,
+  ORDER_STATUS,
+  PAYMENT_STATUS,
+} from "../constants/orderStatus.js";
 
 const orderSchema = new mongoose.Schema(
   {
@@ -66,17 +71,8 @@ const orderSchema = new mongoose.Schema(
 
         itemStatus: {
           type: String,
-          enum: [
-            "PLACED",
-            "CONFIRMED",
-            "SHIPPED",
-            "DELIVERED",
-            "CANCELLED",
-            "RETURN_REQUESTED",
-            "RETURNED",
-            "RETURN_REJECTED",
-          ],
-          default: "PLACED",
+          enum: Object.values(ITEM_STATUS),
+          default: ITEM_STATUS.PLACED,
         },
 
         refundStatus: {
@@ -194,8 +190,8 @@ const orderSchema = new mongoose.Schema(
 
     paymentStatus: {
       type: String,
-      enum: ["PENDING", "PAID", "FAILED"],
-      default: "PENDING",
+      enum: Object.values(PAYMENT_STATUS),
+      default: PAYMENT_STATUS.PENDING,
     },
     transactionId: {
       type: String,
@@ -205,16 +201,8 @@ const orderSchema = new mongoose.Schema(
 
     orderStatus: {
       type: String,
-      enum: [
-        "PLACED",
-        "CONFIRMED",
-        "SHIPPED",
-        "DELIVERED",
-        "CANCELLED",
-        "RETURN_REQUESTED",
-        "RETURNED",
-      ],
-      default: "PLACED",
+      enum: Object.values(ORDER_STATUS),
+      default: ORDER_STATUS.PLACED,
     },
 
     cancellationReason: {
@@ -225,6 +213,10 @@ const orderSchema = new mongoose.Schema(
     returnReason: {
       type: String,
       trim: true,
+    },
+    shippingRefunded: {
+      type: Boolean,
+      default: false,
     },
   },
   {

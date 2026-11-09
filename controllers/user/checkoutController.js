@@ -19,6 +19,7 @@ import {
 } from "../../services/user/couponService.js";
 import { getWalletService } from "../../services/user/walletService.js";
 import Order from "../../models/order.js";
+import { HTTP_STATUS } from "../../constants/httpStatusCodes.js";
 
 export const loadCheckout = async (req, res) => {
   try {
@@ -119,7 +120,7 @@ export const createRazorpayOrder = async (req, res) => {
       req.session.appliedCoupon,
     );
 
-    return res.status(200).json({
+    return res.status(HTTP_STATUS.OK).json({
       success: true,
       ...razorpayOrder,
       key: process.env.RAZORPAY_KEY_ID,
@@ -127,7 +128,7 @@ export const createRazorpayOrder = async (req, res) => {
   } catch (error) {
     console.log(error);
 
-    return res.status(400).json({
+    return res.status(HTTP_STATUS.BAD_REQUEST).json({
       success: false,
       message: error.message,
     });
@@ -144,14 +145,14 @@ export const verifyRazorpayPayment = async (req, res) => {
 
     delete req.session.appliedCoupon;
 
-    return res.status(200).json({
+    return res.status(HTTP_STATUS.OK).json({
       success: true,
       orderId: order.orderId,
     });
   } catch (error) {
     console.log(error);
 
-    return res.status(400).json({
+    return res.status(HTTP_STATUS.BAD_REQUEST).json({
       success: false,
       message: error.message,
     });
@@ -228,13 +229,13 @@ export const createFailedOrder = async (req, res) => {
 
     delete req.session.appliedCoupon;
 
-    return res.status(200).json({
+    return res.status(HTTP_STATUS.OK).json({
       success: true,
       orderId: order.orderId,
     });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({
+    return res.status(HTTP_STATUS.BAD_REQUEST).json({
       success: false,
       message: error.message,
     });
@@ -249,14 +250,14 @@ export const createRetryRazorpayOrder = async (req, res) => {
       orderId,
     );
 
-    return res.status(200).json({
+    return res.status(HTTP_STATUS.OK).json({
       success: true,
       ...razorpayOrder,
       key: process.env.RAZORPAY_KEY_ID,
     });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({
+    return res.status(HTTP_STATUS.BAD_REQUEST).json({
       success: false,
       message: error.message,
     });
@@ -270,13 +271,13 @@ export const verifyRetryRazorpayPayment = async (req, res) => {
       req.body,
     );
 
-    return res.status(200).json({
+    return res.status(HTTP_STATUS.OK).json({
       success: true,
       orderId: order.orderId,
     });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({
+    return res.status(HTTP_STATUS.BAD_REQUEST).json({
       success: false,
       message: error.message,
     });
@@ -293,7 +294,7 @@ export const applyCoupon = async (req, res) => {
 
     req.session.appliedCoupon = coupon;
 
-    return res.status(200).json({
+    return res.status(HTTP_STATUS.OK).json({
       success: true,
       message: "COUPON APPLIED SUCCESSFULLY",
       coupon,
@@ -301,7 +302,7 @@ export const applyCoupon = async (req, res) => {
   } catch (error) {
     console.log(error);
 
-    return res.status(400).json({
+    return res.status(HTTP_STATUS.BAD_REQUEST).json({
       success: false,
       message: error.message,
     });
@@ -312,14 +313,14 @@ export const removeCoupon = async (req, res) => {
   try {
     delete req.session.appliedCoupon;
 
-    return res.status(200).json({
+    return res.status(HTTP_STATUS.OK).json({
       success: true,
       message: "COUPON REMOVED SUCCESSFULLY",
     });
   } catch (error) {
     console.log(error);
 
-    return res.status(400).json({
+    return res.status(HTTP_STATUS.BAD_REQUEST).json({
       success: false,
       message: error.message,
     });

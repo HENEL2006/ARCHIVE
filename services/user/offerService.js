@@ -13,7 +13,9 @@ export const getBatchBestOffersService = async (products) => {
     if (product?._id) {
       productIds.push(product._id);
     }
+
     const catId = product?.category?._id || product?.category;
+
     if (catId) {
       categoryIds.push(catId);
     }
@@ -35,60 +37,91 @@ export const getBatchBestOffersService = async (products) => {
   for (const offer of offers) {
     if (offer.type === "PRODUCT" && offer.product) {
       const key = offer.product.toString();
+
       if (!productOffersMap.has(key)) {
         productOffersMap.set(key, []);
       }
+
       productOffersMap.get(key).push(offer);
     } else if (offer.type === "CATEGORY" && offer.category) {
       const key = offer.category.toString();
+
       if (!categoryOffersMap.has(key)) {
         categoryOffersMap.set(key, []);
       }
+
       categoryOffersMap.get(key).push(offer);
     }
   }
 
   return products.map((product) => {
     const price = Number(product?.price) || 0;
-    const pId = product?._id ? product._id.toString() : null;
+
+    const pId = product?._id?.toString() || null;
+
     const cId = product?.category?._id
       ? product.category._id.toString()
-      : (product?.category ? product.category.toString() : null);
+      : product?.category?.toString() || null;
 
     const applicableOffers = [
-      ...(pId && productOffersMap.has(pId) ? productOffersMap.get(pId) : []),
-      ...(cId && categoryOffersMap.has(cId) ? categoryOffersMap.get(cId) : []),
+      ...(pId ? productOffersMap.get(pId) || [] : []),
+      ...(cId ? categoryOffersMap.get(cId) || [] : []),
     ];
 
-    if (!applicableOffers.length) {
-      return {
-        offer: null,
-        discountAmount: 0,
-        discountPercentage: 0,
-        finalPrice: price,
-      };
+    const defaultResult = {
+      offer: null,
+      discountAmount: 0,
+      discountPercentage: 0,
+      finalPrice: price,
+    };
+
+    if (price <= 0 || !applicableOffers.length) {
+      return defaultResult;
     }
 
     let bestOffer = null;
     let bestDiscount = 0;
 
     for (const offer of applicableOffers) {
-      const calculatedDiscount =
-        offer.discountType === "PERCENTAGE"
-          ? price * (offer.discountValue / 100)
-          : offer.discountValue;
+      const discountValue = Number(offer.discountValue);
 
-      const discountAmount = Math.min(calculatedDiscount, price);
+      if (!Number.isFinite(discountValue) || discountValue <= 0) {
+        continue;
+      }
 
-      if (discountAmount > bestDiscount) {
-        bestDiscount = discountAmount;
+      let calculatedDiscount;
+
+      if (offer.discountType === "PERCENTAGE") {
+        if (discountValue >= 100) {
+          continue;
+        }
+        calculatedDiscount = price * (discountValue / 100);
+      } else {
+        // Flat discount must always be strictly less than product's original price
+        if (discountValue >= price) {
+          continue;
+        }
+        calculatedDiscount = discountValue;
+      }
+
+      // Safety check: Never allow a product's final price to become zero or negative
+      if (calculatedDiscount >= price || price - calculatedDiscount <= 0) {
+        continue;
+      }
+
+      if (calculatedDiscount > bestDiscount) {
+        bestDiscount = calculatedDiscount;
         bestOffer = offer;
       }
     }
 
-    const finalPrice = Math.max(0, price - bestDiscount);
-    const discountPercentage =
-      price > 0 ? Math.round((bestDiscount / price) * 100) : 0;
+    if (!bestOffer) {
+      return defaultResult;
+    }
+
+    const finalPrice = price - bestDiscount;
+
+    const discountPercentage = Math.round((bestDiscount / price) * 100);
 
     return {
       offer: bestOffer,
@@ -98,7 +131,6 @@ export const getBatchBestOffersService = async (products) => {
     };
   });
 };
-
 
 export const getBestOfferService = async (product) => {
   if (!product) {

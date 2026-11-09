@@ -1,5 +1,6 @@
 import bcrypt from "bcrypt";
 import User from "../../models/User.js";
+import { HTTP_STATUS } from "../../constants/httpStatusCodes.js";
 
 import { sendEmailChangeOtp } from "../../services/user/otpService.js";
 
@@ -22,23 +23,23 @@ export const verifyPassword = async (req, res) => {
   try {
     const { password } = req.body;
     if (!password) {
-      return res.status(400).json({ success: false, message: "Password is required" });
+      return res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: "Password is required" });
     }
 
     const user = await User.findById(req.session.userId);
     if (!user || !user.password) {
-      return res.status(400).json({ success: false, message: "User not found or using OAuth" });
+      return res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: "User not found or using OAuth" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ success: false, message: "Incorrect password" });
+      return res.status(HTTP_STATUS.BAD_REQUEST).json({ success: false, message: "Incorrect password" });
     }
 
     return res.json({ success: true });
   } catch (error) {
     console.error("Error verifying password:", error);
-    return res.status(500).json({ success: false, message: "Internal server error" });
+    return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({ success: false, message: "Internal server error" });
   }
 };
 

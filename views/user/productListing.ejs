@@ -1047,11 +1047,12 @@
                             const url = isWishlisted
                                 ? "/wishlist/remove"
                                 : "/wishlist/add";
+                            const method = isWishlisted ? "DELETE" : "POST";
 
                             try {
 
                                 const response = await fetch(url, {
-                                    method: "POST",
+                                    method,
 
                                     headers: {
                                         "Content-Type": "application/json",

@@ -4,6 +4,7 @@ import User from "../../models/User.js";
 import { updateOverallOrderStatus } from "../../utils/orderStatus.js";
 import { completeReferralService } from "../user/referralService.js";
 import { creditWalletService } from "../user/walletService.js";
+import { ITEM_STATUS, ORDER_STATUS, PAYMENT_STATUS } from "../../constants/orderStatus.js";
 
 export const getOrdersService = async (
   page = 1,
@@ -95,7 +96,7 @@ export const getOrdersService = async (
     );
 
     const cancelledItems = order.items.filter(
-      (item) => item.itemStatus === "CANCELLED",
+      (item) => item.itemStatus === ITEM_STATUS.CANCELLED,
     );
 
     order.activeTotal = activeItems.reduce(
@@ -127,13 +128,13 @@ export const getOrdersService = async (
       },
     }),
     Order.countDocuments({
-      orderStatus: "SHIPPED",
+      orderStatus: ORDER_STATUS.SHIPPED,
     }),
     Order.countDocuments({
-      orderStatus: "DELIVERED",
+      orderStatus: ORDER_STATUS.DELIVERED,
     }),
     Order.countDocuments({
-      orderStatus: "CANCELLED",
+      orderStatus: ORDER_STATUS.CANCELLED,
     }),
   ]);
 
@@ -179,7 +180,7 @@ export const updateOrderStatusService = async (orderId, newStatus) => {
     throw new Error("ORDER NOT FOUND");
   }
 
-  if (order.orderStatus === "DELIVERED") {
+  if (order.orderStatus === ORDER_STATUS.DELIVERED) {
     throw new Error("ORDER IS ALREADY DELIVERED. CANNOT ROLL BACK TO A PREVIOUS STATE.");
   }
 
@@ -222,14 +223,14 @@ export const updateOrderStatusService = async (orderId, newStatus) => {
         },
       );
 
-      item.itemStatus = "CANCELLED";
+      item.itemStatus = ITEM_STATUS.CANCELLED;
       item.cancellationSource = "ADMIN";
       item.cancellationReason = "Order cancelled by admin";
     }
 
     if (
       ["RAZORPAY", "WALLET"].includes(order.paymentMethod) &&
-      order.paymentStatus === "PAID"
+      order.paymentStatus === PAYMENT_STATUS.PAID
     ) {
       const refundableItems = cancellableItems.filter(
         (item) => item.refundStatus !== "REFUNDED",
@@ -263,7 +264,7 @@ export const updateOrderStatusService = async (orderId, newStatus) => {
       }
     }
 
-    order.orderStatus = "CANCELLED";
+    order.orderStatus = ORDER_STATUS.CANCELLED;
     order.cancellationReason = "Order cancelled by admin";
 
     await order.save();
@@ -281,13 +282,13 @@ export const updateOrderStatusService = async (orderId, newStatus) => {
 
   updateOverallOrderStatus(order);
 
-  if (order.orderStatus === "DELIVERED" && order.paymentMethod === "COD") {
-    order.paymentStatus = "PAID";
+  if (order.orderStatus === ORDER_STATUS.DELIVERED && order.paymentMethod === "COD") {
+    order.paymentStatus = PAYMENT_STATUS.PAID;
   }
 
   await order.save();
 
-  if (order.orderStatus === "DELIVERED") {
+  if (order.orderStatus === ORDER_STATUS.DELIVERED) {
     await completeReferralService(order.userId);
   }
 
@@ -317,11 +318,11 @@ export const updateOrderItemStatusService = async (
     throw new Error("ORDER ITEM NOT FOUND");
   }
 
-  if (item.itemStatus === "DELIVERED") {
+  if (item.itemStatus === ITEM_STATUS.DELIVERED) {
     throw new Error("PRODUCT IS ALREADY DELIVERED. CANNOT ROLL BACK TO A PREVIOUS STATE.");
   }
 
-  if (item.itemStatus === "CANCELLED") {
+  if (item.itemStatus === ITEM_STATUS.CANCELLED) {
     throw new Error("CANCELLED PRODUCT STATUS CANNOT BE CHANGED");
   }
 
@@ -339,7 +340,7 @@ export const updateOrderItemStatusService = async (
 
   await order.save();
 
-  if (order.orderStatus === "DELIVERED") {
+  if (order.orderStatus === ORDER_STATUS.DELIVERED) {
     await completeReferralService(order.userId);
   }
 
@@ -367,7 +368,7 @@ export const cancelOrderItemByAdminService = async (
     throw new Error("ORDER ITEM NOT FOUND");
   }
 
-  if (item.itemStatus === "CANCELLED") {
+  if (item.itemStatus === ITEM_STATUS.CANCELLED) {
     throw new Error("ITEM IS ALREADY CANCELLED");
   }
 
@@ -393,7 +394,7 @@ export const cancelOrderItemByAdminService = async (
     },
   );
 
-  item.itemStatus = "CANCELLED";
+  item.itemStatus = ITEM_STATUS.CANCELLED;
   item.cancellationSource = "ADMIN";
   item.cancellationReason = reason;
 
@@ -403,7 +404,7 @@ export const cancelOrderItemByAdminService = async (
 
   if (
     ["RAZORPAY", "WALLET"].includes(order.paymentMethod) &&
-    order.paymentStatus === "PAID" &&
+    order.paymentStatus === PAYMENT_STATUS.PAID &&
     item.refundStatus !== "REFUNDED"
   ) {
     let refundAmount = item.finalItemTotal;
@@ -430,7 +431,7 @@ export const cancelOrderItemByAdminService = async (
   }
 
   if (allItemsCancelled) {
-    order.orderStatus = "CANCELLED";
+    order.orderStatus = ORDER_STATUS.CANCELLED;
     order.cancellationReason = reason;
   }
 
@@ -455,7 +456,7 @@ export const getAdminOrderDetailsService = async (orderId) => {
   );
 
   const cancelledItems = order.items.filter(
-    (item) => item.itemStatus === "CANCELLED",
+    (item) => item.itemStatus === ITEM_STATUS.CANCELLED,
   );
 
   const activeTotal = activeItems.reduce(

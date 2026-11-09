@@ -1,8 +1,8 @@
+import { ITEM_STATUS, ORDER_STATUS } from "../../constants/orderStatus.js";
 import Order from "../../models/order.js";
 import Product from "../../models/product.js";
 import { updateOverallOrderStatus } from "../../utils/orderStatus.js";
 import { creditWalletService } from "./walletService.js";
-import Offer from "../../models/offer.js";
 
 export const getUserOrdersService = async (
   userId,
@@ -42,7 +42,10 @@ export const getUserOrdersService = async (
     Order.countDocuments(query),
   ]);
 
-  const deliveredOrderCount  = await Order.countDocuments({userId,orderStatus:"DELIVERED"});
+  const deliveredOrderCount = await Order.countDocuments({
+    userId,
+    orderStatus: ORDER_STATUS.DELIVERED,
+  });
 
   const totalPages = Math.ceil(totalOrders / limit);
 
@@ -56,7 +59,7 @@ export const getUserOrdersService = async (
     currentStatus: status,
     search: search.trim(),
     orderCount,
-    deliveredOrderCount
+    deliveredOrderCount,
   };
 };
 
@@ -84,22 +87,26 @@ export const cancelOrderService = async (
     throw new Error("ORDER NOT FOUND");
   }
 
-  if (!["PLACED", "CONFIRMED"].includes(order.orderStatus)) {
+  if (![ORDER_STATUS.PLACED, ORDER_STATUS.CONFIRMED].includes(order.orderStatus)) {
     throw new Error("ORDER CANNOT BE CANCELLED");
   }
 
-  if (!cancellationReason || !cancellationReason.trim()) {
+  if (!cancellationReason?.trim()) {
     throw new Error("CANCELLATION REASON IS REQUIRED");
   }
 
   const reason = cancellationReason.trim();
 
-  for (const item of order.items) {
-    if (item.itemStatus === "CANCELLED") {
-      continue;
-    }
+  const itemsToCancel = order.items.filter(
+    (item) => item.itemStatus !== "CANCELLED",
+  );
 
-    await Product.updateOne(
+  if (itemsToCancel.length === 0) {
+    throw new Error("ALL ITEMS ARE ALREADY CANCELLED");
+  }
+
+  for (const item of itemsToCancel) {
+    const stockUpdate = await Product.updateOne(
       {
         _id: item.product,
         "variants.size": item.size,
@@ -111,7 +118,11 @@ export const cancelOrderService = async (
       },
     );
 
-    item.itemStatus = "CANCELLED";
+    if (stockUpdate.matchedCount === 0) {
+      throw new Error(`PRODUCT OR SIZE NOT FOUND: ${item.name}`);
+    }
+
+    item.itemStatus = ITEM_STATUS.CANCELLED;
     item.cancellationSource = "CUSTOMER";
     item.cancellationReason = reason;
   }
@@ -120,47 +131,45 @@ export const cancelOrderService = async (
     ["RAZORPAY", "WALLET"].includes(order.paymentMethod) &&
     order.paymentStatus === "PAID"
   ) {
-    const refundableItems = order.items.filter(
+    const refundableItems = itemsToCancel.filter(
       (item) => item.refundStatus !== "REFUNDED",
     );
 
-    if (refundableItems.length > 0) {
-      const itemRefundAmount = refundableItems.reduce(
-        (total, item) => total + item.finalItemTotal,
-        0,
-      );
+    const itemRefundAmount = refundableItems.reduce(
+      (total, item) => total + Number(item.finalItemTotal || 0),
+      0,
+    );
 
-      let refundAmount = Number(
-        (itemRefundAmount + order.shipping).toFixed(2),
-      );
+    const shippingRefund = order.shippingRefunded
+      ? 0
+      : Number(order.shipping || 0);
 
-      const isOffer = await Offer.findOne({userId,orderId})
+    const refundAmount = Number((itemRefundAmount + shippingRefund).toFixed(2));
 
-      if(isOffer && order.items.quantity<5){
-        refundAmount = Number(itemRefundAmount*100/25)
-      }
-
+    if (refundAmount > 0) {
       await creditWalletService(
         userId,
         refundAmount,
         "ORDER_CANCELLATION_REFUND",
         order.orderId,
       );
-
-      for (const item of refundableItems) {
-        item.refundStatus = "REFUNDED";
-        item.refundAmount = item.finalItemTotal;
-      }
-
-      order.refundedAmount = Number(
-        ((order.refundedAmount || 0) + refundAmount).toFixed(2),
-      );
     }
+
+    for (const item of refundableItems) {
+      item.refundStatus = "REFUNDED";
+      item.refundAmount = Number(item.finalItemTotal || 0);
+    }
+
+    if (shippingRefund > 0) {
+      order.shippingRefunded = true;
+    }
+
+    order.refundedAmount = Number(
+      ((order.refundedAmount || 0) + refundAmount).toFixed(2),
+    );
   }
 
-  
-
-  order.orderStatus = "CANCELLED";
+  order.orderStatus = ORDER_STATUS.CANCELLED;
   order.cancellationReason = reason;
 
   await order.save();
@@ -193,7 +202,7 @@ export const cancelOrderItemService = async (
     throw new Error("CANCELLATION REASON IS REQUIRED");
   }
 
-  if (!["PLACED", "CONFIRMED"].includes(item.itemStatus)) {
+  if (![ORDER_STATUS.PLACED, ORDER_STATUS.CONFIRMED].includes(item.itemStatus)) {
     throw new Error("ITEM CANNOT BE CANCELLED");
   }
 
@@ -211,7 +220,7 @@ export const cancelOrderItemService = async (
     },
   );
 
-  item.itemStatus = "CANCELLED";
+  item.itemStatus = ITEM_STATUS.CANCELLED;
   item.cancellationSource = "CUSTOMER";
   item.cancellationReason = reason;
 
@@ -248,7 +257,7 @@ export const cancelOrderItemService = async (
   }
 
   if (allItemsCancelled) {
-    order.orderStatus = "CANCELLED";
+    order.orderStatus = ORDER_STATUS.CANCELLED;
     order.cancellationReason = reason;
   }
 
@@ -279,11 +288,11 @@ export const requestReturnService = async (
     throw new Error("ORDER ITEM NOT FOUND");
   }
 
-  if (item.itemStatus !== "DELIVERED") {
+  if (item.itemStatus !== ITEM_STATUS.DELIVERED) {
     throw new Error("ONLY DELIVERED PRODUCTS CAN BE RETURNED");
   }
 
-  item.itemStatus = "RETURN_REQUESTED";
+  item.itemStatus = ITEM_STATUS.RETURN_REQUESTED;
   item.returnReason = returnReason.trim();
 
   updateOverallOrderStatus(order);

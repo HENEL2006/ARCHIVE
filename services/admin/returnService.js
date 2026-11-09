@@ -1,3 +1,4 @@
+import { ITEM_STATUS } from "../../constants/orderStatus.js";
 import Order from "../../models/order.js";
 import Product from "../../models/product.js";
 import { updateOverallOrderStatus } from "../../utils/orderStatus.js";
@@ -100,7 +101,7 @@ export const approveReturnService = async (orderId, itemId) => {
     throw new Error("ORDER ITEM NOT FOUND");
   }
 
-  if (item.itemStatus !== "RETURN_REQUESTED") {
+  if (item.itemStatus !== ITEM_STATUS.RETURN_REQUESTED) {
     throw new Error("RETURN REQUEST IS NOT PENDING");
   }
 
@@ -145,7 +146,7 @@ export const approveReturnService = async (orderId, itemId) => {
     );
   }
 
-  item.itemStatus = "RETURNED";
+  item.itemStatus = ITEM_STATUS.RETURNED;
 
   updateOverallOrderStatus(order);
 
@@ -166,11 +167,11 @@ export const rejectReturnService = async (orderId, itemId) => {
     throw new Error("ORDER ITEM NOT FOUND");
   }
 
-  if (item.itemStatus !== "RETURN_REQUESTED") {
+  if (item.itemStatus !== ITEM_STATUS.RETURN_REQUESTED) {
     throw new Error("RETURN REQUEST IS NOT PENDING");
   }
 
-  item.itemStatus = "RETURN_REJECTED";
+  item.itemStatus = ITEM_STATUS.RETURN_REJECTED;
 
   updateOverallOrderStatus(order);
 

@@ -104,6 +104,7 @@ router.post(
   upload.single("profileImage"),
   uploadProfileImage,
 );
+router.delete("/profile/photo", isLoggedIn, removeProfileImage);
 router.get("/profile/remove-photo", isLoggedIn, removeProfileImage);
 
 router.get("/", loadHomePage);
@@ -141,11 +142,14 @@ router.get("/product/:slug", loadProductDetails);
 
 router.post("/cart/add", isLoggedIn, addToCart);
 router.get("/cart", isLoggedIn, loadCart);
+router.patch("/cart/update", isLoggedIn, updateCartQuantity);
 router.post("/cart/update", isLoggedIn, updateCartQuantity);
+router.delete("/cart/remove", isLoggedIn, removeCartItem);
 router.post("/cart/remove", isLoggedIn, removeCartItem);
 
 router.get("/wishlist", isLoggedIn, loadWishlist);
 router.post("/wishlist/add", isLoggedIn, addToWishlist);
+router.delete("/wishlist/remove", isLoggedIn, removeFromWishlist);
 router.post("/wishlist/remove", isLoggedIn, removeFromWishlist);
 
 router.get("/checkout", isLoggedIn, loadCheckout);

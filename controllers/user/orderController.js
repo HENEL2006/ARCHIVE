@@ -6,6 +6,8 @@ import {
   requestReturnService,
 } from "../../services/user/orderService.js";
 import { generateInvoice } from "../../utils/generateInvoice.js";
+import { HTTP_STATUS } from "../../constants/httpStatusCodes.js";
+import { ORDER_STATUS } from "../../constants/orderStatus.js";
 
 export const loadOrders = async (req, res) => {
   try {
@@ -13,12 +15,12 @@ export const loadOrders = async (req, res) => {
 
     const allowedStatuses = [
       "ALL",
-      "PLACED",
-      "CONFIRMED",
-      "SHIPPED",
-      "DELIVERED",
-      "CANCELLED",
-      "RETURNED",
+      ORDER_STATUS.PLACED,
+      ORDER_STATUS.CONFIRMED,
+      ORDER_STATUS.SHIPPED,
+      ORDER_STATUS.DELIVERED,
+      ORDER_STATUS.CANCELLED,
+      ORDER_STATUS.RETURNED,
       "FAILED",
     ];
 
@@ -87,7 +89,7 @@ export const cancelOrder = async (req, res) => {
     const { cancellationReason } = req.body;
 
     if (!cancellationReason?.trim()) {
-      return res.status(400).json({
+      return res.status(HTTP_STATUS.BAD_REQUEST).json({
         success: false,
         message: "CANCELLATION REASON IS REQUIRED",
       });
@@ -95,14 +97,14 @@ export const cancelOrder = async (req, res) => {
 
     await cancelOrderService(userId, orderId, cancellationReason);
 
-    return res.status(200).json({
+    return res.status(HTTP_STATUS.OK).json({
       success: true,
       message: "ORDER CANCELLED SUCCESSFULLY",
     });
   } catch (error) {
     console.log(error);
 
-    return res.status(400).json({
+    return res.status(HTTP_STATUS.BAD_REQUEST).json({
       success: false,
       message: error.message,
     });
@@ -116,7 +118,7 @@ export const cancelOrderItem = async (req, res) => {
     const { cancellationReason } = req.body;
 
     if (!cancellationReason?.trim()) {
-      return res.status(400).json({
+      return res.status(HTTP_STATUS.BAD_REQUEST).json({
         success: false,
         message: "CANCELLATION REASON IS REQUIRED",
       });
@@ -129,14 +131,14 @@ export const cancelOrderItem = async (req, res) => {
       cancellationReason.trim(),
     );
 
-    return res.status(200).json({
+    return res.status(HTTP_STATUS.OK).json({
       success: true,
       message: "ORDER ITEM CANCELLED SUCCESSFULLY",
     });
   } catch (error) {
     console.log(error);
 
-    return res.status(400).json({
+    return res.status(HTTP_STATUS.BAD_REQUEST).json({
       success: false,
       message: error.message,
     });

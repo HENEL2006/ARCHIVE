@@ -93,9 +93,18 @@ export const getCustomersService = async (
     .limit(limit);
 
   let cancelledCount = 0;
+  let totalSpend  = 0;
+  let orders=0;
 
   for(const user of users){
     const order = await Order.find({_id:user._id})
+
+    for(const amountspend of order){
+      totalSpend = amountspend.items.price;
+    }
+
+    orders = order.length
+
 
     if(order.orderStatus === "CANCELLED"){
       cancelledCount++;
@@ -114,6 +123,7 @@ export const getCustomersService = async (
     createdAt: {
       $gte: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
     },
+
   });
   return {
     users,
@@ -123,6 +133,8 @@ export const getCustomersService = async (
     activeCustomers,
     newCustomers,
     cancelledCount,
+    totalSpend,
+    orders
   };
 };
 

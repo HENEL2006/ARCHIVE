@@ -1,3 +1,4 @@
+import { HTTP_STATUS } from "../../constants/httpStatusCodes.js";
 import {
   cancelOrderItemByAdminService,
   getAdminOrderDetailsService,
@@ -38,7 +39,7 @@ export const loadOrdersPage = async (req, res) => {
   } catch (error) {
     console.log(error);
 
-    return res.status(500).render("admin/error", {
+    return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).render("admin/error", {
       message: "FAILED TO LOAD ORDERS",
     });
   }

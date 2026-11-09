@@ -1,4 +1,5 @@
 import Order from "../../models/order.js";
+import { ITEM_STATUS, ORDER_STATUS } from "../../constants/orderStatus.js";
 
 export const getSalesReportService = async (query) => {
   const { period = "daily", startDate, endDate, page = 1, limit = 10 } = query;
@@ -48,8 +49,8 @@ export const getSalesReportService = async (query) => {
     }
   }
 
-  const orders = await Order.find({
-    orderStatus: "DELIVERED",
+  const rawOrders = await Order.find({
+    orderStatus: ORDER_STATUS.DELIVERED,
     createdAt: {
       $gte: start,
       $lte: end,
@@ -58,17 +59,66 @@ export const getSalesReportService = async (query) => {
     .sort({ createdAt: -1 })
     .lean();
 
-  const totalOrders = orders.length;
-
+  // Process orders at item level, correctly excluding CANCELLED and RETURNED items
+  const processedOrders = [];
   let totalSales = 0;
   let totalDiscount = 0;
   let totalItemsSold = 0;
 
   const dailyBreakdown = {};
 
-  for (const order of orders) {
-    totalSales += order.total || 0;
-    totalDiscount += order.discount || 0;
+  for (const order of rawOrders) {
+    const activeItems = (order.items || []).filter(
+      (item) =>
+        item.itemStatus !== ITEM_STATUS.CANCELLED &&
+        item.itemStatus !== ITEM_STATUS.RETURNED,
+    );
+
+    // If an entire order had all its items cancelled or returned, exclude from completed sales
+    if (activeItems.length === 0) {
+      continue;
+    }
+
+    const orderActiveItemsSold = activeItems.reduce(
+      (sum, item) => sum + (Number(item.quantity) || 0),
+      0,
+    );
+
+    const orderActiveItemFinalTotal = activeItems.reduce(
+      (sum, item) => sum + (Number(item.finalItemTotal) || 0),
+      0,
+    );
+
+    const orderActiveGrossSales = activeItems.reduce(
+      (sum, item) => sum + (Number(item.itemTotal) || 0),
+      0,
+    );
+
+    // Discount for active items is difference between original itemTotal and finalItemTotal
+    const orderActiveDiscount = Math.max(
+      orderActiveGrossSales - orderActiveItemFinalTotal,
+      0,
+    );
+
+    // Net sales contribution includes active items' final paid total plus shipping if not refunded
+    const shippingContribution = order.shippingRefunded
+      ? 0
+      : Number(order.shipping) || 0;
+    const orderActiveNetSales =
+      orderActiveItemFinalTotal + shippingContribution;
+
+    totalSales += orderActiveNetSales;
+    totalDiscount += orderActiveDiscount;
+    totalItemsSold += orderActiveItemsSold;
+
+    const formattedOrder = {
+      ...order,
+      activeItemsCount: orderActiveItemsSold,
+      activeNetSales: orderActiveNetSales,
+      activeDiscount: orderActiveDiscount,
+      activeGrossSales: orderActiveGrossSales,
+    };
+    processedOrders.push(formattedOrder);
 
     const dateKey = new Date(order.createdAt).toISOString().split("T")[0];
 
@@ -84,15 +134,17 @@ export const getSalesReportService = async (query) => {
     }
 
     dailyBreakdown[dateKey].orders += 1;
-    dailyBreakdown[dateKey].grossSales += order.subtotal || 0;
-    dailyBreakdown[dateKey].discounts += order.discount || 0;
-    dailyBreakdown[dateKey].netSales += order.total || 0;
-
-    for (const item of order.items || []) {
-      totalItemsSold += item.quantity || 0;
-      dailyBreakdown[dateKey].itemsSold += item.quantity || 0;
-    }
+    dailyBreakdown[dateKey].grossSales += orderActiveGrossSales;
+    dailyBreakdown[dateKey].discounts += orderActiveDiscount;
+    dailyBreakdown[dateKey].netSales += orderActiveNetSales;
+    dailyBreakdown[dateKey].itemsSold += orderActiveItemsSold;
   }
+
+  totalSales = Number(totalSales.toFixed(2));
+  totalDiscount = Number(totalDiscount.toFixed(2));
+
+  const totalOrders = processedOrders.length;
+  const orders = processedOrders;
 
   const breakdown = Object.values(dailyBreakdown).sort(
     (a, b) => b.date - a.date,

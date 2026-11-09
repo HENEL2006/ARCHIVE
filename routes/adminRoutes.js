@@ -76,7 +76,9 @@ router.get("/login", adminGuest, loadLogin);
 router.post("/login", adminGuest, adminLogin);
 router.get("/dashboard", adminAuth, loadDashboard);
 router.get("/customers", adminAuth, loadCustomers);
+router.patch("/customers/:id/status", adminAuth, updateUserStatus);
 router.post("/customers/:id/status", adminAuth, updateUserStatus);
+router.delete("/customers/:id/delete", adminAuth, deleteUser);
 router.post("/customers/:id/delete", adminAuth, deleteUser);
 router.get("/category", adminAuth, loadCategory);
 router.get("/addCategory", adminAuth, loadAddCategory);
@@ -89,7 +91,9 @@ router.post(
   validateCategory(true),
   editCategory,
 );
+router.patch("/toggleCategory/:id", adminAuth, toggleCategoryStatus);
 router.post("/toggleCategory/:id", adminAuth, toggleCategoryStatus);
+router.delete("/deleteCategory/:id", adminAuth, deleteCategory);
 router.post("/deleteCategory/:id", adminAuth, deleteCategory);
 router.get("/products", adminAuth, loadProducts);
 router.get("/addProducts", adminAuth, loadaddProduct);
@@ -100,6 +104,7 @@ router.post(
   productValidationMiddleware,
   addProduct,
 );
+router.patch("/products/:id/status", adminAuth, toggleProductStatus);
 router.post("/products/:id/status", adminAuth, toggleProductStatus);
 router.get("/products/:id/edit", adminAuth, loadEditProduct);
 router.post(
@@ -108,10 +113,17 @@ router.post(
   upload.array("images", 5),
   updateProduct,
 );
+router.delete("/products/:id/delete", adminAuth, deleteProduct);
 router.post("/products/:id/delete", adminAuth, deleteProduct);
 router.get("/orders", adminAuth, loadOrdersPage);
+router.patch("/orders/:orderId/status", adminAuth, updateOrderStatus);
 router.post("/orders/:orderId/status", adminAuth, updateOrderStatus);
 router.get("/orders/:orderId", adminAuth, loadOrderDetails);
+router.patch(
+  "/orders/:orderId/items/:itemId/status",
+  adminAuth,
+  updateOrderItemStatus,
+);
 router.post(
   "/orders/:orderId/items/:itemId/status",
   adminAuth,
@@ -131,6 +143,7 @@ router.get("/addCoupon", adminAuth, loadAddCoupon);
 router.post("/addCoupon", adminAuth, addCoupon);
 router.get("/editCoupon/:id", adminAuth, loadEditCoupon);
 router.post("/editCoupon/:id", adminAuth, updateCoupon);
+router.patch("/coupons/toggle/:id", adminAuth, toggleCouponStatus);
 router.post("/coupons/toggle/:id", adminAuth, toggleCouponStatus);
 
 router.get("/offers", adminAuth, loadOffers);
@@ -138,9 +151,11 @@ router.get("/addOffer", adminAuth, loadAddOffers);
 router.post("/addOffer", adminAuth, createOffer);
 router.get("/offers/search-products", adminAuth, searchProducts);
 router.get("/offers/search-categories", adminAuth, searchCategories);
+router.patch("/offers/:id/toggle", adminAuth, toggleOffer);
 router.post("/offers/:id/toggle", adminAuth, toggleOffer);
 router.get("/offers/:id/edit", adminAuth, loadEditOffer);
 router.post("/offers/:id/edit", adminAuth, updateOffer);
+router.delete("/offers/:id/delete", adminAuth, deleteOffer);
 router.post("/offers/:id/delete", adminAuth, deleteOffer);
 
 router.get("/salesReport", adminAuth, loadSalesReport);

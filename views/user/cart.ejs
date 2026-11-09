@@ -472,7 +472,7 @@
 
                             const response = await fetch("/cart/update", {
 
-                                method: "POST",
+                                method: "PATCH",
 
                                 headers: {
                                     "Content-Type": "application/json",
@@ -592,7 +592,7 @@
 
                                 const response = await fetch("/cart/remove", {
 
-                                    method: "POST",
+                                    method: "DELETE",
 
                                     headers: {
                                         "Content-Type": "application/json",

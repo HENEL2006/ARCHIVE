@@ -11,8 +11,14 @@ export const loadCategory = async (req, res) => {
   try {
     const search = req.query.search || "";
     const status = req.query.status || "";
-    const sort = req.query.sort || "";
-    const page = Number(req.query.page) || 1;
+
+    const allowedSorts = ["newest", "oldest", "az", "za"];
+
+    const sort = allowedSorts.includes(req.query.sort)
+      ? req.query.sort
+      : "newest";
+
+    const page = Math.max(1, parseInt(req.query.page, 10) || 1);
 
     const {
       categories,

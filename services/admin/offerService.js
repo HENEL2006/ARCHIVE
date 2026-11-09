@@ -156,6 +156,13 @@ export const createOfferService = async (offerData) => {
     throw new Error("Percentage discount cannot exceed 100%");
   }
 
+  if (type === "PRODUCT" && discountType === "FIXED") {
+    const existingProduct = await Product.findById(product).select("price").lean();
+    if (existingProduct && Number(discountValue) >= Number(existingProduct.price)) {
+      throw new Error("Flat discount must be strictly less than product price");
+    }
+  }
+
   if (!startDate || !expiryDate) {
     throw new Error("Start date and expiry date are required");
   }
@@ -244,6 +251,13 @@ export const updateOfferService = async (offerId, offerData) => {
 
   if (discountType === "PERCENTAGE" && discountValue > 100) {
     throw new Error("Percentage discount cannot exceed 100%");
+  }
+
+  if (type === "PRODUCT" && discountType === "FIXED") {
+    const existingProduct = await Product.findById(product).select("price").lean();
+    if (existingProduct && Number(discountValue) >= Number(existingProduct.price)) {
+      throw new Error("Flat discount must be strictly less than product price");
+    }
   }
 
   if (!startDate || !expiryDate) {

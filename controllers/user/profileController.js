@@ -4,6 +4,7 @@ import streamifier from "streamifier";
 import {
   removeProfileImageService,
 } from "../../services/user/profileService.js";
+import { HTTP_STATUS } from "../../constants/httpStatusCodes.js";
 
 export const loadProfilePage = async (req, res) => {
   const user = await User.findById(req.session.userId);
@@ -47,7 +48,7 @@ export const uploadProfileImage = async (req, res) => {
 
     req.session.toast = "PROFILE IMAGE UPDATED";
 
-    return res.status(200).json({
+    return res.status(HTTP_STATUS.OK).json({
       success: true,
     });
   } catch (error) {
@@ -55,7 +56,7 @@ export const uploadProfileImage = async (req, res) => {
 
     req.session.toast = "FAILED TO UPDATE PROFILE IMAGE";
 
-    return res.status(500).json({
+    return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
       success: false,
     });
   }
@@ -67,7 +68,7 @@ export const removeProfileImage = async (req, res) => {
 
     req.session.toast = "PROFILE IMAGE REMOVED";
 
-    return res.status(200).json({
+    return res.status(HTTP_STATUS.OK).json({
       success: true,
     });
   } catch (error) {
@@ -75,7 +76,7 @@ export const removeProfileImage = async (req, res) => {
 
     req.session.toast = error.message;
 
-    return res.status(500).json({
+    return res.status(HTTP_STATUS.INTERNAL_SERVER_ERROR).json({
       success: false,
     });
   }

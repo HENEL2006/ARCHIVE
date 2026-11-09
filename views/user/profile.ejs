@@ -615,7 +615,9 @@
 
         try {
 
-            const res = await fetch("/profile/remove-photo");
+            const res = await fetch("/profile/photo", {
+                method: "DELETE",
+            });
 
             if (!res.ok) {
                 throw new Error();
