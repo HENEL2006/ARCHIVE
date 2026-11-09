@@ -1,5 +1,5 @@
 import Order from "../../models/order.js";
-import { ITEM_STATUS, ORDER_STATUS } from "../../constants/orderStatus.js";
+import { ITEM_STATUS } from "../../constants/orderStatus.js";
 
 export const getSalesReportService = async (query) => {
   const { period = "daily", startDate, endDate, page = 1, limit = 10 } = query;
@@ -50,9 +50,7 @@ export const getSalesReportService = async (query) => {
   }
 
   const rawOrders = await Order.find({
-    orderStatus: {
-      $in: [ORDER_STATUS.DELIVERED, ORDER_STATUS.RETURN_REQUESTED, ORDER_STATUS.RETURNED],
-    },
+    "items.itemStatus": ITEM_STATUS.DELIVERED,
     createdAt: {
       $gte: start,
       $lte: end,
@@ -61,7 +59,7 @@ export const getSalesReportService = async (query) => {
     .sort({ createdAt: -1 })
     .lean();
 
-  // Process orders at item level, correctly excluding CANCELLED and RETURNED items
+  // Process orders at item level, counting only DELIVERED items
   const processedOrders = [];
   let totalSales = 0;
   let totalDiscount = 0;
@@ -71,9 +69,7 @@ export const getSalesReportService = async (query) => {
 
   for (const order of rawOrders) {
     const activeItems = (order.items || []).filter(
-      (item) =>
-        item.itemStatus !== ITEM_STATUS.CANCELLED &&
-        item.itemStatus !== ITEM_STATUS.RETURNED,
+      (item) => item.itemStatus === ITEM_STATUS.DELIVERED,
     );
 
     // If an entire order had all its items cancelled or returned, exclude from completed sales
